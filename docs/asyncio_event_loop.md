@@ -1,0 +1,120 @@
+# Asyncio Event Loop
+
+## Overview
+This script demonstrates asyncio's event loop by implementing a simple task scheduling system where three tasks (A, B, C) call each other in rotation for 60 seconds.
+
+## File Location
+`basics/07_asyncio_event_loop.py`
+
+## Key Concepts
+
+### Asyncio Event Loop
+The event loop is the core of asyncio's asynchronous execution model. It manages and schedules coroutines, handles I/O operations, and coordinates concurrent tasks.
+
+### Async/Await Pattern
+Modern Python uses `async def` to define coroutines and `await` to yield control back to the event loop while waiting for operations to complete.
+
+## Code Breakdown
+
+### Task Functions
+```python
+async def task_A(end_time):
+    print("task_A called")
+    await asyncio.sleep(random.randint(0, 5))
+    if (asyncio.get_event_loop().time() + 1.0) < end_time:
+        await asyncio.sleep(1)
+        await task_B(end_time)
+```
+
+Each task:
+1. Prints its name
+2. Sleeps for a random duration (0-5 seconds)
+3. Checks if there's time remaining before end_time
+4. If time remains, sleeps for 1 more second and calls the next task
+5. Creates a chain: A → B → C → A (repeating)
+
+### Main Function
+```python
+async def main():
+    loop = asyncio.get_event_loop()
+    end_loop = loop.time() + 60
+    await task_A(end_loop)
+```
+
+Sets up the event loop to run for 60 seconds and initiates the task chain.
+
+### Entry Point
+```python
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+`asyncio.run()` is the modern way to execute the top-level async function, handling event loop creation and cleanup automatically.
+
+## Python 3.12 Updates
+
+### Changes Made
+1. **Replaced blocking `time.sleep()` with `await asyncio.sleep()`**
+   - `time.sleep()` blocks the entire event loop
+   - `asyncio.sleep()` yields control, allowing other tasks to run
+
+2. **Converted to async/await syntax**
+   - Replaced callback-based event loop manipulation (`loop.call_later`, `loop.call_soon`)
+   - Used modern async function chaining instead
+
+3. **Updated to `asyncio.run()`**
+   - Replaced manual event loop management (`get_event_loop()`, `run_forever()`, `close()`)
+   - `asyncio.run()` is simpler and handles cleanup automatically
+
+4. **Removed `loop.stop()`**
+   - No longer needed with async/await pattern
+   - Function naturally completes when time expires
+
+## Execution Flow
+
+```
+main() starts
+  ↓
+task_A() executes
+  ↓ (sleeps 0-5 seconds)
+  ↓ (sleeps 1 second)
+  ↓
+task_B() executes
+  ↓ (sleeps 0-5 seconds)
+  ↓ (sleeps 1 second)
+  ↓
+task_C() executes
+  ↓ (sleeps 0-5 seconds)
+  ↓ (sleeps 1 second)
+  ↓
+task_A() executes again
+  ↓
+... (repeats for ~60 seconds)
+  ↓
+Time expires, chain stops
+```
+
+## Usage
+```bash
+python3 07_asyncio_event_loop.py
+```
+
+The script will run for approximately 60 seconds, printing task names as they execute.
+
+## Output Example
+```
+task_A called
+task_B called
+task_C called
+task_A called
+task_B called
+task_C called
+...
+```
+
+## Key Takeaways
+
+1. **Non-blocking Sleep**: Always use `asyncio.sleep()` in async code, never `time.sleep()`
+2. **Event Loop Time**: Use `loop.time()` for precise timing within the event loop
+3. **Async Chains**: Coroutines can call other coroutines using `await`
+4. **Modern asyncio**: `asyncio.run()` is the preferred way to run async code in Python 3.7+

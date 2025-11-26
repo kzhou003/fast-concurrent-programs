@@ -1,0 +1,176 @@
+# Asyncio Task Manipulation
+
+## Overview
+This script demonstrates how to run multiple asyncio tasks in parallel by executing three mathematical computations (factorial, fibonacci, binomial coefficient) concurrently.
+
+## File Location
+`basics/09_asyncio_task_manipulation.py`
+
+## Key Concepts
+
+### Asyncio Tasks
+Tasks are used to schedule coroutines concurrently. When a coroutine is wrapped in a Task, it starts running in the background as soon as possible.
+
+### Concurrent Execution
+Multiple tasks can run concurrently within a single thread, interleaving execution when one task is waiting (e.g., during `await asyncio.sleep()`).
+
+### asyncio.gather()
+Runs multiple awaitables concurrently and waits for all to complete, maintaining order of results.
+
+## Code Breakdown
+
+### Factorial Computation
+```python
+async def factorial(number):
+    fact = 1
+    for i in range(2, number + 1):
+        print(f'Asyncio.Task: Compute factorial({i})')
+        await asyncio.sleep(1)
+        fact *= i
+    print(f'Asyncio.Task - factorial({number}) = {fact}')
+```
+
+Computes factorial iteratively, sleeping 1 second between each step to simulate work.
+
+### Fibonacci Computation
+```python
+async def fibonacci(number):
+    a, b = 0, 1
+    for i in range(number):
+        print(f'Asyncio.Task: Compute fibonacci({i})')
+        await asyncio.sleep(1)
+        a, b = b, a + b
+    print(f'Asyncio.Task - fibonacci({number}) = {a}')
+```
+
+Computes Fibonacci number iteratively with 1 second delay per iteration.
+
+### Binomial Coefficient Computation
+```python
+async def binomial_coefficient(n, k):
+    result = 1
+    for i in range(1, k + 1):
+        result = result * (n - i + 1) / i
+        print(f'Asyncio.Task: Compute binomial_coefficient({i})')
+        await asyncio.sleep(1)
+    print(f'Asyncio.Task - binomial_coefficient({n}, {k}) = {result}')
+```
+
+Computes binomial coefficient C(n,k) iteratively.
+
+### Main Function
+```python
+async def main():
+    task_list = [
+        asyncio.create_task(factorial(10)),
+        asyncio.create_task(fibonacci(10)),
+        asyncio.create_task(binomial_coefficient(20, 10))
+    ]
+    await asyncio.gather(*task_list)
+```
+
+Creates three tasks and runs them concurrently using `gather()`.
+
+## Python 3.12 Updates
+
+### Changes Made
+1. **Replaced `@asyncio.coroutine` with `async def`**
+   - Modern coroutine syntax
+   - Deprecated decorator removed
+
+2. **Replaced `yield from` with `await`**
+   - Cleaner, more explicit syntax
+   - Standard since Python 3.5
+
+3. **Replaced `asyncio.Task()` with `asyncio.create_task()`**
+   - Old: `asyncio.Task(factorial(10))`
+   - New: `asyncio.create_task(factorial(10))`
+   - `asyncio.Task()` constructor was deprecated
+   - `create_task()` is the recommended way to schedule coroutines
+
+4. **Replaced `asyncio.wait()` with `asyncio.gather()`**
+   - Old: `asyncio.wait(task_list)`
+   - New: `asyncio.gather(*task_list)`
+   - `gather()` is simpler and returns results in order
+   - Better error handling and more Pythonic
+
+5. **Updated to `asyncio.run()`**
+   - Replaces manual event loop management
+   - Automatic cleanup
+
+6. **Modernized string formatting**
+   - f-strings instead of `%` formatting
+
+## Execution Flow
+
+```
+main() starts
+  ↓
+Creates 3 tasks simultaneously:
+  ├─→ factorial(10) task
+  ├─→ fibonacci(10) task
+  └─→ binomial_coefficient(20, 10) task
+
+All tasks run concurrently:
+  Each task:
+    - Prints computation step
+    - Sleeps 1 second (yields to other tasks)
+    - Continues computation
+    - Repeats until done
+
+gather() waits for all tasks to complete
+  ↓
+main() completes
+```
+
+## Concurrency vs Parallelism
+
+This demonstrates **concurrency** (not parallelism):
+- Tasks interleave execution in a single thread
+- When one task `await`s, another can run
+- Not true parallel execution (no multiple CPU cores used)
+- Perfect for I/O-bound operations
+
+## Usage
+```bash
+python3 09_asyncio_task_manipulation.py
+```
+
+## Output Example
+```
+Asyncio.Task: Compute factorial(2)
+Asyncio.Task: Compute fibonacci(0)
+Asyncio.Task: Compute binomial_coefficient(1)
+Asyncio.Task: Compute factorial(3)
+Asyncio.Task: Compute fibonacci(1)
+Asyncio.Task: Compute binomial_coefficient(2)
+...
+Asyncio.Task - factorial(10) = 3628800
+...
+Asyncio.Task - fibonacci(10) = 55
+Asyncio.Task - binomial_coefficient(20, 10) = 184756.0
+```
+
+Notice how the output interleaves between tasks, showing concurrent execution.
+
+## Performance
+
+- **Sequential execution**: Would take ~30 seconds (10 + 10 + 10)
+- **Concurrent execution**: Takes ~10 seconds (all run together)
+- Each task sleeps 1 second per iteration
+- While one sleeps, others continue
+
+## Key Takeaways
+
+1. **Task Creation**: Use `asyncio.create_task()` to schedule coroutines
+2. **Concurrent Execution**: Multiple tasks can run together in one thread
+3. **Gather Pattern**: `asyncio.gather()` waits for all tasks and collects results
+4. **Interleaving**: Tasks yield control during `await`, allowing others to run
+5. **Efficiency**: Great for I/O-bound operations where waiting dominates
+
+## When to Use
+
+- Multiple I/O operations (network requests, file operations)
+- Operations that involve waiting
+- Need concurrent execution without multi-processing overhead
+- Tasks are independent and can run in any order
