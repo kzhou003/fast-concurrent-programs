@@ -1,0 +1,1510 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fused Attention (Flash Attention) in Triton &mdash; Triton GPU Programming Guide 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using External Functions (libdevice) in Triton" href="07-extern-functions.html" />
+    <link rel="prev" title="Layer Normalization in Triton" href="05-layer-norm.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Triton GPU Programming Guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/gpu-fundamentals.html">GPU Fundamentals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/gpu-fundamentals.html#understanding-gpu-architecture">Understanding GPU Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/gpu-fundamentals.html#key-differences-cpu-vs-gpu">Key Differences: CPU vs GPU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/gpu-fundamentals.html#gpu-hierarchy">GPU Hierarchy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/gpu-fundamentals.html#streaming-multiprocessors-sms">Streaming Multiprocessors (SMs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/gpu-fundamentals.html#thread-organization">Thread Organization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/gpu-fundamentals.html#spmd-programming-model">SPMD Programming Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/gpu-fundamentals.html#example-visualization">Example Visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/gpu-fundamentals.html#compute-capabilities">Compute Capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/gpu-fundamentals.html#key-concepts-summary">Key Concepts Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/gpu-fundamentals.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/memory-hierarchy.html">GPU Memory Hierarchy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/memory-hierarchy.html#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#the-performance-pyramid">The Performance Pyramid</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/memory-hierarchy.html#global-memory-hbm-dram">Global Memory (HBM/DRAM)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#memory-coalescing">Memory Coalescing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/memory-hierarchy.html#l2-cache">L2 Cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/memory-hierarchy.html#l1-cache-shared-memory-sram">L1 Cache / Shared Memory (SRAM)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#example-matrix-multiplication">Example: Matrix Multiplication</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/memory-hierarchy.html#registers">Registers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/memory-hierarchy.html#memory-access-patterns">Memory Access Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#pattern-1-streaming-bandwidth-bound">Pattern 1: Streaming (Bandwidth-Bound)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#pattern-2-staged-computation-compute-bound">Pattern 2: Staged Computation (Compute-Bound)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#pattern-3-reduction-mixed">Pattern 3: Reduction (Mixed)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/memory-hierarchy.html#optimizing-for-memory-hierarchy">Optimizing for Memory Hierarchy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#the-golden-rules">The Golden Rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#example-naive-vs-optimized-softmax">Example: Naive vs Optimized Softmax</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/memory-hierarchy.html#measuring-memory-performance">Measuring Memory Performance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#key-metrics">Key Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/memory-hierarchy.html#tools-for-profiling">Tools for Profiling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/memory-hierarchy.html#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/execution-model.html">GPU Execution Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#thread-execution">Thread Execution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#warps-and-simd-execution">Warps and SIMD Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#thread-divergence">Thread Divergence</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#occupancy">Occupancy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#what-is-occupancy">What is Occupancy?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#factors-limiting-occupancy">Factors Limiting Occupancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#example-calculation">Example Calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#latency-hiding">Latency Hiding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#why-occupancy-matters">Why Occupancy Matters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#the-occupancy-sweet-spot">The Occupancy Sweet Spot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#kernel-launch-configuration">Kernel Launch Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#grid-and-block-dimensions">Grid and Block Dimensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#choosing-block-size">Choosing Block Size</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#synchronization">Synchronization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#within-a-block">Within a Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#between-blocks">Between Blocks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#warp-level-operations">Warp-Level Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#warp-shuffles">Warp Shuffles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#warp-level-reductions">Warp-Level Reductions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#software-pipelining">Software Pipelining</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#overlap-compute-and-memory">Overlap Compute and Memory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#persistent-kernels">Persistent Kernels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#traditional-approach">Traditional Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#persistent-approach">Persistent Approach</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#performance-considerations">Performance Considerations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#key-factors">Key Factors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/execution-model.html#profiling-tools">Profiling Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/execution-model.html#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/performance-optimization.html">Performance Optimization Strategies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#the-optimization-process">The Optimization Process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#step-1-profile-first">Step 1: Profile First</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#step-2-identify-bottleneck">Step 2: Identify Bottleneck</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#memory-optimization">Memory Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-1-kernel-fusion">Strategy 1: Kernel Fusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-2-tiling">Strategy 2: Tiling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-3-vectorized-loads">Strategy 3: Vectorized Loads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-4-memory-coalescing">Strategy 4: Memory Coalescing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#compute-optimization">Compute Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-1-use-tensor-cores">Strategy 1: Use Tensor Cores</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-2-increase-arithmetic-intensity">Strategy 2: Increase Arithmetic Intensity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-3-minimize-thread-divergence">Strategy 3: Minimize Thread Divergence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-4-optimize-loop-structure">Strategy 4: Optimize Loop Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#occupancy-optimization">Occupancy Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-1-reduce-register-usage">Strategy 1: Reduce Register Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-2-tune-shared-memory">Strategy 2: Tune Shared Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#strategy-3-adjust-block-size">Strategy 3: Adjust Block Size</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#auto-tuning">Auto-Tuning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#why-auto-tune">Why Auto-Tune?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#triton-auto-tuning">Triton Auto-Tuning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#advanced-techniques">Advanced Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#warp-specialization">Warp Specialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#persistent-kernels">Persistent Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#recomputation">Recomputation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#pattern-reduction">Pattern: Reduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#pattern-element-wise">Pattern: Element-wise</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#pattern-matrix-multiply">Pattern: Matrix Multiply</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#debugging-performance-issues">Debugging Performance Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#issue-low-bandwidth">Issue: Low Bandwidth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#issue-low-compute-utilization">Issue: Low Compute Utilization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#issue-lower-than-pytorch">Issue: Lower Than PyTorch</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#performance-checklist">Performance Checklist</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#before-you-optimize">Before You Optimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#memory-optimizations">Memory Optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#compute-optimizations">Compute Optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#id1">Occupancy Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/performance-optimization.html#advanced">Advanced</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/performance-optimization.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Beginner Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01-vector-add.html">Vector Addition in Triton</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#what-you-ll-learn">What You’ll Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#gpu-cuda-concepts">GPU/CUDA Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#spmd-single-program-multiple-data">SPMD (Single Program, Multiple Data)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#program-id-and-block-processing">Program ID and Block Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#grid-size">Grid Size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#memory-hierarchy">Memory Hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#memory-coalescing">Memory Coalescing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#masking-for-boundary-conditions">Masking for Boundary Conditions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#how-the-kernel-works">How the Kernel Works</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#step-by-step-execution">Step-by-Step Execution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#performance-characteristics">Performance Characteristics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#bandwidth-bound-operation">Bandwidth-Bound Operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#arithmetic-intensity">Arithmetic Intensity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#theoretical-performance">Theoretical Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#triton-specific-features">Triton-Specific Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#triton-jit-decorator"><code class="docutils literal notranslate"><span class="pre">&#64;triton.jit</span></code> Decorator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#constexpr-for-compile-time-constants"><code class="docutils literal notranslate"><span class="pre">constexpr</span></code> for Compile-Time Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#launch-grid-syntax">Launch Grid Syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#benchmarking-insights">Benchmarking Insights</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#expected-results">Expected Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#common-patterns-you-ll-see">Common Patterns You’ll See</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#pointer-arithmetic">1. Pointer Arithmetic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#vectorized-operations">2. Vectorized Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-vector-add.html#masked-memory-operations">3. Masked Memory Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#key-takeaways">Key Takeaways</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#comparison-to-cuda">Comparison to CUDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02-fused-softmax.html">Fused Softmax in Triton</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#what-you-ll-learn">What You’ll Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#the-problem-with-naive-softmax">The Problem with Naive Softmax</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#standard-softmax-formula">Standard Softmax Formula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#naive-pytorch-implementation">Naive PyTorch Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#gpu-memory-hierarchy">GPU Memory Hierarchy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#dram-global-memory">DRAM (Global Memory)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#sram-shared-memory-l1-cache">SRAM (Shared Memory / L1 Cache)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#the-key-insight">The Key Insight</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#how-the-fused-kernel-works">How the Fused Kernel Works</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#block-level-processing">Block-Level Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#step-1-load-row-into-sram">Step 1: Load Row Into SRAM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#step-2-compute-max-reduction">Step 2: Compute Max (Reduction)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#step-3-exponentiation">Step 3: Exponentiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#step-4-compute-sum-another-reduction">Step 4: Compute Sum (Another Reduction)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#step-5-normalize-and-write-back">Step 5: Normalize and Write Back</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#power-of-two-block-sizes">Power-of-Two Block Sizes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#why-must-block-size-be-power-of-2">Why Must BLOCK*SIZE Be Power of 2?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#occupancy-and-performance-tuning">Occupancy and Performance Tuning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#number-of-warps">Number of Warps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#number-of-pipeline-stages">Number of Pipeline Stages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#computing-occupancy">Computing Occupancy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#persistent-kernels">Persistent Kernels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#the-pattern">The Pattern</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#numerical-stability">Numerical Stability</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#why-subtract-max">Why Subtract Max?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#padding-with-inf">Padding with -inf</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#memory-bandwidth-analysis">Memory Bandwidth Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#theoretical-speedup">Theoretical Speedup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#actual-performance">Actual Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#key-cuda-triton-concepts">Key CUDA/Triton Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#reduction-operations">Reduction Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#warp-shuffles">Warp Shuffles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#block-vs-thread">Block vs Thread</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#common-pitfalls">Common Pitfalls</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#row-too-large-for-sram">1. Row Too Large for SRAM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#numerical-precision">2. Numerical Precision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#masking-errors">3. Masking Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#performance-tips">Performance Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#comparison-to-other-approaches">Comparison to Other Approaches</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#jit-fusion-torch-jit-script">JIT Fusion (torch.jit.script)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#manual-cuda">Manual CUDA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-fused-softmax.html#cudnn-cublas">CuDNN/CuBLAS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#extensions">Extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-fused-softmax.html#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Intermediate Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="03-matrix-multiplication.html">Matrix Multiplication in Triton</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#what-you-ll-learn">What You’ll Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#the-matrix-multiplication-problem">The Matrix Multiplication Problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#basic-algorithm">Basic Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#why-it-s-hard-to-optimize">Why It’s Hard to Optimize</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#gpu-matrix-multiplication-strategy">GPU Matrix Multiplication Strategy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#blocked-algorithm">Blocked Algorithm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03-matrix-multiplication.html#pseudocode-for-our-kernel">Pseudocode for our kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#pointer-arithmetic-in-2d">Pointer Arithmetic in 2D</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#understanding-strides">Understanding Strides</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#block-pointers">Block Pointers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03-matrix-multiplication.html#broadcasting-multiplication">Broadcasting multiplication:</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#l2-cache-optimization">L2 Cache Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#the-problem-with-row-major-ordering">The Problem with Row-Major Ordering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#grouped-ordering-swizzling">Grouped Ordering (Swizzling)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#auto-tuning">Auto-Tuning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#the-configuration-space">The Configuration Space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#triton-s-auto-tuner">Triton’s Auto-Tuner</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-matrix-multiplication.html#id3">)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#good-configurations">Good Configurations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#the-kernel-implementation">The Kernel Implementation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#step-1-compute-program-ids">Step 1: Compute Program IDs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#step-2-initialize-pointers">Step 2: Initialize Pointers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#step-3-accumulation-loop">Step 3: Accumulation Loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#step-4-apply-activation-optional">Step 4: Apply Activation (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#step-5-store-result">Step 5: Store Result</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#tensor-cores">Tensor Cores</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#what-are-tensor-cores">What Are Tensor Cores?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#how-tensor-cores-work">How Tensor Cores Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#triton-and-tensor-cores">Triton and Tensor Cores</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#performance-analysis">Performance Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#arithmetic-intensity">Arithmetic Intensity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#roofline-model">Roofline Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#expected-performance">Expected Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#advanced-optimizations">Advanced Optimizations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#software-pipelining">Software Pipelining</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#loop-unrolling">Loop Unrolling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#register-pressure">Register Pressure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#common-pitfalls">Common Pitfalls</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#non-contiguous-tensors">1. Non-Contiguous Tensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#wrong-stride-calculation">2. Wrong Stride Calculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#boundary-conditions">3. Boundary Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#numerical-precision">4. Numerical Precision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#benchmarking-tips">Benchmarking Tips</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#warm-up">1. Warm-up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#measure-tflops">2. Measure TFLOPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#compare-against-cublas-rocblas">3. Compare Against cuBLAS/rocBLAS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-matrix-multiplication.html#test-different-sizes">4. Test Different Sizes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html">Low-Memory Dropout in Triton</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#what-you-ll-learn">What You’ll Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#what-is-dropout">What is Dropout?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#purpose">Purpose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#mathematical-definition">Mathematical Definition</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-low-memory-dropout.html#id1">}</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#scaling-factor">Scaling Factor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#naive-implementation-problems">Naive Implementation Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#standard-pytorch-dropout">Standard PyTorch Dropout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#the-backward-pass-problem">The Backward Pass Problem</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#forward">Forward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#backward-later">Backward (later)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#backward-pass-uses-different-mask-wrong-gradients">Backward pass uses different mask → wrong gradients!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#seeded-dropout-solution">Seeded Dropout Solution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#key-insight">Key Insight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#the-triton-implementation">The Triton Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#parallel-random-number-generation">Parallel Random Number Generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#the-challenge">The Challenge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#the-solution-counter-based-prng">The Solution: Counter-Based PRNG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#the-philox-algorithm">The Philox Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#using-philox-in-triton">Using Philox in Triton</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#call-again-with-same-seed-and-offsets">Call again with same seed and offsets:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#different-seed">Different seed:</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#memory-and-performance-trade-offs">Memory and Performance Trade-offs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#memory-comparison">Memory Comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#computational-cost">Computational Cost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#when-to-use-seeded-dropout">When to Use Seeded Dropout</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#reproducibility-and-determinism">Reproducibility and Determinism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#ensuring-same-random-numbers">Ensuring Same Random Numbers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#forward-pass">Forward pass</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#backward-pass-later">Backward pass (later)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#must-use-same-seed-to-get-same-mask">Must use SAME seed to get SAME mask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#implementation-details">Implementation Details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#the-tl-where-function">The <code class="docutils literal notranslate"><span class="pre">tl.where</span></code> Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#masking-for-boundary-conditions">Masking for Boundary Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#random-number-distribution">Random Number Distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#advanced-considerations">Advanced Considerations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#different-random-distributions">Different Random Distributions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#generate-normal-distribution">Generate normal distribution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#performance-benchmarks">Performance Benchmarks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#expected-performance">Expected Performance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#bottleneck-analysis">Bottleneck Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#practical-usage">Practical Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#integration-with-pytorch">Integration with PyTorch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#seed-generation-strategies">Seed Generation Strategies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html#ensure-different-seeds-on-different-gpus">Ensure different seeds on different GPUs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="05-layer-norm.html">Layer Normalization in Triton</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#what-you-ll-learn">What You’ll Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#what-is-layer-normalization">What is Layer Normalization?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#the-formula">The Formula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#step-by-step-math">Step-by-Step Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#why-layer-normalization">Why Layer Normalization?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#batch-norm-vs-layer-norm">Batch Norm vs Layer Norm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#the-forward-pass">The Forward Pass</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#kernel-structure">Kernel Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#computing-the-mean">Computing the Mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#computing-the-variance">Computing the Variance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#normalization-and-transformation">Normalization and Transformation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#the-backward-pass">The Backward Pass</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#gradient-mathematics">Gradient Mathematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#gradient-for-biases">Gradient for Biases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#gradient-for-weights">Gradient for Weights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#gradient-for-input-complex">Gradient for Input (Complex!)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#parallel-reduction-strategy">Parallel Reduction Strategy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#the-challenge">The Challenge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#two-stage-reduction">Two-Stage Reduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#group-assignment">Group Assignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#using-locks">Using Locks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="05-layer-norm.html#in-kernel">In kernel:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-layer-norm.html#acquire-lock">Acquire lock</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-layer-norm.html#critical-section-update-dw-and-db">Critical section: Update DW and DB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-layer-norm.html#release-lock">Release lock</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-layer-norm.html#lock-acquired-we-set-it-to-1">Lock acquired (we set it to 1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-layer-norm.html#do-work">Do work…</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#triton-implementation-details">Triton Implementation Details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#memory-layout">Memory Layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#stride-usage">Stride Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#why-use-float32-for-accumulation">Why Use float32 for Accumulation?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#performance-characteristics">Performance Characteristics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#computational-complexity">Computational Complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#memory-bandwidth">Memory Bandwidth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#optimization-opportunities">Optimization Opportunities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#common-pitfalls">Common Pitfalls</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#numerical-stability">1. Numerical Stability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#dimension-confusion">2. Dimension Confusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#gradient-accumulation-race-conditions">3. Gradient Accumulation Race Conditions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="05-layer-norm.html#use-locks-or-separate-buffers">Use locks or separate buffers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#advanced-concepts">Advanced Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#rmsnorm-simpler-variant">RMSNorm (Simpler Variant)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#groupnorm">GroupNorm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#fp8-and-mixed-precision">FP8 and Mixed Precision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#comparison-to-pytorch">Comparison to PyTorch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#pytorch-implementation">PyTorch Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#triton-advantages">Triton Advantages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-layer-norm.html#performance">Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-layer-norm.html#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Fused Attention (Flash Attention) in Triton</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-you-ll-learn">What You’ll Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background-the-attention-mechanism">Background: The Attention Mechanism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#standard-attention-formula">Standard Attention Formula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-by-step-computation">Step-by-Step Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-memory-problem">The Memory Problem</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#flash-attention-the-key-insights">Flash Attention: The Key Insights</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#insight-1-we-don-t-need-to-store-s-and-p">Insight 1: We Don’t Need to Store S and P</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#insight-2-online-softmax">Insight 2: Online Softmax</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#pass-1-find-max">Pass 1: Find max</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#pass-2-compute-softmax">Pass 2: Compute softmax</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-online-softmax-algorithm">The Online Softmax Algorithm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#standard-softmax">Standard Softmax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#block-wise-computation">Block-wise Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updating-the-output">Updating the Output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#triton-implementation-details">Triton Implementation Details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-inner-loop">The Inner Loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#causal-masking">Causal Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stages-for-causal-attention">Stages for Causal Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-optimizations">Memory Optimizations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tensor-descriptors">Tensor Descriptors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#warp-specialization">Warp Specialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reduced-shared-memory">Reduced Shared Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fp8-support">FP8 Support</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#backward-pass">Backward Pass</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#preprocess-step">Preprocess Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#computing-dk-and-dv">Computing dK and dV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#computing-dq">Computing dQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#why-recomputation">Why Recomputation?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-characteristics">Performance Characteristics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#memory-complexity">Memory Complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-complexity">Compute Complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arithmetic-intensity">Arithmetic Intensity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#auto-tuning-configurations">Auto-Tuning Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-pitfalls">Common Pitfalls</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sram-overflow">1. SRAM Overflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numerical-instability">2. Numerical Instability</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#wrong">Wrong</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#right">Right</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#wrong-for-causal-token-can-t-attend-to-itself">Wrong for causal (token can’t attend to itself!)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id9">Right</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#must-update-both-m-i-and-l-i">Must update both m*i and l*i!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#and-correct-accumulator">And correct accumulator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#extensions-and-variants">Extensions and Variants</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multi-query-attention-mqa">Multi-Query Attention (MQA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grouped-query-attention-gqa">Grouped Query Attention (GQA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sliding-window-attention">Sliding Window Attention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flash-attention-3">Flash Attention 3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comparison-to-standard-attention">Comparison to Standard Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html">Using External Functions (libdevice) in Triton</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#what-you-ll-learn">What You’ll Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#what-is-libdevice">What is libdevice?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#nvidia-s-libdevice">NVIDIA’s libdevice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#amd-s-device-libraries">AMD’s Device Libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#what-functions-are-available">What Functions Are Available?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#why-use-external-functions">Why Use External Functions?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#triton-built-in-math">Triton Built-in Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#when-you-need-more">When You Need More</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#using-libdevice-in-triton">Using libdevice in Triton</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#the-simple-way-default-path">The Simple Way (Default Path)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#the-custom-path-way">The Custom Path Way</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#find-libdevice-in-triton-installation">Find libdevice in Triton installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#pass-to-kernel">Pass to kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#how-it-works-under-the-hood">How It Works Under the Hood</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#compilation-process">Compilation Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#type-dispatch">Type Dispatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#calling-convention">Calling Convention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#available-libdevice-functions-in-triton">Available libdevice Functions in Triton</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#triton-s-libdevice-wrapper">Triton’s libdevice Wrapper</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#trigonometric">Trigonometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#hyperbolic">Hyperbolic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#exponential-logarithmic">Exponential/Logarithmic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#special-functions">Special functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#and-many-more">And many more!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#example-arc-sine-asin">Example: Arc Sine (asin)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#the-math">The Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#why-use-libdevice">Why Use libdevice?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#full-example">Full Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#test">Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#should-match">Should match!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#performance-considerations">Performance Considerations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#libdevice-performance">Libdevice Performance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#when-to-use-vs-triton-intrinsics">When to Use vs Triton Intrinsics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#linking-multiple-libraries-amd-example">Linking Multiple Libraries (AMD Example)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#debugging-linking-issues">Debugging Linking Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#common-errors">Common Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#verifying-libraries">Verifying Libraries</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#nvidia">NVIDIA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html#amd">AMD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#advanced-usage">Advanced Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#calling-custom-external-functions">Calling Custom External Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-extern-functions.html#id5">}</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#mixing-multiple-external-libraries">Mixing Multiple External Libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#portability-considerations">Portability Considerations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#nvidia-vs-amd">NVIDIA vs AMD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#function-name-differences">Function Name Differences</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#comparison-to-cuda">Comparison to CUDA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#in-cuda">In CUDA</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-extern-functions.html#id6">}</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-extern-functions.html#in-triton">In Triton</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../learning-paths.html">Learning Paths</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#path-1-fast-track-essentials">Path 1: Fast Track (Essentials)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#path-2-deep-understanding-comprehensive">Path 2: Deep Understanding (Comprehensive)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#path-3-transformer-focus-for-llm-nlp">Path 3: Transformer Focus (For LLM/NLP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#path-4-computer-vision-focus">Path 4: Computer Vision Focus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#path-5-performance-engineering">Path 5: Performance Engineering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#by-topic">By Topic</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../learning-paths.html#memory-optimization">Memory Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../learning-paths.html#compute-optimization">Compute Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../learning-paths.html#backward-pass-training">Backward Pass / Training</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../learning-paths.html#advanced-techniques">Advanced Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#learning-tips">Learning Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#assessment-checkpoints">Assessment Checkpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../learning-paths.html#after-path-1-fast-track">After Path 1 (Fast Track)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../learning-paths.html#after-path-2-comprehensive">After Path 2 (Comprehensive)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../learning-paths.html#after-path-3-transformer">After Path 3 (Transformer)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#next-steps-after-completing-a-path">Next Steps After Completing a Path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#resources-for-continued-learning">Resources for Continued Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#choose-your-path">Choose Your Path</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#out-of-memory-errors">Out of Memory Errors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#cuda-out-of-memory">CUDA Out of Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#out-of-shared-memory">Out of Shared Memory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#correctness-issues">Correctness Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#wrong-results">Wrong Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#nan-or-inf-values">NaN or Inf Values</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#performance-issues">Performance Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#slower-than-pytorch">Slower Than PyTorch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#low-gpu-utilization">Low GPU Utilization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#compilation-issues">Compilation Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#compilation-errors">Compilation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#slow-compilation">Slow Compilation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#platform-specific-issues">Platform-Specific Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#nvidia-specific">NVIDIA-Specific</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#amd-specific">AMD-Specific</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#multi-gpu-issues">Multi-GPU Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#wrong-gpu-selected">Wrong GPU Selected</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#debugging-techniques">Debugging Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#print-debugging">Print Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#profiling">Profiling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#assertions">Assertions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#unit-testing">Unit Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#common-error-messages">Common Error Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#getting-help">Getting Help</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#when-stuck">When Stuck</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#best-practices-for-avoiding-issues">Best Practices for Avoiding Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#prevention-checklist">Prevention Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References and Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#official-documentation">Official Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#triton">Triton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#cuda">CUDA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#rocm-amd">ROCm (AMD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#pytorch">PyTorch</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#research-papers">Research Papers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#flash-attention">Flash Attention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#normalization">Normalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#optimization-techniques">Optimization Techniques</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#id1">Triton</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#books">Books</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#gpu-programming">GPU Programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#deep-learning">Deep Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#tools-and-profilers">Tools and Profilers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#nvidia-tools">NVIDIA Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#amd-tools">AMD Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#pytorch-profiler">PyTorch Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#benchmarking">Benchmarking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#online-resources">Online Resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#tutorials-and-courses">Tutorials and Courses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#community">Community</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#blogs-and-articles">Blogs and Articles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#example-repositories">Example Repositories</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#triton-examples">Triton Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#production-usage">Production Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#hardware-documentation">Hardware Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#nvidia-gpus">NVIDIA GPUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#amd-gpus">AMD GPUs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#performance-databases">Performance Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#keeping-up-to-date">Keeping Up to Date</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#subscribe-to">Subscribe To</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references.html#conferences">Conferences</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#academic-courses">Academic Courses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#citation">Citation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references.html#quick-reference">Quick Reference</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Triton GPU Programming Guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Fused Attention (Flash Attention) in Triton</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/06-fused-attention.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fused-attention-flash-attention-in-triton">
+<h1>Fused Attention (Flash Attention) in Triton<a class="headerlink" href="#fused-attention-flash-attention-in-triton" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This implements <strong>Flash Attention v2</strong>, a revolutionary algorithm for computing attention in Transformers. It reduces memory usage from O(N²) to O(N) and achieves 2-4x speedup by using <strong>tiling</strong>, <strong>online softmax</strong>, and <strong>recomputation</strong> strategies. This is one of the most advanced GPU kernels you’ll encounter.</p>
+</section>
+<section id="what-you-ll-learn">
+<h2>What You’ll Learn<a class="headerlink" href="#what-you-ll-learn" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The <strong>quadratic memory problem</strong> in standard attention</p></li>
+<li><p><strong>Flash Attention algorithm</strong> and its innovations</p></li>
+<li><p><strong>Online softmax</strong>: Computing softmax without storing QK^T matrix</p></li>
+<li><p><strong>Causal masking</strong> for autoregressive models</p></li>
+<li><p><strong>Tensor descriptors</strong> for advanced memory access</p></li>
+<li><p><strong>Shared memory management</strong> for large K/V blocks</p></li>
+<li><p>Why attention is the bottleneck in long-sequence Transformers</p></li>
+</ul>
+</section>
+<section id="background-the-attention-mechanism">
+<h2>Background: The Attention Mechanism<a class="headerlink" href="#background-the-attention-mechanism" title="Link to this heading"></a></h2>
+<section id="standard-attention-formula">
+<h3>Standard Attention Formula<a class="headerlink" href="#standard-attention-formula" title="Link to this heading"></a></h3>
+<p>Attention(Q, K, V) = softmax(QK^T / √d) V</p>
+<p>Where:
+- Q (Query): (batch, heads, seq*len, head*dim)
+- K (Key): (batch, heads, seq*len, head*dim)
+- V (Value): (batch, heads, seq*len, head*dim)
+- Output: (batch, heads, seq*len, head*dim)</p>
+</section>
+<section id="step-by-step-computation">
+<h3>Step-by-Step Computation<a class="headerlink" href="#step-by-step-computation" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p><strong>Compute similarity scores</strong>:</p>
+<p>S = QK^T / √d*k
+S shape: (seq*len, seq*len)  # N×N matrix!</p>
+</li>
+<li><p><strong>Apply softmax</strong>:</p>
+<p>P = softmax(S)
+P shape: (seq*len, seq*len)  # Still N×N!</p>
+</li>
+<li><p><strong>Weighted sum of values</strong>:</p>
+<p>O = PV
+O shape: (seq*len, head*dim)</p>
+</li>
+</ol>
+</section>
+<section id="the-memory-problem">
+<h3>The Memory Problem<a class="headerlink" href="#the-memory-problem" title="Link to this heading"></a></h3>
+<p>For sequence length N=2048, head*dim=64, fp16:</p>
+<p><strong>Intermediate matrices</strong>:
+- S (scores): 2048 × 2048 × 2 bytes = 8 MB
+- P (attention weights): 2048 × 2048 × 2 bytes = 8 MB
+- Total per head: 16 MB</p>
+<p><strong>For a Transformer</strong>:
+- Batch size: 32
+- Heads: 16
+- Total: 32 × 16 × 16 MB = <strong>8 GB</strong> just for attention matrices!</p>
+<p><strong>For N=16384</strong> (long sequences):
+- Per head: 16384² × 2 bytes = 512 MB
+- Total: 32 × 16 × 512 MB = <strong>256 GB</strong> 😱</p>
+<p><strong>Clearly unsustainable!</strong></p>
+</section>
+</section>
+<section id="flash-attention-the-key-insights">
+<h2>Flash Attention: The Key Insights<a class="headerlink" href="#flash-attention-the-key-insights" title="Link to this heading"></a></h2>
+<section id="insight-1-we-don-t-need-to-store-s-and-p">
+<h3>Insight 1: We Don’t Need to Store S and P<a class="headerlink" href="#insight-1-we-don-t-need-to-store-s-and-p" title="Link to this heading"></a></h3>
+<p><strong>Standard approach</strong>:
+1. Compute full S = QK^T
+2. Store S in HBM (slow)
+3. Compute full P = softmax(S)
+4. Store P in HBM
+5. Compute O = PV</p>
+<p><strong>Flash Attention</strong>:
+1. Compute and process S and P in <strong>blocks</strong>
+2. Keep blocks in SRAM (fast)
+3. Never materialize full S or P in HBM
+4. Only store final output O</p>
+<p><strong>Memory</strong>: O(N²) → O(N) 🎉</p>
+</section>
+<section id="insight-2-online-softmax">
+<h3>Insight 2: Online Softmax<a class="headerlink" href="#insight-2-online-softmax" title="Link to this heading"></a></h3>
+<p><strong>Challenge</strong>: How to compute softmax without storing full matrix?</p>
+<p><strong>Standard softmax</strong> requires two passes:
+.. code-block:: python</p>
+</section>
+</section>
+</section>
+<section id="pass-1-find-max">
+<h1>Pass 1: Find max<a class="headerlink" href="#pass-1-find-max" title="Link to this heading"></a></h1>
+<p>max*score = max(S)</p>
+</section>
+<section id="pass-2-compute-softmax">
+<h1>Pass 2: Compute softmax<a class="headerlink" href="#pass-2-compute-softmax" title="Link to this heading"></a></h1>
+<p>P = exp(S - max*score) / sum(exp(S - max*score))</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>**Online algorithm**: Update running statistics as we process blocks!
+</pre></div>
+</div>
+<p>Process attention in blocks:</p>
+<dl class="simple">
+<dt>For each block of Q (BLOCK*M rows):</dt><dd><dl class="simple">
+<dt>For each block of K,V (BLOCK*N columns):</dt><dd><p>Compute block of S
+Update running softmax statistics
+Accumulate into output</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>**Benefit**: Each block fits in SRAM (fast)!
+</pre></div>
+</div>
+<section id="the-online-softmax-algorithm">
+<h2>The Online Softmax Algorithm<a class="headerlink" href="#the-online-softmax-algorithm" title="Link to this heading"></a></h2>
+<section id="standard-softmax">
+<h3>Standard Softmax<a class="headerlink" href="#standard-softmax" title="Link to this heading"></a></h3>
+<p>For a row S*i = [s₁, s₂, …, sₙ]:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>m = max(s₁, s₂, …, sₙ)
+numerator = [exp(s₁-m), exp(s₂-m), …, exp(sₙ-m)]
+l = sum(numerator)
+P*i = numerator / l</p>
+</section>
+<section id="block-wise-computation">
+<h3>Block-wise Computation<a class="headerlink" href="#block-wise-computation" title="Link to this heading"></a></h3>
+<p>Suppose we process in two blocks: [s₁, s₂] and [s₃, s₄]:</p>
+<p><strong>After block 1</strong>:</p>
+<p>m*old = max(s₁, s₂)
+l*old = exp(s₁ - m*old) + exp(s₂ - m*old)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">After</span> <span class="n">block</span> <span class="mi">2</span><span class="o">**</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>m*new = max(m*old, max(s₃, s₄))</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>**Problem**: How to update l*old when m changes?
+</pre></div>
+</div>
+<p><strong>Solution</strong>: Correction factor!</p>
+<p>α = exp(m*old - m*new)
+l*new = α * l*old + exp(s₃ - m*new) + exp(s₄ - m*new)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>**Why α?**
+</pre></div>
+</div>
+<p>Old contribution: exp(s₁ - m*old) + exp(s₂ - m*old)
+With new max:      exp(s₁ - m*new) + exp(s₂ - m*new)</p>
+<blockquote>
+<div><p>= exp(s₁ - m*old - (m*new - m*old)) + exp(s₂ - m*old - (m*new - m*old))
+= [exp(s₁ - m*old) + exp(s₂ - m*old)] * exp(m*old - m*new)
+= l*old * α</p>
+</div></blockquote>
+</section>
+<section id="updating-the-output">
+<h3>Updating the Output<a class="headerlink" href="#updating-the-output" title="Link to this heading"></a></h3>
+<p>Similarly, the accumulated output needs correction:</p>
+<p>output*old = (1/l*old) * [exp(s₁-m*old)*v₁ + exp(s₂-m*old)*v₂]</p>
+<p>When we update max:</p>
+<p>output*new = α * output*old + (1/l*new) * [exp(s₃-m*new)*v₃ + exp(s₄-m*new)*v₄]</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>**This is the heart of Flash Attention!**
+</pre></div>
+</div>
+</section>
+</section>
+<section id="triton-implementation-details">
+<h2>Triton Implementation Details<a class="headerlink" href="#triton-implementation-details" title="Link to this heading"></a></h2>
+<section id="the-inner-loop">
+<h3>The Inner Loop<a class="headerlink" href="#the-inner-loop" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl>
+<dt>def <a href="#id1"><span class="problematic" id="id2">*</span></a>attn*fwd*inner(acc, l*i, m*i, q, desc*k, desc*v, …):</dt><dd><dl>
+<dt>for start*n in range(lo, hi, BLOCK*N):</dt><dd><p># Load K block
+k = desc*k.load([offsetk*y, 0]).T</p>
+<p># Compute QK^T for this block
+qk = tl.dot(q, k)</p>
+<p># Apply scaling and mask (if causal)
+qk = qk * qk*scale
+if STAGE == 2:  # Causal</p>
+<blockquote>
+<div><p>mask = offs*m[:, None] &gt;= (start*n + offs*n[None, :])
+qk = qk + tl.where(mask, 0, -1.0e6)</p>
+</div></blockquote>
+<p># Update max
+m*ij = tl.maximum(m*i, tl.max(qk, 1))</p>
+<p># Compute softmax probabilities for this block
+p = tl.exp(qk - m*ij[:, None])</p>
+<p># Correction factor
+alpha = tl.exp(m*i - m*ij)</p>
+<p># Update sum
+l*ij = tl.sum(p, 1)</p>
+<p># Update output with correction
+acc = acc * alpha[:, None]</p>
+<p># Load V block
+v = desc*v.load([offsetv*y, 0])</p>
+<p># Accumulate
+acc = tl.dot(p, v, acc)</p>
+<p># Update running statistics
+l*i = l*i * alpha + l*ij
+m*i = m*ij</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Key</span> <span class="n">variables</span><span class="o">**</span><span class="p">:</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">m*i</span></code>: Current max for each row</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">l*i</span></code>: Current sum of exponentials for each row</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">acc</span></code>: Current weighted sum output</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: Correction factor when max changes</p></li>
+</ul>
+</section>
+<section id="causal-masking">
+<h3>Causal Masking<a class="headerlink" href="#causal-masking" title="Link to this heading"></a></h3>
+<p>For autoregressive models (GPT), prevent attending to future tokens:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>mask = offs*m[:, None] &gt;= (start*n + offs*n[None, :])
+qk = qk + tl.where(mask, 0, -1.0e6)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Visual</span> <span class="n">example</span><span class="o">**</span> <span class="p">(</span><span class="n">BLOCK</span><span class="o">*</span><span class="n">M</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">BLOCK</span><span class="o">*</span><span class="n">N</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>Query rows: [0, 1, 2, 3]
+Key columns: [0, 1, 2, 3]</p>
+<p>Mask (1 = allowed, 0 = masked):
+[[1, 0, 0, 0],   # Query 0 can only attend to Key 0</p>
+<blockquote>
+<div><p>[1, 1, 0, 0],   # Query 1 can attend to Keys 0-1
+[1, 1, 1, 0],   # Query 2 can attend to Keys 0-2
+[1, 1, 1, 1]]   # Query 3 can attend to Keys 0-3</p>
+</div></blockquote>
+<p>Setting masked positions to <code class="docutils literal notranslate"><span class="pre">-1e6</span></code> → <code class="docutils literal notranslate"><span class="pre">exp(-1e6)</span> <span class="pre">≈</span> <span class="pre">0</span></code> → effectively ignored.</p>
+</section>
+<section id="stages-for-causal-attention">
+<h3>Stages for Causal Attention<a class="headerlink" href="#stages-for-causal-attention" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>if STAGE == 1:</dt><dd><p>lo, hi = 0, start*m * BLOCK*M  # Before diagonal</p>
+</dd>
+<dt>elif STAGE == 2:</dt><dd><p>lo, hi = start*m * BLOCK*M, (start*m + 1) * BLOCK*M  # On diagonal (causal)</p>
+</dd>
+<dt>else:</dt><dd><p>lo, hi = 0, N*CTX  # Full attention (non-causal)</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">For</span> <span class="n">causal</span> <span class="n">attention</span><span class="o">**</span><span class="p">:</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Stage 1</strong>: Process all blocks before the diagonal (full blocks, no masking needed)</p></li>
+<li><p><strong>Stage 2</strong>: Process diagonal block (needs causal masking)</p></li>
+</ul>
+<p><strong>Optimization</strong>: Stage 1 can skip masking checks, runs faster!</p>
+</section>
+</section>
+<section id="memory-optimizations">
+<h2>Memory Optimizations<a class="headerlink" href="#memory-optimizations" title="Link to this heading"></a></h2>
+<section id="tensor-descriptors">
+<h3>Tensor Descriptors<a class="headerlink" href="#tensor-descriptors" title="Link to this heading"></a></h3>
+<p>Modern GPUs (Hopper, Blackwell) support <strong>tensor descriptors</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>desc*q = TensorDescriptor(q, shape=[y*dim, HEAD*DIM],</dt><dd><p>strides=[HEAD*DIM, 1],
+block*shape=[BLOCK*M, HEAD*DIM])</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Benefits</span><span class="o">**</span><span class="p">:</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Hardware-assisted bounds checking</p></li>
+<li><p>Automatic address calculation</p></li>
+<li><p>Faster than manual pointer arithmetic</p></li>
+</ul>
+<p><strong>Triton abstracts this</strong>:
+.. code-block:: python</p>
+<p>q = desc*q.load([offset*y, 0])</p>
+<p>Looks simple, but uses advanced hardware features!</p>
+</section>
+<section id="warp-specialization">
+<h3>Warp Specialization<a class="headerlink" href="#warp-specialization" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>warp*specialize = True</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Concept</span><span class="o">**</span><span class="p">:</span> <span class="n">Different</span> <span class="n">warps</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">block</span> <span class="n">do</span> <span class="n">different</span> <span class="n">tasks</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Some warps: Load data from DRAM</p></li>
+<li><p>Other warps: Compute on data</p></li>
+<li><p>Overlap communication and computation!</p></li>
+</ul>
+<p><strong>Hopper/Blackwell specific</strong>: These GPUs have dedicated units for loads, so specialization helps.</p>
+</section>
+<section id="reduced-shared-memory">
+<h3>Reduced Shared Memory<a class="headerlink" href="#reduced-shared-memory" title="Link to this heading"></a></h3>
+<p>By using online softmax:
+- Don’t store full QK^T matrix
+- Only need current blocks in SRAM
+- Typical usage: ~100 KB vs MBs for naive implementation</p>
+</section>
+<section id="fp8-support">
+<h3>FP8 Support<a class="headerlink" href="#fp8-support" title="Link to this heading"></a></h3>
+<p>For Blackwell GPUs with FP8 Tensor Cores:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>if dtype == tl.float8e5:</dt><dd><p>v = desc*v.load([0, offsetv*y]).T  # Transposed layout for FP8</p>
+</dd>
+<dt>else:</dt><dd><p>v = desc*v.load([offsetv*y, 0])</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">FP8</span> <span class="n">benefits</span><span class="o">**</span><span class="p">:</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>2x memory bandwidth (8 bits vs 16 bits)</p></li>
+<li><p>2x compute throughput (Tensor Cores)</p></li>
+<li><p>Trade-off: Slight accuracy loss (acceptable for ML)</p></li>
+</ul>
+</section>
+</section>
+<section id="backward-pass">
+<h2>Backward Pass<a class="headerlink" href="#backward-pass" title="Link to this heading"></a></h2>
+<p>The backward pass is even more complex!</p>
+<section id="preprocess-step">
+<h3>Preprocess Step<a class="headerlink" href="#preprocess-step" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>def <a href="#id3"><span class="problematic" id="id4">*</span></a>attn*bwd*preprocess(O, DO, Delta, …):</dt><dd><p># Compute delta = sum(O * DO) for each row
+o = tl.load(O + …)
+do = tl.load(DO + …)
+delta = tl.sum(o * do, axis=1)
+tl.store(Delta + …, delta)</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Delta</span><span class="o">**</span><span class="p">:</span> <span class="n">Row</span><span class="o">-</span><span class="n">wise</span> <span class="n">dot</span> <span class="n">product</span> <span class="n">of</span> <span class="n">output</span> <span class="ow">and</span> <span class="n">output</span> <span class="n">gradient</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Used in both dK/dV and dQ computation</p></li>
+<li><p>Precompute once, use multiple times</p></li>
+</ul>
+</section>
+<section id="computing-dk-and-dv">
+<h3>Computing dK and dV<a class="headerlink" href="#computing-dk-and-dv" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl>
+<dt>def <a href="#id5"><span class="problematic" id="id6">*</span></a>attn*bwd*dkdv(dk, dv, Q, k, v, DO, M, D, …):</dt><dd><dl>
+<dt>for each block of Q:</dt><dd><p># Recompute attention weights
+qk = tl.dot(k, Q)
+p = tl.exp(qk - M)  # M was saved from forward pass</p>
+<p># Compute dV
+dv += tl.dot(p, DO)</p>
+<p># Compute dP (gradient of attention weights)
+dp = tl.dot(v, DO.T)</p>
+<p># Compute dS (before softmax)
+ds = p * (dp - D)  # D is delta from preprocess</p>
+<p># Compute dK
+dk += tl.dot(ds, Q.T)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Key</span> <span class="n">insight</span><span class="o">**</span><span class="p">:</span> <span class="n">Recompute</span> <span class="n">attention</span> <span class="n">weights</span> <span class="kn">from</span><span class="w"> </span><span class="nn">Q</span><span class="p">,</span> <span class="n">K</span> <span class="p">(</span><span class="n">which</span> <span class="n">we</span> <span class="n">have</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Don’t need to store P from forward pass</p></li>
+<li><p>Classic memory-compute trade-off</p></li>
+</ul>
+</section>
+<section id="computing-dq">
+<h3>Computing dQ<a class="headerlink" href="#computing-dq" title="Link to this heading"></a></h3>
+<p>Similar structure, but processes different blocks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl>
+<dt>def <a href="#id7"><span class="problematic" id="id8">*</span></a>attn*bwd*dq(dq, q, K, V, DO, M, D, …):</dt><dd><dl>
+<dt>for each block of K,V:</dt><dd><p># Recompute attention
+qk = tl.dot(q, K)
+p = tl.exp(qk - M)</p>
+<p># Compute dP
+dp = tl.dot(DO, V.T)</p>
+<p># Compute dS
+ds = p * (dp - D)</p>
+<p># Compute dQ
+dq += tl.dot(ds, K)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="why-recomputation">
+<h3>Why Recomputation?<a class="headerlink" href="#why-recomputation" title="Link to this heading"></a></h3>
+<p><strong>Traditional approach</strong>:
+- Forward: Compute and store P (N² memory)
+- Backward: Load P, compute gradients</p>
+<p><strong>Flash Attention</strong>:
+- Forward: Don’t store P (O(N) memory)
+- Backward: Recompute P from Q, K (extra compute, but much less memory)</p>
+<p><strong>Trade-off</strong>:
+- 2x compute (recompute in backward)
+- But enables 100x longer sequences!</p>
+</section>
+</section>
+<section id="performance-characteristics">
+<h2>Performance Characteristics<a class="headerlink" href="#performance-characteristics" title="Link to this heading"></a></h2>
+<section id="memory-complexity">
+<h3>Memory Complexity<a class="headerlink" href="#memory-complexity" title="Link to this heading"></a></h3>
+<p><strong>Standard attention</strong>:
+- O(N²) for S and P matrices
+- Becomes prohibitive for long sequences</p>
+<p><strong>Flash Attention</strong>:
+- O(N) for Q, K, V, O
+- No intermediate N² matrices
+- Enables sequences of 16K, 32K, even 100K+ tokens</p>
+</section>
+<section id="compute-complexity">
+<h3>Compute Complexity<a class="headerlink" href="#compute-complexity" title="Link to this heading"></a></h3>
+<p>Still O(N²) FLOPs (can’t change the math), but:
+- Better memory access patterns
+- Higher arithmetic intensity
+- Better cache utilization</p>
+<p><strong>Result</strong>: 2-4x faster despite same FLOPs!</p>
+</section>
+<section id="arithmetic-intensity">
+<h3>Arithmetic Intensity<a class="headerlink" href="#arithmetic-intensity" title="Link to this heading"></a></h3>
+<p>With tiling (BLOCK*M=128, BLOCK*N=64):
+- Load Q block: 128 × 64 elements
+- Load K block: 64 × 64 elements
+- Load V block: 64 × 64 elements
+- Compute QK: 128 × 64 × 64 = 512K FLOPs
+- Compute PV: 128 × 64 × 64 = 512K FLOPs
+- Total: ~1M FLOPs per ~20K bytes loaded</p>
+<p>Arithmetic Intensity: 1M / 20K ≈ 50 FLOPs/byte</p>
+<p><strong>Compare to naive</strong> (no tiling):
+- Each element of S: 1 load Q row, 1 load K row
+- Each element of P: 1 load/store
+- AI ≈ 2 FLOPs/byte</p>
+<p>Flash Attention is <strong>25x more compute-efficient</strong> in memory access!</p>
+</section>
+</section>
+<section id="auto-tuning-configurations">
+<h2>Auto-Tuning Configurations<a class="headerlink" href="#auto-tuning-configurations" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>configs = [</dt><dd><p>triton.Config({‘BLOCK*M’: BM, ‘BLOCK*N’: BN}, num*stages=s, num*warps=w)
+for BM in [64, 128]
+for BN in [32, 64, 128]
+for s in [2, 3, 4]
+for w in [4, 8]</p>
+</dd>
+</dl>
+<p><strong>Block size trade-offs</strong>:
+- <strong>Larger blocks</strong>: More reuse, but more SRAM usage
+- <strong>Smaller blocks</strong>: Less SRAM, but more overhead</p>
+<p><strong>Typical good configs</strong>:
+- BLOCK*M=128, BLOCK*N=64: Balanced
+- BLOCK*M=64, BLOCK*N=32: Smaller SRAM GPUs
+- More stages: Better for Hopper/Blackwell with more SRAM</p>
+</section>
+<section id="common-pitfalls">
+<h2>Common Pitfalls<a class="headerlink" href="#common-pitfalls" title="Link to this heading"></a></h2>
+<section id="sram-overflow">
+<h3>1. SRAM Overflow<a class="headerlink" href="#sram-overflow" title="Link to this heading"></a></h3>
+<p>Error: out of resource: shared memory</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Cause</span><span class="o">**</span><span class="p">:</span> <span class="n">Blocks</span> <span class="n">too</span> <span class="n">large</span> <span class="k">for</span> <span class="n">available</span> <span class="n">SRAM</span>
+</pre></div>
+</div>
+<p><strong>Solution</strong>:
+- Reduce BLOCK*M or BLOCK*N
+- Reduce num*stages
+- Adjust auto-tune configs</p>
+</section>
+<section id="numerical-instability">
+<h3>2. Numerical Instability<a class="headerlink" href="#numerical-instability" title="Link to this heading"></a></h3>
+<p><strong>Problem</strong>: Exp overflow without proper max subtraction</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="wrong">
+<h1>Wrong<a class="headerlink" href="#wrong" title="Link to this heading"></a></h1>
+<p>p = tl.exp(qk)</p>
+</section>
+<section id="right">
+<h1>Right<a class="headerlink" href="#right" title="Link to this heading"></a></h1>
+<p>m*ij = tl.max(qk, 1)
+p = tl.exp(qk - m*ij[:, None])</p>
+<p><strong>Common mistake</strong>: Using <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> instead of <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+<section id="wrong-for-causal-token-can-t-attend-to-itself">
+<h1>Wrong for causal (token can’t attend to itself!)<a class="headerlink" href="#wrong-for-causal-token-can-t-attend-to-itself" title="Link to this heading"></a></h1>
+<p>mask = offs*m[:, None] &gt; (start*n + offs*n[None, :])</p>
+</section>
+<section id="id9">
+<h1>Right<a class="headerlink" href="#id9" title="Link to this heading"></a></h1>
+<p>mask = offs*m[:, None] &gt;= (start*n + offs*n[None, :])</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+<section id="must-update-both-m-i-and-l-i">
+<h1>Must update both m*i and l*i!<a class="headerlink" href="#must-update-both-m-i-and-l-i" title="Link to this heading"></a></h1>
+<p>l*i = l*i * alpha + l*ij
+m*i = m*ij</p>
+</section>
+<section id="and-correct-accumulator">
+<h1>And correct accumulator<a class="headerlink" href="#and-correct-accumulator" title="Link to this heading"></a></h1>
+<p>acc = acc * alpha[:, None]</p>
+<p>Forgetting any of these → wrong results.</p>
+<section id="extensions-and-variants">
+<h2>Extensions and Variants<a class="headerlink" href="#extensions-and-variants" title="Link to this heading"></a></h2>
+<section id="multi-query-attention-mqa">
+<h3>Multi-Query Attention (MQA)<a class="headerlink" href="#multi-query-attention-mqa" title="Link to this heading"></a></h3>
+<p>Use same K, V for all heads:
+- K, V shape: (batch, 1, seq*len, head*dim)
+- Q shape: (batch, num*heads, seq*len, head*dim)
+- Memory savings: num*heads× less for K, V</p>
+</section>
+<section id="grouped-query-attention-gqa">
+<h3>Grouped Query Attention (GQA)<a class="headerlink" href="#grouped-query-attention-gqa" title="Link to this heading"></a></h3>
+<p>Groups of heads share K, V:
+- Middle ground between MQA and full attention
+- Used in Llama 2, Mistral</p>
+</section>
+<section id="sliding-window-attention">
+<h3>Sliding Window Attention<a class="headerlink" href="#sliding-window-attention" title="Link to this heading"></a></h3>
+<p>Only attend to nearby tokens:
+.. code-block:: python</p>
+<p>mask = abs(offs*m[:, None] - offs*n[None, :]) &lt;= window*size</p>
+<p>Reduces complexity to O(N × window_size).</p>
+</section>
+<section id="flash-attention-3">
+<h3>Flash Attention 3<a class="headerlink" href="#flash-attention-3" title="Link to this heading"></a></h3>
+<p>Latest version (Hopper H100+):
+- Warp-specialization optimizations
+- Even better overlap of compute and memory
+- FP8 support with dynamic scaling
+- 1.5-2x faster than Flash Attention 2</p>
+</section>
+</section>
+<section id="comparison-to-standard-attention">
+<h2>Comparison to Standard Attention<a class="headerlink" href="#comparison-to-standard-attention" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">Aspect | Standard | Flash Attention |</div>
+</div>
+<p><a href="#id10"><span class="problematic" id="id11">|--------|</span></a>———-<a href="#id12"><span class="problematic" id="id13">|-----------------|</span></a>
+| Memory | O(N²) | O(N) |
+| Speed (2K seq) | 1x | 2-3x faster |
+| Speed (16K seq) | OOM | 10x+ faster |
+| Max sequence | ~2048 | 100K+ |
+| Implementation | Simple | Complex |</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Flash Attention solves the O(N²) memory problem</strong>: Enables long sequences</p></li>
+<li><p><strong>Online softmax is the key innovation</strong>: Compute softmax without full materialization</p></li>
+<li><p><strong>Tiling + correction factors</strong>: Update statistics as we process blocks</p></li>
+<li><p><strong>Recomputation in backward pass</strong>: Trade compute for memory</p></li>
+<li><p><strong>SRAM management is critical</strong>: Blocks must fit in fast memory</p></li>
+<li><p><strong>Causal masking</strong>: Essential for autoregressive models (GPT, etc.)</p></li>
+<li><p><strong>Hardware features matter</strong>: Tensor descriptors, warp specialization, FP8</p></li>
+<li><p><strong>This enables modern LLMs</strong>: GPT-4, Llama, etc. all use variants of Flash Attention</p></li>
+</ol>
+<p>Flash Attention is arguably the most important algorithmic innovation for Transformers in recent years. It enabled the jump from ~2K to 100K+ token context windows!</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="05-layer-norm.html" class="btn btn-neutral float-left" title="Layer Normalization in Triton" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="07-extern-functions.html" class="btn btn-neutral float-right" title="Using External Functions (libdevice) in Triton" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fast Concurrent Programs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
