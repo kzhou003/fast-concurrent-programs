@@ -74,3 +74,48 @@ html_theme_options = {
     'includehidden': True,
     'titles_only': False
 }
+
+# -- Options for LaTeX/PDF output --------------------------------------------
+
+latex_engine = 'pdflatex'
+latex_elements = {
+    'papersize': 'letterpaper',
+    'pointsize': '10pt',
+    'preamble': r'''
+        \usepackage{charter}
+        \usepackage[defaultsans]{lato}
+        \usepackage{inconsolata}
+    ''',
+    'figure_align': 'htbp',
+}
+
+# Grouping the document tree into LaTeX files. List of tuples
+# (source start file, target name, title, author, documentclass [howto, manual, or own class]).
+latex_documents = [
+    ('index', 'FastConcurrentProgramming.tex',
+     'Fast Concurrent Programming Guide',
+     'Fast Concurrent Programs', 'manual'),
+]
+
+# -- Options for manual page output ------------------------------------------
+
+man_pages = [
+    ('index', 'fastconcurrentprogramming',
+     'Fast Concurrent Programming Guide',
+     [author], 1)
+]
+
+# -- Options for Texinfo output ----------------------------------------------
+
+texinfo_documents = [
+    ('index', 'FastConcurrentProgramming',
+     'Fast Concurrent Programming Guide',
+     author, 'FastConcurrentProgramming',
+     'Comprehensive guide to CPU and GPU concurrent programming.',
+     'Miscellaneous'),
+]
+
+# -- Options for Epub output -------------------------------------------------
+
+epub_title = project
+epub_exclude_files = ['search.html']
