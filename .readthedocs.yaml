@@ -14,11 +14,6 @@ sphinx:
   configuration: docs/source/conf.py
   fail_on_warning: false
 
-# Optionally build your docs in additional formats such as PDF and ePub
-formats:
-  - pdf
-  - epub
-
 # Optional but recommended, declare the Python requirements required
 # to build your documentation
 python:

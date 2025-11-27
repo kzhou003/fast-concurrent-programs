@@ -78,6 +78,7 @@ html_theme_options = {
 # -- Options for LaTeX/PDF output --------------------------------------------
 
 latex_engine = 'pdflatex'
+latex_use_latexmk = False  # Don't require latexmk for local builds
 latex_elements = {
     'papersize': 'letterpaper',
     'pointsize': '10pt',
