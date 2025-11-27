@@ -1,6 +1,22 @@
 # Fast Concurrent Programs - Practice Problems
 
-This repository contains a curated set of concurrent programming problems designed to help you master concurrent patterns across Python, C++, and Go.
+This repository contains a curated set of concurrent programming problems designed to help you master concurrent patterns across Python, C++, and Go, as well as GPU programming with Triton/CUDA.
+
+## 📚 Documentation
+
+**Comprehensive documentation is available at: [Read the Docs](https://fast-concurrent-programs.readthedocs.io/)**
+
+The documentation includes:
+- **CPU Concurrency**: Threading, asyncio, multiprocessing, synchronization primitives
+- **GPU Programming**: Triton/CUDA tutorials from beginner to advanced
+- **Learning Paths**: Curated sequences for different goals
+- **References**: Papers, tools, and community resources
+
+### Quick Links
+- [Getting Started with CPU Concurrency](https://fast-concurrent-programs.readthedocs.io/en/latest/cpu-concurrency/key_concepts.html)
+- [Getting Started with GPU Programming](https://fast-concurrent-programs.readthedocs.io/en/latest/gpu-concepts/gpu-fundamentals.html)
+- [Learning Paths](https://fast-concurrent-programs.readthedocs.io/en/latest/learning-paths.html)
+- [Troubleshooting Guide](https://fast-concurrent-programs.readthedocs.io/en/latest/troubleshooting.html)
 
 ## Structure
 

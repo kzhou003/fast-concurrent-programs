@@ -78,7 +78,7 @@ def convert_markdown_to_rst(md_content):
 def main():
     """Convert all markdown files in triton directory."""
     triton_dir = Path('/home/kzhoulatte/Experiments/fast-concurrent-programs/docs/triton')
-    output_dir = Path('/home/kzhoulatte/Experiments/fast-concurrent-programs/docs/source/tutorials')
+    output_dir = Path('/home/kzhoulatte/Experiments/fast-concurrent-programs/docs/source/gpu-tutorials')
 
     for md_file in sorted(triton_dir.glob('*.md')):
         if md_file.name == 'README.md':

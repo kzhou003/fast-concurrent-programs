@@ -14,24 +14,24 @@ Path 1: Fast Track (Essentials)
 
 **Sequence**:
 
-1. :doc:`concepts/gpu-fundamentals` (30 min)
+1. :doc:`gpu-concepts/gpu-fundamentals` (30 min)
 
    * Understand SPMD model
    * Learn GPU hierarchy
 
-2. :doc:`tutorials/01-vector-add` (1 hour)
+2. :doc:`gpu-tutorials/01-vector-add` (1 hour)
 
    * Write your first kernel
    * Understand parallelism
    * Learn memory patterns
 
-3. :doc:`tutorials/02-fused-softmax` (1.5 hours)
+3. :doc:`gpu-tutorials/02-fused-softmax` (1.5 hours)
 
    * Master kernel fusion
    * Understand SRAM vs DRAM
    * Learn reduction operations
 
-4. :doc:`tutorials/03-matrix-multiplication` (2-3 hours)
+4. :doc:`gpu-tutorials/03-matrix-multiplication` (2-3 hours)
 
    * Understand tiling
    * Learn auto-tuning
@@ -52,35 +52,35 @@ Path 2: Deep Understanding (Comprehensive)
 
 1. **Foundations** (2 hours)
 
-   * :doc:`concepts/gpu-fundamentals`
-   * :doc:`concepts/memory-hierarchy`
-   * :doc:`concepts/execution-model`
+   * :doc:`gpu-concepts/gpu-fundamentals`
+   * :doc:`gpu-concepts/memory-hierarchy`
+   * :doc:`gpu-concepts/execution-model`
 
 2. **Basic Kernels** (3 hours)
 
-   * :doc:`tutorials/01-vector-add`
-   * :doc:`tutorials/02-fused-softmax`
+   * :doc:`gpu-tutorials/01-vector-add`
+   * :doc:`gpu-tutorials/02-fused-softmax`
 
 3. **Compute Optimization** (3 hours)
 
-   * :doc:`tutorials/03-matrix-multiplication`
-   * :doc:`concepts/performance-optimization`
+   * :doc:`gpu-tutorials/03-matrix-multiplication`
+   * :doc:`gpu-concepts/performance-optimization`
 
 4. **Advanced Memory Techniques** (2 hours)
 
-   * :doc:`tutorials/04-low-memory-dropout`
+   * :doc:`gpu-tutorials/04-low-memory-dropout`
 
 5. **Training Loop Implementation** (3 hours)
 
-   * :doc:`tutorials/05-layer-norm`
+   * :doc:`gpu-tutorials/05-layer-norm`
 
 6. **State-of-the-Art** (3-4 hours)
 
-   * :doc:`tutorials/06-fused-attention`
+   * :doc:`gpu-tutorials/06-fused-attention`
 
 7. **Extensions** (1 hour)
 
-   * :doc:`tutorials/07-extern-functions`
+   * :doc:`gpu-tutorials/07-extern-functions`
 
 **Outcome**: You can implement complex, production-ready GPU kernels and optimize them for maximum performance.
 
@@ -97,31 +97,31 @@ Path 3: Transformer Focus (For LLM/NLP)
 
 1. **GPU Basics** (1 hour)
 
-   * :doc:`concepts/gpu-fundamentals`
-   * :doc:`concepts/memory-hierarchy`
+   * :doc:`gpu-concepts/gpu-fundamentals`
+   * :doc:`gpu-concepts/memory-hierarchy`
 
 2. **Foundation Kernel** (1 hour)
 
-   * :doc:`tutorials/01-vector-add`
+   * :doc:`gpu-tutorials/01-vector-add`
 
 3. **Attention Building Blocks** (2 hours)
 
-   * :doc:`tutorials/02-fused-softmax`
+   * :doc:`gpu-tutorials/02-fused-softmax`
    * Learn softmax optimization (key for attention)
 
 4. **Normalization** (2 hours)
 
-   * :doc:`tutorials/05-layer-norm`
+   * :doc:`gpu-tutorials/05-layer-norm`
    * Essential Transformer component
 
 5. **Efficient Attention** (3-4 hours)
 
-   * :doc:`tutorials/06-fused-attention`
+   * :doc:`gpu-tutorials/06-fused-attention`
    * Flash Attention for long sequences
 
 6. **Memory Efficiency** (1-2 hours)
 
-   * :doc:`tutorials/04-low-memory-dropout`
+   * :doc:`gpu-tutorials/04-low-memory-dropout`
    * Techniques for large models
 
 **Outcome**: You can optimize Transformer models, implement efficient attention, and handle long sequences.
@@ -137,28 +137,28 @@ Path 4: Computer Vision Focus
 
 1. **Fundamentals** (2 hours)
 
-   * :doc:`concepts/gpu-fundamentals`
-   * :doc:`concepts/memory-hierarchy`
-   * :doc:`tutorials/01-vector-add`
+   * :doc:`gpu-concepts/gpu-fundamentals`
+   * :doc:`gpu-concepts/memory-hierarchy`
+   * :doc:`gpu-tutorials/01-vector-add`
 
 2. **Compute-Heavy Operations** (3 hours)
 
-   * :doc:`tutorials/03-matrix-multiplication`
+   * :doc:`gpu-tutorials/03-matrix-multiplication`
    * Tiling techniques apply to convolutions
 
 3. **Activation and Normalization** (2 hours)
 
-   * :doc:`tutorials/02-fused-softmax`
-   * :doc:`tutorials/05-layer-norm`
+   * :doc:`gpu-tutorials/02-fused-softmax`
+   * :doc:`gpu-tutorials/05-layer-norm`
 
 4. **Data Augmentation** (1 hour)
 
-   * :doc:`tutorials/04-low-memory-dropout`
+   * :doc:`gpu-tutorials/04-low-memory-dropout`
 
 5. **Performance** (2 hours)
 
-   * :doc:`concepts/performance-optimization`
-   * :doc:`concepts/execution-model`
+   * :doc:`gpu-concepts/performance-optimization`
+   * :doc:`gpu-concepts/execution-model`
 
 **Outcome**: Optimize convolutions, pooling, and other vision-specific operations.
 
@@ -175,16 +175,16 @@ Path 5: Performance Engineering
 
 1. **Core Concepts** (3 hours)
 
-   * All documents in :doc:`concepts/gpu-fundamentals`
-   * :doc:`concepts/memory-hierarchy`
-   * :doc:`concepts/execution-model`
-   * :doc:`concepts/performance-optimization`
+   * All documents in :doc:`gpu-concepts/gpu-fundamentals`
+   * :doc:`gpu-concepts/memory-hierarchy`
+   * :doc:`gpu-concepts/execution-model`
+   * :doc:`gpu-concepts/performance-optimization`
 
 2. **Practical Optimization** (4 hours)
 
-   * :doc:`tutorials/02-fused-softmax` - Memory optimization
-   * :doc:`tutorials/03-matrix-multiplication` - Compute optimization
-   * :doc:`tutorials/06-fused-attention` - Advanced techniques
+   * :doc:`gpu-tutorials/02-fused-softmax` - Memory optimization
+   * :doc:`gpu-tutorials/03-matrix-multiplication` - Compute optimization
+   * :doc:`gpu-tutorials/06-fused-attention` - Advanced techniques
 
 3. **Profiling and Tuning** (2 hours)
 
@@ -208,30 +208,30 @@ If you want to learn specific topics:
 Memory Optimization
 ~~~~~~~~~~~~~~~~~~~
 
-1. :doc:`concepts/memory-hierarchy`
-2. :doc:`tutorials/02-fused-softmax`
-3. :doc:`tutorials/06-fused-attention`
-4. :doc:`tutorials/04-low-memory-dropout`
+1. :doc:`gpu-concepts/memory-hierarchy`
+2. :doc:`gpu-tutorials/02-fused-softmax`
+3. :doc:`gpu-tutorials/06-fused-attention`
+4. :doc:`gpu-tutorials/04-low-memory-dropout`
 
 Compute Optimization
 ~~~~~~~~~~~~~~~~~~~~
 
-1. :doc:`concepts/execution-model`
-2. :doc:`tutorials/03-matrix-multiplication`
-3. :doc:`concepts/performance-optimization`
+1. :doc:`gpu-concepts/execution-model`
+2. :doc:`gpu-tutorials/03-matrix-multiplication`
+3. :doc:`gpu-concepts/performance-optimization`
 
 Backward Pass / Training
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. :doc:`tutorials/05-layer-norm`
-2. :doc:`tutorials/06-fused-attention` (backward)
+1. :doc:`gpu-tutorials/05-layer-norm`
+2. :doc:`gpu-tutorials/06-fused-attention` (backward)
 
 Advanced Techniques
 ~~~~~~~~~~~~~~~~~~~
 
-1. :doc:`tutorials/06-fused-attention` - Online algorithms
-2. :doc:`tutorials/04-low-memory-dropout` - Recomputation
-3. :doc:`tutorials/07-extern-functions` - External libraries
+1. :doc:`gpu-tutorials/06-fused-attention` - Online algorithms
+2. :doc:`gpu-tutorials/04-low-memory-dropout` - Recomputation
+3. :doc:`gpu-tutorials/07-extern-functions` - External libraries
 
 Learning Tips
 -------------
@@ -344,7 +344,7 @@ Choose Your Path
 
 Ready to start? Pick the path that matches your goals:
 
-* **Quick start?** → :doc:`tutorials/01-vector-add`
+* **Quick start?** → :doc:`gpu-tutorials/01-vector-add`
 * **Deep learning?** → Path 2 (Comprehensive)
 * **Transformers?** → Path 3 (Transformer Focus)
 * **Performance?** → Path 5 (Performance Engineering)
