@@ -1,7 +1,8 @@
-Triton GPU Programming Guide - Documentation
-============================================
+Fast Concurrent Programming Guide
+===================================
 
-This directory contains the Sphinx documentation for the Triton GPU Programming Guide.
+A comprehensive guide to concurrent and parallel programming, covering both CPU-based concurrency
+(threading, asyncio, multiprocessing) and GPU-based parallelism (Triton, CUDA).
 
 Building Locally
 ----------------
