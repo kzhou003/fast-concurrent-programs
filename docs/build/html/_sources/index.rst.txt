@@ -58,66 +58,66 @@ Getting Started
 Documentation Structure
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 0
    :caption: CPU Concurrency
 
-   cpu-concurrency/key_concepts
-   cpu-concurrency/hardware_parallelism
-   cpu-concurrency/threading_basics
-   cpu-concurrency/asyncio_event_loop
-   cpu-concurrency/asyncio_coroutine
-   cpu-concurrency/asyncio_and_futures
-   cpu-concurrency/asyncio_task_manipulation
-   cpu-concurrency/concurrent_futures_pooling
-   cpu-concurrency/queue_explained
-   cpu-concurrency/queue_internal_mechanics
-   cpu-concurrency/task_done_queue_explained
-   cpu-concurrency/rlock_explained
-   cpu-concurrency/semaphore_explained
-   cpu-concurrency/patterns_problems_mapping
+   Key Concepts <cpu-concurrency/key_concepts>
+   Hardware Parallelism <cpu-concurrency/hardware_parallelism>
+   Threading Basics <cpu-concurrency/threading_basics>
+   Asyncio Event Loop <cpu-concurrency/asyncio_event_loop>
+   Asyncio Coroutine <cpu-concurrency/asyncio_coroutine>
+   Asyncio and Futures <cpu-concurrency/asyncio_and_futures>
+   Asyncio Task Manipulation <cpu-concurrency/asyncio_task_manipulation>
+   Concurrent Futures Pooling <cpu-concurrency/concurrent_futures_pooling>
+   Queue Explained <cpu-concurrency/queue_explained>
+   Queue Internal Mechanics <cpu-concurrency/queue_internal_mechanics>
+   Task Done Queue Explained <cpu-concurrency/task_done_queue_explained>
+   RLock Explained <cpu-concurrency/rlock_explained>
+   Semaphore Explained <cpu-concurrency/semaphore_explained>
+   Patterns and Problems Mapping <cpu-concurrency/patterns_problems_mapping>
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 0
    :caption: GPU Concepts
 
-   gpu-concepts/gpu-fundamentals
-   gpu-concepts/memory-hierarchy
-   gpu-concepts/execution-model
-   gpu-concepts/performance-optimization
-   gpu-concepts/triton-concepts
+   GPU Fundamentals <gpu-concepts/gpu-fundamentals>
+   Memory Hierarchy <gpu-concepts/memory-hierarchy>
+   Execution Model <gpu-concepts/execution-model>
+   Performance Optimization <gpu-concepts/performance-optimization>
+   Triton Concepts <gpu-concepts/triton-concepts>
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 0
    :caption: GPU Tutorials
 
-   gpu-tutorials/01-vector-add
-   gpu-tutorials/02-fused-softmax
-   gpu-tutorials/03-matrix-multiplication
-   gpu-tutorials/04-low-memory-dropout
-   gpu-tutorials/05-layer-norm
-   gpu-tutorials/06-fused-attention
-   gpu-tutorials/07-extern-functions
-   gpu-tutorials/08-grouped-gemm
-   gpu-tutorials/09-persistent-matmul
-   gpu-tutorials/10-block-scaled-matmul
+   Vector Add <gpu-tutorials/01-vector-add>
+   Fused Softmax <gpu-tutorials/02-fused-softmax>
+   Matrix Multiplication <gpu-tutorials/03-matrix-multiplication>
+   Low Memory Dropout <gpu-tutorials/04-low-memory-dropout>
+   Layer Norm <gpu-tutorials/05-layer-norm>
+   Fused Attention <gpu-tutorials/06-fused-attention>
+   Extern Functions <gpu-tutorials/07-extern-functions>
+   Grouped GEMM <gpu-tutorials/08-grouped-gemm>
+   Persistent MatMul <gpu-tutorials/09-persistent-matmul>
+   Block Scaled MatMul <gpu-tutorials/10-block-scaled-matmul>
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 0
    :caption: Triton Compiler
 
-   triton-compiler/01-overview
-   triton-compiler/02-jit-decorator
-   triton-compiler/03-compilation-pipeline
-   triton-compiler/04-cuda-comparison
-   triton-compiler/05-mlir-concepts
+   Overview <triton-compiler/01-overview>
+   JIT Decorator <triton-compiler/02-jit-decorator>
+   Compilation Pipeline <triton-compiler/03-compilation-pipeline>
+   CUDA Comparison <triton-compiler/04-cuda-comparison>
+   MLIR Concepts <triton-compiler/05-mlir-concepts>
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 0
    :caption: Resources
 
-   learning-paths
-   troubleshooting
-   references
+   Learning Paths <learning-paths>
+   Troubleshooting <troubleshooting>
+   References <references>
 
 Quick Navigation
 

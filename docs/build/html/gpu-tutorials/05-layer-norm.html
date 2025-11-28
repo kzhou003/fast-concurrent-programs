@@ -368,7 +368,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#trade-offs-are-real">3. Trade-offs are Real</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#know-your-workload">4. Know Your Workload</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">GPU Concepts &amp; Fundamentals</span></p>
+<p class="caption" role="heading"><span class="caption-text">GPU Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/gpu-fundamentals.html">Key Differences: CPU vs GPU</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/gpu-fundamentals.html#streaming-multiprocessors-sms">Streaming Multiprocessors (SMs)</a></li>
@@ -454,7 +454,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/triton-concepts.html">Triton GPU Programming Concepts</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/triton-concepts.html">Triton Concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#introduction-to-triton">Introduction to Triton</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#vector-addition-example">Vector Addition Example</a></li>
 </ul>
@@ -526,13 +526,32 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#compiler-optimization-hints-tl-assume">Compiler Optimization Hints: <cite>tl.assume()</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#what-is-tl-assume">What is tl.assume()?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#why-assumptions-help-optimization">Why Assumptions Help Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#matrix-multiplication-example">Matrix Multiplication Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#when-to-use-tl-assume">When to Use <cite>tl.assume()</cite></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#dangerous-example-don-t-do-this">Dangerous Example: DON’T DO THIS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#related-functions-tl-static-assert">Related Functions: <cite>tl.static_assert()</cite></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#performance-impact-in-matrix-multiplication">Performance Impact in Matrix Multiplication</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#how-compiler-uses-assumptions">How Compiler Uses Assumptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#summary-tl-assume-guidelines">Summary: <cite>tl.assume()</cite> Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#comparison-with-other-optimization-techniques">Comparison with Other Optimization Techniques</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#summary">Summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#references">References</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">GPU Tutorials - Beginner Level</span></p>
-<ul>
+<p class="caption" role="heading"><span class="caption-text">GPU Tutorials</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="01-vector-add.html">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#spmd-single-program-multiple-data">SPMD (Single Program, Multiple Data)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-vector-add.html#program-id-and-block-processing">Program ID and Block Processing</a></li>
@@ -587,10 +606,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="02-fused-softmax.html#extensions">Extensions</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">GPU Tutorials - Intermediate Level</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="03-matrix-multiplication.html">Overview</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="03-matrix-multiplication.html">Matrix Multiplication</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#basic-algorithm">Basic Algorithm</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#why-it-s-hard-to-optimize">Why It’s Hard to Optimize</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#blocked-algorithm">Blocked Algorithm</a></li>
@@ -630,7 +646,7 @@
 <li class="toctree-l2"><a class="reference internal" href="03-matrix-multiplication.html#test-different-sizes">4. Test Different Sizes</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html">Overview</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="04-low-memory-dropout.html">Low Memory Dropout</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#purpose">Purpose</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#mathematical-definition">Mathematical Definition</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="04-low-memory-dropout.html#id1">}</a></li>
@@ -664,10 +680,7 @@
 <li class="toctree-l2"><a class="reference internal" href="04-low-memory-dropout.html#seed-generation-strategies">Seed Generation Strategies</a></li>
 </ul>
 </li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">GPU Tutorials - Advanced Level</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Layer Norm</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-formula">The Formula</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#step-by-step-math">Step-by-Step Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#why-layer-normalization">Why Layer Normalization?</a></li>
@@ -706,7 +719,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#performance">Performance</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="06-fused-attention.html">Overview</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="06-fused-attention.html">Fused Attention</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="06-fused-attention.html#standard-attention-formula">Standard Attention Formula</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06-fused-attention.html#step-by-step-computation">Step-by-Step Computation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06-fused-attention.html#the-memory-problem">The Memory Problem</a></li>
@@ -743,7 +756,7 @@
 <li class="toctree-l2"><a class="reference internal" href="06-fused-attention.html#flash-attention-3">Flash Attention 3</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html">Overview</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="07-extern-functions.html">Extern Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#nvidia-s-libdevice">NVIDIA’s libdevice</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#amd-s-device-libraries">AMD’s Device Libraries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-extern-functions.html#what-functions-are-available">What Functions Are Available?</a></li>
@@ -870,7 +883,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="10-block-scaled-matmul.html#summary">Summary</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Triton Compiler &amp; Internals</span></p>
+<p class="caption" role="heading"><span class="caption-text">Triton Compiler</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html">Key Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-1-python-ast-parsing">Stage 1: Python AST Parsing</a></li>
@@ -1002,9 +1015,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#why-mlir-matters-for-triton">Why MLIR Matters for Triton</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#the-big-picture">The Big Picture</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Resources &amp; Support</span></p>
+<p class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../learning-paths.html">By Topic</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../learning-paths.html">Learning Paths</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#memory-optimization">Memory Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#compute-optimization">Compute Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#backward-pass-training">Backward Pass / Training</a></li>
