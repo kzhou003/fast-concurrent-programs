@@ -39,9 +39,12 @@ else:
     result = 0
 ```
 
+**Solution**: Use predication instead of branching:
 
-    # Good (predication)
-    result = tl.where(x > 0, x * 2, 0)  # No branching!
+```python
+# Good (predication)
+result = tl.where(x > 0, x * 2, 0)  # No branching!
+```
 
 ## Occupancy
 
