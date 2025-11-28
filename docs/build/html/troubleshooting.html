@@ -454,6 +454,82 @@
 <li class="toctree-l2"><a class="reference internal" href="gpu-concepts/performance-optimization.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html">Triton GPU Programming Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#introduction-to-triton">Introduction to Triton</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#vector-addition-example">Vector Addition Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-kernel-launch-mechanism">The Kernel Launch Mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-grid-syntax-sugar-python-s-getitem">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#how-it-works">How It Works</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#implementation-details">Implementation Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-complete-flow">The Complete Flow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#grid-calculation-triton-cdiv">Grid Calculation: <cite>triton.cdiv()</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#purpose">Purpose</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#example-with-vector-addition">Example with Vector Addition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#why-ceiling-division">Why Ceiling Division?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#program-indexing-and-data-partitioning">Program Indexing and Data Partitioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-spmd-model">The SPMD Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#program-id-assignment">Program ID Assignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#index-calculation">Index Calculation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#data-access-pattern">Data Access Pattern</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#memory-load-and-store">Memory Load and Store</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#how-tl-program-id-works">How <cite>tl.program_id()</cite> Works</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#implementation-stack">Implementation Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#flow-diagram">Flow Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#kernel-execution-and-asynchronous-behavior">Kernel Execution and Asynchronous Behavior</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#is-kernel-launch-synchronous-or-asynchronous">Is Kernel Launch Synchronous or Asynchronous?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#manual-synchronization">Manual Synchronization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#implicit-synchronization">Implicit Synchronization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#why-asynchronous-by-default">Why Asynchronous by Default?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#advanced-topics">Advanced Topics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#multi-dimensional-grids">Multi-Dimensional Grids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#constexpr-parameters">Constexpr Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#kernel-caching">Kernel Caching</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#performance-considerations">Performance Considerations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#grid-size-selection">Grid Size Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#masking-overhead">Masking Overhead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#memory-coalescing">Memory Coalescing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#kernel-compilation-warmup-and-gpu-initialization">Kernel Compilation, Warmup, and GPU Initialization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#is-hip-detect-amd-gpu-backend">is_hip() - Detect AMD GPU Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#is-cdna-detect-amd-cdna-architecture">is_cdna() - Detect AMD CDNA Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#warmup-pre-compile-kernel-without-execution">warmup() - Pre-compile Kernel Without Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#init-handles-initialize-gpu-binary-handles">_init_handles() - Initialize GPU Binary Handles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#complete-workflow-example-fused-softmax">Complete Workflow Example: Fused Softmax</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#data-flow-diagram">Data Flow Diagram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#summary-table">Summary Table</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#references">References</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Tutorials - Beginner Level</span></p>
 <ul>

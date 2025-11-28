@@ -84,6 +84,7 @@ Documentation Structure
    gpu-concepts/memory-hierarchy
    gpu-concepts/execution-model
    gpu-concepts/performance-optimization
+   gpu-concepts/triton-concepts
 
 .. toctree::
    :maxdepth: 2
