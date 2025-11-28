@@ -19,10 +19,6 @@ make html
 
 This provides full navigation, proper formatting for tables, code blocks, and diagrams.
 
-#### Markdown Documentation
-For quick GitHub-based viewing without building:
-- [GPU Concepts](docs/markdown/gpu-concepts/) - Markdown versions for GitHub web viewing
-
 ---
 
 ### Documentation Structure
