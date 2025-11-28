@@ -58,7 +58,7 @@ Getting Started
 Documentation Structure
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: CPU Concurrency
 
    cpu-concurrency/key_concepts
@@ -77,7 +77,7 @@ Documentation Structure
    cpu-concurrency/patterns_problems_mapping
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: GPU Concepts
 
    gpu-concepts/gpu-fundamentals
@@ -87,7 +87,7 @@ Documentation Structure
    gpu-concepts/triton-concepts
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: GPU Tutorials
 
    gpu-tutorials/01-vector-add
@@ -102,7 +102,7 @@ Documentation Structure
    gpu-tutorials/10-block-scaled-matmul
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Triton Compiler
 
    triton-compiler/01-overview
@@ -112,7 +112,7 @@ Documentation Structure
    triton-compiler/05-mlir-concepts
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Resources
 
    learning-paths
