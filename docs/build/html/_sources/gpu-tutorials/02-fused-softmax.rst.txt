@@ -32,7 +32,6 @@ Naive PyTorch Implementation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-x_max = x.max(dim=1)[0]           # Read MN, write M
 z = x - x_max[:, None]             # Read MN+M, write MN
 numerator = torch.exp(z)           # Read MN, write MN
 denominator = numerator.sum(dim=1) # Read MN, write M
@@ -84,7 +83,6 @@ Block-Level Processing
 ~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-row_idx = tl.program_id(0)
 ::
 
 
@@ -97,7 +95,6 @@ Step 1: Load Row Into SRAM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-col_offsets = tl.arange(0, BLOCK_SIZE)
 input_ptrs = row_start*ptr + col_offsets
 mask = col_offsets < n_cols
 row = tl.load(input_ptrs, mask=mask, other=-float('inf'))
@@ -113,7 +110,6 @@ Step 2: Compute Max (Reduction)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-row_minus*max = row - tl.max(row, axis=0)
 ::
 
 
@@ -126,7 +122,6 @@ Step 3: Exponentiation
 ~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-numerator = tl.exp(row_minus*max)
 ::
 
 
@@ -139,7 +134,6 @@ Step 4: Compute Sum (Another Reduction)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-denominator = tl.sum(numerator, axis=0)
 ::
 
 
@@ -149,7 +143,6 @@ Step 5: Normalize and Write Back
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-softmax_output = numerator / denominator
 tl.store(output_ptrs, softmax_output, mask=mask)
 ::
 
@@ -178,7 +171,6 @@ GPU hardware is optimized for power-of-2 sizes:
 
 .. code-block:: python
 
-BLOCK_SIZE = triton.next_power*of_2(n_cols)
 ::
 
 
@@ -193,7 +185,6 @@ Number of Warps
 ~~~~~~~~~~~~~~~
 .. code-block:: python
 
-num_warps = 8
 ::
 
 
@@ -211,7 +202,6 @@ Number of Pipeline Stages
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-num_stages = 4 if SIZE_SMEM > 200000 else 2
 ::
 
 
@@ -227,7 +217,6 @@ Computing Occupancy
 ~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-occupancy = NUM_REGS // (n_regs * WARP_SIZE * num_warps)
 occupancy = min(occupancy, SIZE_SMEM // size_smem)
 num_programs = NUM_SM * occupancy
 ::
@@ -274,7 +263,6 @@ The Pattern
 ~~~~~~~~~~~
 .. code-block:: python
 
-for row_idx in tl.range(row_start, n_rows, row_step, num_stages=num_stages):
     # process row_idx
 ::
 
@@ -299,14 +287,12 @@ Why Subtract Max?
 ~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-row_minus*max = row - tl.max(row, axis=0)
 ::
 
 
 Without this, for large values:
 .. code-block:: python
 
-exp(1000) = overflow! (inf in float32)
 softmax([1000, 1001, 1002]) -> [nan, nan, nan]
 ::
 
@@ -314,7 +300,6 @@ softmax([1000, 1001, 1002]) -> [nan, nan, nan]
 With max subtraction:
 .. code-block:: python
 
-x = [1000, 1001, 1002]
 max_x = 1002
 x - max_x = [-2, -1, 0]
 exp([-2, -1, 0]) = [0.135, 0.368, 1.0]  # no overflow!
@@ -335,7 +320,6 @@ Padding with -inf
 ~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-row = tl.load(input_ptrs, mask=mask, other=-float('inf'))
 ::
 
 
@@ -379,7 +363,6 @@ Reduction Operations
 **Triton approach**:
 .. code-block:: python
 
-tl.max(row, axis=0)  # Finds max across row
 tl.sum(row, axis=0)  # Sums across row
 ::
 
@@ -417,7 +400,6 @@ If ``BLOCK_SIZE * sizeof(float32) > SRAM_SIZE``:
 ~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-numerator = tl.exp(row_minus*max)
 ::
 
 - Using ``float16`` can cause underflow
@@ -428,7 +410,6 @@ numerator = tl.exp(row_minus*max)
 ~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-mask = col_offsets < n_cols
 ::
 
 - Forgetting mask -> out-of-bounds access -> crash

@@ -32,7 +32,6 @@ Thread Divergence
     else:
         path_b()  # Other threads take this
 
-**Answer**: Both paths execute! (if any thread needs each path)
 
 * Threads that don't need a path are masked out
 * Wastes compute cycles

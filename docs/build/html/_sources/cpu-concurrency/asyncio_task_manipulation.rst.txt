@@ -5,7 +5,7 @@ Overview
 This script demonstrates how to run multiple asyncio tasks in parallel by executing three mathematical computations (factorial, fibonacci, binomial coefficient) concurrently.
 
 File Location
-``basics/09*asyncio_task*manipulation.py``
+``basics/09_asyncio_task_manipulation.py``
 
 Key Concepts
 
@@ -27,7 +27,6 @@ Factorial Computation
 ~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def factorial(number):
     fact = 1
     for i in range(2, number + 1):
         print(f'Asyncio.Task: Compute factorial({i})')
@@ -43,7 +42,6 @@ Fibonacci Computation
 ~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def fibonacci(number):
     a, b = 0, 1
     for i in range(number):
         print(f'Asyncio.Task: Compute fibonacci({i})')
@@ -59,7 +57,6 @@ Binomial Coefficient Computation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def binomial_coefficient(n, k):
     result = 1
     for i in range(1, k + 1):
         result = result * (n - i + 1) / i
@@ -75,7 +72,6 @@ Main Function
 ~~~~~~~~~~~~~
 .. code-block:: python
 
-async def main():
     task_list = [
         asyncio.create_task(factorial(10)),
         asyncio.create_task(fibonacci(10)),
@@ -151,7 +147,6 @@ Usage
 -----
 .. code-block:: bash
 
-python3 09*asyncio_task*manipulation.py
 ::
 
 

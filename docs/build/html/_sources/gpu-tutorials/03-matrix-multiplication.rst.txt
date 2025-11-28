@@ -23,7 +23,6 @@ Compute C = A x B where:
 
 .. code-block:: python
 
-for i in range(M):
     for j in range(N):
         C[i, j] = sum(A[i, k] * B[k, j] for k in range(K))
 ::
@@ -51,7 +50,6 @@ Instead of computing one element at a time, we compute **blocks** of C:
 
 .. code-block:: python
 
-Pseudocode for our kernel
 for m in range(0, M, BLOCK_M):           # Parallel on GPU
     for n in range(0, N, BLOCK_N):       # Parallel on GPU
         accumulator = zeros(BLOCK_M, BLOCK_N)
@@ -97,7 +95,6 @@ Understanding Strides
 For a row-major matrix A[M, K]:
 .. code-block:: python
 
-A[i, j] = *(A_ptr + i_stride*M + j_stride*K)
 ::
 
 
@@ -120,7 +117,6 @@ To get pointers to a block A[m:m+BLOCK_M, k:k+BLOCK_K]:
 
 .. code-block:: python
 
-offs_am = (pid_m * BLOCK_M + tl.arange(0, BLOCK_M)) % M
 offs_k = tl.arange(0, BLOCK_K)
 a_ptrs = a_ptr + offs_am[:, None]*stride_am + offs_k[None, :]*stride_ak
 ::
@@ -134,7 +130,6 @@ a_ptrs = a_ptr + offs_am[:, None]*stride_am + offs_k[None, :]*stride_ak
 **Example** (BLOCK_M=2, BLOCK_K=2, pid_m=0):
 .. code-block:: python
 
-offs_am = [0, 1]        # shape (2,)
 offs_k = [0, 1]          # shape (2,)
 
 offs_am[:, None] = [[0],   # shape (2, 1)
@@ -157,7 +152,6 @@ Advancing Pointers
 To move to next K block:
 .. code-block:: python
 
-a_ptrs += BLOCK_K * stride_ak
 b_ptrs += BLOCK_K * stride_bk
 ::
 
@@ -187,7 +181,6 @@ Grouped Ordering (Swizzling)
 Instead, process blocks in groups:
 .. code-block:: python
 
-num_pid*in_group = GROUP_SIZE*M * num_pid*n
 group_id = pid // num_pid*in_group
 first_pid*m = group_id * GROUP_SIZE*M
 group_size*m = min(num_pid*m - first_pid*m, GROUP_SIZE*M)
@@ -244,7 +237,6 @@ Triton's Auto-Tuner
 
 .. code-block:: python
 
-@triton.autotune(
     configs=get_autotune*config(),
     key=['M', 'N', 'K'],
 )
@@ -265,7 +257,6 @@ def matmul_kernel(...):
 **Example config**:
 .. code-block:: python
 
-triton.Config(
     {'BLOCK_SIZE*M': 128, 'BLOCK_SIZE*N': 256, 'BLOCK_SIZE*K': 64, 'GROUP_SIZE*M': 8},
     num_stages=3,
     num_warps=8
@@ -298,7 +289,6 @@ Step 1: Compute Program IDs
 
 .. code-block:: python
 
-pid = tl.program_id(axis=0)
 num_pid*m = tl.cdiv(M, BLOCK_SIZE*M)
 num_pid*n = tl.cdiv(N, BLOCK_SIZE*N)
 ::
@@ -311,7 +301,6 @@ Step 2: Initialize Pointers
 
 .. code-block:: python
 
-offs_am = (pid_m * BLOCK_SIZE*M + tl.arange(0, BLOCK_SIZE*M)) % M
 offs_bn = (pid_n * BLOCK_SIZE*N + tl.arange(0, BLOCK_SIZE*N)) % N
 offs_k = tl.arange(0, BLOCK_SIZE*K)
 
@@ -332,7 +321,6 @@ Step 3: Accumulation Loop
 
 .. code-block:: python
 
-accumulator = tl.zeros((BLOCK_SIZE*M, BLOCK_SIZE*N), dtype=tl.float32)
 
 for k in range(0, tl.cdiv(K, BLOCK_SIZE*K)):
     a = tl.load(a_ptrs, mask=offs_k[None, :] < K - k_BLOCK*SIZE_K, other=0.0)
@@ -355,7 +343,6 @@ Step 4: Apply Activation (Optional)
 
 .. code-block:: python
 
-if ACTIVATION == "leaky_relu":
     accumulator = leaky_relu(accumulator)
 c = accumulator.to(tl.float16)
 ::
@@ -368,7 +355,6 @@ Step 5: Store Result
 
 .. code-block:: python
 
-offs_cm = pid_m * BLOCK_SIZE*M + tl.arange(0, BLOCK_SIZE*M)
 offs_cn = pid_n * BLOCK_SIZE*N + tl.arange(0, BLOCK_SIZE*N)
 c_ptrs = c_ptr + stride_cm*offs_cm[:, None] + stride_cn*offs_cn[None, :]
 c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)
@@ -410,7 +396,6 @@ Triton and Tensor Cores
 
 .. code-block:: python
 
-accumulator = tl.dot(a, b, accumulator)
 ::
 
 
@@ -490,7 +475,6 @@ Software Pipelining
 
 .. code-block:: python
 
-num_stages = 3
 ::
 
 
@@ -524,7 +508,6 @@ Loop Unrolling
 Triton automatically unrolls the K loop when possible:
 .. code-block:: python
 
-for k in range(0, tl.cdiv(K, BLOCK_SIZE*K)):
     accumulator = tl.dot(a, b, accumulator)
 ::
 
@@ -532,7 +515,6 @@ for k in range(0, tl.cdiv(K, BLOCK_SIZE*K)):
 Becomes (if K/BLOCK_K = 4):
 .. code-block:: python
 
-accumulator = tl.dot(a0, b0, accumulator)
 accumulator = tl.dot(a1, b1, accumulator)
 accumulator = tl.dot(a2, b2, accumulator)
 accumulator = tl.dot(a3, b3, accumulator)
@@ -570,7 +552,6 @@ Common Pitfalls
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-assert a.is_contiguous(), "Matrix A must be contiguous"
 ::
 
 
@@ -582,7 +563,6 @@ Non-contiguous tensors have unexpected strides -> wrong pointer arithmetic -> in
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-a.stride(0), a.stride(1)  # Correct
 ::
 
 
@@ -592,7 +572,6 @@ Don't hardcode strides! Transposed matrices have different strides.
 ~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-offs_am = (...) % M  # Modulo for safety
 c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)  # Mask stores
 ::
 
@@ -603,7 +582,6 @@ Forgetting these -> out-of-bounds accesses -> crashes or wrong results.
 ~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-accumulator = tl.zeros((BLOCK_SIZE*M, BLOCK_SIZE*N), dtype=tl.float32)
 ::
 
 
@@ -617,7 +595,6 @@ Benchmarking Tips
 ~~~~~~~~~~
 .. code-block:: python
 
-triton.testing.do_bench(fn)  # Automatically does warm-up
 ::
 
 
@@ -627,7 +604,6 @@ First few kernel launches are slow (compilation, cache loading).
 ~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-perf = lambda ms: 2 * M * N * K * 1e-12 / (ms * 1e-3)
 ::
 
 
@@ -640,7 +616,6 @@ perf = lambda ms: 2 * M * N * K * 1e-12 / (ms * 1e-3)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-torch.matmul(a, b)  # Uses cuBLAS on NVIDIA, rocBLAS on AMD
 ::
 
 
@@ -650,7 +625,6 @@ These are **highly optimized** by vendors. Matching them is a huge achievement!
 ~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-x_vals=[128 * i for i in range(2, 33)]  # 256, 384, ..., 4096
 ::
 
 

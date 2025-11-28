@@ -47,7 +47,6 @@ However, they take **completely different paths** to get there:
            down
     CUBIN binary
 
-**Key insight:** Triton and CUDA C++ converge at PTX. From PTX onward, they use the **same NVIDIA tools** (ptxas).
 
 Traditional CUDA C++ Compilation
 
@@ -68,13 +67,11 @@ The NVCC Compiler
         }
     }
 
-**Compilation command:**
 
 .. code-block:: bash
 
     nvcc -arch=sm_80 add.cu -o add.o
 
-NVCC Compilation Stages
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``nvcc`` is actually a **driver** that orchestrates multiple tools:
@@ -86,7 +83,6 @@ NVCC Compilation Stages
        # Expand macros and includes
        nvcc -E add.cu > add.i
 
-2. **Frontend (cudafe++)** - Parse CUDA C++ syntax
 
    - Separates device code (``__global__``, ``__device__``) from host code
    - Generates CUDA C++ IR (proprietary format)
@@ -102,7 +98,6 @@ NVCC Compilation Stages
 
        ptxas -arch=sm_80 kernel.ptx -o kernel.cubin
 
-5. **Host compiler (g++/cl)** - Compiles CPU code
 
    - Links with CUDA runtime library (``cudart``)
 
@@ -120,7 +115,6 @@ NVCC Compilation Stages
             down
         add.exe/add.out
 
-PTX Assembly Output
 ~~~~~~~~~~~~~~~~~~~
 
 For our CUDA C++ kernel, ``nvcc`` generates PTX like this:
@@ -178,7 +172,6 @@ For our CUDA C++ kernel, ``nvcc`` generates PTX like this:
         ret;
     }
 
-Triton Compilation Revisited
 
 The LLVM Path
 ~~~~~~~~~~~~~
@@ -201,7 +194,6 @@ Triton uses **open-source LLVM** instead of NVIDIA's proprietary compiler.
         y = tl.load(y_ptr + offs, mask=mask)
         tl.store(out_ptr + offs, x + y, mask=mask)
 
-**Compilation stages:**
 
 1. **Python AST parsing** - Standard Python ``ast.parse()``
 2. **Code generation** - Python AST -> Triton IR (MLIR)
@@ -257,7 +249,6 @@ Before generating PTX, Triton produces LLVM IR:
     declare i32 @llvm.nvvm.read.ptx.sreg.tid.x()
     declare i32 @llvm.nvvm.read.ptx.sreg.ctaid.x()
 
-**LLVM NVPTX Backend** - Converts LLVM IR to PTX
 
 The NVPTX backend is part of open-source LLVM. It knows how to:
 
@@ -299,7 +290,6 @@ Triton's LLVM backend generates PTX that looks **very similar** to CUDA C++:
         // ... rest is similar ...
     }
 
-Convergence Point: PTX and CUBIN
 
 Same Tools, Same Artifacts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -316,7 +306,6 @@ Both CUDA C++ and Triton use **the same tool**:
     # Triton (called by Triton compiler)
     ptxas -arch=sm_80 triton_kernel.ptx -o triton_kernel.cubin
 
-``ptxas`` is NVIDIA's proprietary assembler, distributed with CUDA Toolkit.
 
 **CUBIN Binary Format**
 
@@ -337,7 +326,6 @@ The output ``.cubin`` files have the **identical format** regardless of source:
     # Inspect CUBIN from Triton
     cuobjdump -sass triton_kernel.cubin
 
-Both show the same SASS (low-level GPU assembly).
 
 Key Differences
 
@@ -382,7 +370,6 @@ Compilation Time
     - Cached: < 1ms (hash-based cache)
     - Always JIT: No separate compilation step
 
-Optimization Levels
 ~~~~~~~~~~~~~~~~~~~
 
 **CUDA C++ (nvcc):**
@@ -394,7 +381,6 @@ Optimization Levels
     nvcc -O2  # Default
     nvcc -O3  # Aggressive (default for device code)
 
-**Triton:**
 
 Triton doesn't expose optimization levels. Instead:
 
@@ -431,7 +417,6 @@ Can Triton and CUDA C++ Work Together?
        cuda_kernel.add(x, y, out)
        triton_add[grid](x, y, out)
 
-2. **Link compiled objects**
 
    Triton kernels compile to ``.cubin`` files that can be loaded by CUDA runtime:
 
@@ -447,7 +432,6 @@ Can Triton and CUDA C++ Work Together?
        // Launch Triton kernel from C++!
        cuLaunchKernel(kernel, grid_x, grid_y, grid_z, ...);
 
-3. **Share memory between kernels**
 
    Both use CUDA unified memory or device pointers:
 
@@ -462,7 +446,6 @@ Can Triton and CUDA C++ Work Together?
        # Use with Triton kernel
        triton_kernel[grid](x, ...)
 
-Why Triton Chose This Path
 
 Advantages of LLVM Backend
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -523,13 +506,11 @@ Example Directory Structures
 
     cuda_project/
 
-**Triton project:**
 
 .. code-block:: text
 
     triton_project/
 
-**Notice:** Triton caches **all intermediate representations**, while CUDA C++ only keeps final artifacts by default.
 
 Inspecting Compilation Artifacts
 
@@ -546,7 +527,6 @@ PTX Inspection
     # View PTX
     cat add.ptx
 
-**From Triton:**
 
 .. code-block:: bash
 
@@ -556,7 +536,6 @@ PTX Inspection
     # View PTX
     cat ~/.triton/cache/7a3f2e1b.../add_kernel.ptx
 
-CUBIN Inspection
 ~~~~~~~~~~~~~~~~
 
 **Disassemble CUBIN to SASS:**
@@ -566,13 +545,11 @@ CUBIN Inspection
     # Works for both CUDA and Triton!
     cuobjdump -sass kernel.cubin
 
-**View metadata:**
 
 .. code-block:: bash
 
     cuobjdump -elf kernel.cubin
 
-**Compare binaries:**
 
 .. code-block:: bash
 
@@ -583,7 +560,6 @@ CUBIN Inspection
     # Compare SASS
     diff <(cuobjdump -sass cuda.cubin) <(cuobjdump -sass triton.cubin)
 
-Often, the SASS is **nearly identical** for simple kernels!
 
 Summary
 -------
@@ -601,7 +577,6 @@ Compilation Paths Compared
                       up       up       up        up         up        up       up        up
                     Open    Open    Open     Open      Open    Shared  Propr.   Shared
 
-**Convergence:** Both paths produce **identical PTX and CUBIN formats**.
 
 Key Takeaways
 ~~~~~~~~~~~~~

@@ -96,7 +96,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#hyperthreading-limitations">Hyperthreading Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#checking-hyperthreading-status">Checking Hyperthreading Status</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#the-fundamental-constraint">The Fundamental Constraint</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#why-more-threads-more-speed">Why More Threads != More Speed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#optimal-worker-count">Optimal Worker Count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#real-world-example">Real-World Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#cpu-vs-gpu-different-design-philosophies">CPU vs GPU: Different Design Philosophies</a></li>
@@ -131,7 +130,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#use-cases">Use Cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#examples">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#usage">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html">Overview</a></li>
@@ -157,7 +155,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html">The Answer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html">Without task_done() - Can’t Track Completion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-can-track-completion">With task_done() - Can Track Completion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#internal-counter-system">Internal Counter System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#visual-timeline">Visual Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#code-simplified">Code (Simplified)</a></li>
@@ -169,9 +166,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#join">join()</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#scenario-1-producer-1-consumer">Scenario: 1 Producer, 1 Consumer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-1-put-increment-counter">Step 1: put() - Increment Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-2-get-item-removed-counter-unchanged">Step 2: get() - Item Removed, Counter Unchanged</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-3-task-done-decrement-counter">Step 3: task_done() - Decrement Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-4-join-wait-then-return">Step 4: join() - Wait, Then Return</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#diagram-tracking-one-task">Diagram: Tracking One Task</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#diagram-multiple-tasks">Diagram: Multiple Tasks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#counter">Counter</a></li>
@@ -187,7 +181,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-3-mark-done">Step 3: Mark Done</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#flow-diagram">Flow Diagram</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#without-task-done-problematic">Without task_done() - PROBLEMATIC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-correct">With task_done() - CORRECT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-1-verify-all-work-complete">Use Case 1: Verify All Work Complete</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-2-track-progress">Use Case 2: Track Progress</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-3-batch-processing">Use Case 3: Batch Processing</a></li>
@@ -201,22 +194,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#use-regular-lock-when">Use Regular Lock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#use-rlock-when">Use RLock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#regular-lock-would-deadlock">Regular Lock - Would Deadlock</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#rlock-no-deadlock">RLock - No Deadlock</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html">Key Concept</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#counting-semaphore-counter-1">1. Counting Semaphore (Counter &gt; 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#binary-semaphore-counter-0-or-1">2. Binary Semaphore (Counter = 0 or 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#execution-timeline">Execution Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#acquire"><code class="docutils literal notranslate"><span class="pre">acquire()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#counting-semaphore-3-spots-available">Counting Semaphore (3 spots available)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#binary-semaphore-producer-consumer">Binary Semaphore (Producer-Consumer)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#example-1-swimming-pool-with-limited-capacity">Example 1: Swimming Pool with Limited Capacity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#example-2-producer-consumer-like-the-code">Example 2: Producer-Consumer (Like the Code)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#limiting-concurrent-access">1. <strong>Limiting Concurrent Access</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#producer-consumer-communication">2. <strong>Producer-Consumer Communication</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#synchronizing-multiple-threads">3. <strong>Synchronizing Multiple Threads</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#lock-threading-lock">Lock (<code class="docutils literal notranslate"><span class="pre">threading.Lock</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#semaphore-counting">Semaphore (Counting)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#semaphore-binary-used-as-signal">Semaphore (Binary - Used as Signal)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html">What is the GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#why-does-python-have-a-gil">Why Does Python Have a GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-the-gil-works">How the GIL Works</a></li>
@@ -236,7 +224,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-the-os-helps">How the OS Helps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#performance-comparison">Performance Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#why-not-multiprocessing-for-i-o">Why Not Multiprocessing for I/O?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#threading-trade-offs">Threading Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-problem-with-threading-overhead">The Problem with Threading: Overhead</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-cooperative-multitasking">Asyncio: Cooperative Multitasking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-asyncio-works">How Asyncio Works</a></li>
@@ -244,11 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-vs-threading-detailed-comparison">Asyncio vs Threading: Detailed Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#performance-characteristics">Performance Characteristics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#when-asyncio-shines">When Asyncio Shines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-trade-offs">Asyncio Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#cpu-bound-with-threading-the-gil-dance">CPU-bound with Threading: The GIL Dance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#cpu-bound-with-multiprocessing-true-parallel">CPU-bound with Multiprocessing: True Parallel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#i-o-bound-with-threading-gil-released">I/O-bound with Threading: GIL Released</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#i-o-bound-with-asyncio-event-loop-magic">I/O-bound with Asyncio: Event Loop Magic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-cpu-bound-task-computing-pi">Benchmark: CPU-bound Task (Computing pi)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-i-o-bound-task-web-requests">Benchmark: I/O-bound Task (Web Requests)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-mixed-workload">Benchmark: Mixed Workload</a></li>
@@ -256,7 +239,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#code-templates">Code Templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-gil-controls-everything">1. The GIL Controls Everything</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#resource-usage-matters">2. Resource Usage Matters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#trade-offs-are-real">3. Trade-offs are Real</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#know-your-workload">4. Know Your Workload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Concepts</span></p>
@@ -343,8 +325,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-2-code-generation-ttir">Stage 2: Code Generation (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-3-triton-gpu-ir-ttgir">Stage 3: Triton GPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-4-llvm-ir">Stage 4: LLVM IR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-5-ptx-amdgcn">Stage 5: PTX / AMDGCN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-6-binary-cubin-hsaco">Stage 6: Binary (CUBIN / HSACO)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#block-based-programming-model">Block-based Programming Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#jit-compilation">JIT Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#mlir-infrastructure">MLIR Infrastructure</a></li>
@@ -355,20 +335,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/02-jit-decorator.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html">CodeGenerator Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ast-visitor-pattern">AST Visitor Pattern</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#triton-language-primitives">Triton Language Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#type-inference">Type Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#example-ttir-output">Example TTIR Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#compilation-orchestration">Compilation Orchestration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttir-ttgir-transformation">TTIR -&gt; TTGIR Transformation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttgir-llvm-ir">TTGIR -&gt; LLVM IR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#llvm-ir-ptx">LLVM IR -&gt; PTX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ptx-cubin">PTX -&gt; CUBIN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-key-components">Cache Key Components</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-directory-structure">Cache Directory Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-lookup">Cache Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html">The NVCC Compiler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#nvcc-compilation-stages">NVCC Compilation Stages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-assembly-output">PTX Assembly Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#the-llvm-path">The LLVM Path</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#llvm-ir-stage">LLVM IR Stage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-generated-by-triton">PTX Generated by Triton</a></li>
@@ -376,7 +349,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#source-language">Source Language</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compiler-stack">Compiler Stack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-time">Compilation Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#optimization-levels">Optimization Levels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#can-triton-and-cuda-c-work-together">Can Triton and CUDA C++ Work Together?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#advantages-of-llvm-backend">Advantages of LLVM Backend</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#why-not-use-nvcc">Why Not Use NVCC?</a></li>
@@ -384,27 +356,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#file-types">File Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#example-directory-structures">Example Directory Structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-inspection">PTX Inspection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#cubin-inspection">CUBIN Inspection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-paths-compared">Compilation Paths Compared</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#key-takeaways">Key Takeaways</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html">Traditional Compiler Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#example-matrix-multiplication">Example: Matrix Multiplication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#mlir-philosophy">MLIR Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#dialects">1. Dialects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#operations">2. Operations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#regions-and-blocks">3. Regions and Blocks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#types">4. Types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#attributes">5. Attributes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#passes">6. Passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#why-triton-uses-mlir">Why Triton Uses MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#triton-s-mlir-dialects">Triton’s MLIR Dialects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#python-source">Python Source</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-1-triton-ir-ttir">Stage 1: Triton IR (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-2-tritongpu-ir-ttgir">Stage 2: TritonGPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-3-llvm-dialect">Stage 3: LLVM Dialect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-4-llvm-ir-actual">Stage 4: LLVM IR (Actual)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#command-line-tools">Command-Line Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tablegen-for-defining-operations">TableGen for Defining Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#debugging-mlir">Debugging MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#official-documentation">Official Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tutorials">Tutorials</a></li>
@@ -512,8 +476,7 @@
 <h2>What Functions Are Available?<a class="headerlink" href="#what-functions-are-available" title="Link to this heading"></a></h2>
 <p><strong>Examples from libdevice</strong>:
 .. code-block:: c</p>
-<p>double __nv*asin(double)      // Arc sine
-float  __nv*asinf(float)       // Arc sine (single precision)
+<p>float  __nv*asinf(float)       // Arc sine (single precision)
 double __nv*j0(double)         // Bessel function J0
 float  __nv*erfcinvf(float)    // Inverse complementary error function
 double __nv*tgamma(double)     // Gamma function</p>
@@ -526,8 +489,7 @@ double __nv*tgamma(double)     // Gamma function</p>
 <h2>Triton Built-in Math<a class="headerlink" href="#triton-built-in-math" title="Link to this heading"></a></h2>
 <p>Triton provides common functions:
 .. code-block:: python</p>
-<p>tl.exp(x)    # Exponential
-tl.log(x)    # Natural logarithm
+<p>tl.log(x)    # Natural logarithm
 tl.sin(x)    # Sine
 tl.cos(x)    # Cosine
 tl.sqrt(x)   # Square root
@@ -538,8 +500,7 @@ tl.abs(x)    # Absolute value</p>
 <h2>When You Need More<a class="headerlink" href="#when-you-need-more" title="Link to this heading"></a></h2>
 <p>For specialized functions:
 .. code-block:: python</p>
-<p>asin(x)      # Arc sine - NOT in Triton intrinsics!
-bessel_j0(x) # Bessel function - NOT available!
+<p>bessel_j0(x) # Bessel function - NOT available!
 erf(x)       # Error function - need libdevice
 gamma(x)     # Gamma function - need libdevice</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Options</span><span class="o">**</span><span class="p">:</span>
@@ -557,7 +518,6 @@ gamma(x)     # Gamma function - need libdevice</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from triton.language.extra import libdevice</p>
 <p>&#64;triton.jit
 def asin_kernel(x_ptr, y_ptr, n_elements, BLOCK_SIZE: tl.constexpr):</p>
 <blockquote>
@@ -583,8 +543,7 @@ tl.store(y_ptr + offsets, y, mask=mask)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>import triton
-from pathlib import Path</p>
+<p>from pathlib import Path</p>
 <p>Find libdevice in Triton installation
 triton_dir = Path(triton.**file**).parent
 libdir = triton_dir / ‘backends/nvidia/lib’
@@ -614,19 +573,13 @@ asin_kernel`grid &lt;x, y, n_elements, BLOCK_SIZE=1024, extern_libs=extern_libs&
 <section id="type-dispatch">
 <h2>Type Dispatch<a class="headerlink" href="#type-dispatch" title="Link to this heading"></a></h2>
 <p>Triton’s <code class="docutils literal notranslate"><span class="pre">libdevice.asin</span></code> is a wrapper:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">tl</span><span class="o">.</span><span class="n">float32</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">__nv</span><span class="o">*</span><span class="n">asinf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Single precision</span>
+<span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">tl</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">__nv</span><span class="o">*</span><span class="n">asin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>   <span class="c1"># Double precision</span>
+<span class="c1"># ... etc for other types</span>
 </pre></div>
 </div>
-<dl>
-<dt>def asin(x):</dt><dd><dl class="simple">
-<dt>if x.dtype == tl.float32:</dt><dd><p>return __nv*asinf(x)  # Single precision</p>
-</dd>
-<dt>elif x.dtype == tl.float64:</dt><dd><p>return __nv*asin(x)   # Double precision</p>
-</dd>
-</dl>
-<p># … etc for other types</p>
-</dd>
-</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>**Benefit**: You write ``libdevice.asin(x)``, Triton picks the right implementation!
 </pre></div>
 </div>
@@ -645,7 +598,6 @@ asin_kernel`grid &lt;x, y, n_elements, BLOCK_SIZE=1024, extern_libs=extern_libs&
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from triton.language.extra import libdevice</p>
 <p>Trigonometric
 libdevice.sin(x)
 libdevice.cos(x)
@@ -686,28 +638,25 @@ Range: [-pi/2, pi/2]</p>
 <h2>Why Use libdevice?<a class="headerlink" href="#why-use-libdevice" title="Link to this heading"></a></h2>
 <p><strong>Implementing asin yourself</strong>:
 .. code-block:: python</p>
-<dl class="simple">
-<dt>def asin_approx(x):</dt><dd><p># Use Taylor series or other approximation
+<blockquote>
+<div><p># Use Taylor series or other approximation
 # Need to handle edge cases (x near +/-1)
 # Accuracy vs performance trade-off
 # Lots of potential bugs!</p>
-</dd>
-</dl>
+</div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Using</span> <span class="n">libdevice</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>y = libdevice.asin(x)  # Done! Optimized, accurate, tested</p>
 </section>
 <section id="full-example">
 <h2>Full Example<a class="headerlink" href="#full-example" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>import torch
-import triton
+<p>import triton
 import triton.language as tl
 from triton.language.extra import libdevice</p>
 <p>&#64;triton.jit
@@ -758,8 +707,7 @@ print(f’Max difference: {max_diff}’)  # Should be ~1e-7 (float precision)</p
 <h2>When to Use vs Triton Intrinsics<a class="headerlink" href="#when-to-use-vs-triton-intrinsics" title="Link to this heading"></a></h2>
 <p><strong>Use Triton intrinsics when available</strong>:
 .. code-block:: python</p>
-<p>tl.exp(x)   # Prefer this over libdevice.exp
-tl.sin(x)   # Prefer this over libdevice.sin</p>
+<p>tl.sin(x)   # Prefer this over libdevice.sin</p>
 <p>Triton intrinsics may have special optimizations.</p>
 <p><strong>Use libdevice for</strong>:
 - Functions not in Triton (asin, bessel, erf, etc.)
@@ -770,8 +718,7 @@ tl.sin(x)   # Prefer this over libdevice.sin</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from pathlib import Path
-import triton</p>
+<p>import triton</p>
 <dl>
 <dt>if is_hip():</dt><dd><p>triton_dir = Path(triton.**file**).parent
 libdir = triton_dir / ‘backends/amd/lib’</p>
@@ -804,8 +751,7 @@ libdir = triton_dir / ‘backends/amd/lib’</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>libdir = Path(triton.__file**).parent / ‘backends/nvidia/lib’
-print(libdir.exists())
+<p>print(libdir.exists())
 print(list(libdir.glob(’<a href="#id1"><span class="problematic" id="id2">*</span></a>.bc’)))</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="mf">2.</span> <span class="n">Undefined</span> <span class="n">Symbol</span><span class="o">**</span>
 </pre></div>
@@ -822,15 +768,13 @@ print(list(libdir.glob(’<a href="#id1"><span class="problematic" id="id2">*</s
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>x = x.to(tl.float32)  # Explicitly cast if needed</p>
 </section>
 <section id="verifying-libraries">
 <h2>Verifying Libraries<a class="headerlink" href="#verifying-libraries" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from pathlib import Path
-import triton</p>
+<p>import triton</p>
 <p>triton_dir = Path(triton.__file**).parent</p>
 <section id="nvidia">
 <h3>NVIDIA<a class="headerlink" href="#nvidia" title="Link to this heading"></a></h3>
@@ -849,48 +793,40 @@ print(f’AMD ocml: {amd_lib.exists()}’)</p>
 <p>You can link your own LLVM bitcode:</p>
 <p><strong>1. Write CUDA device function</strong>:
 .. code-block:: cuda</p>
-<p>// my_func.cu
-extern “C” __device** float my_special*func(float x) {</p>
-<blockquote>
-<div><p>return x * x + 2.0f * x + 1.0f;</p>
-</div></blockquote>
+<dl class="simple">
+<dt>extern “C” __device** float my_special*func(float x) {</dt><dd><p>return x * x + 2.0f * x + 1.0f;</p>
+</dd>
+</dl>
 <p><strong>2. Compile to bitcode</strong>:
 .. code-block:: bash</p>
-<p>clang++ –cuda-device-only -emit-llvm -c my_func.cu -o my_func.bc</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="mf">3.</span> <span class="n">Link</span> <span class="ow">in</span> <span class="n">Triton</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>extern_libs = {‘my_lib’: ‘/path/to/my_func.bc’}
-my_kernel`grid &lt;…, extern_libs=extern_libs&gt;`_</p>
+<p>my_kernel`grid &lt;…, extern_libs=extern_libs&gt;`_</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="mf">4.</span> <span class="n">Declare</span> <span class="ow">in</span> <span class="n">Triton</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>&#64;triton.jit
-def my_kernel(…):</p>
-<blockquote>
-<div><p># Declare external function
+<dl>
+<dt>def my_kernel(…):</dt><dd><p># Declare external function
 my_special*func = tl.extern_func(‘my_special*func’, tl.float32, [tl.float32])</p>
 <p># Use it
 y = my_special*func(x)</p>
-</div></blockquote>
+</dd>
+</dl>
 </section>
 <section id="mixing-multiple-external-libraries">
 <h2>Mixing Multiple External Libraries<a class="headerlink" href="#mixing-multiple-external-libraries" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;libdevice&#39;</span><span class="p">:</span> <span class="s1">&#39;/path/to/libdevice.10.bc&#39;</span><span class="p">,</span>
+<span class="s1">&#39;my_lib&#39;</span><span class="p">:</span> <span class="s1">&#39;/path/to/my_func.bc&#39;</span><span class="p">,</span>
+<span class="s1">&#39;another_lib&#39;</span><span class="p">:</span> <span class="s1">&#39;/path/to/another.bc&#39;</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>extern_libs = {</dt><dd><p>‘libdevice’: ‘/path/to/libdevice.10.bc’,
-‘my_lib’: ‘/path/to/my_func.bc’,
-‘another_lib’: ‘/path/to/another.bc’</p>
-</dd>
-</dl>
 <p>}</p>
 <p>my_kernel`grid &lt;…, extern_libs=extern_libs&gt;`_</p>
 <p>All libraries are linked together during compilation.</p>
@@ -898,31 +834,22 @@ y = my_special*func(x)</p>
 </section>
 <section id="nvidia-vs-amd">
 <h2>NVIDIA vs AMD<a class="headerlink" href="#nvidia-vs-amd" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">triton_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">triton</span><span class="o">.**</span><span class="n">file</span><span class="o">**</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="k">if</span> <span class="n">is_cuda</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;libdevice&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">triton_dir</span> <span class="o">/</span> <span class="s1">&#39;backends/nvidia/lib/libdevice.10.bc&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="k">elif</span> <span class="n">is_hip</span><span class="p">():</span>
+    <span class="n">libdir</span> <span class="o">=</span> <span class="n">triton_dir</span> <span class="o">/</span> <span class="s1">&#39;backends/amd/lib&#39;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;ocml&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">libdir</span> <span class="o">/</span> <span class="s1">&#39;ocml.bc&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ockl&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">libdir</span> <span class="o">/</span> <span class="s1">&#39;ockl.bc&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">{}</span>
 </pre></div>
 </div>
-<dl>
-<dt>def get_extern*libs():</dt><dd><p>triton_dir = Path(triton.**file**).parent</p>
-<dl>
-<dt>if is_cuda():</dt><dd><dl class="simple">
-<dt>return {</dt><dd><p>‘libdevice’: str(triton_dir / ‘backends/nvidia/lib/libdevice.10.bc’)</p>
-</dd>
-</dl>
-<p>}</p>
-</dd>
-<dt>elif is_hip():</dt><dd><p>libdir = triton_dir / ‘backends/amd/lib’
-return {</p>
-<blockquote>
-<div><p>‘ocml’: str(libdir / ‘ocml.bc’),
-‘ockl’: str(libdir / ‘ockl.bc’)</p>
-</div></blockquote>
-<p>}</p>
-</dd>
-<dt>else:</dt><dd><p>return {}</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <p>extern_libs = get_extern*libs()
 kernel`grid &lt;…, extern_libs=extern_libs&gt;`_</p>
 </section>
@@ -939,7 +866,6 @@ kernel`grid &lt;…, extern_libs=extern_libs&gt;`_</p>
 <div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>#include &lt;math_functions.h&gt;</p>
 <dl>
 <dt>__global** void asin_kernel(float* x, float* y, int n) {</dt><dd><p>int i = blockIdx.x * blockDim.x + threadIdx.x;
 if (i &lt; n) {</p>
@@ -960,7 +886,6 @@ if (i &lt; n) {</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from triton.language.extra import libdevice</p>
 <p>&#64;triton.jit
 def asin_kernel(x_ptr, y_ptr, n_elements, BLOCK_SIZE: tl.constexpr):</p>
 <blockquote>

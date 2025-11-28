@@ -96,7 +96,6 @@
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#hyperthreading-limitations">Hyperthreading Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#checking-hyperthreading-status">Checking Hyperthreading Status</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#the-fundamental-constraint">The Fundamental Constraint</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#why-more-threads-more-speed">Why More Threads != More Speed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#optimal-worker-count">Optimal Worker Count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#real-world-example">Real-World Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#cpu-vs-gpu-different-design-philosophies">CPU vs GPU: Different Design Philosophies</a></li>
@@ -131,7 +130,6 @@
 <li class="toctree-l1"><a class="reference internal" href="asyncio_coroutine.html#use-cases">Use Cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asyncio_and_futures.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asyncio_and_futures.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="asyncio_and_futures.html#examples">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asyncio_task_manipulation.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asyncio_task_manipulation.html#usage">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="concurrent_futures_pooling.html">Overview</a></li>
@@ -157,7 +155,6 @@
 <li class="toctree-l1"><a class="reference internal" href="queue_internal_mechanics.html">The Answer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="queue_internal_mechanics.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html">Without task_done() - Can’t Track Completion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#with-task-done-can-track-completion">With task_done() - Can Track Completion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#internal-counter-system">Internal Counter System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#visual-timeline">Visual Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#code-simplified">Code (Simplified)</a></li>
@@ -169,9 +166,6 @@
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#join">join()</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#scenario-1-producer-1-consumer">Scenario: 1 Producer, 1 Consumer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#step-1-put-increment-counter">Step 1: put() - Increment Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#step-2-get-item-removed-counter-unchanged">Step 2: get() - Item Removed, Counter Unchanged</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#step-3-task-done-decrement-counter">Step 3: task_done() - Decrement Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#step-4-join-wait-then-return">Step 4: join() - Wait, Then Return</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#diagram-tracking-one-task">Diagram: Tracking One Task</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#diagram-multiple-tasks">Diagram: Multiple Tasks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#counter">Counter</a></li>
@@ -187,7 +181,6 @@
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#step-3-mark-done">Step 3: Mark Done</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#flow-diagram">Flow Diagram</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#without-task-done-problematic">Without task_done() - PROBLEMATIC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#with-task-done-correct">With task_done() - CORRECT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#use-case-1-verify-all-work-complete">Use Case 1: Verify All Work Complete</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#use-case-2-track-progress">Use Case 2: Track Progress</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_done_queue_explained.html#use-case-3-batch-processing">Use Case 3: Batch Processing</a></li>
@@ -201,22 +194,17 @@
 <li class="toctree-l1"><a class="reference internal" href="rlock_explained.html#use-regular-lock-when">Use Regular Lock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rlock_explained.html#use-rlock-when">Use RLock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rlock_explained.html#regular-lock-would-deadlock">Regular Lock - Would Deadlock</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rlock_explained.html#rlock-no-deadlock">RLock - No Deadlock</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html">Key Concept</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#counting-semaphore-counter-1">1. Counting Semaphore (Counter &gt; 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#binary-semaphore-counter-0-or-1">2. Binary Semaphore (Counter = 0 or 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#execution-timeline">Execution Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#acquire"><code class="docutils literal notranslate"><span class="pre">acquire()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#counting-semaphore-3-spots-available">Counting Semaphore (3 spots available)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#binary-semaphore-producer-consumer">Binary Semaphore (Producer-Consumer)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#example-1-swimming-pool-with-limited-capacity">Example 1: Swimming Pool with Limited Capacity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#example-2-producer-consumer-like-the-code">Example 2: Producer-Consumer (Like the Code)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#limiting-concurrent-access">1. <strong>Limiting Concurrent Access</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#producer-consumer-communication">2. <strong>Producer-Consumer Communication</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#synchronizing-multiple-threads">3. <strong>Synchronizing Multiple Threads</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#lock-threading-lock">Lock (<code class="docutils literal notranslate"><span class="pre">threading.Lock</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#semaphore-counting">Semaphore (Counting)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#semaphore-binary-used-as-signal">Semaphore (Binary - Used as Signal)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">What is the GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#why-does-python-have-a-gil">Why Does Python Have a GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#how-the-gil-works">How the GIL Works</a></li>
@@ -236,7 +224,6 @@
 <li class="toctree-l1"><a class="reference internal" href="#how-the-os-helps">How the OS Helps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#performance-comparison">Performance Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#why-not-multiprocessing-for-i-o">Why Not Multiprocessing for I/O?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#threading-trade-offs">Threading Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#the-problem-with-threading-overhead">The Problem with Threading: Overhead</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#asyncio-cooperative-multitasking">Asyncio: Cooperative Multitasking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#how-asyncio-works">How Asyncio Works</a></li>
@@ -244,11 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="#asyncio-vs-threading-detailed-comparison">Asyncio vs Threading: Detailed Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#performance-characteristics">Performance Characteristics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#when-asyncio-shines">When Asyncio Shines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#asyncio-trade-offs">Asyncio Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#cpu-bound-with-threading-the-gil-dance">CPU-bound with Threading: The GIL Dance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#cpu-bound-with-multiprocessing-true-parallel">CPU-bound with Multiprocessing: True Parallel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#i-o-bound-with-threading-gil-released">I/O-bound with Threading: GIL Released</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#i-o-bound-with-asyncio-event-loop-magic">I/O-bound with Asyncio: Event Loop Magic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#benchmark-cpu-bound-task-computing-pi">Benchmark: CPU-bound Task (Computing pi)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#benchmark-i-o-bound-task-web-requests">Benchmark: I/O-bound Task (Web Requests)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#benchmark-mixed-workload">Benchmark: Mixed Workload</a></li>
@@ -256,7 +239,6 @@
 <li class="toctree-l1"><a class="reference internal" href="#code-templates">Code Templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#the-gil-controls-everything">1. The GIL Controls Everything</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#resource-usage-matters">2. Resource Usage Matters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#trade-offs-are-real">3. Trade-offs are Real</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#know-your-workload">4. Know Your Workload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Concepts</span></p>
@@ -343,8 +325,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-2-code-generation-ttir">Stage 2: Code Generation (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-3-triton-gpu-ir-ttgir">Stage 3: Triton GPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-4-llvm-ir">Stage 4: LLVM IR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-5-ptx-amdgcn">Stage 5: PTX / AMDGCN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-6-binary-cubin-hsaco">Stage 6: Binary (CUBIN / HSACO)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#block-based-programming-model">Block-based Programming Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#jit-compilation">JIT Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#mlir-infrastructure">MLIR Infrastructure</a></li>
@@ -355,20 +335,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/02-jit-decorator.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html">CodeGenerator Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ast-visitor-pattern">AST Visitor Pattern</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#triton-language-primitives">Triton Language Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#type-inference">Type Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#example-ttir-output">Example TTIR Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#compilation-orchestration">Compilation Orchestration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttir-ttgir-transformation">TTIR -&gt; TTGIR Transformation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttgir-llvm-ir">TTGIR -&gt; LLVM IR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#llvm-ir-ptx">LLVM IR -&gt; PTX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ptx-cubin">PTX -&gt; CUBIN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-key-components">Cache Key Components</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-directory-structure">Cache Directory Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-lookup">Cache Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html">The NVCC Compiler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#nvcc-compilation-stages">NVCC Compilation Stages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-assembly-output">PTX Assembly Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#the-llvm-path">The LLVM Path</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#llvm-ir-stage">LLVM IR Stage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-generated-by-triton">PTX Generated by Triton</a></li>
@@ -376,7 +349,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#source-language">Source Language</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compiler-stack">Compiler Stack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-time">Compilation Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#optimization-levels">Optimization Levels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#can-triton-and-cuda-c-work-together">Can Triton and CUDA C++ Work Together?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#advantages-of-llvm-backend">Advantages of LLVM Backend</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#why-not-use-nvcc">Why Not Use NVCC?</a></li>
@@ -384,27 +356,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#file-types">File Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#example-directory-structures">Example Directory Structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-inspection">PTX Inspection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#cubin-inspection">CUBIN Inspection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-paths-compared">Compilation Paths Compared</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#key-takeaways">Key Takeaways</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html">Traditional Compiler Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#example-matrix-multiplication">Example: Matrix Multiplication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#mlir-philosophy">MLIR Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#dialects">1. Dialects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#operations">2. Operations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#regions-and-blocks">3. Regions and Blocks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#types">4. Types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#attributes">5. Attributes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#passes">6. Passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#why-triton-uses-mlir">Why Triton Uses MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#triton-s-mlir-dialects">Triton’s MLIR Dialects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#python-source">Python Source</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-1-triton-ir-ttir">Stage 1: Triton IR (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-2-tritongpu-ir-ttgir">Stage 2: TritonGPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-3-llvm-dialect">Stage 3: LLVM Dialect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-4-llvm-ir-actual">Stage 4: LLVM IR (Actual)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#command-line-tools">Command-Line Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tablegen-for-defining-operations">TableGen for Defining Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#debugging-mlir">Debugging MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#official-documentation">Official Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tutorials">Tutorials</a></li>
@@ -514,37 +478,31 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Conceptual representation of GIL behavior</p>
 <dl class="simple">
 <dt>Thread 1: [Acquire GIL] -&gt; Execute Python Code -&gt; [Release GIL]</dt><dd><p>down</p>
 </dd>
 </dl>
 <p>Thread 2:                    [Waiting…]  -&gt; [Acquire GIL] -&gt; Execute
 .. code-block:: text</p>
-<p><strong>Key Point</strong>: Only ONE thread can execute Python bytecode at a time, even on a multi-core CPU.</p>
 </section>
 <section id="gil-behavior-with-different-operations">
 <h1>GIL Behavior with Different Operations<a class="headerlink" href="#gil-behavior-with-different-operations" title="Link to this heading"></a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>CPU-bound operation
-def cpu_intensive():</p>
-<blockquote>
-<div><p>total = 0
+<dl>
+<dt>def cpu_intensive():</dt><dd><p>total = 0
 for i in range(10*000*000):</p>
 <blockquote>
 <div><p>total += i</p>
 </div></blockquote>
 <p>return total</p>
-</div></blockquote>
+</dd>
+</dl>
 <p>Thread 1 acquires GIL -&gt; executes -&gt; releases after ~100 bytecodes -&gt; repeat
 Thread 2 waits -&gt; acquires GIL -&gt; executes -&gt; releases -&gt; repeat
 Result: Threads take TURNS, no parallel execution
 .. code-block:: text</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 <p>I/O-bound operation
 def io_intensive():</p>
 <blockquote>
@@ -628,19 +586,15 @@ Bottleneck: Waiting for external resources</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p><strong>I/O-bound</strong> (Ordering pizza):
-.. code-block:: text</p>
-<dl class="simple">
-<dt>You: Call pizza place -&gt; Wait 30 min -&gt; Receive pizza</dt><dd><p>+-[&gt;] Phone call: 1 minute (active)
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>+-[&gt;] Phone call: 1 minute (active)
 +-[&gt;] Waiting: 29 minutes (idle - can do other things!)
 +-[&gt;] Receive: 1 minute (active)
-+-[&gt;] Limited by pizza shop’s speed, not yours</p>
-</dd>
-</dl>
++-[&gt;] Limited by pizza shop&#39;s speed, not yours
+</pre></div>
+</div>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>Why Multiprocessing for CPU-bound</p>
 </section>
 <section id="the-problem-with-threading-for-cpu-bound">
@@ -648,8 +602,7 @@ Bottleneck: Waiting for external resources</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>CPU-intensive task with threading
-import threading
+<p>import threading
 import time</p>
 <dl class="simple">
 <dt>def cpu_work():</dt><dd><p>total = sum(i_i for i in range(10*000*000))
@@ -688,8 +641,7 @@ Time:   ========================================================================
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>CPU-intensive task with multiprocessing
-from concurrent.futures import ProcessPoolExecutor
+<p>from concurrent.futures import ProcessPoolExecutor
 import time</p>
 <dl class="simple">
 <dt>def cpu_work():</dt><dd><p>return sum(i_i for i in range(10*000*000))</p>
@@ -729,9 +681,6 @@ Time:                ==================================================[&gt;]</p
 CPU Core 1           CPU Core 2           CPU Core 3
 </pre></div>
 </div>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 </section>
 <section id="trade-offs-of-multiprocessing">
 <h1>Trade-offs of Multiprocessing<a class="headerlink" href="#trade-offs-of-multiprocessing" title="Link to this heading"></a></h1>
@@ -751,12 +700,10 @@ CPU Core 1           CPU Core 2           CPU Core 3
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Memory cost per process: ~10-50 MB
-Speedup for CPU-bound tasks: 2-8x (depending on cores)</p>
+<p>Speedup for CPU-bound tasks: 2-8x (depending on cores)</p>
 <p>Example:
 Task: Process 1000 images (CPU-intensive)
 .. code-block:: text</p>
-<p>—</p>
 <p>Why Threading for I/O-bound</p>
 </section>
 <section id="the-problem-wasted-time">
@@ -764,8 +711,7 @@ Task: Process 1000 images (CPU-intensive)
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Sequential I/O operations
-import requests
+<p>import requests
 import time</p>
 <p>urls = [’<a class="reference external" href="https://api1.com">https://api1.com</a>’, ‘<a class="reference external" href="https://api2.com">https://api2.com</a>’, ‘<a class="reference external" href="https://api3.com">https://api3.com</a>’]</p>
 <p>start = time.perf_counter()
@@ -785,8 +731,7 @@ Output: Sequential: 6.00s (2s + 2s + 2s)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Threaded I/O operations
-import threading
+<p>import threading
 import requests
 import time</p>
 <dl class="simple">
@@ -810,7 +755,6 @@ Output: Threading: 2.05s (all wait in parallel!)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>What happens under the hood:</p>
 <dl class="simple">
 <dt>Thread 1: [Acquire GIL] -&gt; Start network request -&gt; [Release GIL] -&gt; Wait…</dt><dd><p>down</p>
 </dd>
@@ -833,7 +777,6 @@ Output: Threading: 2.05s (all wait in parallel!)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Real example: Downloading 10 web pages</p>
 <p>Sequential (1 thread):
 Total: 5.0 seconds</p>
 <p>Threading (10 threads):</p>
@@ -845,9 +788,7 @@ Total: 5.0 seconds</p>
 <p>Multiprocessing for I/O:</p>
 <p>Verdict: Threading is MORE EFFICIENT for I/O
 .. code-block:: text</p>
-</section>
-<section id="threading-trade-offs">
-<h1>Threading Trade-offs<a class="headerlink" href="#threading-trade-offs" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <p><strong>Advantages</strong>:
 - [[OK]] Lightweight (minimal memory overhead)
 - [[OK]] Fast to create/destroy
@@ -873,7 +814,6 @@ Total: 5.0 seconds</p>
 Thread 1: “But I’m not done!”
 OS: “Too bad, Thread 2’s turn now”
 .. code-block:: text</p>
-<p><strong>Asyncio</strong> (Cooperative - code decides when to yield):</p>
 <p>Task 1: “I’m about to wait for network, let me yield control”
 Event Loop: “Thanks! I’ll run Task 2 now”
 Task 2: “I’m about to wait for disk, let me yield”
@@ -884,8 +824,7 @@ Event Loop: “Got it! I’ll check if Task 1’s network response arrived”</p
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Asyncio example: 10,000 concurrent requests
-import asyncio
+<p>import asyncio
 import aiohttp</p>
 <dl>
 <dt>async def fetch(session, url):</dt><dd><dl class="simple">
@@ -923,8 +862,7 @@ Can handle 10,000 requests efficiently!</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Threading approach
-import threading
+<p>import threading
 import requests</p>
 <dl class="simple">
 <dt>def fetch_url(url):</dt><dd><p>response = requests.get(url)
@@ -937,9 +875,6 @@ threads = [threading.Thread(target=fetch_url, args=(url,)) for url in urls]</p>
 Memory: ~8 GB (1000 x 8 MB stack per thread)
 OS overhead: Managing 1000 threads
 .. code-block:: text</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 <p>Asyncio approach
 import asyncio
 import aiohttp</p>
@@ -990,13 +925,10 @@ OS overhead: None (all managed by Python)</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>[[FAIL]] CPU-intensive tasks (use multiprocessing)
-[[FAIL]] Blocking libraries (must use async-compatible libraries)
+<p>[[FAIL]] Blocking libraries (must use async-compatible libraries)
 [[FAIL]] Simple scripts with few I/O operations (threading is simpler)
 .. code-block:: text</p>
-</section>
-<section id="asyncio-trade-offs">
-<h1>Asyncio Trade-offs<a class="headerlink" href="#asyncio-trade-offs" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <p><strong>Advantages</strong>:
 - [[OK]] Extremely lightweight (handle 100,000+ concurrent operations)
 - [[OK]] Low memory overhead
@@ -1017,8 +949,7 @@ OS overhead: None (all managed by Python)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Example: Two threads computing sum
-import threading</p>
+<p>import threading</p>
 <dl>
 <dt>def compute_sum(n):</dt><dd><p>total = 0
 for i in range(n):</p>
@@ -1036,8 +967,7 @@ t2 = threading.Thread(target=compute_sum, args=(10*000*000,))</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Time -&gt;
-0ms    Thread 1: [Acquire GIL]
+<p>0ms    Thread 1: [Acquire GIL]
 1ms              : Execute: total = 0
 2ms              : Execute: total += 1
 3ms              : Execute: total += 2
@@ -1054,13 +984,10 @@ t2 = threading.Thread(target=compute_sum, args=(10*000*000,))</p>
 <p>Result: Threads take turns executing Python bytecode
 No parallelism for CPU work!
 .. code-block:: text</p>
-</section>
-<section id="cpu-bound-with-multiprocessing-true-parallel">
-<h1>CPU-bound with Multiprocessing: True Parallel<a class="headerlink" href="#cpu-bound-with-multiprocessing-true-parallel" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from concurrent.futures import ProcessPoolExecutor</p>
 <dl>
 <dt>def compute_sum(n):</dt><dd><p>total = 0
 for i in range(n):</p>
@@ -1079,8 +1006,7 @@ future2 = executor.submit(compute_sum, 10*000*000)</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Time -&gt;
-0ms    Process 1 (Core 1): [Start] Create interpreter, load code
+<p>0ms    Process 1 (Core 1): [Start] Create interpreter, load code
 10ms                       : Execute: total = 0
 11ms                       : Execute: total += 1
 12ms                       : Execute: total += 2
@@ -1095,14 +1021,11 @@ future2 = executor.submit(compute_sum, 10*000*000)</p>
 <p>Result: Both processes execute SIMULTANEOUSLY on different cores
 True parallelism!
 .. code-block:: text</p>
-</section>
-<section id="i-o-bound-with-threading-gil-released">
-<h1>I/O-bound with Threading: GIL Released<a class="headerlink" href="#i-o-bound-with-threading-gil-released" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>import threading
-import requests</p>
+<p>import requests</p>
 <dl class="simple">
 <dt>def fetch_url(url):</dt><dd><p>response = requests.get(url)  # I/O operation
 return response.text</p>
@@ -1116,8 +1039,7 @@ t2 = threading.Thread(target=fetch_url, args=(’<a class="reference external" h
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Time -&gt;
-0ms    Thread 1: [Acquire GIL]
+<p>0ms    Thread 1: [Acquire GIL]
 1ms             : Prepare HTTP request
 2ms             : [Release GIL] &lt;- Call to C library (requests)
 2ms             : [OS: Send network packet]
@@ -1138,14 +1060,11 @@ t2 = threading.Thread(target=fetch_url, args=(’<a class="reference external" h
 <p>Result: Both threads waited concurrently (overlapped I/O)
 Total time: ~210ms instead of 400ms sequential
 .. code-block:: text</p>
-</section>
-<section id="i-o-bound-with-asyncio-event-loop-magic">
-<h1>I/O-bound with Asyncio: Event Loop Magic<a class="headerlink" href="#i-o-bound-with-asyncio-event-loop-magic" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>import asyncio
-import aiohttp</p>
+<p>import aiohttp</p>
 <dl class="simple">
 <dt>async def fetch_url(session, url):</dt><dd><dl class="simple">
 <dt>async with session.get(url) as response:</dt><dd><p>return await response.text()</p>
@@ -1166,8 +1085,7 @@ results = await asyncio.gather(task1, task2)</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Time -&gt; (Single Thread)
-0ms    Event Loop: Create task1
+<p>0ms    Event Loop: Create task1
 1ms              : Create task2
 2ms              : Run task1 until await
 3ms    Task 1   : Send HTTP request
@@ -1188,32 +1106,22 @@ results = await asyncio.gather(task1, task2)</p>
 <p>Result: Single thread efficiently managing multiple I/O operations
 No thread overhead, same concurrency benefit
 .. code-block:: text</p>
-<p>—</p>
 <p>Performance Analysis</p>
 </section>
 <section id="benchmark-cpu-bound-task-computing-pi">
 <h1>Benchmark: CPU-bound Task (Computing pi)<a class="headerlink" href="#benchmark-cpu-bound-task-computing-pi" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;CPU-intensive: Monte Carlo pi approximation&quot;&quot;&quot;</span>
+<span class="n">inside</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="o">*</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">x_x</span> <span class="o">+</span> <span class="n">y_y</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">inside</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">inside</span> <span class="o">/</span> <span class="n">iterations</span>
 </pre></div>
 </div>
-<dl>
-<dt>def compute_pi(iterations):</dt><dd><p>“””CPU-intensive: Monte Carlo pi approximation”””
-inside = 0
-for * in range(iterations):</p>
-<blockquote>
-<div><p>x, y = random.random(), random.random()
-if x_x + y_y &lt;= 1:</p>
-<blockquote>
-<div><p>inside += 1</p>
-</div></blockquote>
-</div></blockquote>
-<p>return 4 * inside / iterations</p>
-</dd>
-</dl>
 <p>ITERATIONS = 10*000*000
 TASKS = 4
 .. code-block:: text</p>
-<p><strong>Results on 4-core CPU</strong>:</p>
 <div class="line-block">
 <div class="line">Approach | Time | Speedup | Memory |</div>
 <div class="line">Sequential | 10.0s | 1.0x | 50 MB |</div>
@@ -1228,17 +1136,11 @@ TASKS = 4
 </section>
 <section id="benchmark-i-o-bound-task-web-requests">
 <h1>Benchmark: I/O-bound Task (Web Requests)<a class="headerlink" href="#benchmark-i-o-bound-task-web-requests" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;I/O-intensive: Download web page&quot;&quot;&quot;</span>
+<span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
 </pre></div>
 </div>
-<dl>
-<dt>async def fetch_page(session, url):</dt><dd><p>“””I/O-intensive: Download web page”””
-async with session.get(url) as response:</p>
-<blockquote>
-<div><p>return await response.text()</p>
-</div></blockquote>
-</dd>
-</dl>
 <p>URLS = 100 (each takes ~0.5s to fetch)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Results</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
@@ -1258,21 +1160,16 @@ async with session.get(url) as response:</p>
 </section>
 <section id="benchmark-mixed-workload">
 <h1>Benchmark: Mixed Workload<a class="headerlink" href="#benchmark-mixed-workload" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Fetch data (I/O) then process (CPU)&quot;&quot;&quot;</span>
+<span class="c1"># I/O: Fetch data (2 seconds)</span>
+<span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="c1"># CPU: Heavy processing (1 second)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">complex_computation</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">result</span>
 </pre></div>
 </div>
-<dl>
-<dt>async def process_data(session, url):</dt><dd><p>“””Fetch data (I/O) then process (CPU)”””
-# I/O: Fetch data (2 seconds)
-async with session.get(url) as response:</p>
-<blockquote>
-<div><p>data = await response.json()</p>
-</div></blockquote>
-<p># CPU: Heavy processing (1 second)
-result = complex_computation(data)
-return result</p>
-</dd>
-</dl>
 <p>TASKS = 10</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Results</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
@@ -1286,8 +1183,7 @@ return result</p>
 </div>
 <p><strong>Best approach for mixed workload</strong>:
 .. code-block:: python</p>
-<p>import asyncio
-from concurrent.futures import ProcessPoolExecutor</p>
+<p>from concurrent.futures import ProcessPoolExecutor</p>
 <dl>
 <dt>async def process_data(session, url, executor):</dt><dd><p># I/O: Use asyncio
 async with session.get(url) as response:</p>
@@ -1312,7 +1208,6 @@ results = await asyncio.gather(<a href="#id5"><span class="problematic" id="id6"
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>Decision Tree</p>
 <p>Use this decision tree to choose the right approach:</p>
 <p>Start: What type of operation?</p>
@@ -1337,8 +1232,7 @@ results = await asyncio.gather(<a href="#id5"><span class="problematic" id="id6"
 <h1>Code Templates<a class="headerlink" href="#code-templates" title="Link to this heading"></a></h1>
 <p><strong>CPU-bound Template</strong>:
 .. code-block:: python</p>
-<p>from concurrent.futures import ProcessPoolExecutor
-import os</p>
+<p>import os</p>
 <dl>
 <dt>def cpu_intensive*task(data):</dt><dd><p># Your CPU-heavy computation here
 result = complex_calculation(data)
@@ -1357,10 +1251,10 @@ max_workers = os.cpu_count()</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p><strong>I/O-bound Template (Few operations, blocking library)</strong>:
-.. code-block:: python</p>
-<p>from concurrent.futures import ThreadPoolExecutor
-import requests</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>import requests</p>
 <dl>
 <dt>def io_intensive*task(url):</dt><dd><p>response = requests.get(url)
 return process(response)</p>
@@ -1376,10 +1270,10 @@ return process(response)</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p><strong>I/O-bound Template (Many operations, async library)</strong>:
-.. code-block:: python</p>
-<p>import asyncio
-import aiohttp</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>import aiohttp</p>
 <dl>
 <dt>async def io_intensive*task(session, url):</dt><dd><dl class="simple">
 <dt>async with session.get(url) as response:</dt><dd><p>data = await response.text()
@@ -1404,8 +1298,7 @@ results = await asyncio.gather(<a href="#id7"><span class="problematic" id="id8"
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>import asyncio
-import aiohttp
+<p>import aiohttp
 from concurrent.futures import ProcessPoolExecutor</p>
 <dl>
 <dt>def cpu_intensive(data):</dt><dd><p># CPU-heavy work here
@@ -1438,7 +1331,6 @@ results = await asyncio.gather(<a href="#id9"><span class="problematic" id="id10
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>Summary: The Core Principles</p>
 </section>
 <section id="the-gil-controls-everything">
@@ -1451,21 +1343,18 @@ results = await asyncio.gather(<a href="#id9"><span class="problematic" id="id10
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Operation Type  |  Resource Bottleneck  |  Solution  |  Why?
-CPU-bound       |  CPU cycles          |  Multi-    |  Bypass GIL,</p>
-<blockquote>
-<div><div class="line-block">
+<dl>
+<dt>CPU-bound       |  CPU cycles          |  Multi-    |  Bypass GIL,</dt><dd><div class="line-block">
 <div class="line">(computation)       |  processing|  use all cores</div>
 </div>
-</div></blockquote>
+</dd>
+</dl>
 <p>I/O-bound       |  Waiting for I/O     |  Asyncio/  |  GIL released,
 (few ops)       |  (network, disk)     |  Threading |  work during wait
 I/O-bound       |  Waiting for I/O     |  Asyncio   |  Lightweight,
 (many ops)      |  + scalability       |            |  handles 1000s
 .. code-block:: text</p>
-</section>
-<section id="trade-offs-are-real">
-<h1>3. Trade-offs are Real<a class="headerlink" href="#trade-offs-are-real" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <p><strong>Multiprocessing</strong>:
 - Pros: True parallelism, bypasses GIL
 - Cons: Memory overhead, slow startup, complex IPC
@@ -1484,8 +1373,7 @@ I/O-bound       |  Waiting for I/O     |  Asyncio   |  Lightweight,
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Profile your code first!
-import time</p>
+<p>import time</p>
 <dl>
 <dt>def profile_task(task_func):</dt><dd><p># CPU time (actual processing)
 cpu_start = time.process_time()
@@ -1506,7 +1394,6 @@ wall_time = time.perf_counter() - wall_start</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>Final Thoughts</p>
 <p>The choice between multiprocessing, threading, and asyncio isn’t about which is “better” - it’s about matching the tool to the task:</p>
 <ul class="simple">

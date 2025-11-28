@@ -18,7 +18,6 @@ Without task_done() - Can't Track Completion
 
 .. code-block:: python
 
-from queue import Queue
 from threading import Thread
 import time
 
@@ -53,12 +52,10 @@ WE DON'T! Consumer might still be working!
 
 
 
-With task_done() - Can Track Completion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-from queue import Queue
 from threading import Thread
 import time
 
@@ -93,7 +90,6 @@ print("All tasks complete!")
 
 
 
----
 
 How task_done() Works
 
@@ -146,7 +142,6 @@ put(1)          [1]
 
 
 
----
 
 What task_done() Actually Does
 
@@ -155,7 +150,6 @@ Code (Simplified)
 
 .. code-block:: python
 
-def task_done(self):
     with self.mutex:
         if self.unfinished_tasks <= 0:
             raise ValueError('task_done() called too many times')
@@ -191,7 +185,6 @@ task_done() does:
 
 
 
----
 
 The Third Condition Variable: all_tasks*done
 
@@ -199,7 +192,6 @@ Queue has **THREE** condition variables:
 
 .. code-block:: python
 
-class Queue:
     def __init**(self):
         self.mutex = Lock()
         self.not_empty = Condition()      # put() signals, get() waits
@@ -237,7 +229,6 @@ Queue Object:
 
 
 
----
 
 Complete Picture: All Operations
 
@@ -245,7 +236,6 @@ put()
 ~~~~~
 .. code-block:: python
 
-def put(self, item):
     with self.not_full:
         while len(self.items) >= self.maxsize:
             self.not_full.wait()
@@ -260,7 +250,6 @@ get()
 ~~~~~
 .. code-block:: python
 
-def get(self):
     with self.not_empty:
         while not self.items:
             self.not_empty.wait()
@@ -276,7 +265,6 @@ task_done()
 ~~~~~~~~~~~
 .. code-block:: python
 
-def task_done(self):
     with self.mutex:
         self.unfinished_tasks -= 1  # <- Decrement here!
 
@@ -289,7 +277,6 @@ join()
 ~~~~~~
 .. code-block:: python
 
-def join(self):
     with self.all_tasks*done:
         while self.unfinished_tasks:
             self.all_tasks*done.wait()  # <- Waits here!
@@ -299,7 +286,6 @@ def join(self):
 
 
 
----
 
 The Complete Flow with All Three Conditions
 
@@ -325,7 +311,6 @@ Time  Producer        get()           task_done()      Consumer Waits
 
 
 
----
 
 Detailed Breakdown: task_done() with Counter
 
@@ -344,7 +329,6 @@ put(1) called:
 
 
 
-Step 2: get() - Item Removed, Counter Unchanged
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
@@ -359,7 +343,6 @@ get() called:
 
 
 
-Step 3: task_done() - Decrement Counter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
@@ -374,7 +357,6 @@ task_done() called:
 
 
 
-Step 4: join() - Wait, Then Return
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
@@ -390,7 +372,6 @@ join() called (from main thread):
 
 
 
----
 
 The Counter Lifecycle
 
@@ -449,7 +430,6 @@ Now wakes up! <- Can continue
 
 
 
----
 
 Key Insight: Two Data Flows
 
@@ -475,7 +455,6 @@ These are INDEPENDENT:
 
 
 
----
 
 Why BOTH Counter AND Condition Variable?
 
@@ -483,7 +462,6 @@ Counter
 ~~~~~~~
 .. code-block:: python
 
-unfinished_tasks: int
 
 Tracks how many items haven't been marked done yet
 Used to know WHEN to signal
@@ -495,7 +473,6 @@ Condition Variable
 ~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-all_tasks*done: Condition()
 
 Efficiently wakes up waiting threads
 Avoids busy-waiting
@@ -507,7 +484,6 @@ Together
 ~~~~~~~~
 .. code-block:: python
 
-def task_done(self):
     with self.mutex:
         self.unfinished_tasks -= 1  # <- Update counter
 
@@ -526,7 +502,6 @@ If Queue only had counter but NO condition variable:
 
 .. code-block:: python
 
-WRONG - Wastes CPU
 def join_without*condition(self):
     while self.unfinished_tasks > 0:
         time.sleep(0.01)  # Busy-wait, bad!
@@ -543,7 +518,6 @@ def join_with*condition(self):
 
 
 
----
 
 Visual: Counter and Condition Together
 
@@ -566,7 +540,6 @@ Queue internals:
 
 
 
----
 
 Complete Operation Table
 
@@ -591,7 +564,6 @@ Queue.join() Without task_done()
 
 .. code-block:: python
 
-queue = Queue()
 
 queue.put(1)
 queue.put(2)
@@ -625,7 +597,6 @@ join() checks: if task_counter != 0: wait()
 
 
 
----
 
 What Happens WITH task_done()
 
@@ -634,7 +605,6 @@ Queue.join() With task_done()
 
 .. code-block:: python
 
-queue = Queue()
 
 queue.put(1)      # task_counter = 1
 queue.put(2)      # task_counter = 2
@@ -670,7 +640,6 @@ join() checks: if task_counter != 0: wait()
 
 
 
----
 
 The Three-Step Cycle
 
@@ -678,7 +647,6 @@ Step 1: Put Item
 ~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-queue.put(item)
 task_counter increments
 ::
 
@@ -687,7 +655,6 @@ Step 2: Get and Process
 ~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-item = queue.get()  # Removes from queue but...
 task_counter STAYS the same
 (item is "in flight", being processed)
 process(item)       # Do actual work
@@ -698,7 +665,6 @@ Step 3: Mark Done
 ~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-queue.task_done()
 task_counter decrements
 Tells queue: "I'm done with this item"
 ::
@@ -719,7 +685,6 @@ counter=1   counter=1   counter=0
 
 
 
----
 
 Real Example: Work Queue Pattern
 
@@ -728,7 +693,6 @@ Without task_done() - PROBLEMATIC
 
 .. code-block:: python
 
-from queue import Queue
 from threading import Thread
 
 tasks = Queue()
@@ -775,12 +739,10 @@ Working on Task 4
 
 
 
-With task_done() - CORRECT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-from queue import Queue
 from threading import Thread
 
 tasks = Queue()
@@ -827,7 +789,6 @@ All done!
 
 
 
----
 
 Why Is This Useful?
 
@@ -836,7 +797,6 @@ Use Case 1: Verify All Work Complete
 
 .. code-block:: python
 
-Main thread
 for task in tasks:
     queue.put(task)
 
@@ -855,7 +815,6 @@ Use Case 2: Track Progress
 
 .. code-block:: python
 
-queue = Queue()
 for i in range(100):
     queue.put(i)
 
@@ -882,7 +841,6 @@ Use Case 3: Batch Processing
 
 .. code-block:: python
 
-batch_queue = Queue()
 
 def add_to*batch(item):
     batch_queue.put(item)
@@ -915,7 +873,6 @@ print("All batches processed!")
 
 
 
----
 
 Comparison: With vs Without task_done()
 
@@ -936,7 +893,6 @@ Looking back at the code:
 
 .. code-block:: python
 
-class Consumer(Thread):
     def __init**(self, queue):
         Thread.**init**(self)
         self.queue = queue
@@ -971,7 +927,6 @@ Main thread: Tries to join consumers (would block forever)
 
 
 
----
 
 The Missing Piece in the Code
 
@@ -979,7 +934,6 @@ The code has an issue - consumers have ``while True`` (infinite loop):
 
 .. code-block:: python
 
-def run(self):
     while True:  # Never exits!
         item = self.queue.get()
         print(f"consumer notify: item popped from queue by {item, self.name}")
@@ -992,7 +946,6 @@ Better Code Pattern
 
 .. code-block:: python
 
-def run(self):
     while True:
         item = self.queue.get()
 
@@ -1020,7 +973,6 @@ consumer3.join()
 
 
 
----
 
 Summary: What task_done() Does
 
@@ -1054,7 +1006,6 @@ The Pattern
 
 
 
-put(item)      -> "Item added to queue"
        down
 get(item)      -> "Someone took the item"
        down
@@ -1072,7 +1023,6 @@ Real Code Example
 
 .. code-block:: python
 
-from queue import Queue
 from threading import Thread
 import time
 

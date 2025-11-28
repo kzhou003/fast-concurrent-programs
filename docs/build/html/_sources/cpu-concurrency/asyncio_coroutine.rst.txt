@@ -39,7 +39,6 @@ Start State
 ~~~~~~~~~~~
 .. code-block:: python
 
-async def start_state():
     print('Start State called\n')
     input_value = randint(0, 1)
     await asyncio.sleep(1)
@@ -59,7 +58,6 @@ Intermediate States (State 1, 2, 3)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def state1(transition_value):
     output_value = f'State 1 with transition value = {transition_value}\n'
     input_value = randint(0, 1)
     await asyncio.sleep(1)
@@ -84,7 +82,6 @@ End State
 ~~~~~~~~~
 .. code-block:: python
 
-async def end_state(transition_value):
     output_value = f'End State with transition value = {transition_value}\n'
     print('...stop computation...')
     return output_value
@@ -140,7 +137,6 @@ Usage
 -----
 .. code-block:: bash
 
-python3 08*asyncio_coroutine.py
 ::
 
 

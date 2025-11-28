@@ -96,7 +96,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#hyperthreading-limitations">Hyperthreading Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#checking-hyperthreading-status">Checking Hyperthreading Status</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#the-fundamental-constraint">The Fundamental Constraint</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#why-more-threads-more-speed">Why More Threads != More Speed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#optimal-worker-count">Optimal Worker Count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#real-world-example">Real-World Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#cpu-vs-gpu-different-design-philosophies">CPU vs GPU: Different Design Philosophies</a></li>
@@ -131,7 +130,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#use-cases">Use Cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#examples">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#usage">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html">Overview</a></li>
@@ -157,7 +155,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html">The Answer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html">Without task_done() - Can’t Track Completion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-can-track-completion">With task_done() - Can Track Completion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#internal-counter-system">Internal Counter System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#visual-timeline">Visual Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#code-simplified">Code (Simplified)</a></li>
@@ -169,9 +166,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#join">join()</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#scenario-1-producer-1-consumer">Scenario: 1 Producer, 1 Consumer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-1-put-increment-counter">Step 1: put() - Increment Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-2-get-item-removed-counter-unchanged">Step 2: get() - Item Removed, Counter Unchanged</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-3-task-done-decrement-counter">Step 3: task_done() - Decrement Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-4-join-wait-then-return">Step 4: join() - Wait, Then Return</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#diagram-tracking-one-task">Diagram: Tracking One Task</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#diagram-multiple-tasks">Diagram: Multiple Tasks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#counter">Counter</a></li>
@@ -187,7 +181,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-3-mark-done">Step 3: Mark Done</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#flow-diagram">Flow Diagram</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#without-task-done-problematic">Without task_done() - PROBLEMATIC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-correct">With task_done() - CORRECT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-1-verify-all-work-complete">Use Case 1: Verify All Work Complete</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-2-track-progress">Use Case 2: Track Progress</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-3-batch-processing">Use Case 3: Batch Processing</a></li>
@@ -201,22 +194,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#use-regular-lock-when">Use Regular Lock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#use-rlock-when">Use RLock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#regular-lock-would-deadlock">Regular Lock - Would Deadlock</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#rlock-no-deadlock">RLock - No Deadlock</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html">Key Concept</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#counting-semaphore-counter-1">1. Counting Semaphore (Counter &gt; 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#binary-semaphore-counter-0-or-1">2. Binary Semaphore (Counter = 0 or 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#execution-timeline">Execution Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#acquire"><code class="docutils literal notranslate"><span class="pre">acquire()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#counting-semaphore-3-spots-available">Counting Semaphore (3 spots available)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#binary-semaphore-producer-consumer">Binary Semaphore (Producer-Consumer)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#example-1-swimming-pool-with-limited-capacity">Example 1: Swimming Pool with Limited Capacity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#example-2-producer-consumer-like-the-code">Example 2: Producer-Consumer (Like the Code)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#limiting-concurrent-access">1. <strong>Limiting Concurrent Access</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#producer-consumer-communication">2. <strong>Producer-Consumer Communication</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#synchronizing-multiple-threads">3. <strong>Synchronizing Multiple Threads</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#lock-threading-lock">Lock (<code class="docutils literal notranslate"><span class="pre">threading.Lock</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#semaphore-counting">Semaphore (Counting)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#semaphore-binary-used-as-signal">Semaphore (Binary - Used as Signal)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html">What is the GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#why-does-python-have-a-gil">Why Does Python Have a GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-the-gil-works">How the GIL Works</a></li>
@@ -236,7 +224,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-the-os-helps">How the OS Helps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#performance-comparison">Performance Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#why-not-multiprocessing-for-i-o">Why Not Multiprocessing for I/O?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#threading-trade-offs">Threading Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-problem-with-threading-overhead">The Problem with Threading: Overhead</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-cooperative-multitasking">Asyncio: Cooperative Multitasking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-asyncio-works">How Asyncio Works</a></li>
@@ -244,11 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-vs-threading-detailed-comparison">Asyncio vs Threading: Detailed Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#performance-characteristics">Performance Characteristics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#when-asyncio-shines">When Asyncio Shines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-trade-offs">Asyncio Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#cpu-bound-with-threading-the-gil-dance">CPU-bound with Threading: The GIL Dance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#cpu-bound-with-multiprocessing-true-parallel">CPU-bound with Multiprocessing: True Parallel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#i-o-bound-with-threading-gil-released">I/O-bound with Threading: GIL Released</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#i-o-bound-with-asyncio-event-loop-magic">I/O-bound with Asyncio: Event Loop Magic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-cpu-bound-task-computing-pi">Benchmark: CPU-bound Task (Computing pi)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-i-o-bound-task-web-requests">Benchmark: I/O-bound Task (Web Requests)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-mixed-workload">Benchmark: Mixed Workload</a></li>
@@ -256,7 +239,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#code-templates">Code Templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-gil-controls-everything">1. The GIL Controls Everything</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#resource-usage-matters">2. Resource Usage Matters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#trade-offs-are-real">3. Trade-offs are Real</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#know-your-workload">4. Know Your Workload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Concepts</span></p>
@@ -343,8 +325,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-2-code-generation-ttir">Stage 2: Code Generation (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-3-triton-gpu-ir-ttgir">Stage 3: Triton GPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-4-llvm-ir">Stage 4: LLVM IR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-5-ptx-amdgcn">Stage 5: PTX / AMDGCN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-6-binary-cubin-hsaco">Stage 6: Binary (CUBIN / HSACO)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#block-based-programming-model">Block-based Programming Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#jit-compilation">JIT Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#mlir-infrastructure">MLIR Infrastructure</a></li>
@@ -355,20 +335,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/02-jit-decorator.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html">CodeGenerator Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ast-visitor-pattern">AST Visitor Pattern</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#triton-language-primitives">Triton Language Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#type-inference">Type Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#example-ttir-output">Example TTIR Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#compilation-orchestration">Compilation Orchestration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttir-ttgir-transformation">TTIR -&gt; TTGIR Transformation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttgir-llvm-ir">TTGIR -&gt; LLVM IR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#llvm-ir-ptx">LLVM IR -&gt; PTX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ptx-cubin">PTX -&gt; CUBIN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-key-components">Cache Key Components</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-directory-structure">Cache Directory Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-lookup">Cache Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html">The NVCC Compiler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#nvcc-compilation-stages">NVCC Compilation Stages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-assembly-output">PTX Assembly Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#the-llvm-path">The LLVM Path</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#llvm-ir-stage">LLVM IR Stage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-generated-by-triton">PTX Generated by Triton</a></li>
@@ -376,7 +349,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#source-language">Source Language</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compiler-stack">Compiler Stack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-time">Compilation Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#optimization-levels">Optimization Levels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#can-triton-and-cuda-c-work-together">Can Triton and CUDA C++ Work Together?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#advantages-of-llvm-backend">Advantages of LLVM Backend</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#why-not-use-nvcc">Why Not Use NVCC?</a></li>
@@ -384,27 +356,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#file-types">File Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#example-directory-structures">Example Directory Structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-inspection">PTX Inspection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#cubin-inspection">CUBIN Inspection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-paths-compared">Compilation Paths Compared</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#key-takeaways">Key Takeaways</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html">Traditional Compiler Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#example-matrix-multiplication">Example: Matrix Multiplication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#mlir-philosophy">MLIR Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#dialects">1. Dialects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#operations">2. Operations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#regions-and-blocks">3. Regions and Blocks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#types">4. Types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#attributes">5. Attributes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#passes">6. Passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#why-triton-uses-mlir">Why Triton Uses MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#triton-s-mlir-dialects">Triton’s MLIR Dialects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#python-source">Python Source</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-1-triton-ir-ttir">Stage 1: Triton IR (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-2-tritongpu-ir-ttgir">Stage 2: TritonGPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-3-llvm-dialect">Stage 3: LLVM Dialect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-4-llvm-ir-actual">Stage 4: LLVM IR (Actual)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#command-line-tools">Command-Line Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tablegen-for-defining-operations">TableGen for Defining Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#debugging-mlir">Debugging MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#official-documentation">Official Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tutorials">Tutorials</a></li>
@@ -492,112 +456,57 @@
 <li><p><a class="reference internal" href="#vector-addition-example" id="id2">Vector Addition Example</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#the-kernel-launch-mechanism" id="id3">The Kernel Launch Mechanism</a></p></li>
-<li><p><a class="reference internal" href="#the-grid-syntax-sugar-python-s-getitem" id="id4">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a></p>
+<li><p><a class="reference internal" href="#the-grid-syntax-sugar-python-s-getitem" id="id3">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a></p>
 <ul>
-<li><p><a class="reference internal" href="#how-it-works" id="id5">How It Works</a></p>
+<li><p><a class="reference internal" href="#how-it-works" id="id4">How It Works</a></p>
 <ul>
-<li><p><a class="reference internal" href="#implementation-details" id="id6">Implementation Details</a></p></li>
-<li><p><a class="reference internal" href="#the-complete-flow" id="id7">The Complete Flow</a></p></li>
+<li><p><a class="reference internal" href="#implementation-details" id="id5">Implementation Details</a></p></li>
+<li><p><a class="reference internal" href="#the-complete-flow" id="id6">The Complete Flow</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#purpose" id="id7">Purpose</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example-with-vector-addition" id="id8">Example with Vector Addition</a></p></li>
+<li><p><a class="reference internal" href="#why-ceiling-division" id="id9">Why Ceiling Division?</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#the-spmd-model" id="id10">The SPMD Model</a></p></li>
+<li><p><a class="reference internal" href="#program-id-assignment" id="id11">Program ID Assignment</a></p></li>
+<li><p><a class="reference internal" href="#implementation-stack" id="id12">Implementation Stack</a></p>
+<ul>
+<li><p><a class="reference internal" href="#flow-diagram" id="id13">Flow Diagram</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#is-kernel-launch-synchronous-or-asynchronous" id="id14">Is Kernel Launch Synchronous or Asynchronous?</a></p>
+<ul>
+<li><p><a class="reference internal" href="#manual-synchronization" id="id15">Manual Synchronization</a></p></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#grid-calculation-triton-cdiv" id="id8">Grid Calculation: <cite>triton.cdiv()</cite></a></p>
+<li><p><a class="reference internal" href="#advanced-topics" id="id16">Advanced Topics</a></p>
 <ul>
-<li><p><a class="reference internal" href="#purpose" id="id9">Purpose</a></p>
+<li><p><a class="reference internal" href="#multi-dimensional-grids" id="id17">Multi-Dimensional Grids</a></p></li>
+<li><p><a class="reference internal" href="#kernel-caching" id="id18">Kernel Caching</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#performance-considerations" id="id19">Performance Considerations</a></p>
 <ul>
-<li><p><a class="reference internal" href="#example-with-vector-addition" id="id10">Example with Vector Addition</a></p></li>
-<li><p><a class="reference internal" href="#why-ceiling-division" id="id11">Why Ceiling Division?</a></p></li>
+<li><p><a class="reference internal" href="#grid-size-selection" id="id20">Grid Size Selection</a></p></li>
+<li><p><a class="reference internal" href="#memory-coalescing" id="id21">Memory Coalescing</a></p></li>
+<li><p><a class="reference internal" href="#is-hip-detect-amd-gpu-backend" id="id22">is_hip() - Detect AMD GPU Backend</a></p></li>
+<li><p><a class="reference internal" href="#what-is-tl-assume" id="id23">What is tl.assume()?</a></p></li>
+<li><p><a class="reference internal" href="#why-assumptions-help-optimization" id="id24">Why Assumptions Help Optimization</a></p></li>
+<li><p><a class="reference internal" href="#matrix-multiplication-example" id="id25">Matrix Multiplication Example</a></p></li>
+<li><p><a class="reference internal" href="#when-to-use-tl-assume" id="id26">When to Use <cite>tl.assume()</cite></a></p></li>
+<li><p><a class="reference internal" href="#how-compiler-uses-assumptions" id="id27">How Compiler Uses Assumptions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#comparison-with-other-optimization-techniques" id="id28">Comparison with Other Optimization Techniques</a></p></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#program-indexing-and-data-partitioning" id="id12">Program Indexing and Data Partitioning</a></p>
-<ul>
-<li><p><a class="reference internal" href="#the-spmd-model" id="id13">The SPMD Model</a></p></li>
-<li><p><a class="reference internal" href="#program-id-assignment" id="id14">Program ID Assignment</a></p></li>
-<li><p><a class="reference internal" href="#index-calculation" id="id15">Index Calculation</a></p>
-<ul>
-<li><p><a class="reference internal" href="#data-access-pattern" id="id16">Data Access Pattern</a></p></li>
-<li><p><a class="reference internal" href="#memory-load-and-store" id="id17">Memory Load and Store</a></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#how-tl-program-id-works" id="id18">How <cite>tl.program_id()</cite> Works</a></p>
-<ul>
-<li><p><a class="reference internal" href="#implementation-stack" id="id19">Implementation Stack</a></p>
-<ul>
-<li><p><a class="reference internal" href="#flow-diagram" id="id20">Flow Diagram</a></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#kernel-execution-and-asynchronous-behavior" id="id21">Kernel Execution and Asynchronous Behavior</a></p>
-<ul>
-<li><p><a class="reference internal" href="#is-kernel-launch-synchronous-or-asynchronous" id="id22">Is Kernel Launch Synchronous or Asynchronous?</a></p>
-<ul>
-<li><p><a class="reference internal" href="#manual-synchronization" id="id23">Manual Synchronization</a></p></li>
-<li><p><a class="reference internal" href="#implicit-synchronization" id="id24">Implicit Synchronization</a></p></li>
-<li><p><a class="reference internal" href="#why-asynchronous-by-default" id="id25">Why Asynchronous by Default?</a></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#advanced-topics" id="id26">Advanced Topics</a></p>
-<ul>
-<li><p><a class="reference internal" href="#multi-dimensional-grids" id="id27">Multi-Dimensional Grids</a></p></li>
-<li><p><a class="reference internal" href="#constexpr-parameters" id="id28">Constexpr Parameters</a></p></li>
-<li><p><a class="reference internal" href="#kernel-caching" id="id29">Kernel Caching</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#performance-considerations" id="id30">Performance Considerations</a></p>
-<ul>
-<li><p><a class="reference internal" href="#grid-size-selection" id="id31">Grid Size Selection</a></p></li>
-<li><p><a class="reference internal" href="#masking-overhead" id="id32">Masking Overhead</a></p></li>
-<li><p><a class="reference internal" href="#memory-coalescing" id="id33">Memory Coalescing</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#kernel-compilation-warmup-and-gpu-initialization" id="id34">Kernel Compilation, Warmup, and GPU Initialization</a></p>
-<ul>
-<li><p><a class="reference internal" href="#is-hip-detect-amd-gpu-backend" id="id35">is_hip() - Detect AMD GPU Backend</a></p></li>
-<li><p><a class="reference internal" href="#is-cdna-detect-amd-cdna-architecture" id="id36">is_cdna() - Detect AMD CDNA Architecture</a></p></li>
-<li><p><a class="reference internal" href="#warmup-pre-compile-kernel-without-execution" id="id37">warmup() - Pre-compile Kernel Without Execution</a></p></li>
-<li><p><a class="reference internal" href="#init-handles-initialize-gpu-binary-handles" id="id38">_init_handles() - Initialize GPU Binary Handles</a></p></li>
-<li><p><a class="reference internal" href="#complete-workflow-example-fused-softmax" id="id39">Complete Workflow Example: Fused Softmax</a></p>
-<ul>
-<li><p><a class="reference internal" href="#data-flow-diagram" id="id40">Data Flow Diagram</a></p></li>
-<li><p><a class="reference internal" href="#summary-table" id="id41">Summary Table</a></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#compiler-optimization-hints-tl-assume" id="id42">Compiler Optimization Hints: <cite>tl.assume()</cite></a></p>
-<ul>
-<li><p><a class="reference internal" href="#what-is-tl-assume" id="id43">What is tl.assume()?</a></p></li>
-<li><p><a class="reference internal" href="#why-assumptions-help-optimization" id="id44">Why Assumptions Help Optimization</a></p></li>
-<li><p><a class="reference internal" href="#matrix-multiplication-example" id="id45">Matrix Multiplication Example</a></p></li>
-<li><p><a class="reference internal" href="#when-to-use-tl-assume" id="id46">When to Use <cite>tl.assume()</cite></a></p>
-<ul>
-<li><p><a class="reference internal" href="#dangerous-example-don-t-do-this" id="id47">Dangerous Example: DON’T DO THIS</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#related-functions-tl-static-assert" id="id48">Related Functions: <cite>tl.static_assert()</cite></a></p>
-<ul>
-<li><p><a class="reference internal" href="#performance-impact-in-matrix-multiplication" id="id49">Performance Impact in Matrix Multiplication</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#how-compiler-uses-assumptions" id="id50">How Compiler Uses Assumptions</a></p></li>
-<li><p><a class="reference internal" href="#summary-tl-assume-guidelines" id="id51">Summary: <cite>tl.assume()</cite> Guidelines</a></p>
-<ul>
-<li><p><a class="reference internal" href="#comparison-with-other-optimization-techniques" id="id52">Comparison with Other Optimization Techniques</a></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#summary" id="id53">Summary</a></p></li>
-<li><p><a class="reference internal" href="#references" id="id54">References</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id29">References</a></p></li>
 </ul>
 </nav>
 <section id="introduction-to-triton">
@@ -623,16 +532,12 @@
     <span class="n">tl</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">output_ptr</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="the-kernel-launch-mechanism">
-<h2><a class="toc-backref" href="#id3" role="doc-backlink">The Kernel Launch Mechanism</a><a class="headerlink" href="#the-kernel-launch-mechanism" title="Link to this heading"></a></h2>
+<hr class="docutils" />
 <p>When you launch a Triton kernel, you use this syntax:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">meta</span><span class="p">:</span> <span class="p">(</span><span class="n">triton</span><span class="o">.</span><span class="n">cdiv</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;BLOCK_SIZE&#39;</span><span class="p">]),</span> <span class="p">)</span>
 <span class="n">add_kernel</span><span class="p">[</span><span class="n">grid</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This involves several key components:</p>
 <ol class="arabic simple">
 <li><p><strong>Grid specification</strong>: Defines how many parallel programs to launch</p></li>
 <li><p><strong>Indexing syntax</strong> <cite>[grid]</cite>: Uses Python’s <cite>__getitem__</cite> magic method</p></li>
@@ -640,22 +545,21 @@
 <li><p><strong>Synchronization</strong>: Optional explicit synchronization with <cite>torch.cuda.synchronize()</cite></p></li>
 </ol>
 </section>
+</section>
 <section id="the-grid-syntax-sugar-python-s-getitem">
-<h2><a class="toc-backref" href="#id4" role="doc-backlink">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a><a class="headerlink" href="#the-grid-syntax-sugar-python-s-getitem" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a><a class="headerlink" href="#the-grid-syntax-sugar-python-s-getitem" title="Link to this heading"></a></h2>
 <section id="how-it-works">
-<h3><a class="toc-backref" href="#id5" role="doc-backlink">How It Works</a><a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">How It Works</a><a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h3>
 <p>The <cite>add_kernel[grid]</cite> syntax is <strong>syntactic sugar</strong> for launching a kernel with a specific grid configuration. Under the hood, it uses Python’s <cite>__getitem__</cite> magic method.</p>
 <section id="implementation-details">
-<h4><a class="toc-backref" href="#id6" role="doc-backlink">Implementation Details</a><a class="headerlink" href="#implementation-details" title="Link to this heading"></a></h4>
+<h4><a class="toc-backref" href="#id5" role="doc-backlink">Implementation Details</a><a class="headerlink" href="#implementation-details" title="Link to this heading"></a></h4>
 <p>When you write:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add_kernel</span><span class="p">[</span><span class="n">grid</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Python translates this to:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add_kernel</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">grid</span><span class="p">)(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <cite>__getitem__</cite> method is defined in the <cite>KernelInterface</cite> class at <cite>/triton/runtime/jit.py:364-370</cite>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">KernelInterface</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -666,14 +570,15 @@
         <span class="k">return</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span> <span class="n">warmup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Key points:
-- <cite>__getitem__</cite> receives the <cite>grid</cite> parameter
-- Returns a <strong>lambda function</strong> that captures the grid
-- The lambda calls <cite>self.run()</cite> with the stored grid when invoked
-- <cite>self.run()</cite> handles actual kernel compilation and GPU launch</p>
+<ul class="simple">
+<li><p><cite>__getitem__</cite> receives the <cite>grid</cite> parameter</p></li>
+<li><p>Returns a <strong>lambda function</strong> that captures the grid</p></li>
+<li><p>The lambda calls <cite>self.run()</cite> with the stored grid when invoked</p></li>
+<li><p><cite>self.run()</cite> handles actual kernel compilation and GPU launch</p></li>
+</ul>
 </section>
 <section id="the-complete-flow">
-<h4><a class="toc-backref" href="#id7" role="doc-backlink">The Complete Flow</a><a class="headerlink" href="#the-complete-flow" title="Link to this heading"></a></h4>
+<h4><a class="toc-backref" href="#id6" role="doc-backlink">The Complete Flow</a><a class="headerlink" href="#the-complete-flow" title="Link to this heading"></a></h4>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1. Create kernel instance
    add_kernel = JITFunction(add_kernel_fn)
 
@@ -694,60 +599,54 @@
 </div>
 </section>
 </section>
-</section>
-<section id="grid-calculation-triton-cdiv">
-<h2><a class="toc-backref" href="#id8" role="doc-backlink">Grid Calculation: <cite>triton.cdiv()</cite></a><a class="headerlink" href="#grid-calculation-triton-cdiv" title="Link to this heading"></a></h2>
+<hr class="docutils" />
 <section id="purpose">
-<h3><a class="toc-backref" href="#id9" role="doc-backlink">Purpose</a><a class="headerlink" href="#purpose" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Purpose</a><a class="headerlink" href="#purpose" title="Link to this heading"></a></h3>
 <p><cite>triton.cdiv(a, b)</cite> computes the <strong>ceiling division</strong> of <cite>a</cite> by <cite>b</cite>:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>triton.cdiv(a, b) = ceil(a / b) = (a + b - 1) // b
 </pre></div>
 </div>
-<p>This is crucial for determining the number of programs needed to process all data.</p>
 <section id="example-with-vector-addition">
-<h4><a class="toc-backref" href="#id10" role="doc-backlink">Example with Vector Addition</a><a class="headerlink" href="#example-with-vector-addition" title="Link to this heading"></a></h4>
+<h4><a class="toc-backref" href="#id8" role="doc-backlink">Example with Vector Addition</a><a class="headerlink" href="#example-with-vector-addition" title="Link to this heading"></a></h4>
 <p>For 98,432 elements and BLOCK_SIZE=1024:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">meta</span><span class="p">:</span> <span class="p">(</span><span class="n">triton</span><span class="o">.</span><span class="n">cdiv</span><span class="p">(</span><span class="mi">98432</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span> <span class="p">)</span>
 <span class="c1"># Evaluates to: (97,)</span>
 </pre></div>
 </div>
-<p>This means:
-- <strong>97 programs</strong> will be launched
-- Each program processes <strong>1,024 elements</strong>
-- Last program (pid=96) processes remaining 432 elements
-- Total coverage: 97 * 1024 = 99,328 &gt; 98,432 [OK]</p>
+<ul class="simple">
+<li><p><strong>97 programs</strong> will be launched</p></li>
+<li><p>Each program processes <strong>1,024 elements</strong></p></li>
+<li><p>Last program (pid=96) processes remaining 432 elements</p></li>
+<li><p>Total coverage: 97 * 1024 = 99,328 &gt; 98,432 [OK]</p></li>
+</ul>
 </section>
 <section id="why-ceiling-division">
-<h4><a class="toc-backref" href="#id11" role="doc-backlink">Why Ceiling Division?</a><a class="headerlink" href="#why-ceiling-division" title="Link to this heading"></a></h4>
+<h4><a class="toc-backref" href="#id9" role="doc-backlink">Why Ceiling Division?</a><a class="headerlink" href="#why-ceiling-division" title="Link to this heading"></a></h4>
 <p>If you used regular division:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid_wrong</span> <span class="o">=</span> <span class="mi">98432</span> <span class="o">//</span> <span class="mi">1024</span>  <span class="c1"># = 96 programs</span>
 <span class="c1"># This would miss the last 432 elements!</span>
 </pre></div>
 </div>
-<p>With ceiling division:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid_correct</span> <span class="o">=</span> <span class="n">triton</span><span class="o">.</span><span class="n">cdiv</span><span class="p">(</span><span class="mi">98432</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>  <span class="c1"># = 97 programs</span>
 <span class="c1"># All elements are covered</span>
 </pre></div>
 </div>
-<p>The <cite>mask</cite> parameter in <cite>tl.load()</cite> and <cite>tl.store()</cite> handles the case where a program’s block extends beyond the data:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="n">offsets</span> <span class="o">&lt;</span> <span class="n">n_elements</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">x_ptr</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># Masked load prevents out-of-bounds access</span>
 </pre></div>
 </div>
 </section>
 </section>
-</section>
-<section id="program-indexing-and-data-partitioning">
-<h2><a class="toc-backref" href="#id12" role="doc-backlink">Program Indexing and Data Partitioning</a><a class="headerlink" href="#program-indexing-and-data-partitioning" title="Link to this heading"></a></h2>
+<hr class="docutils" />
 <section id="the-spmd-model">
-<h3><a class="toc-backref" href="#id13" role="doc-backlink">The SPMD Model</a><a class="headerlink" href="#the-spmd-model" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">The SPMD Model</a><a class="headerlink" href="#the-spmd-model" title="Link to this heading"></a></h3>
 <p>Triton uses SPMD (Single Program, Multiple Data):
 - <strong>One program definition</strong>: The same kernel code
 - <strong>Multiple data partitions</strong>: Each program processes different data
 - <strong>Parallel execution</strong>: All programs run simultaneously on different GPU cores</p>
 </section>
 <section id="program-id-assignment">
-<h3><a class="toc-backref" href="#id14" role="doc-backlink">Program ID Assignment</a><a class="headerlink" href="#program-id-assignment" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Program ID Assignment</a><a class="headerlink" href="#program-id-assignment" title="Link to this heading"></a></h3>
 <p>When the GPU launches a kernel with grid size <cite>(97,)</cite>, the GPU runtime automatically assigns each program a unique <strong>program ID</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inside the kernel</span>
 <span class="n">pid</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">program_id</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -760,17 +659,14 @@
 <span class="c1"># Program 96: pid = 96</span>
 </pre></div>
 </div>
-</section>
-<section id="index-calculation">
-<h3><a class="toc-backref" href="#id15" role="doc-backlink">Index Calculation</a><a class="headerlink" href="#index-calculation" title="Link to this heading"></a></h3>
+<hr class="docutils" />
 <p>Each program calculates which data elements it should process:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Line 44-45 in vector-add.py</span>
 <span class="n">block_start</span> <span class="o">=</span> <span class="n">pid</span> <span class="o">*</span> <span class="n">BLOCK_SIZE</span>
 <span class="n">offsets</span> <span class="o">=</span> <span class="n">block_start</span> <span class="o">+</span> <span class="n">tl</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="p">)</span>
 </pre></div>
 </div>
-<section id="data-access-pattern">
-<h4><a class="toc-backref" href="#id16" role="doc-backlink">Data Access Pattern</a><a class="headerlink" href="#data-access-pattern" title="Link to this heading"></a></h4>
+<hr class="docutils" />
 <p>For BLOCK_SIZE=1024:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Program | pid | block_start | offsets
 ======= === ========== ========================================
@@ -780,9 +676,7 @@
 96      96  98304      [98304, 98305, ..., 99327]
 </pre></div>
 </div>
-</section>
-<section id="memory-load-and-store">
-<h4><a class="toc-backref" href="#id17" role="doc-backlink">Memory Load and Store</a><a class="headerlink" href="#memory-load-and-store" title="Link to this heading"></a></h4>
+<hr class="docutils" />
 <p>Each program loads and processes different tensor slices:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Line 50-54</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">x_ptr</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># Load program&#39;s slice</span>
@@ -791,7 +685,6 @@
 <span class="n">tl</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">output_ptr</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># Store results</span>
 </pre></div>
 </div>
-<p>Program-to-Data Mapping:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Program 0:  x[0:1024] + y[0:1024]     -&gt; output[0:1024]
 Program 1:  x[1024:2048] + y[1024:2048] -&gt; output[1024:2048]
 Program 2:  x[2048:3072] + y[2048:3072] -&gt; output[2048:3072]
@@ -800,19 +693,15 @@ Program 96: x[98304:99328] + y[98304:99328] -&gt; output[98304:99328]
 </pre></div>
 </div>
 </section>
-</section>
-</section>
-<section id="how-tl-program-id-works">
-<h2><a class="toc-backref" href="#id18" role="doc-backlink">How <cite>tl.program_id()</cite> Works</a><a class="headerlink" href="#how-tl-program-id-works" title="Link to this heading"></a></h2>
+<hr class="docutils" />
 <section id="implementation-stack">
-<h3><a class="toc-backref" href="#id19" role="doc-backlink">Implementation Stack</a><a class="headerlink" href="#implementation-stack" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Implementation Stack</a><a class="headerlink" href="#implementation-stack" title="Link to this heading"></a></h3>
 <p><cite>tl.program_id()</cite> is implemented across multiple layers:</p>
 <p><strong>1. User Code (core.py:1605)</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">program_id</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">_semantic</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">_semantic</span><span class="o">.</span><span class="n">program_id</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>2. Triton Semantic Layer (semantic.py:39-42)</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">program_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TensorTy</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;program_id axis must be 0, 1, or 2 but got </span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -822,7 +711,6 @@ Program 96: x[98304:99328] + y[98304:99328] -&gt; output[98304:99328]
     <span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>3. LLVM IR Generation</strong></p>
 <p>The <cite>create_get_program_id(axis)</cite> method generates LLVM Intermediate Representation code that retrieves the program ID from the GPU.</p>
 <p><strong>4. Hardware-Specific Code Generation</strong></p>
 <p>LLVM compiles to GPU assembly:</p>
@@ -830,17 +718,15 @@ Program 96: x[98304:99328] + y[98304:99328] -&gt; output[98304:99328]
 <div class="highlight-ptx notranslate"><div class="highlight"><pre><span></span><span class="k">mov</span><span class="kt">.u32</span><span class="w"> </span><span class="nv">%r0</span><span class="o">,</span><span class="w"> </span><span class="nv">%ctaid.x</span><span class="w">  </span><span class="c">// Move block ID to register</span>
 </pre></div>
 </div>
-<p><strong>AMD AMDGPU:</strong></p>
 <div class="highlight-amdgpu notranslate"><div class="highlight"><pre><span></span><span class="k">s_get_workgroup_id_x</span><span class="w"> </span><span class="nv">s0</span><span class="w">  </span><span class="c1">// Get block ID in SGPR</span>
 </pre></div>
 </div>
-<p><strong>5. GPU Hardware</strong></p>
 <p>At runtime, the GPU provides the program ID via special registers:
 - NVIDIA: <cite>blockIdx.x</cite>, <cite>blockIdx.y</cite>, <cite>blockIdx.z</cite>
 - AMD: Workgroup ID registers</p>
 <p>The GPU’s thread scheduler automatically assigns each block a unique ID when launching the kernel.</p>
 <section id="flow-diagram">
-<h4><a class="toc-backref" href="#id20" role="doc-backlink">Flow Diagram</a><a class="headerlink" href="#flow-diagram" title="Link to this heading"></a></h4>
+<h4><a class="toc-backref" href="#id13" role="doc-backlink">Flow Diagram</a><a class="headerlink" href="#flow-diagram" title="Link to this heading"></a></h4>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Host (Python):
     grid = (97,)
     kernel[grid](...)
@@ -873,18 +759,15 @@ GPU Hardware:
 </div>
 </section>
 </section>
-</section>
-<section id="kernel-execution-and-asynchronous-behavior">
-<h2><a class="toc-backref" href="#id21" role="doc-backlink">Kernel Execution and Asynchronous Behavior</a><a class="headerlink" href="#kernel-execution-and-asynchronous-behavior" title="Link to this heading"></a></h2>
+<hr class="docutils" />
 <section id="is-kernel-launch-synchronous-or-asynchronous">
-<h3><a class="toc-backref" href="#id22" role="doc-backlink">Is Kernel Launch Synchronous or Asynchronous?</a><a class="headerlink" href="#is-kernel-launch-synchronous-or-asynchronous" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Is Kernel Launch Synchronous or Asynchronous?</a><a class="headerlink" href="#is-kernel-launch-synchronous-or-asynchronous" title="Link to this heading"></a></h3>
 <p><strong>The kernel launch is ASYNCHRONOUS</strong> by default. When you call:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add_kernel</span><span class="p">[</span><span class="n">grid</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The function returns <strong>immediately</strong>, even though the GPU kernel is still executing. The tensor <cite>output</cite> is a valid reference, but its contents may not be ready yet.</p>
 <section id="manual-synchronization">
-<h4><a class="toc-backref" href="#id23" role="doc-backlink">Manual Synchronization</a><a class="headerlink" href="#manual-synchronization" title="Link to this heading"></a></h4>
+<h4><a class="toc-backref" href="#id15" role="doc-backlink">Manual Synchronization</a><a class="headerlink" href="#manual-synchronization" title="Link to this heading"></a></h4>
 <p>You only need <cite>torch.cuda.synchronize()</cite> if you need to measure execution time:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Without synchronization (asynchronous)</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -898,9 +781,7 @@ GPU Hardware:
 <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>  <span class="c1"># Measures actual kernel execution</span>
 </pre></div>
 </div>
-</section>
-<section id="implicit-synchronization">
-<h4><a class="toc-backref" href="#id24" role="doc-backlink">Implicit Synchronization</a><a class="headerlink" href="#implicit-synchronization" title="Link to this heading"></a></h4>
+<hr class="docutils" />
 <p>PyTorch automatically synchronizes when you use the tensor:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output_triton</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># Kernel launches asynchronously</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">output_triton</span><span class="p">)</span>       <span class="c1"># Synchronizes before printing</span>
@@ -909,7 +790,6 @@ GPU Hardware:
 <span class="n">output_cpu</span> <span class="o">=</span> <span class="n">output_triton</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>  <span class="c1"># Synchronizes before copying</span>
 </pre></div>
 </div>
-<p>In the vector addition example (lines 88-93):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output_torch</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>                      <span class="c1"># CPU-side, returns immediately</span>
 <span class="n">output_triton</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>                 <span class="c1"># GPU kernel, launches asynchronously</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">output_torch</span><span class="p">)</span>                       <span class="c1"># Synchronizes implicitly</span>
@@ -918,9 +798,7 @@ GPU Hardware:
 <span class="c1"># By here, both are ready and comparison works</span>
 </pre></div>
 </div>
-</section>
-<section id="why-asynchronous-by-default">
-<h4><a class="toc-backref" href="#id25" role="doc-backlink">Why Asynchronous by Default?</a><a class="headerlink" href="#why-asynchronous-by-default" title="Link to this heading"></a></h4>
+<hr class="docutils" />
 <p>This design allows:
 1. <strong>Overlapping computation</strong>: CPU can queue multiple kernels while GPU executes
 2. <strong>Better resource utilization</strong>: No blocking waits
@@ -929,9 +807,9 @@ GPU Hardware:
 </section>
 </section>
 <section id="advanced-topics">
-<h2><a class="toc-backref" href="#id26" role="doc-backlink">Advanced Topics</a><a class="headerlink" href="#advanced-topics" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Advanced Topics</a><a class="headerlink" href="#advanced-topics" title="Link to this heading"></a></h2>
 <section id="multi-dimensional-grids">
-<h3><a class="toc-backref" href="#id27" role="doc-backlink">Multi-Dimensional Grids</a><a class="headerlink" href="#multi-dimensional-grids" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Multi-Dimensional Grids</a><a class="headerlink" href="#multi-dimensional-grids" title="Link to this heading"></a></h3>
 <p>For 2D operations, you can use multi-dimensional grids:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@triton</span><span class="o">.</span><span class="n">jit</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">matrix_op_kernel</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">M</span><span class="p">:</span> <span class="n">tl</span><span class="o">.</span><span class="n">constexpr</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="n">tl</span><span class="o">.</span><span class="n">constexpr</span><span class="p">):</span>
@@ -943,9 +821,7 @@ GPU Hardware:
 <span class="n">grid</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">meta</span><span class="p">:</span> <span class="p">(</span><span class="n">triton</span><span class="o">.</span><span class="n">cdiv</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">triton</span><span class="o">.</span><span class="n">cdiv</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">32</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
-<section id="constexpr-parameters">
-<h3><a class="toc-backref" href="#id28" role="doc-backlink">Constexpr Parameters</a><a class="headerlink" href="#constexpr-parameters" title="Link to this heading"></a></h3>
+<hr class="docutils" />
 <p>The <cite>tl.constexpr</cite> annotation marks parameters as compile-time constants:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_kernel</span><span class="p">(</span><span class="n">x_ptr</span><span class="p">,</span> <span class="n">y_ptr</span><span class="p">,</span> <span class="n">output_ptr</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="p">:</span> <span class="n">tl</span><span class="o">.</span><span class="n">constexpr</span><span class="p">):</span>
     <span class="c1"># BLOCK_SIZE is a compile-time constant</span>
@@ -953,28 +829,30 @@ GPU Hardware:
     <span class="n">offsets</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="p">)</span>  <span class="c1"># Unrolled at compile time</span>
 </pre></div>
 </div>
-<p>This allows Triton to:
-- Unroll loops
-- Optimize memory access patterns
-- Generate specialized code per BLOCK_SIZE</p>
+<ul class="simple">
+<li><p>Unroll loops</p></li>
+<li><p>Optimize memory access patterns</p></li>
+<li><p>Generate specialized code per BLOCK_SIZE</p></li>
+</ul>
 </section>
 <section id="kernel-caching">
-<h3><a class="toc-backref" href="#id29" role="doc-backlink">Kernel Caching</a><a class="headerlink" href="#kernel-caching" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Kernel Caching</a><a class="headerlink" href="#kernel-caching" title="Link to this heading"></a></h3>
 <p>Triton caches compiled kernels:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add_kernel</span><span class="p">[</span><span class="n">grid</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>  <span class="c1"># Compiles</span>
 <span class="n">add_kernel</span><span class="p">[</span><span class="n">grid</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>  <span class="c1"># Cached!</span>
 </pre></div>
 </div>
-<p>The cache key includes:
-- Kernel signature
-- Argument specialization
-- Compilation options</p>
+<ul class="simple">
+<li><p>Kernel signature</p></li>
+<li><p>Argument specialization</p></li>
+<li><p>Compilation options</p></li>
+</ul>
 </section>
 </section>
 <section id="performance-considerations">
-<h2><a class="toc-backref" href="#id30" role="doc-backlink">Performance Considerations</a><a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">Performance Considerations</a><a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h2>
 <section id="grid-size-selection">
-<h3><a class="toc-backref" href="#id31" role="doc-backlink">Grid Size Selection</a><a class="headerlink" href="#grid-size-selection" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Grid Size Selection</a><a class="headerlink" href="#grid-size-selection" title="Link to this heading"></a></h3>
 <p>Choose BLOCK_SIZE based on GPU architecture:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good choices</span>
 <span class="n">BLOCK_SIZE</span> <span class="o">=</span> <span class="mi">256</span>   <span class="c1"># Common for NVIDIA</span>
@@ -985,21 +863,20 @@ GPU Hardware:
 <span class="n">grid_size</span> <span class="o">=</span> <span class="n">triton</span><span class="o">.</span><span class="n">cdiv</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="masking-overhead">
-<h3><a class="toc-backref" href="#id32" role="doc-backlink">Masking Overhead</a><a class="headerlink" href="#masking-overhead" title="Link to this heading"></a></h3>
+<hr class="docutils" />
 <p>Always mask out-of-bounds accesses:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="n">offsets</span> <span class="o">&lt;</span> <span class="n">n_elements</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">x_ptr</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This prevents:
-- Segmentation faults
-- Invalid memory access
-- Undefined behavior</p>
+<ul class="simple">
+<li><p>Segmentation faults</p></li>
+<li><p>Invalid memory access</p></li>
+<li><p>Undefined behavior</p></li>
+</ul>
 </section>
 <section id="memory-coalescing">
-<h3><a class="toc-backref" href="#id33" role="doc-backlink">Memory Coalescing</a><a class="headerlink" href="#memory-coalescing" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Memory Coalescing</a><a class="headerlink" href="#memory-coalescing" title="Link to this heading"></a></h3>
 <p>Triton optimizes memory access patterns automatically, but contiguous access is still important:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: contiguous memory access</span>
 <span class="n">offsets</span> <span class="o">=</span> <span class="n">block_start</span> <span class="o">+</span> <span class="n">tl</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="p">)</span>
@@ -1010,27 +887,26 @@ GPU Hardware:
 <span class="n">x</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">x_ptr</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="kernel-compilation-warmup-and-gpu-initialization">
-<h2><a class="toc-backref" href="#id34" role="doc-backlink">Kernel Compilation, Warmup, and GPU Initialization</a><a class="headerlink" href="#kernel-compilation-warmup-and-gpu-initialization" title="Link to this heading"></a></h2>
+<hr class="docutils" />
 <p>When optimizing kernels for specific GPU architectures, you often need to:
 1. Compile the kernel ahead of time
 2. Extract resource usage information
 3. Calculate optimal grid size based on GPU properties
 4. Load the binary on the GPU</p>
 <p>This section explains the functions that enable this workflow.</p>
+</section>
 <section id="is-hip-detect-amd-gpu-backend">
-<h3><a class="toc-backref" href="#id35" role="doc-backlink">is_hip() - Detect AMD GPU Backend</a><a class="headerlink" href="#is-hip-detect-amd-gpu-backend" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">is_hip() - Detect AMD GPU Backend</a><a class="headerlink" href="#is-hip-detect-amd-gpu-backend" title="Link to this heading"></a></h3>
 <p><strong>Purpose</strong>: Check if the kernel is running on an AMD GPU (HIP backend) vs NVIDIA (CUDA).</p>
 <p><strong>Definition</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">is_hip</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">triton</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">active</span><span class="o">.</span><span class="n">get_current_target</span><span class="p">()</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;hip&quot;</span>
 </pre></div>
 </div>
-<p><strong>What it does:</strong>
-- Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if backend is HIP (AMD’s Heterogeneous-Interface for Portability)
-- Returns <code class="docutils literal notranslate"><span class="pre">False</span></code> if backend is CUDA (NVIDIA)</p>
+<ul class="simple">
+<li><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if backend is HIP (AMD’s Heterogeneous-Interface for Portability)</p></li>
+<li><p>Returns <code class="docutils literal notranslate"><span class="pre">False</span></code> if backend is CUDA (NVIDIA)</p></li>
+</ul>
 <p><strong>Why it matters:</strong></p>
 <p>AMD and NVIDIA GPUs have fundamentally different architectures:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>NVIDIA Architecture          AMD RDNA/CDNA Architecture
@@ -1041,7 +917,6 @@ GPU Hardware:
    based on register usage      (includes register pools)
 </pre></div>
 </div>
-<p><strong>Example usage:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_hip</span><span class="p">():</span>
     <span class="c1"># AMD-specific calculation</span>
     <span class="n">occupancy</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">NUM_GPRS</span> <span class="o">//</span> <span class="n">WARP_SIZE</span> <span class="o">//</span> <span class="n">n_regs</span><span class="p">,</span> <span class="n">max_num_waves</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_warps</span>
@@ -1050,9 +925,7 @@ GPU Hardware:
     <span class="n">occupancy</span> <span class="o">=</span> <span class="n">NUM_REGS</span> <span class="o">//</span> <span class="p">(</span><span class="n">n_regs</span> <span class="o">*</span> <span class="n">WARP_SIZE</span> <span class="o">*</span> <span class="n">num_warps</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="is-cdna-detect-amd-cdna-architecture">
-<h3><a class="toc-backref" href="#id36" role="doc-backlink">is_cdna() - Detect AMD CDNA Architecture</a><a class="headerlink" href="#is-cdna-detect-amd-cdna-architecture" title="Link to this heading"></a></h3>
+<hr class="docutils" />
 <p><strong>Purpose</strong>: Check if the AMD GPU is CDNA architecture (data center) vs RDNA (gaming).</p>
 <p><strong>Definition</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">is_cdna</span><span class="p">():</span>
@@ -1062,7 +935,6 @@ GPU Hardware:
     <span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>AMD GPU Architecture Families</strong>:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>AMD GPUs
 ├── RDNA (Gaming/Consumer)
 │   ├── RX 6800, 6900, 7000 series
@@ -1078,7 +950,6 @@ GPU Hardware:
         └── Dual register pools: 512 total VGPRs
 </pre></div>
 </div>
-<p><strong>CDNA Special Feature - Dual Register Pools:</strong></p>
 <p>CDNA architecture has a unique register organization for matrix operations:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CDNA Register Layout
 ├── Regular VGPRs: 256 registers per wave
@@ -1086,7 +957,6 @@ GPU Hardware:
 └── Total: 512 registers available per wave
 </pre></div>
 </div>
-<p>This means CDNA can support higher occupancy than older architectures.</p>
 <p><strong>Example usage from fused softmax:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_hip</span><span class="p">():</span>
     <span class="n">NUM_GPRS</span> <span class="o">=</span> <span class="n">NUM_REGS</span>  <span class="c1"># Start with regular registers</span>
@@ -1098,16 +968,13 @@ GPU Hardware:
     <span class="n">occupancy</span> <span class="o">=</span> <span class="n">NUM_REGS</span> <span class="o">//</span> <span class="p">(</span><span class="n">n_regs</span> <span class="o">*</span> <span class="n">WARP_SIZE</span> <span class="o">*</span> <span class="n">num_warps</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="warmup-pre-compile-kernel-without-execution">
-<h3><a class="toc-backref" href="#id37" role="doc-backlink">warmup() - Pre-compile Kernel Without Execution</a><a class="headerlink" href="#warmup-pre-compile-kernel-without-execution" title="Link to this heading"></a></h3>
+<hr class="docutils" />
 <p><strong>Purpose</strong>: Compile the kernel and extract resource metadata (registers, shared memory) without actually running it on the GPU.</p>
 <p><strong>Signature</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">warmup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span> <span class="n">warmup</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">*</span><span class="nb">map</span><span class="p">(</span><span class="n">MockTensor</span><span class="o">.</span><span class="n">wrap_dtype</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>What it does:</strong></p>
 <ol class="arabic simple">
 <li><p><strong>Compiles</strong> the kernel using the Triton compiler pipeline
 - Python source code → LLVM IR → GPU assembly (PTX/AMDGPU)</p></li>
@@ -1130,7 +997,6 @@ GPU Hardware:
 <span class="n">n_max_threads</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">n_max_threads</span>      <span class="c1"># Max concurrent threads</span>
 </pre></div>
 </div>
-<p><strong>Why warmup is essential:</strong></p>
 <p>Occupancy calculations require <strong>actual compiled kernel properties</strong>, not just source code:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Without warmup:
     Source code → ?? registers needed ??
@@ -1146,7 +1012,6 @@ With warmup:
         grid_size = NUM_SM * occupancy
 </pre></div>
 </div>
-<p><strong>Multi-specialization with warmup:</strong></p>
 <p>The warmup function respects constexpr specialization:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Each unique constexpr combination requires separate warmup</span>
 <span class="n">kernel_256</span> <span class="o">=</span> <span class="n">softmax_kernel</span><span class="o">.</span><span class="n">warmup</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">num_stages</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
@@ -1158,9 +1023,7 @@ With warmup:
 <span class="c1"># Different specializations have different resource usage!</span>
 </pre></div>
 </div>
-</section>
-<section id="init-handles-initialize-gpu-binary-handles">
-<h3><a class="toc-backref" href="#id38" role="doc-backlink">_init_handles() - Initialize GPU Binary Handles</a><a class="headerlink" href="#init-handles-initialize-gpu-binary-handles" title="Link to this heading"></a></h3>
+<hr class="docutils" />
 <p><strong>Purpose</strong>: Load the compiled kernel binary on the GPU and initialize runtime handles.</p>
 <p><strong>Signature</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_init_handles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1185,7 +1048,6 @@ With warmup:
         <span class="k">raise</span> <span class="n">OutOfResources</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>What it does:</strong></p>
 <ol class="arabic simple">
 <li><p><strong>Loads</strong> the binary on the current GPU device</p></li>
 <li><p><strong>Validates</strong> that kernel resources fit within GPU limits</p></li>
@@ -1208,7 +1070,6 @@ With warmup:
     <span class="k">raise</span> <span class="n">OutOfResources</span><span class="p">(</span><span class="s2">&quot;threads&quot;</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Lazy initialization:</strong></p>
 <p><code class="docutils literal notranslate"><span class="pre">_init_handles()</span></code> is called lazily (on demand) for several reasons:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Lazy initialization pattern:</span>
 <span class="nd">@property</span>
@@ -1223,7 +1084,6 @@ With warmup:
 <span class="c1"># 3. Memory efficiency: Defer loading expensive binaries</span>
 </pre></div>
 </div>
-<p><strong>Manual initialization with _init_handles():</strong></p>
 <p>You explicitly call <code class="docutils literal notranslate"><span class="pre">_init_handles()</span></code> when you need resource information <strong>before</strong> launching:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Warmup: compile and get basic metadata</span>
 <span class="n">kernel</span> <span class="o">=</span> <span class="n">softmax_kernel</span><span class="o">.</span><span class="n">warmup</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">num_stages</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
@@ -1244,9 +1104,7 @@ With warmup:
 <span class="n">kernel</span><span class="p">[(</span><span class="n">num_programs</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)](</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="complete-workflow-example-fused-softmax">
-<h3><a class="toc-backref" href="#id39" role="doc-backlink">Complete Workflow Example: Fused Softmax</a><a class="headerlink" href="#complete-workflow-example-fused-softmax" title="Link to this heading"></a></h3>
+<hr class="docutils" />
 <p>Here’s how all these functions work together in the fused softmax kernel:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
@@ -1300,8 +1158,7 @@ With warmup:
     <span class="k">return</span> <span class="n">y</span>
 </pre></div>
 </div>
-<section id="data-flow-diagram">
-<h4><a class="toc-backref" href="#id40" role="doc-backlink">Data Flow Diagram</a><a class="headerlink" href="#data-flow-diagram" title="Link to this heading"></a></h4>
+<hr class="docutils" />
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Source Code (02-fused-softmax.py)
 └─ softmax_kernel (JIT function)
    │
@@ -1331,9 +1188,7 @@ With warmup:
          └─ Launch 1823 blocks (one per row)
 </pre></div>
 </div>
-</section>
-<section id="summary-table">
-<h4><a class="toc-backref" href="#id41" role="doc-backlink">Summary Table</a><a class="headerlink" href="#summary-table" title="Link to this heading"></a></h4>
+<hr class="docutils" />
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Function        | Type    | Purpose                        | Returns
 =============== ========= ================================ ==========================
 is_hip()        | Check   | Detect AMD GPU backend         | True/False
@@ -1342,14 +1197,11 @@ warmup()        | Compile | Pre-compile + extract metadata | Kernel object with 
 _init_handles() | Init    | Load binary on GPU + validate  | (Initializes internal state)
 </pre></div>
 </div>
-</section>
-</section>
-</section>
-<section id="compiler-optimization-hints-tl-assume">
-<h2><a class="toc-backref" href="#id42" role="doc-backlink">Compiler Optimization Hints: <cite>tl.assume()</cite></a><a class="headerlink" href="#compiler-optimization-hints-tl-assume" title="Link to this heading"></a></h2>
+<hr class="docutils" />
 <p>When writing high-performance GPU kernels, you often know certain conditions will always be true at runtime. Rather than letting the compiler generate defensive code to handle all cases, you can use <cite>tl.assume()</cite> to tell the compiler these guarantees, enabling aggressive optimizations.</p>
+</section>
 <section id="what-is-tl-assume">
-<h3><a class="toc-backref" href="#id43" role="doc-backlink">What is tl.assume()?</a><a class="headerlink" href="#what-is-tl-assume" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">What is tl.assume()?</a><a class="headerlink" href="#what-is-tl-assume" title="Link to this heading"></a></h3>
 <p><strong>Purpose</strong>: Provide compile-time hints to the Triton compiler that a condition is guaranteed to be true.</p>
 <p><strong>Definition</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">assume</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="n">_semantic</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1359,7 +1211,6 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
     <span class="k">return</span> <span class="n">_semantic</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">_semantic</span><span class="o">.</span><span class="n">to_tensor</span><span class="p">(</span><span class="n">cond</span><span class="p">))</span>
 </pre></div>
 </div>
-<p><strong>What it does:</strong></p>
 <ul class="simple">
 <li><p>Tells the compiler: “This condition will always be true at runtime”</p></li>
 <li><p>Allows the compiler to:
@@ -1372,7 +1223,7 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 <p><strong>Important caveat</strong>: If your assumption is false, the compiler generates incorrect code and you get undefined behavior!</p>
 </section>
 <section id="why-assumptions-help-optimization">
-<h3><a class="toc-backref" href="#id44" role="doc-backlink">Why Assumptions Help Optimization</a><a class="headerlink" href="#why-assumptions-help-optimization" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">Why Assumptions Help Optimization</a><a class="headerlink" href="#why-assumptions-help-optimization" title="Link to this heading"></a></h3>
 <p>Consider address calculation in matrix multiplication:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Without assumption:</span>
 <span class="n">a_ptr</span> <span class="o">=</span> <span class="n">base_ptr</span> <span class="o">+</span> <span class="p">(</span><span class="n">offset</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)</span>
@@ -1392,10 +1243,9 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 <span class="c1"># Generated code: ~2-3 instructions</span>
 </pre></div>
 </div>
-<p><strong>Performance impact</strong>: For kernels doing pointer arithmetic thousands of times, this can save significant compute cycles.</p>
 </section>
 <section id="matrix-multiplication-example">
-<h3><a class="toc-backref" href="#id45" role="doc-backlink">Matrix Multiplication Example</a><a class="headerlink" href="#matrix-multiplication-example" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Matrix Multiplication Example</a><a class="headerlink" href="#matrix-multiplication-example" title="Link to this heading"></a></h3>
 <p>In <cite>03-matrix-multiplication.py</cite> (lines 267-277), the kernel makes the following assumptions:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add some integer bound assumptions.</span>
 <span class="c1"># This helps to guide integer analysis in the backend to optimize</span>
@@ -1410,24 +1260,23 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">stride_cn</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Why each assumption?</strong></p>
 <p><strong>Program IDs are non-negative:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">pid_m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">pid_n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>GPU runtime always assigns program IDs &gt;= 0. By telling the compiler, it can avoid checks for negative IDs.</p>
 <p><strong>Strides are positive:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">stride_am</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># stride from tensor.stride(0)</span>
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">stride_ak</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># stride from tensor.stride(1)</span>
 <span class="c1"># ... and so on</span>
 </pre></div>
 </div>
-<p>Tensor strides from <cite>.stride()</cite> are always positive for contiguous tensors. Assumptions allow the compiler to:
-- Skip overflow checks on stride multiplication
-- Avoid handling backward (negative stride) cases
-- Simplify bounds validation
-- Generate optimal addressing code</p>
+<ul class="simple">
+<li><p>Skip overflow checks on stride multiplication</p></li>
+<li><p>Avoid handling backward (negative stride) cases</p></li>
+<li><p>Simplify bounds validation</p></li>
+<li><p>Generate optimal addressing code</p></li>
+</ul>
 <p><strong>Real-world impact:</strong></p>
 <p>After these assumptions, the kernel calculates:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pointer arithmetic for matrix blocks</span>
@@ -1440,10 +1289,9 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 <span class="n">b_ptrs</span> <span class="o">=</span> <span class="n">b_ptr</span> <span class="o">+</span> <span class="p">(</span><span class="n">offs_k</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">stride_bk</span> <span class="o">+</span> <span class="n">offs_bn</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">stride_bn</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The compiler can generate 2-3x fewer instructions for this critical inner-loop pointer arithmetic.</p>
 </section>
 <section id="when-to-use-tl-assume">
-<h3><a class="toc-backref" href="#id46" role="doc-backlink">When to Use <cite>tl.assume()</cite></a><a class="headerlink" href="#when-to-use-tl-assume" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">When to Use <cite>tl.assume()</cite></a><a class="headerlink" href="#when-to-use-tl-assume" title="Link to this heading"></a></h3>
 <p>Use <cite>tl.assume()</cite> when you know a condition is <strong>guaranteed</strong> because:</p>
 <ol class="arabic simple">
 <li><p><strong>GPU runtime guarantees it</strong></p></li>
@@ -1452,23 +1300,14 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">pid</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Always true from GPU runtime</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="2">
-<li><p><strong>PyTorch/tensor library guarantees it</strong></p></li>
-</ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stride</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">stride</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">stride</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># True for contiguous tensors</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="3">
-<li><p><strong>Mathematical properties guarantee it</strong></p></li>
-</ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num_blocks</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">cdiv</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">block_size</span><span class="p">)</span>
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">num_blocks</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># cdiv always returns &gt;= 1</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="4">
-<li><p><strong>Your kernel preconditions require it</strong> (verified in Python launcher)</p></li>
-</ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In Python wrapper:</span>
 <span class="k">assert</span> <span class="n">stride</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Tensor must be contiguous&quot;</span>
 
@@ -1476,8 +1315,7 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">stride</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Safe because Python layer checked it</span>
 </pre></div>
 </div>
-<section id="dangerous-example-don-t-do-this">
-<h4><a class="toc-backref" href="#id47" role="doc-backlink">Dangerous Example: DON’T DO THIS</a><a class="headerlink" href="#dangerous-example-don-t-do-this" title="Link to this heading"></a></h4>
+<hr class="docutils" />
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># WRONG - Makes false assumption</span>
 <span class="n">stride</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">stride</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Could be negative!</span>
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">stride</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># DANGER: False assumption!</span>
@@ -1487,10 +1325,7 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 <span class="c1"># Results in memory corruption, crashes, wrong answers</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="related-functions-tl-static-assert">
-<h3><a class="toc-backref" href="#id48" role="doc-backlink">Related Functions: <cite>tl.static_assert()</cite></a><a class="headerlink" href="#related-functions-tl-static-assert" title="Link to this heading"></a></h3>
+<hr class="docutils" />
 <p><cite>tl.assume()</cite> is similar to <cite>tl.static_assert()</cite> but with important differences:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Feature              | tl.assume()              | tl.static_assert()
 ==================== ========================= ======================
@@ -1501,7 +1336,6 @@ Use case             | Known truths             | Verify preconditions
 Performance impact   | Enables optimizations    | None (fails to compile)
 </pre></div>
 </div>
-<p><strong>Example usage:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use static_assert to verify kernel preconditions</span>
 <span class="nd">@triton</span><span class="o">.</span><span class="n">jit</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">kernel</span><span class="p">(</span><span class="n">x_ptr</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="p">:</span> <span class="n">tl</span><span class="o">.</span><span class="n">constexpr</span><span class="p">):</span>
@@ -1512,8 +1346,7 @@ Performance impact   | Enables optimizations    | None (fails to compile)
     <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">stride</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Hint for optimization</span>
 </pre></div>
 </div>
-<section id="performance-impact-in-matrix-multiplication">
-<h4><a class="toc-backref" href="#id49" role="doc-backlink">Performance Impact in Matrix Multiplication</a><a class="headerlink" href="#performance-impact-in-matrix-multiplication" title="Link to this heading"></a></h4>
+<hr class="docutils" />
 <p>The <cite>tl.assume()</cite> calls in matrix multiplication are critical for performance:</p>
 <dl class="simple">
 <dt>Without assumptions:</dt><dd><ul class="simple">
@@ -1535,9 +1368,8 @@ Performance impact   | Enables optimizations    | None (fails to compile)
 </dl>
 <p><strong>This 20-30% performance difference comes purely from compiler optimization enabled by assumptions!</strong></p>
 </section>
-</section>
 <section id="how-compiler-uses-assumptions">
-<h3><a class="toc-backref" href="#id50" role="doc-backlink">How Compiler Uses Assumptions</a><a class="headerlink" href="#how-compiler-uses-assumptions" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">How Compiler Uses Assumptions</a><a class="headerlink" href="#how-compiler-uses-assumptions" title="Link to this heading"></a></h3>
 <p>The Triton compiler’s integer analysis backend uses <cite>tl.assume()</cite> to:</p>
 <ol class="arabic simple">
 <li><p><strong>Range analysis</strong>: Determine possible value ranges</p></li>
@@ -1547,27 +1379,18 @@ Performance impact   | Enables optimizations    | None (fails to compile)
 <span class="c1"># Can eliminate negative checks</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="2">
-<li><p><strong>Overflow detection</strong>: Validate arithmetic safety</p></li>
-</ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">stride</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">offset</span> <span class="o">&lt;</span> <span class="n">MAX_INT</span><span class="p">)</span>
 <span class="c1"># Compiler knows: stride * offset won&#39;t overflow</span>
 <span class="c1"># Can skip overflow checks</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="3">
-<li><p><strong>Bounds validation</strong>: Simplify memory access checks</p></li>
-</ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">base_ptr</span><span class="p">)</span>
 <span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">ptr</span> <span class="o">&lt;</span> <span class="n">end_ptr</span><span class="p">)</span>
 <span class="c1"># Compiler knows: ptr is always in bounds</span>
 <span class="c1"># Can eliminate bounds checking</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="4">
-<li><p><strong>Code elimination</strong>: Remove impossible branches</p></li>
-</ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tl</span><span class="o">.</span><span class="n">assume</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">condition</span><span class="p">:</span>
     <span class="c1"># Path taken</span>
@@ -1576,9 +1399,7 @@ Performance impact   | Enables optimizations    | None (fails to compile)
     <span class="k">pass</span>
 </pre></div>
 </div>
-</section>
-<section id="summary-tl-assume-guidelines">
-<h3><a class="toc-backref" href="#id51" role="doc-backlink">Summary: <cite>tl.assume()</cite> Guidelines</a><a class="headerlink" href="#summary-tl-assume-guidelines" title="Link to this heading"></a></h3>
+<hr class="docutils" />
 <p><strong>Key takeaways:</strong></p>
 <ul class="simple">
 <li><p><strong>Purpose</strong>: Optimization hint telling compiler about guaranteed conditions</p></li>
@@ -1589,7 +1410,7 @@ Performance impact   | Enables optimizations    | None (fails to compile)
 <li><p><strong>Performance impact</strong>: 10-30% improvement in pointer-heavy kernels</p></li>
 </ul>
 <section id="comparison-with-other-optimization-techniques">
-<h4><a class="toc-backref" href="#id52" role="doc-backlink">Comparison with Other Optimization Techniques</a><a class="headerlink" href="#comparison-with-other-optimization-techniques" title="Link to this heading"></a></h4>
+<h4><a class="toc-backref" href="#id28" role="doc-backlink">Comparison with Other Optimization Techniques</a><a class="headerlink" href="#comparison-with-other-optimization-techniques" title="Link to this heading"></a></h4>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Technique           | Purpose                | When to Use
 =================== ======================== =========================
 tl.assume()         | Compiler optimization  | Known guaranteed conditions
@@ -1599,11 +1420,7 @@ Constexpr params    | Specialization         | Compile-time constants
 Unrolling hints     | Loop optimization      | Control loop unrolling
 </pre></div>
 </div>
-</section>
-</section>
-</section>
-<section id="summary">
-<h2><a class="toc-backref" href="#id53" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<hr class="docutils" />
 <p>Key Concepts Recap:</p>
 <ol class="arabic simple">
 <li><p><strong>Grid Specification</strong>: <cite>triton.cdiv()</cite> calculates how many programs to launch</p></li>
@@ -1616,8 +1433,10 @@ Unrolling hints     | Loop optimization      | Control loop unrolling
 </ol>
 <p>The beauty of Triton is that it handles all the low-level details (LLVM IR generation, memory optimization, GPU-specific code generation) automatically, letting you write high-performance GPU code in Python.</p>
 </section>
+</section>
+</section>
 <section id="references">
-<h2><a class="toc-backref" href="#id54" role="doc-backlink">References</a><a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">References</a><a class="headerlink" href="#references" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Triton Documentation: <a class="reference external" href="https://triton-lang.org/">https://triton-lang.org/</a></p></li>
 <li><p>NVIDIA CUDA Programming Guide: <a class="reference external" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/">https://docs.nvidia.com/cuda/cuda-c-programming-guide/</a></p></li>

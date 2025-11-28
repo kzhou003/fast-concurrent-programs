@@ -96,7 +96,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#hyperthreading-limitations">Hyperthreading Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#checking-hyperthreading-status">Checking Hyperthreading Status</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#the-fundamental-constraint">The Fundamental Constraint</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#why-more-threads-more-speed">Why More Threads != More Speed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#optimal-worker-count">Optimal Worker Count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#real-world-example">Real-World Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#cpu-vs-gpu-different-design-philosophies">CPU vs GPU: Different Design Philosophies</a></li>
@@ -131,7 +130,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#use-cases">Use Cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#examples">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#usage">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html">Overview</a></li>
@@ -157,7 +155,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html">The Answer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html">Without task_done() - Can’t Track Completion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-can-track-completion">With task_done() - Can Track Completion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#internal-counter-system">Internal Counter System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#visual-timeline">Visual Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#code-simplified">Code (Simplified)</a></li>
@@ -169,9 +166,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#join">join()</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#scenario-1-producer-1-consumer">Scenario: 1 Producer, 1 Consumer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-1-put-increment-counter">Step 1: put() - Increment Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-2-get-item-removed-counter-unchanged">Step 2: get() - Item Removed, Counter Unchanged</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-3-task-done-decrement-counter">Step 3: task_done() - Decrement Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-4-join-wait-then-return">Step 4: join() - Wait, Then Return</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#diagram-tracking-one-task">Diagram: Tracking One Task</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#diagram-multiple-tasks">Diagram: Multiple Tasks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#counter">Counter</a></li>
@@ -187,7 +181,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-3-mark-done">Step 3: Mark Done</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#flow-diagram">Flow Diagram</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#without-task-done-problematic">Without task_done() - PROBLEMATIC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-correct">With task_done() - CORRECT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-1-verify-all-work-complete">Use Case 1: Verify All Work Complete</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-2-track-progress">Use Case 2: Track Progress</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-3-batch-processing">Use Case 3: Batch Processing</a></li>
@@ -201,22 +194,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#use-regular-lock-when">Use Regular Lock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#use-rlock-when">Use RLock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#regular-lock-would-deadlock">Regular Lock - Would Deadlock</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#rlock-no-deadlock">RLock - No Deadlock</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html">Key Concept</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#counting-semaphore-counter-1">1. Counting Semaphore (Counter &gt; 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#binary-semaphore-counter-0-or-1">2. Binary Semaphore (Counter = 0 or 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#execution-timeline">Execution Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#acquire"><code class="docutils literal notranslate"><span class="pre">acquire()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#counting-semaphore-3-spots-available">Counting Semaphore (3 spots available)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#binary-semaphore-producer-consumer">Binary Semaphore (Producer-Consumer)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#example-1-swimming-pool-with-limited-capacity">Example 1: Swimming Pool with Limited Capacity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#example-2-producer-consumer-like-the-code">Example 2: Producer-Consumer (Like the Code)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#limiting-concurrent-access">1. <strong>Limiting Concurrent Access</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#producer-consumer-communication">2. <strong>Producer-Consumer Communication</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#synchronizing-multiple-threads">3. <strong>Synchronizing Multiple Threads</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#lock-threading-lock">Lock (<code class="docutils literal notranslate"><span class="pre">threading.Lock</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#semaphore-counting">Semaphore (Counting)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#semaphore-binary-used-as-signal">Semaphore (Binary - Used as Signal)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html">What is the GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#why-does-python-have-a-gil">Why Does Python Have a GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-the-gil-works">How the GIL Works</a></li>
@@ -236,7 +224,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-the-os-helps">How the OS Helps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#performance-comparison">Performance Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#why-not-multiprocessing-for-i-o">Why Not Multiprocessing for I/O?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#threading-trade-offs">Threading Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-problem-with-threading-overhead">The Problem with Threading: Overhead</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-cooperative-multitasking">Asyncio: Cooperative Multitasking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-asyncio-works">How Asyncio Works</a></li>
@@ -244,11 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-vs-threading-detailed-comparison">Asyncio vs Threading: Detailed Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#performance-characteristics">Performance Characteristics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#when-asyncio-shines">When Asyncio Shines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-trade-offs">Asyncio Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#cpu-bound-with-threading-the-gil-dance">CPU-bound with Threading: The GIL Dance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#cpu-bound-with-multiprocessing-true-parallel">CPU-bound with Multiprocessing: True Parallel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#i-o-bound-with-threading-gil-released">I/O-bound with Threading: GIL Released</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#i-o-bound-with-asyncio-event-loop-magic">I/O-bound with Asyncio: Event Loop Magic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-cpu-bound-task-computing-pi">Benchmark: CPU-bound Task (Computing pi)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-i-o-bound-task-web-requests">Benchmark: I/O-bound Task (Web Requests)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-mixed-workload">Benchmark: Mixed Workload</a></li>
@@ -256,7 +239,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#code-templates">Code Templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-gil-controls-everything">1. The GIL Controls Everything</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#resource-usage-matters">2. Resource Usage Matters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#trade-offs-are-real">3. Trade-offs are Real</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#know-your-workload">4. Know Your Workload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Concepts</span></p>
@@ -343,8 +325,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-2-code-generation-ttir">Stage 2: Code Generation (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-3-triton-gpu-ir-ttgir">Stage 3: Triton GPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-4-llvm-ir">Stage 4: LLVM IR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-5-ptx-amdgcn">Stage 5: PTX / AMDGCN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-6-binary-cubin-hsaco">Stage 6: Binary (CUBIN / HSACO)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#block-based-programming-model">Block-based Programming Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#jit-compilation">JIT Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#mlir-infrastructure">MLIR Infrastructure</a></li>
@@ -355,20 +335,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/02-jit-decorator.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html">CodeGenerator Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ast-visitor-pattern">AST Visitor Pattern</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#triton-language-primitives">Triton Language Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#type-inference">Type Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#example-ttir-output">Example TTIR Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#compilation-orchestration">Compilation Orchestration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttir-ttgir-transformation">TTIR -&gt; TTGIR Transformation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttgir-llvm-ir">TTGIR -&gt; LLVM IR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#llvm-ir-ptx">LLVM IR -&gt; PTX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ptx-cubin">PTX -&gt; CUBIN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-key-components">Cache Key Components</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-directory-structure">Cache Directory Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-lookup">Cache Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html">The NVCC Compiler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#nvcc-compilation-stages">NVCC Compilation Stages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-assembly-output">PTX Assembly Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#the-llvm-path">The LLVM Path</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#llvm-ir-stage">LLVM IR Stage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-generated-by-triton">PTX Generated by Triton</a></li>
@@ -376,7 +349,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#source-language">Source Language</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compiler-stack">Compiler Stack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-time">Compilation Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#optimization-levels">Optimization Levels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#can-triton-and-cuda-c-work-together">Can Triton and CUDA C++ Work Together?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#advantages-of-llvm-backend">Advantages of LLVM Backend</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#why-not-use-nvcc">Why Not Use NVCC?</a></li>
@@ -384,27 +356,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#file-types">File Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#example-directory-structures">Example Directory Structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-inspection">PTX Inspection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#cubin-inspection">CUBIN Inspection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-paths-compared">Compilation Paths Compared</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#key-takeaways">Key Takeaways</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html">Traditional Compiler Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#example-matrix-multiplication">Example: Matrix Multiplication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#mlir-philosophy">MLIR Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#dialects">1. Dialects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#operations">2. Operations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#regions-and-blocks">3. Regions and Blocks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#types">4. Types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#attributes">5. Attributes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#passes">6. Passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#why-triton-uses-mlir">Why Triton Uses MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#triton-s-mlir-dialects">Triton’s MLIR Dialects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#python-source">Python Source</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-1-triton-ir-ttir">Stage 1: Triton IR (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-2-tritongpu-ir-ttgir">Stage 2: TritonGPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-3-llvm-dialect">Stage 3: LLVM Dialect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-4-llvm-ir-actual">Stage 4: LLVM IR (Actual)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#command-line-tools">Command-Line Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tablegen-for-defining-operations">TableGen for Defining Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#debugging-mlir">Debugging MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#official-documentation">Official Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tutorials">Tutorials</a></li>
@@ -557,8 +521,7 @@ O shape: (seq_len, head_dim)</p>
 <p><strong>Challenge</strong>: How to compute softmax without storing full matrix?</p>
 <p><strong>Standard softmax</strong> requires two passes:
 .. code-block:: python</p>
-<p>Pass 1: Find max
-max_score = max(S)</p>
+<p>max_score = max(S)</p>
 <p>Pass 2: Compute softmax
 P = exp(S - max_score) / sum(exp(S - max_score))</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>**Online algorithm**: Update running statistics as we process blocks!
@@ -588,8 +551,7 @@ Accumulate into output</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>m = max(s_1, s_2, …, s_n)
-numerator = [exp(s_1-m), exp(s_2-m), …, exp(s_n-m)]
+<p>numerator = [exp(s_1-m), exp(s_2-m), …, exp(s_n-m)]
 l = sum(numerator)
 P_i = numerator / l</p>
 </section>
@@ -633,43 +595,45 @@ With new max:      exp(s_1 - m_new) + exp(s_2 - m_new)</p>
 </section>
 <section id="the-inner-loop">
 <h2>The Inner Loop<a class="headerlink" href="#the-inner-loop" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">start_n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">BLOCK_N</span><span class="p">):</span>
+    <span class="c1"># Load K block</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">desc_k</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="n">offsetk_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="c1"># Compute QK^T for this block</span>
+    <span class="n">qk</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+    <span class="c1"># Apply scaling and mask (if causal)</span>
+    <span class="n">qk</span> <span class="o">=</span> <span class="n">qk</span> <span class="o">*</span> <span class="n">qk_scale</span>
+    <span class="k">if</span> <span class="n">STAGE</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># Causal</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">offs_m</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">start_n</span> <span class="o">+</span> <span class="n">offs_n</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span>
+        <span class="n">qk</span> <span class="o">=</span> <span class="n">qk</span> <span class="o">+</span> <span class="n">tl</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0e6</span><span class="p">)</span>
+
+    <span class="c1"># Update max</span>
+    <span class="n">m_ij</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">m_i</span><span class="p">,</span> <span class="n">tl</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">qk</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Compute softmax probabilities for this block</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">qk</span> <span class="o">-</span> <span class="n">m_ij</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span>
+
+    <span class="c1"># Correction factor</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">m_i</span> <span class="o">-</span> <span class="n">m_ij</span><span class="p">)</span>
+
+    <span class="c1"># Update sum</span>
+    <span class="n">l_ij</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Update output with correction</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">acc</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+    <span class="c1"># Load V block</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">desc_v</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="n">offsetv_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># Accumulate</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span>
+
+    <span class="c1"># Update running statistics</span>
+    <span class="n">l_i</span> <span class="o">=</span> <span class="n">l_i</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">l_ij</span>
+    <span class="n">m_i</span> <span class="o">=</span> <span class="n">m_ij</span>
 </pre></div>
 </div>
-<dl>
-<dt>def <a href="#id1"><span class="problematic" id="id2">*</span></a>attn_fwd*inner(acc, l_i, m_i, q, desc_k, desc_v, …):</dt><dd><dl>
-<dt>for start_n in range(lo, hi, BLOCK_N):</dt><dd><p># Load K block
-k = desc_k.load([offsetk_y, 0]).T</p>
-<p># Compute QK^T for this block
-qk = tl.dot(q, k)</p>
-<p># Apply scaling and mask (if causal)
-qk = qk * qk_scale
-if STAGE == 2:  # Causal</p>
-<blockquote>
-<div><p>mask = offs_m[:, None] &gt;= (start_n + offs_n[None, :])
-qk = qk + tl.where(mask, 0, -1.0e6)</p>
-</div></blockquote>
-<p># Update max
-m_ij = tl.maximum(m_i, tl.max(qk, 1))</p>
-<p># Compute softmax probabilities for this block
-p = tl.exp(qk - m_ij[:, None])</p>
-<p># Correction factor
-alpha = tl.exp(m_i - m_ij)</p>
-<p># Update sum
-l_ij = tl.sum(p, 1)</p>
-<p># Update output with correction
-acc = acc * alpha[:, None]</p>
-<p># Load V block
-v = desc_v.load([offsetv_y, 0])</p>
-<p># Accumulate
-acc = tl.dot(p, v, acc)</p>
-<p># Update running statistics
-l_i = l_i * alpha + l_ij
-m_i = m_ij</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Key</span> <span class="n">variables</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
 </div>
@@ -686,8 +650,7 @@ m_i = m_ij</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>mask = offs_m[:, None] &gt;= (start_n + offs_n[None, :])
-qk = qk + tl.where(mask, 0, -1.0e6)</p>
+<p>qk = qk + tl.where(mask, 0, -1.0e6)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Visual</span> <span class="n">example</span><span class="o">**</span> <span class="p">(</span><span class="n">BLOCK_M</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">BLOCK_N</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 </pre></div>
 </div>
@@ -704,12 +667,10 @@ Key columns: [0, 1, 2, 3]</p>
 </section>
 <section id="stages-for-causal-attention">
 <h2>Stages for Causal Attention<a class="headerlink" href="#stages-for-causal-attention" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">start_m</span> <span class="o">*</span> <span class="n">BLOCK_M</span>  <span class="c1"># Before diagonal</span>
 </pre></div>
 </div>
 <dl class="simple">
-<dt>if STAGE == 1:</dt><dd><p>lo, hi = 0, start_m * BLOCK_M  # Before diagonal</p>
-</dd>
 <dt>elif STAGE == 2:</dt><dd><p>lo, hi = start_m * BLOCK_M, (start_m + 1) * BLOCK_M  # On diagonal (causal)</p>
 </dd>
 <dt>else:</dt><dd><p>lo, hi = 0, N_CTX  # Full attention (non-causal)</p>
@@ -728,14 +689,10 @@ Key columns: [0, 1, 2, 3]</p>
 <section id="tensor-descriptors">
 <h2>Tensor Descriptors<a class="headerlink" href="#tensor-descriptors" title="Link to this heading"></a></h2>
 <p>Modern GPUs (Hopper, Blackwell) support <strong>tensor descriptors</strong>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">strides</span><span class="o">=</span><span class="p">[</span><span class="n">HEAD_DIM</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="n">block_shape</span><span class="o">=</span><span class="p">[</span><span class="n">BLOCK_M</span><span class="p">,</span> <span class="n">HEAD_DIM</span><span class="p">])</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>desc_q = TensorDescriptor(q, shape=[y_dim, HEAD_DIM],</dt><dd><p>strides=[HEAD_DIM, 1],
-block_shape=[BLOCK_M, HEAD_DIM])</p>
-</dd>
-</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Benefits</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
 </div>
@@ -746,7 +703,6 @@ block_shape=[BLOCK_M, HEAD_DIM])</p>
 </ul>
 <p><strong>Triton abstracts this</strong>:
 .. code-block:: python</p>
-<p>q = desc_q.load([offset_y, 0])</p>
 <p>Looks simple, but uses advanced hardware features!</p>
 </section>
 <section id="warp-specialization">
@@ -754,7 +710,6 @@ block_shape=[BLOCK_M, HEAD_DIM])</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>warp_specialize = True</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Concept</span><span class="o">**</span><span class="p">:</span> <span class="n">Different</span> <span class="n">warps</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">block</span> <span class="n">do</span> <span class="n">different</span> <span class="n">tasks</span>
 </pre></div>
 </div>
@@ -775,12 +730,10 @@ block_shape=[BLOCK_M, HEAD_DIM])</p>
 <section id="fp8-support">
 <h2>FP8 Support<a class="headerlink" href="#fp8-support" title="Link to this heading"></a></h2>
 <p>For Blackwell GPUs with FP8 Tensor Cores:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">desc_v</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">offsetv_y</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># Transposed layout for FP8</span>
 </pre></div>
 </div>
 <dl class="simple">
-<dt>if dtype == tl.float8e5:</dt><dd><p>v = desc_v.load([0, offsetv_y]).T  # Transposed layout for FP8</p>
-</dd>
 <dt>else:</dt><dd><p>v = desc_v.load([offsetv_y, 0])</p>
 </dd>
 </dl>
@@ -797,17 +750,13 @@ block_shape=[BLOCK_M, HEAD_DIM])</p>
 </section>
 <section id="preprocess-step">
 <h2>Preprocess Step<a class="headerlink" href="#preprocess-step" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute delta = sum(O * DO) for each row</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">O</span> <span class="o">+</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">do</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">DO</span> <span class="o">+</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">o</span> <span class="o">*</span> <span class="n">do</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tl</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">Delta</span> <span class="o">+</span> <span class="o">...</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>def <a href="#id3"><span class="problematic" id="id4">*</span></a>attn_bwd*preprocess(O, DO, Delta, …):</dt><dd><p># Compute delta = sum(O * DO) for each row
-o = tl.load(O + …)
-do = tl.load(DO + …)
-delta = tl.sum(o * do, axis=1)
-tl.store(Delta + …, delta)</p>
-</dd>
-</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Delta</span><span class="o">**</span><span class="p">:</span> <span class="n">Row</span><span class="o">-</span><span class="n">wise</span> <span class="n">dot</span> <span class="n">product</span> <span class="n">of</span> <span class="n">output</span> <span class="ow">and</span> <span class="n">output</span> <span class="n">gradient</span>
 </pre></div>
 </div>
@@ -818,26 +767,24 @@ tl.store(Delta + …, delta)</p>
 </section>
 <section id="computing-dk-and-dv">
 <h2>Computing dK and dV<a class="headerlink" href="#computing-dk-and-dv" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">each</span> <span class="n">block</span> <span class="n">of</span> <span class="n">Q</span><span class="p">:</span>
+    <span class="c1"># Recompute attention weights</span>
+    <span class="n">qk</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">Q</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">qk</span> <span class="o">-</span> <span class="n">M</span><span class="p">)</span>  <span class="c1"># M was saved from forward pass</span>
+
+    <span class="c1"># Compute dV</span>
+    <span class="n">dv</span> <span class="o">+=</span> <span class="n">tl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">DO</span><span class="p">)</span>
+
+    <span class="c1"># Compute dP (gradient of attention weights)</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">DO</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># Compute dS (before softmax)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="n">dp</span> <span class="o">-</span> <span class="n">D</span><span class="p">)</span>  <span class="c1"># D is delta from preprocess</span>
+
+    <span class="c1"># Compute dK</span>
+    <span class="n">dk</span> <span class="o">+=</span> <span class="n">tl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">Q</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl>
-<dt>def <a href="#id5"><span class="problematic" id="id6">*</span></a>attn_bwd*dkdv(dk, dv, Q, k, v, DO, M, D, …):</dt><dd><dl>
-<dt>for each block of Q:</dt><dd><p># Recompute attention weights
-qk = tl.dot(k, Q)
-p = tl.exp(qk - M)  # M was saved from forward pass</p>
-<p># Compute dV
-dv += tl.dot(p, DO)</p>
-<p># Compute dP (gradient of attention weights)
-dp = tl.dot(v, DO.T)</p>
-<p># Compute dS (before softmax)
-ds = p * (dp - D)  # D is delta from preprocess</p>
-<p># Compute dK
-dk += tl.dot(ds, Q.T)</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Key</span> <span class="n">insight</span><span class="o">**</span><span class="p">:</span> <span class="n">Recompute</span> <span class="n">attention</span> <span class="n">weights</span> <span class="kn">from</span><span class="w"> </span><span class="nn">Q</span><span class="p">,</span> <span class="n">K</span> <span class="p">(</span><span class="n">which</span> <span class="n">we</span> <span class="n">have</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -849,24 +796,21 @@ dk += tl.dot(ds, Q.T)</p>
 <section id="computing-dq">
 <h2>Computing dQ<a class="headerlink" href="#computing-dq" title="Link to this heading"></a></h2>
 <p>Similar structure, but processes different blocks:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">each</span> <span class="n">block</span> <span class="n">of</span> <span class="n">K</span><span class="p">,</span><span class="n">V</span><span class="p">:</span>
+    <span class="c1"># Recompute attention</span>
+    <span class="n">qk</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">qk</span> <span class="o">-</span> <span class="n">M</span><span class="p">)</span>
+
+    <span class="c1"># Compute dP</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">DO</span><span class="p">,</span> <span class="n">V</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># Compute dS</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="n">dp</span> <span class="o">-</span> <span class="n">D</span><span class="p">)</span>
+
+    <span class="c1"># Compute dQ</span>
+    <span class="n">dq</span> <span class="o">+=</span> <span class="n">tl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl>
-<dt>def <a href="#id7"><span class="problematic" id="id8">*</span></a>attn_bwd*dq(dq, q, K, V, DO, M, D, …):</dt><dd><dl>
-<dt>for each block of K,V:</dt><dd><p># Recompute attention
-qk = tl.dot(q, K)
-p = tl.exp(qk - M)</p>
-<p># Compute dP
-dp = tl.dot(DO, V.T)</p>
-<p># Compute dS
-ds = p * (dp - D)</p>
-<p># Compute dQ
-dq += tl.dot(ds, K)</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 <section id="why-recomputation">
 <h2>Why Recomputation?<a class="headerlink" href="#why-recomputation" title="Link to this heading"></a></h2>
@@ -915,19 +859,15 @@ dq += tl.dot(ds, K)</p>
 - AI ~ 2 FLOPs/byte</p>
 <p>Flash Attention is <strong>25x more compute-efficient</strong> in memory access!</p>
 <p>Auto-Tuning Configurations</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">triton</span><span class="o">.</span><span class="n">Config</span><span class="p">({</span><span class="s1">&#39;BLOCK_M&#39;</span><span class="p">:</span> <span class="n">BM</span><span class="p">,</span> <span class="s1">&#39;BLOCK_N&#39;</span><span class="p">:</span> <span class="n">BN</span><span class="p">},</span> <span class="n">num_stages</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">num_warps</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">BM</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">BN</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>configs = [</dt><dd><p>triton.Config({‘BLOCK_M’: BM, ‘BLOCK_N’: BN}, num_stages=s, num_warps=w)
-for BM in [64, 128]
-for BN in [32, 64, 128]
-for s in [2, 3, 4]
-for w in [4, 8]</p>
-</dd>
-</dl>
-<section id="id9">
-<h3>]<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id1">
+<h3>]<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p><strong>Block size trade-offs</strong>:
 - <strong>Larger blocks</strong>: More reuse, but more SRAM usage
 - <strong>Smaller blocks</strong>: Less SRAM, but more overhead</p>
@@ -955,7 +895,6 @@ for w in [4, 8]</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>p = tl.exp(qk)</p>
 <p>m_ij = tl.max(qk, 1)
 p = tl.exp(qk - m_ij[:, None])</p>
 </section>
@@ -965,8 +904,7 @@ p = tl.exp(qk - m_ij[:, None])</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Wrong for causal (token can’t attend to itself!)
-mask = offs_m[:, None] &gt; (start_n + offs_n[None, :])</p>
+<p>mask = offs_m[:, None] &gt; (start_n + offs_n[None, :])</p>
 <p>mask = offs_m[:, None] &gt;= (start_n + offs_n[None, :])</p>
 </section>
 <section id="forgetting-to-update-statistics">
@@ -974,8 +912,7 @@ mask = offs_m[:, None] &gt; (start_n + offs_n[None, :])</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Must update both m_i and l_i!
-l_i = l_i * alpha + l_ij
+<p>l_i = l_i * alpha + l_ij
 m_i = m_ij</p>
 <p>And correct accumulator
 acc = acc * alpha[:, None]</p>
@@ -999,7 +936,6 @@ acc = acc * alpha[:, None]</p>
 <h2>Sliding Window Attention<a class="headerlink" href="#sliding-window-attention" title="Link to this heading"></a></h2>
 <p>Only attend to nearby tokens:
 .. code-block:: python</p>
-<p>mask = abs(offs_m[:, None] - offs_n[None, :]) &lt;= window_size</p>
 <p>Reduces complexity to O(N x window_size).</p>
 </section>
 <section id="flash-attention-3">

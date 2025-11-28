@@ -29,7 +29,6 @@ Traditional Compiler Limitations
             down
     Machine code
 
-**Problems:**
 
 1. **Information loss** - High-level semantics disappear immediately
 2. **Optimization difficulty** - Hard to optimize after lowering
@@ -45,7 +44,6 @@ Example: Matrix Multiplication
 
     C = matmul(A, B)  # Semantic: "matrix multiplication"
 
-**Direct lowering to LLVM IR loses meaning:**
 
 .. code-block:: llvm
 
@@ -56,7 +54,6 @@ Example: Matrix Multiplication
             for k in cols(A):
                 C[i][j] += A[i][k] * B[k][j]  # Generic loops
 
-**With MLIR, preserve semantics longer:**
 
 .. code-block:: mlir
 
@@ -72,7 +69,6 @@ Example: Matrix Multiplication
     // Low-level: LLVM dialect
     llvm.mul %a, %b
 
-This **gradual lowering** preserves optimization opportunities at each level.
 
 MLIR Philosophy
 ~~~~~~~~~~~~~~~
@@ -90,7 +86,6 @@ MLIR Philosophy
           Small, incremental lowering steps
           (Preserve information as long as possible)
 
-**Key benefits:**
 
 - [[OK]] Gradual lowering preserves semantics
 - [[OK]] Multiple abstraction levels coexist
@@ -146,7 +141,6 @@ Dialect             Purpose                                         File Locatio
         return %0 : tensor<128xf32>
     }
 
-2. Operations
 ~~~~~~~~~~~~~
 
 **Operations** (ops) are the fundamental unit of computation in MLIR.
@@ -163,7 +157,6 @@ Operation Anatomy
     //  up       up      up   up    up
     // result  op   operands  type
 
-**Components:**
 
 - **Opcode:** ``dialect.operation`` (e.g., ``arith.addi``)
 - **Operands:** Input values (SSA form)
@@ -188,7 +181,6 @@ Every value is defined **exactly once**:
     %x = arith.constant 5 : i32
     %x = arith.addi %x, %x : i32  // ERROR: %x redefined!
 
-**Benefits:**
 
 - Simplifies optimization (no aliasing confusion)
 - Easier data flow analysis
@@ -205,7 +197,6 @@ Operation Examples
     %prod = arith.mulf %x, %y : f32          // Float multiplication
     %cmp = arith.cmpi slt, %a, %b : i32      // Compare: a < b
 
-**Triton-specific:**
 
 .. code-block:: mlir
 
@@ -214,7 +205,6 @@ Operation Examples
     %ptr = tt.addptr %base, %offset : !tt.ptr<f32>
     %data = tt.load %ptr, %mask : tensor<128xf32>
 
-**Control flow:**
 
 .. code-block:: mlir
 
@@ -228,7 +218,6 @@ Operation Examples
         // loop body
     }
 
-3. Regions and Blocks
 ~~~~~~~~~~~~~~~~~~~~~
 
 Regions
@@ -243,7 +232,6 @@ A **region** is a container for code, similar to a scope.
         %x = arith.constant 1 : i32
     }
 
-**Properties:**
 
 - Isolated scope (can have local SSA values)
 - Can contain multiple basic blocks
@@ -263,7 +251,6 @@ A **block** is a sequence of operations with a single entry point.
     ^bb1(%result: i32):
         return %result : i32
 
-**Key properties:**
 
 - Basic block (no control flow within the block)
 - Can have block arguments (like function parameters)
@@ -291,7 +278,6 @@ Example with Regions and Blocks
         return %result : i32
     }
 
-4. Types
 ~~~~~~~~
 
 MLIR has a **flexible type system** that dialects can extend.
@@ -321,7 +307,6 @@ Built-in Types
     // Functions
     (i32, i32) -> i32       // Function type
 
-Triton Custom Types
 ^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: mlir
@@ -330,7 +315,6 @@ Triton Custom Types
     !tt.ptr<tensor<128xf32>>        // Pointer to tensor
     tensor<128x!tt.ptr<f32>>        // Tensor of pointers
 
-**Why custom types?**
 
 - Triton pointers have different semantics than LLVM pointers
 - Support block/tensor operations naturally
@@ -352,7 +336,6 @@ Types change as you lower between dialects:
     // Low-level (LLVM) - flatten to individual values
     %data : !llvm.array<128 x f32>
 
-5. Attributes
 ~~~~~~~~~~~~~
 
 **Attributes** are compile-time constants attached to operations.
@@ -372,7 +355,6 @@ Types change as you lower between dialects:
     // Array attribute
     llvm.call @func(%arg) {fastmathFlags = #llvm.fastmath<fast>}
 
-Common Attribute Types
 ^^^^^^^^^^^^^^^^^^^^^^
 
 - **IntegerAttr:** ``42 : i32``
@@ -403,7 +385,6 @@ Triton Layout Attributes
         maxPhase = 4
     }>
 
-6. Passes
 ~~~~~~~~~
 
 **Passes** are transformations that modify MLIR code.
@@ -441,7 +422,6 @@ Example Pass Pipeline
 
     pm.run(module)
 
-Triton-Specific Passes
 ^^^^^^^^^^^^^^^^^^^^^^
 
 *Location:* `lib/Dialect/TritonGPU/Transforms/ <https://github.com/triton-lang/triton/tree/v3.5.1/lib/Dialect/TritonGPU/Transforms>`_
@@ -519,7 +499,6 @@ Triton Dialect (tt)
     %c = tt.dot %a, %b, %acc
         : tensor<128x64xf16> * tensor<64x128xf16> -> tensor<128x128xf32>
 
-TritonGPU Dialect (ttg)
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 *Location:* `lib/Dialect/TritonGPU/ <https://github.com/triton-lang/triton/tree/v3.5.1/lib/Dialect/TritonGPU>`_
@@ -552,7 +531,6 @@ TritonGPU Dialect (ttg)
     %token = ttg.async_commit_group
     ttg.async_wait {num = 0 : i32}
 
-TritonNvidiaGPU Dialect (ttng)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 *Location:* `lib/Dialect/TritonNvidiaGPU/ <https://github.com/triton-lang/triton/tree/v3.5.1/lib/Dialect/TritonNvidiaGPU>`_
@@ -572,7 +550,6 @@ TritonNvidiaGPU Dialect (ttng)
     // Distributed shared memory (Hopper)
     %smem = ttng.alloc_dsmem : tensor<128x128xf32, #ttng.dsmem>
 
-Example: Lowering Through Dialects
 
 Let's trace a simple operation through all dialects.
 
@@ -589,7 +566,6 @@ Python Source
         out = x + y
         tl.store(out_ptr + offs, out)
 
-Stage 1: Triton IR (TTIR)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Backend-agnostic, high-level block operations.**
@@ -627,7 +603,6 @@ Stage 1: Triton IR (TTIR)
       }
     }
 
-**Notice:**
 
 - No layout information yet
 - No GPU-specific operations
@@ -676,7 +651,6 @@ Stage 2: TritonGPU IR (TTGIR)
       }
     }
 
-**Notice:**
 
 - Layout attributes added (``#blocked``)
 - Specifies data distribution across threads
@@ -738,7 +712,6 @@ Stage 3: LLVM Dialect
       }
     }
 
-**Notice:**
 
 - Explicit thread indexing (``tid.x``)
 - Loop over per-thread elements
@@ -785,7 +758,6 @@ Stage 4: LLVM IR (Actual)
 
     declare i32 @llvm.nvvm.read.ptx.sreg.tid.x()
 
-**This is standard LLVM IR** that the NVPTX backend can compile to PTX.
 
 MLIR Tools and Ecosystem
 
@@ -805,7 +777,6 @@ Command-Line Tools
     # Lower to LLVM dialect
     mlir-opt --convert-triton-to-llvm input.mlir
 
-**mlir-translate** - Translate between MLIR and other formats
 
 .. code-block:: bash
 
@@ -815,13 +786,11 @@ Command-Line Tools
     # LLVM IR -> MLIR
     mlir-translate --import-llvm input.ll -o output.mlir
 
-**mlir-cpu-runner** - JIT execute MLIR on CPU
 
 .. code-block:: bash
 
     mlir-cpu-runner input.mlir --entry-point=main
 
-TableGen for Defining Operations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **TableGen** is a domain-specific language for defining MLIR operations.
@@ -849,7 +818,6 @@ TableGen for Defining Operations
       }];
     }
 
-**TableGen generates:**
 
 - C++ class for the operation
 - Parsing and printing code
@@ -869,13 +837,11 @@ Debugging MLIR
     # Triton will dump IR at each pass
     python kernel.py
 
-**Use ``--debug`` flag:**
 
 .. code-block:: bash
 
     mlir-opt --debug input.mlir
 
-**Print specific pass output:**
 
 .. code-block:: python
 
@@ -889,7 +855,6 @@ Debugging MLIR
     # Compile with debug
     kernel[grid](..., debug=True)
 
-MLIR Resources
 
 Official Documentation
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -992,4 +957,3 @@ The Big Picture
          down
     PTX Assembly
 
-**MLIR enables this multi-stage, optimizing pipeline** with reusable, modular components.

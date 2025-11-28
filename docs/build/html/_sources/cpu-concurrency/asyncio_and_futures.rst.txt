@@ -5,7 +5,7 @@ Overview
 This script demonstrates asyncio with command-line arguments, executing two mathematical computations (sum and factorial) concurrently and returning their results.
 
 File Location
-``basics/10*asyncio_and*futures.py``
+``basics/10_asyncio_and_futures.py``
 
 Key Concepts
 
@@ -27,54 +27,48 @@ First Coroutine - Sum of N Integers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def first_coroutine(num):
-    count = 0
-    for i in range(1, num + 1):
-        count += 1
-    await asyncio.sleep(4)
-    result = f'First coroutine (sum of N ints) result = {count}'
-    print(result)
-    return result
-::
+    async def first_coroutine(num):
+        count = 0
+        for i in range(1, num + 1):
+            count += 1
+        await asyncio.sleep(4)
+        result = f'First coroutine (sum of N ints) result = {count}'
+        print(result)
+        return result
 
 
-Computes a simple sum (which equals ``num``) and waits 4 seconds before returning.
 
 Second Coroutine - Factorial
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def second_coroutine(num):
-    count = 1
-    for i in range(2, num + 1):
-        count *= i
-    await asyncio.sleep(4)
-    result = f'Second coroutine (factorial) result = {count}'
-    print(result)
-    return result
-::
+    async def second_coroutine(num):
+        count = 1
+        for i in range(2, num + 1):
+            count *= i
+        await asyncio.sleep(4)
+        result = f'Second coroutine (factorial) result = {count}'
+        print(result)
+        return result
 
 
-Computes factorial and also waits 4 seconds before returning.
 
 Main Function
 ~~~~~~~~~~~~~
 .. code-block:: python
 
-async def main():
-    num1 = int(sys.argv[1])
-    num2 = int(sys.argv[2])
+    async def main():
+        num1 = int(sys.argv[1])
+        num2 = int(sys.argv[2])
 
-    tasks = [
-        asyncio.create_task(first_coroutine(num1)),
-        asyncio.create_task(second_coroutine(num2))
-    ]
+        tasks = [
+            asyncio.create_task(first_coroutine(num1)),
+            asyncio.create_task(second_coroutine(num2))
+        ]
 
-    await asyncio.gather(*tasks)
-::
+        await asyncio.gather(*tasks)
 
 
-Reads command-line arguments, creates two tasks, and runs them concurrently.
 
 Python 3.12 Updates
 
@@ -91,8 +85,8 @@ Changes Made
 3. **Replaced ``yield from`` with ``await``**
    - Standard async/await syntax
 
-4. **Removed ``add_done*callback()`` pattern**
-   - Old: ``future.add_done*callback(got_result)``
+4. **Removed ``add_done_callback()`` pattern**
+   - Old: ``future.add_done_callback(got_result)``
    - New: Direct return values and ``await``
    - Callbacks are unnecessary with modern async/await
 
@@ -116,83 +110,82 @@ Old Pattern (Deprecated)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-future = asyncio.Future()
-future.add_done*callback(callback_function)
-await coroutine(future, value)
-future.set_result(result)
-::
+    future = asyncio.Future()
+    future.add_done_callback(callback_function)
+    await coroutine(future, value)
+    future.set_result(result)
 
 
-New Pattern (Modern)
 ~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-result = await coroutine(value)
-Or with tasks:
-task = asyncio.create_task(coroutine(value))
-result = await task
-::
+    result = await coroutine(value)
+    # Or with tasks:
+    task = asyncio.create_task(coroutine(value))
+    result = await task
 
 
-Execution Flow
 
 ::
 
-main() starts
-  down
-Reads command-line arguments
-  down
-Creates 2 tasks:
-
-Both tasks execute concurrently:
-
-gather() waits for both
-  down
-main() completes
-::
+    main() starts
+      |
+      v
+    Reads command-line arguments
+      |
+      v
+    Creates 2 tasks
+      |
+      +---> Task 1: first_coroutine(num1)
+      |
+      +---> Task 2: second_coroutine(num2)
+      |
+      v
+    Both tasks execute concurrently
+      |
+      v
+    gather() waits for both
+      |
+      v
+    main() completes
 
 
 Usage
 -----
+
 .. code-block:: bash
 
-python3 10*asyncio_and*futures.py <num1> <num2>
-::
+    python3 10_asyncio_and_futures.py <num1> <num2>
 
 
-Examples
 --------
 
 Example 1
 ~~~~~~~~~
+
 .. code-block:: bash
 
-python3 10*asyncio_and*futures.py 10 5
-::
+    python3 10_asyncio_and_futures.py 10 5
 
 
-Output:
 ::
 
-First coroutine (sum of N ints) result = 10
-Second coroutine (factorial) result = 120
-::
+    First coroutine (sum of N ints) result = 10
+    Second coroutine (factorial) result = 120
 
 
 Example 2
 ~~~~~~~~~
+
 .. code-block:: bash
 
-python3 10*asyncio_and*futures.py 100 7
-::
+    python3 10_asyncio_and_futures.py 100 7
 
 
-Output:
 ::
 
-First coroutine (sum of N ints) result = 100
-Second coroutine (factorial) result = 5040
-::
+    First coroutine (sum of N ints) result = 100
+    Second coroutine (factorial) result = 5040
 
 
 Performance
@@ -230,7 +223,6 @@ Capturing Results
 If you need the return values:
 .. code-block:: python
 
-async def main():
     tasks = [
         asyncio.create_task(first_coroutine(num1)),
         asyncio.create_task(second_coroutine(num2))

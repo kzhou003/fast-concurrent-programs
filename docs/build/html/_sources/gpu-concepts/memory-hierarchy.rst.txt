@@ -19,7 +19,6 @@ GPUs have a multi-level memory hierarchy, similar to CPUs but with different cha
     Global Memory / HBM (slowest, largest)
         down ~400 cycles latency
 
-The Performance Pyramid
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
@@ -154,7 +153,6 @@ Example: Matrix Multiplication
     # Compute using SRAM data (very fast!)
     accumulator = tl.dot(a, b, accumulator)
 
-Without SRAM, each element would be read from slow global memory every time it's used!
 
 Registers
 ---------

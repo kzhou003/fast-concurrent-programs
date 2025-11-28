@@ -21,7 +21,6 @@ When you write a Triton kernel, you decorate it with ``@triton.jit``:
         y = tl.load(y_ptr + offsets, mask=mask)
         tl.store(out_ptr + offsets, x + y, mask=mask)
 
-The ``@triton.jit`` decorator transforms the function into a ``JITFunction`` object that handles compilation and execution.
 
 How the Decorator Works
 
@@ -47,7 +46,6 @@ The decorator is defined in `jit.py <https://github.com/triton-lang/triton/tree/
         # Create JITFunction wrapper
         return JITFunction(fn)
 
-When you apply ``@triton.jit``, it creates a ``JITFunction`` instance wrapping your original function.
 
 The JITCallable Base Class
 
@@ -71,7 +69,6 @@ Source Code Extraction
             src = src[re.search(r"^def\s+\w+\s*\(", src, re.MULTILINE).start():]
             self._src = src
 
-*Location:* `jit.py:455-470 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/runtime/jit.py#L455-L470>`_
 
 **Why extract source?**
 
@@ -92,7 +89,6 @@ AST Parsing
         assert isinstance(tree.body[0], ast.FunctionDef)
         return tree
 
-*Location:* `jit.py:527-532 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/runtime/jit.py#L527-L532>`_
 
 This converts the source string into a Python AST that the code generator can process.
 
@@ -134,7 +130,6 @@ Every kernel has a **cache key** based on its source code and dependencies:
             self.hash = hashlib.sha256(self.hash.encode("utf-8")).hexdigest()
         return self.hash
 
-*Location:* `jit.py:498-519 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/runtime/jit.py#L498-L519>`_
 
 **Cache key includes:**
 
@@ -170,7 +165,6 @@ The ``DependenciesFinder`` class walks the AST to find all dependencies:
             # Map: (var_name, id(__globals__)) -> (var_value, __globals__)
             self.used_global_vals = {}
 
-*Location:* `jit.py:34-86 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/runtime/jit.py#L34-L86>`_
 
 Tracking Global Variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -201,7 +195,6 @@ Tracking Global Variables
         self.record_reference(val, var_dict, node.id)
         return val
 
-*Location:* `jit.py:156-178 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/runtime/jit.py#L156-L178>`_
 
 **Why track globals?**
 
@@ -220,7 +213,6 @@ If you do this:
     CONSTANT = 100
     kernel[grid](...)  # ERROR: CONSTANT changed!
 
-Triton detects the change and raises an error, preventing silent bugs.
 
 Handling Nested Function Calls
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -237,7 +229,6 @@ When a kernel calls another JIT function:
     def main_kernel():
         y = helper(5)
 
-The dependency finder:
 
 1. Recognizes ``helper`` as a ``JITCallable``
 2. Includes ``helper``'s cache key in ``main_kernel``'s hash
@@ -267,7 +258,6 @@ The dependency finder:
         func_key += str(getattr(func, "noinline", False))
         self.hasher.update(func_key.encode("utf-8"))
 
-*Location:* `jit.py:99-115 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/runtime/jit.py#L99-L115>`_
 
 The JITFunction Class
 
@@ -297,7 +287,6 @@ Initialization
             self.noinline = noinline
             self.launch_metadata = launch_metadata
 
-*Location:* `jit.py:608-625 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/runtime/jit.py#L608-L625>`_
 
 The ``cache`` dictionary stores compiled binaries, avoiding recompilation.
 
@@ -320,7 +309,6 @@ When you call a kernel like ``kernel[grid](...)``:
             **kwargs
         )
 
-Then ``run()`` handles:
 
 1. Argument processing
 2. Specialization (converting runtime values to compile-time constants)
@@ -366,7 +354,6 @@ Triton can **specialize** kernels based on runtime argument values:
         exec(func_body, func_namespace)
         return func_namespace['dynamic_func']
 
-*Location:* `jit.py:393-448 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/runtime/jit.py#L393-L448>`_
 
 **What gets specialized?**
 
@@ -387,7 +374,6 @@ Triton can **specialize** kernels based on runtime argument values:
     kernel[grid](x, N=2048)  # Recompiles with N=2048 (different binary!)
     kernel[grid](y, N=1024)  # Reuses first binary (cached)
 
-Compilation Triggering
 
 If no cached kernel exists, ``JITFunction`` triggers compilation:
 
@@ -430,7 +416,6 @@ If no cached kernel exists, ``JITFunction`` triggers compilation:
         # Launch kernel
         kernel.run(grid, ...)
 
-Compilation creates an ``ASTSource`` object and passes it to the main ``compile()`` function (covered in next sections).
 
 Kernel Metadata
 
@@ -453,7 +438,6 @@ You can attach metadata to kernels for profiling:
     def matmul_kernel(...):
         pass
 
-This metadata is passed to profilers like Triton Proton.
 
 Attributes and Hints
 ~~~~~~~~~~~~~~~~~~~~
@@ -467,7 +451,6 @@ Attributes and Hints
     def kernel(...):
         pass
 
-- ``noinline``: Forces function to be a separate call (not inlined)
 - ``debug``: Enables debugging features (assertions, bounds checking)
 - ``repr``: Custom repr() for the function
 
@@ -484,7 +467,6 @@ Constexpr Parameters
         for i in range(BLOCK_SIZE):  # Unrolled!
             pass
 
-**Constexpr features:**
 
 - Must be literal values or constexpr expressions
 - Can be used in control flow
@@ -504,7 +486,6 @@ Constexpr Parameters
         def __repr__(self):
             return f"constexpr[{self.value}]"
 
-Constexpr values are stored separately from regular arguments and directly embedded in the generated code.
 
 Summary
 -------

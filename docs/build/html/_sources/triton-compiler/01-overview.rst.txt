@@ -36,7 +36,6 @@ The Triton compiler transforms Python code through several stages:
            down
     CUBIN / HSACO - GPU binary
 
-Each stage performs specific transformations and optimizations.
 
 Architecture Components
 
@@ -105,7 +104,6 @@ The ``@triton.jit`` decorator captures the Python function and parses its source
         output = x + y
         tl.store(output_ptr + offsets, output, mask=mask)
 
-The AST representation captures:
 
 - Function signature and parameters
 - Control flow structures (if/for/while)
@@ -140,7 +138,6 @@ The code generator walks the Python AST and generates Triton IR (TTIR), a high-l
       }
     }
 
-Key features of TTIR:
 
 - Uses MLIR (Multi-Level Intermediate Representation) infrastructure
 - Supports tensor types (``tensor<128xf32>``)
@@ -192,7 +189,6 @@ TTGIR is lowered to LLVM IR, which is closer to assembly:
       ret void
     }
 
-Stage 5: PTX / AMDGCN
 ~~~~~~~~~~~~~~~~~~~~~
 
 LLVM IR is compiled to GPU assembly:
@@ -241,7 +237,6 @@ LLVM IR is compiled to GPU assembly:
         ret;
     }
 
-Stage 6: Binary (CUBIN / HSACO)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PTX is assembled into CUBIN (CUDA binary) using ``ptxas``, or AMDGCN is assembled into HSACO (HSA Code Object) using AMD's assembler.
@@ -268,7 +263,6 @@ Triton uses **SPMD (Single Program, Multiple Data)** with blocks:
     result = data * 2
     tl.store(output_ptr + offsets, result)  # Store entire block
 
-**Benefits:**
 
 - Easier to write and understand
 - Compiler handles thread-level details
@@ -292,7 +286,6 @@ Triton compiles kernels **at runtime** when first called:
     # Second call: cached, very fast
     kernel[grid](args)  # ~microseconds
 
-**Benefits:**
 
 - Can specialize on runtime values (``constexpr``)
 - No separate compilation step

@@ -96,7 +96,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#hyperthreading-limitations">Hyperthreading Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#checking-hyperthreading-status">Checking Hyperthreading Status</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#the-fundamental-constraint">The Fundamental Constraint</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#why-more-threads-more-speed">Why More Threads != More Speed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#optimal-worker-count">Optimal Worker Count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#real-world-example">Real-World Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#cpu-vs-gpu-different-design-philosophies">CPU vs GPU: Different Design Philosophies</a></li>
@@ -131,7 +130,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#use-cases">Use Cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#examples">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#usage">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html">Overview</a></li>
@@ -157,7 +155,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html">The Answer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html">Without task_done() - Can’t Track Completion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-can-track-completion">With task_done() - Can Track Completion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#internal-counter-system">Internal Counter System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#visual-timeline">Visual Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#code-simplified">Code (Simplified)</a></li>
@@ -169,9 +166,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#join">join()</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#scenario-1-producer-1-consumer">Scenario: 1 Producer, 1 Consumer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-1-put-increment-counter">Step 1: put() - Increment Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-2-get-item-removed-counter-unchanged">Step 2: get() - Item Removed, Counter Unchanged</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-3-task-done-decrement-counter">Step 3: task_done() - Decrement Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-4-join-wait-then-return">Step 4: join() - Wait, Then Return</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#diagram-tracking-one-task">Diagram: Tracking One Task</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#diagram-multiple-tasks">Diagram: Multiple Tasks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#counter">Counter</a></li>
@@ -187,7 +181,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-3-mark-done">Step 3: Mark Done</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#flow-diagram">Flow Diagram</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#without-task-done-problematic">Without task_done() - PROBLEMATIC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-correct">With task_done() - CORRECT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-1-verify-all-work-complete">Use Case 1: Verify All Work Complete</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-2-track-progress">Use Case 2: Track Progress</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-3-batch-processing">Use Case 3: Batch Processing</a></li>
@@ -201,22 +194,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#use-regular-lock-when">Use Regular Lock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#use-rlock-when">Use RLock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#regular-lock-would-deadlock">Regular Lock - Would Deadlock</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html#rlock-no-deadlock">RLock - No Deadlock</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html">Key Concept</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#counting-semaphore-counter-1">1. Counting Semaphore (Counter &gt; 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#binary-semaphore-counter-0-or-1">2. Binary Semaphore (Counter = 0 or 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#execution-timeline">Execution Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#acquire"><code class="docutils literal notranslate"><span class="pre">acquire()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#counting-semaphore-3-spots-available">Counting Semaphore (3 spots available)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#binary-semaphore-producer-consumer">Binary Semaphore (Producer-Consumer)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#example-1-swimming-pool-with-limited-capacity">Example 1: Swimming Pool with Limited Capacity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#example-2-producer-consumer-like-the-code">Example 2: Producer-Consumer (Like the Code)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#limiting-concurrent-access">1. <strong>Limiting Concurrent Access</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#producer-consumer-communication">2. <strong>Producer-Consumer Communication</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#synchronizing-multiple-threads">3. <strong>Synchronizing Multiple Threads</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#lock-threading-lock">Lock (<code class="docutils literal notranslate"><span class="pre">threading.Lock</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#semaphore-counting">Semaphore (Counting)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/semaphore_explained.html#semaphore-binary-used-as-signal">Semaphore (Binary - Used as Signal)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html">What is the GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#why-does-python-have-a-gil">Why Does Python Have a GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-the-gil-works">How the GIL Works</a></li>
@@ -236,7 +224,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-the-os-helps">How the OS Helps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#performance-comparison">Performance Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#why-not-multiprocessing-for-i-o">Why Not Multiprocessing for I/O?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#threading-trade-offs">Threading Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-problem-with-threading-overhead">The Problem with Threading: Overhead</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-cooperative-multitasking">Asyncio: Cooperative Multitasking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-asyncio-works">How Asyncio Works</a></li>
@@ -244,11 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-vs-threading-detailed-comparison">Asyncio vs Threading: Detailed Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#performance-characteristics">Performance Characteristics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#when-asyncio-shines">When Asyncio Shines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#asyncio-trade-offs">Asyncio Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#cpu-bound-with-threading-the-gil-dance">CPU-bound with Threading: The GIL Dance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#cpu-bound-with-multiprocessing-true-parallel">CPU-bound with Multiprocessing: True Parallel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#i-o-bound-with-threading-gil-released">I/O-bound with Threading: GIL Released</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#i-o-bound-with-asyncio-event-loop-magic">I/O-bound with Asyncio: Event Loop Magic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-cpu-bound-task-computing-pi">Benchmark: CPU-bound Task (Computing pi)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-i-o-bound-task-web-requests">Benchmark: I/O-bound Task (Web Requests)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#benchmark-mixed-workload">Benchmark: Mixed Workload</a></li>
@@ -256,7 +239,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#code-templates">Code Templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-gil-controls-everything">1. The GIL Controls Everything</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#resource-usage-matters">2. Resource Usage Matters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#trade-offs-are-real">3. Trade-offs are Real</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#know-your-workload">4. Know Your Workload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Concepts</span></p>
@@ -343,8 +325,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-2-code-generation-ttir">Stage 2: Code Generation (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-3-triton-gpu-ir-ttgir">Stage 3: Triton GPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-4-llvm-ir">Stage 4: LLVM IR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-5-ptx-amdgcn">Stage 5: PTX / AMDGCN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-6-binary-cubin-hsaco">Stage 6: Binary (CUBIN / HSACO)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#block-based-programming-model">Block-based Programming Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#jit-compilation">JIT Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#mlir-infrastructure">MLIR Infrastructure</a></li>
@@ -355,20 +335,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/02-jit-decorator.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html">CodeGenerator Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ast-visitor-pattern">AST Visitor Pattern</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#triton-language-primitives">Triton Language Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#type-inference">Type Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#example-ttir-output">Example TTIR Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#compilation-orchestration">Compilation Orchestration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttir-ttgir-transformation">TTIR -&gt; TTGIR Transformation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttgir-llvm-ir">TTGIR -&gt; LLVM IR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#llvm-ir-ptx">LLVM IR -&gt; PTX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ptx-cubin">PTX -&gt; CUBIN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-key-components">Cache Key Components</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-directory-structure">Cache Directory Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-lookup">Cache Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html">The NVCC Compiler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#nvcc-compilation-stages">NVCC Compilation Stages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-assembly-output">PTX Assembly Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#the-llvm-path">The LLVM Path</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#llvm-ir-stage">LLVM IR Stage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-generated-by-triton">PTX Generated by Triton</a></li>
@@ -376,7 +349,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#source-language">Source Language</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compiler-stack">Compiler Stack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-time">Compilation Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#optimization-levels">Optimization Levels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#can-triton-and-cuda-c-work-together">Can Triton and CUDA C++ Work Together?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#advantages-of-llvm-backend">Advantages of LLVM Backend</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#why-not-use-nvcc">Why Not Use NVCC?</a></li>
@@ -384,27 +356,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#file-types">File Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#example-directory-structures">Example Directory Structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-inspection">PTX Inspection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#cubin-inspection">CUBIN Inspection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-paths-compared">Compilation Paths Compared</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#key-takeaways">Key Takeaways</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html">Traditional Compiler Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#example-matrix-multiplication">Example: Matrix Multiplication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#mlir-philosophy">MLIR Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#dialects">1. Dialects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#operations">2. Operations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#regions-and-blocks">3. Regions and Blocks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#types">4. Types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#attributes">5. Attributes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#passes">6. Passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#why-triton-uses-mlir">Why Triton Uses MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#triton-s-mlir-dialects">Triton’s MLIR Dialects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#python-source">Python Source</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-1-triton-ir-ttir">Stage 1: Triton IR (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-2-tritongpu-ir-ttgir">Stage 2: TritonGPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-3-llvm-dialect">Stage 3: LLVM Dialect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-4-llvm-ir-actual">Stage 4: LLVM IR (Actual)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#command-line-tools">Command-Line Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tablegen-for-defining-operations">TableGen for Defining Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#debugging-mlir">Debugging MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#official-documentation">Official Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tutorials">Tutorials</a></li>
@@ -532,14 +496,10 @@
 </section>
 <section id="standard-pytorch-dropout">
 <h2>Standard PyTorch Dropout<a class="headerlink" href="#standard-pytorch-dropout" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">keep_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">keep_mask</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">),</span> <span class="n">keep_mask</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>def dropout(x, p):</dt><dd><p>keep_mask = (torch.rand_like(x) &gt; p).to(torch.float32)
-return x * keep_mask / (1 - p), keep_mask</p>
-</dd>
-</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Memory</span> <span class="n">Requirements</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
 </div>
@@ -560,7 +520,6 @@ return x * keep_mask / (1 - p), keep_mask</p>
 2. Backward pass: Gradient flows only through kept neurons</p>
 <p><strong>Traditional approach</strong>: Store the mask
 .. code-block:: python</p>
-<p>output, mask = dropout_forward(x, p)</p>
 <p>Backward (later)
 dx = dropout_backward(grad_output, mask)  # Need same mask!</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Storage</span> <span class="n">cost</span><span class="o">**</span><span class="p">:</span> <span class="n">For</span> <span class="n">transformer</span> <span class="k">with</span> <span class="mi">1</span><span class="n">B</span> <span class="n">parameters</span><span class="p">:</span>
@@ -576,10 +535,9 @@ dx = dropout_backward(grad_output, mask)  # Need same mask!</p>
 <h2>Additional Complexity<a class="headerlink" href="#additional-complexity" title="Link to this heading"></a></h2>
 <p><strong>With gradient checkpointing</strong> (recompute activations to save memory):
 .. code-block:: python</p>
-<dl class="simple">
-<dt>with torch.no_grad():</dt><dd><p>output = dropout(x, p)  # Different random numbers!</p>
-</dd>
-</dl>
+<blockquote>
+<div><p>output = dropout(x, p)  # Different random numbers!</p>
+</div></blockquote>
 <p>Backward pass uses different mask -&gt; wrong gradients!</p>
 <p>Need <code class="docutils literal notranslate"><span class="pre">preserve_rng*state=True</span></code> -&gt; more complexity and overhead.</p>
 <p>Seeded Dropout Solution</p>
@@ -600,10 +558,8 @@ dx = dropout_backward(grad_output, mask)  # Need same mask!</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>&#64;triton.jit
-def <a href="#id2"><span class="problematic" id="id3">*</span></a>seeded_dropout(x_ptr, output_ptr, n_elements, p, seed, BLOCK_SIZE: tl.constexpr):</p>
-<blockquote>
-<div><p>pid = tl.program_id(axis=0)
+<dl>
+<dt>def <a href="#id2"><span class="problematic" id="id3">*</span></a>seeded_dropout(x_ptr, output_ptr, n_elements, p, seed, BLOCK_SIZE: tl.constexpr):</dt><dd><p>pid = tl.program_id(axis=0)
 block_start = pid * BLOCK_SIZE
 offsets = block_start + tl.arange(0, BLOCK_SIZE)</p>
 <p>mask = offsets &lt; n_elements
@@ -613,14 +569,14 @@ random = tl.rand(seed, offsets)
 x_keep = random &gt; p</p>
 <p>output = tl.where(x_keep, x / (1 - p), 0.0)
 tl.store(output_ptr + offsets, output, mask=mask)</p>
-</div></blockquote>
+</dd>
+</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Key</span> <span class="n">line</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>random = tl.rand(seed, offsets)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- ``seed``: Determines the random sequence
 - ``offsets``: Unique ID for each element (position in tensor)
 - Same ``seed`` + same ``offsets`` -&gt; **same random numbers**!
@@ -632,11 +588,10 @@ tl.store(output_ptr + offsets, output, mask=mask)</p>
 <h2>The Challenge<a class="headerlink" href="#the-challenge" title="Link to this heading"></a></h2>
 <p>On a CPU (sequential):
 .. code-block:: python</p>
-<p>rng = Random(seed)
-for i in range(n):</p>
-<blockquote>
-<div><p>x[i] = rng.next()  # Each depends on previous state</p>
-</div></blockquote>
+<dl class="simple">
+<dt>for i in range(n):</dt><dd><p>x[i] = rng.next()  # Each depends on previous state</p>
+</dd>
+</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Problem</span> <span class="n">on</span> <span class="n">GPU</span><span class="o">**</span><span class="p">:</span> <span class="n">Can</span><span class="s1">&#39;t parallelize this! Each thread would need previous thread&#39;</span><span class="n">s</span> <span class="n">state</span><span class="o">.</span>
 </pre></div>
 </div>
@@ -666,8 +621,8 @@ for i in range(n):</p>
 </ul>
 <p><strong>How it works</strong> (simplified):
 .. code-block:: python</p>
-<dl>
-<dt>def philox(seed, counter):</dt><dd><p>key = seed
+<blockquote>
+<div><p>key = seed
 ctr = counter</p>
 <dl class="simple">
 <dt>for round in range(10):  # Multiple rounds for mixing</dt><dd><p>ctr = mix(ctr, key)   # Bijective mixing function
@@ -675,8 +630,7 @@ key = bumpKey(key)    # Update key</p>
 </dd>
 </dl>
 <p>return ctr</p>
-</dd>
-</dl>
+</div></blockquote>
 <p>Each round applies multiplication, addition, and bit shifts to thoroughly mix the bits.</p>
 </section>
 <section id="using-philox-in-triton">
@@ -684,7 +638,6 @@ key = bumpKey(key)    # Update key</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>random = tl.rand(seed, offsets)</p>
 <p>Under the hood:
 1. <code class="docutils literal notranslate"><span class="pre">offsets</span></code> are element indices (counters)
 2. Applies Philox: <code class="docutils literal notranslate"><span class="pre">hash(seed,</span> <span class="pre">offsets[i])</span></code> for each i
@@ -692,8 +645,7 @@ key = bumpKey(key)    # Update key</p>
 4. Returns vector of random numbers</p>
 <p><strong>Example</strong>:
 .. code-block:: python</p>
-<p>seed = 42
-offsets = [0, 1, 2, 3]</p>
+<p>offsets = [0, 1, 2, 3]</p>
 <p>random = tl.rand(seed, offsets)
 Generates: [0.37, 0.95, 0.22, 0.68]  (example values)</p>
 <p>Call again with same seed and offsets:
@@ -748,8 +700,7 @@ Generates: [0.81, 0.12, 0.44, 0.67]  (different values)</p>
 <h2>Ensuring Same Random Numbers<a class="headerlink" href="#ensuring-same-random-numbers" title="Link to this heading"></a></h2>
 <p>For correct training, we need:
 .. code-block:: python</p>
-<p>Forward pass
-output = dropout(x, p, seed=123)</p>
+<p>output = dropout(x, p, seed=123)</p>
 <p>Backward pass (later)
 Must use SAME seed to get SAME mask
 grad = dropout_backward(grad_output, x, p, seed=123)</p>
@@ -758,8 +709,8 @@ grad = dropout_backward(grad_output, x, p, seed=123)</p>
 <h2>Seed Management<a class="headerlink" href="#seed-management" title="Link to this heading"></a></h2>
 <p><strong>Per-layer seeds</strong>:
 .. code-block:: python</p>
-<dl>
-<dt>class Dropout(nn.Module):</dt><dd><dl>
+<blockquote>
+<div><dl>
 <dt>def <a href="#id4"><span class="problematic" id="id5">**</span></a>init**(self, p):</dt><dd><p>self.p = p
 self.seed = random.randint(0, 2**31)</p>
 </dd>
@@ -770,16 +721,14 @@ self.seed = random.randint(0, 2**31)</p>
 <p>return x</p>
 </dd>
 </dl>
-</dd>
-</dl>
+</div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Global</span> <span class="n">seed</span> <span class="k">with</span> <span class="n">offsets</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>global_seed = 42
-layer_id = 5
+<p>layer_id = 5
 seed = global_seed + layer_id</p>
 </section>
 <section id="testing-reproducibility">
@@ -787,7 +736,6 @@ seed = global_seed + layer_id</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>x = torch.randn(10000, device=’cuda’)</p>
 <p>out1 = seeded_dropout(x, p=0.5, seed=123)
 out2 = seeded_dropout(x, p=0.5, seed=123)
 assert torch.equal(out1, out2)  # Exactly the same!</p>
@@ -800,19 +748,15 @@ assert not torch.equal(out1, out3)  # Different seed -&gt; different output</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>output = tl.where(x_keep, x / (1 - p), 0.0)</p>
 <p>Equivalent to:
 .. code-block:: python</p>
-<p>output[i] = x[i] / (1-p) if x_keep[i] else 0.0</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>**Why not use branching?**
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="simple">
-<dt>if x_keep[i]:</dt><dd><p>output[i] = x[i] / (1-p)</p>
-</dd>
 <dt>else:</dt><dd><p>output[i] = 0.0</p>
 </dd>
 </dl>
@@ -830,8 +774,7 @@ assert not torch.equal(out1, out3)  # Different seed -&gt; different output</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>mask = offsets &lt; n_elements
-x = tl.load(x_ptr + offsets, mask=mask)
+<p>x = tl.load(x_ptr + offsets, mask=mask)
 tl.store(output_ptr + offsets, output, mask=mask)</p>
 <p>As always, handle non-multiple-of-BLOCK_SIZE tensors safely.</p>
 </section>
@@ -840,8 +783,7 @@ tl.store(output_ptr + offsets, output, mask=mask)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>random = tl.rand(seed, offsets)  # Returns float32 in [0, 1)
-x_keep = random &gt; p               # Bernoulli with probability (1-p)</p>
+<p>x_keep = random &gt; p               # Bernoulli with probability (1-p)</p>
 <p>If p=0.3 (drop 30%):
 - <code class="docutils literal notranslate"><span class="pre">random</span> <span class="pre">&gt;</span> <span class="pre">0.3</span></code> is True 70% of the time
 - So 70% of elements are kept [OK]</p>
@@ -855,8 +797,7 @@ x_keep = random &gt; p               # Bernoulli with probability (1-p)</p>
 - Custom: Apply transformations</p>
 <p><strong>Example - Normal dropout</strong>:
 .. code-block:: python</p>
-<p>Generate normal distribution
-random_normal = tl.randn(seed, offsets)
+<p>random_normal = tl.randn(seed, offsets)
 Apply threshold
 x_keep = tl.abs(random_normal) &lt; threshold</p>
 </section>
@@ -879,8 +820,7 @@ x_keep = tl.abs(random_normal) &lt; threshold</p>
 - Purely functional: <code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">=</span> <span class="pre">f(seed,</span> <span class="pre">offset)</span></code></p>
 <p><strong>Contrast with CPU</strong>:
 .. code-block:: python</p>
-<p>global_rng = Random(seed)
-random_val = global_rng.next()  # Race condition if parallel!</p>
+<p>random_val = global_rng.next()  # Race condition if parallel!</p>
 <p>Performance Benchmarks</p>
 </section>
 <section id="expected-performance">
@@ -912,45 +852,36 @@ random_val = global_rng.next()  # Race condition if parallel!</p>
 </section>
 <section id="integration-with-pytorch">
 <h2>Integration with PyTorch<a class="headerlink" href="#integration-with-pytorch" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">seeded_dropout</span><span class="o">*</span><span class="n">triton</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">save_for</span><span class="o">*</span><span class="n">backward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+    <span class="c1"># Reuse same seed to get same mask!</span>
+    <span class="n">dropout_mask</span> <span class="o">=</span> <span class="n">generate_mask</span><span class="o">*</span><span class="n">triton</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">grad_x</span> <span class="o">=</span> <span class="n">grad_output</span> <span class="o">*</span> <span class="n">dropout_mask</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ctx</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">grad_x</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>  <span class="c1"># No gradients for p and seed</span>
 </pre></div>
 </div>
-<dl>
-<dt>class SeededDropout(torch.autograd.Function):</dt><dd><p>&#64;staticmethod
-def forward(ctx, x, p, seed):</p>
-<blockquote>
-<div><p>output = seeded_dropout*triton(x, p, seed)
-ctx.save_for*backward(x)
-ctx.p = p
-ctx.seed = seed
-return output</p>
-</div></blockquote>
-<p>&#64;staticmethod
-def backward(ctx, grad_output):</p>
-<blockquote>
-<div><p>x, = ctx.saved_tensors
-# Reuse same seed to get same mask!
-dropout_mask = generate_mask*triton(x.shape, ctx.p, ctx.seed)
-grad_x = grad_output * dropout_mask / (1 - ctx.p)
-return grad_x, None, None  # No gradients for p and seed</p>
-</div></blockquote>
-</dd>
-</dl>
 </section>
 <section id="seed-generation-strategies">
 <h2>Seed Generation Strategies<a class="headerlink" href="#seed-generation-strategies" title="Link to this heading"></a></h2>
 <p><strong>Random seed per forward pass</strong>:
 .. code-block:: python</p>
-<p>seed = random.randint(0, 2**31)
-output = dropout(x, p, seed)</p>
+<p>output = dropout(x, p, seed)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Deterministic</span> <span class="k">for</span> <span class="n">debugging</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>torch.manual_seed(42)
-seed = 42
+<p>seed = 42
 output = dropout(x, p, seed)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Distributed</span> <span class="n">training</span><span class="o">**</span><span class="p">:</span>
 </pre></div>
@@ -958,8 +889,7 @@ output = dropout(x, p, seed)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Ensure different seeds on different GPUs
-rank = dist.get_rank()
+<p>rank = dist.get_rank()
 seed = base_seed + rank</p>
 <p>Key Takeaways</p>
 <ol class="arabic simple">

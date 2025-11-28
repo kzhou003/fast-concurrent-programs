@@ -5,7 +5,7 @@ Overview
 This script demonstrates asyncio's event loop by implementing a simple task scheduling system where three tasks (A, B, C) call each other in rotation for 60 seconds.
 
 File Location
-``basics/07*asyncio_event*loop.py``
+``basics/07_asyncio_event_loop.py``
 
 Key Concepts
 
@@ -23,7 +23,6 @@ Task Functions
 ~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def task_A(end_time):
     print("task_A called")
     await asyncio.sleep(random.randint(0, 5))
     if (asyncio.get_event*loop().time() + 1.0) < end_time:
@@ -43,7 +42,6 @@ Main Function
 ~~~~~~~~~~~~~
 .. code-block:: python
 
-async def main():
     loop = asyncio.get_event*loop()
     end_loop = loop.time() + 60
     await task_A(end_loop)
@@ -56,7 +54,6 @@ Entry Point
 ~~~~~~~~~~~
 .. code-block:: python
 
-if **name** == '**main**':
     asyncio.run(main())
 ::
 
@@ -113,7 +110,6 @@ Usage
 -----
 .. code-block:: bash
 
-python3 07*asyncio_event*loop.py
 ::
 
 

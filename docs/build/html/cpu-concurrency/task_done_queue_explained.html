@@ -96,7 +96,6 @@
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#hyperthreading-limitations">Hyperthreading Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#checking-hyperthreading-status">Checking Hyperthreading Status</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#the-fundamental-constraint">The Fundamental Constraint</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#why-more-threads-more-speed">Why More Threads != More Speed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#optimal-worker-count">Optimal Worker Count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#real-world-example">Real-World Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware_parallelism.html#cpu-vs-gpu-different-design-philosophies">CPU vs GPU: Different Design Philosophies</a></li>
@@ -131,7 +130,6 @@
 <li class="toctree-l1"><a class="reference internal" href="asyncio_coroutine.html#use-cases">Use Cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asyncio_and_futures.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asyncio_and_futures.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="asyncio_and_futures.html#examples">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asyncio_task_manipulation.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asyncio_task_manipulation.html#usage">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="concurrent_futures_pooling.html">Overview</a></li>
@@ -157,7 +155,6 @@
 <li class="toctree-l1"><a class="reference internal" href="queue_internal_mechanics.html">The Answer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="queue_internal_mechanics.html#summary">Summary</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Without task_done() - Can’t Track Completion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#with-task-done-can-track-completion">With task_done() - Can Track Completion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#internal-counter-system">Internal Counter System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#visual-timeline">Visual Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#code-simplified">Code (Simplified)</a></li>
@@ -169,9 +166,6 @@
 <li class="toctree-l1"><a class="reference internal" href="#join">join()</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#scenario-1-producer-1-consumer">Scenario: 1 Producer, 1 Consumer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#step-1-put-increment-counter">Step 1: put() - Increment Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#step-2-get-item-removed-counter-unchanged">Step 2: get() - Item Removed, Counter Unchanged</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#step-3-task-done-decrement-counter">Step 3: task_done() - Decrement Counter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#step-4-join-wait-then-return">Step 4: join() - Wait, Then Return</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#diagram-tracking-one-task">Diagram: Tracking One Task</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#diagram-multiple-tasks">Diagram: Multiple Tasks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#counter">Counter</a></li>
@@ -187,7 +181,6 @@
 <li class="toctree-l1"><a class="reference internal" href="#step-3-mark-done">Step 3: Mark Done</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#flow-diagram">Flow Diagram</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#without-task-done-problematic">Without task_done() - PROBLEMATIC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#with-task-done-correct">With task_done() - CORRECT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#use-case-1-verify-all-work-complete">Use Case 1: Verify All Work Complete</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#use-case-2-track-progress">Use Case 2: Track Progress</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#use-case-3-batch-processing">Use Case 3: Batch Processing</a></li>
@@ -201,22 +194,17 @@
 <li class="toctree-l1"><a class="reference internal" href="rlock_explained.html#use-regular-lock-when">Use Regular Lock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rlock_explained.html#use-rlock-when">Use RLock When:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rlock_explained.html#regular-lock-would-deadlock">Regular Lock - Would Deadlock</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rlock_explained.html#rlock-no-deadlock">RLock - No Deadlock</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html">Key Concept</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#counting-semaphore-counter-1">1. Counting Semaphore (Counter &gt; 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#binary-semaphore-counter-0-or-1">2. Binary Semaphore (Counter = 0 or 1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#execution-timeline">Execution Timeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#acquire"><code class="docutils literal notranslate"><span class="pre">acquire()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#counting-semaphore-3-spots-available">Counting Semaphore (3 spots available)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#binary-semaphore-producer-consumer">Binary Semaphore (Producer-Consumer)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#example-1-swimming-pool-with-limited-capacity">Example 1: Swimming Pool with Limited Capacity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#example-2-producer-consumer-like-the-code">Example 2: Producer-Consumer (Like the Code)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#limiting-concurrent-access">1. <strong>Limiting Concurrent Access</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#producer-consumer-communication">2. <strong>Producer-Consumer Communication</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#synchronizing-multiple-threads">3. <strong>Synchronizing Multiple Threads</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#lock-threading-lock">Lock (<code class="docutils literal notranslate"><span class="pre">threading.Lock</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#semaphore-counting">Semaphore (Counting)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="semaphore_explained.html#semaphore-binary-used-as-signal">Semaphore (Binary - Used as Signal)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html">What is the GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#why-does-python-have-a-gil">Why Does Python Have a GIL?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#how-the-gil-works">How the GIL Works</a></li>
@@ -236,7 +224,6 @@
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#how-the-os-helps">How the OS Helps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#performance-comparison">Performance Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#why-not-multiprocessing-for-i-o">Why Not Multiprocessing for I/O?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#threading-trade-offs">Threading Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#the-problem-with-threading-overhead">The Problem with Threading: Overhead</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#asyncio-cooperative-multitasking">Asyncio: Cooperative Multitasking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#how-asyncio-works">How Asyncio Works</a></li>
@@ -244,11 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#asyncio-vs-threading-detailed-comparison">Asyncio vs Threading: Detailed Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#performance-characteristics">Performance Characteristics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#when-asyncio-shines">When Asyncio Shines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#asyncio-trade-offs">Asyncio Trade-offs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#cpu-bound-with-threading-the-gil-dance">CPU-bound with Threading: The GIL Dance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#cpu-bound-with-multiprocessing-true-parallel">CPU-bound with Multiprocessing: True Parallel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#i-o-bound-with-threading-gil-released">I/O-bound with Threading: GIL Released</a></li>
-<li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#i-o-bound-with-asyncio-event-loop-magic">I/O-bound with Asyncio: Event Loop Magic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#benchmark-cpu-bound-task-computing-pi">Benchmark: CPU-bound Task (Computing pi)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#benchmark-i-o-bound-task-web-requests">Benchmark: I/O-bound Task (Web Requests)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#benchmark-mixed-workload">Benchmark: Mixed Workload</a></li>
@@ -256,7 +239,6 @@
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#code-templates">Code Templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#the-gil-controls-everything">1. The GIL Controls Everything</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#resource-usage-matters">2. Resource Usage Matters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#trade-offs-are-real">3. Trade-offs are Real</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns_problems_mapping.html#know-your-workload">4. Know Your Workload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Concepts</span></p>
@@ -343,8 +325,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-2-code-generation-ttir">Stage 2: Code Generation (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-3-triton-gpu-ir-ttgir">Stage 3: Triton GPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-4-llvm-ir">Stage 4: LLVM IR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-5-ptx-amdgcn">Stage 5: PTX / AMDGCN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#stage-6-binary-cubin-hsaco">Stage 6: Binary (CUBIN / HSACO)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#block-based-programming-model">Block-based Programming Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#jit-compilation">JIT Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/01-overview.html#mlir-infrastructure">MLIR Infrastructure</a></li>
@@ -355,20 +335,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/02-jit-decorator.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html">CodeGenerator Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ast-visitor-pattern">AST Visitor Pattern</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#triton-language-primitives">Triton Language Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#type-inference">Type Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#example-ttir-output">Example TTIR Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#compilation-orchestration">Compilation Orchestration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttir-ttgir-transformation">TTIR -&gt; TTGIR Transformation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ttgir-llvm-ir">TTGIR -&gt; LLVM IR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#llvm-ir-ptx">LLVM IR -&gt; PTX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#ptx-cubin">PTX -&gt; CUBIN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-key-components">Cache Key Components</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-directory-structure">Cache Directory Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/03-compilation-pipeline.html#cache-lookup">Cache Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html">The NVCC Compiler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#nvcc-compilation-stages">NVCC Compilation Stages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-assembly-output">PTX Assembly Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#the-llvm-path">The LLVM Path</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#llvm-ir-stage">LLVM IR Stage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-generated-by-triton">PTX Generated by Triton</a></li>
@@ -376,7 +349,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#source-language">Source Language</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compiler-stack">Compiler Stack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-time">Compilation Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#optimization-levels">Optimization Levels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#can-triton-and-cuda-c-work-together">Can Triton and CUDA C++ Work Together?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#advantages-of-llvm-backend">Advantages of LLVM Backend</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#why-not-use-nvcc">Why Not Use NVCC?</a></li>
@@ -384,27 +356,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#file-types">File Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#example-directory-structures">Example Directory Structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#ptx-inspection">PTX Inspection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#cubin-inspection">CUBIN Inspection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#compilation-paths-compared">Compilation Paths Compared</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/04-cuda-comparison.html#key-takeaways">Key Takeaways</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html">Traditional Compiler Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#example-matrix-multiplication">Example: Matrix Multiplication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#mlir-philosophy">MLIR Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#dialects">1. Dialects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#operations">2. Operations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#regions-and-blocks">3. Regions and Blocks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#types">4. Types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#attributes">5. Attributes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#passes">6. Passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#why-triton-uses-mlir">Why Triton Uses MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#triton-s-mlir-dialects">Triton’s MLIR Dialects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#python-source">Python Source</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-1-triton-ir-ttir">Stage 1: Triton IR (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-2-tritongpu-ir-ttgir">Stage 2: TritonGPU IR (TTGIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-3-llvm-dialect">Stage 3: LLVM Dialect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#stage-4-llvm-ir-actual">Stage 4: LLVM IR (Actual)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#command-line-tools">Command-Line Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tablegen-for-defining-operations">TableGen for Defining Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#debugging-mlir">Debugging MLIR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#official-documentation">Official Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../triton-compiler/05-mlir-concepts.html#tutorials">Tutorials</a></li>
@@ -496,8 +460,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from queue import Queue
-from threading import Thread
+<p>from threading import Thread
 import time</p>
 <p>queue = Queue()</p>
 <dl class="simple">
@@ -526,14 +489,11 @@ consumer_thread.join()</p>
 <p>How do we know if ALL items have been processed?
 WE DON’T! Consumer might still be working!
 .. code-block:: text</p>
-</section>
-<section id="with-task-done-can-track-completion">
-<h1>With task_done() - Can Track Completion<a class="headerlink" href="#with-task-done-can-track-completion" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from queue import Queue
-from threading import Thread
+<p>from threading import Thread
 import time</p>
 <p>queue = Queue()</p>
 <dl class="simple">
@@ -562,7 +522,6 @@ consumer_thread.join()</p>
 <p>queue.join()  # NOW we can safely wait for all items to be processed!
 print(“All tasks complete!”)
 .. code-block:: text</p>
-<p>—</p>
 <p>How task_done() Works</p>
 </section>
 <section id="internal-counter-system">
@@ -603,29 +562,20 @@ CONTINUES!</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>What task_done() Actually Does</p>
 </section>
 <section id="code-simplified">
 <h1>Code (Simplified)<a class="headerlink" href="#code-simplified" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutex</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;task_done() called too many times&#39;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">-=</span> <span class="mi">1</span>  <span class="c1"># Decrement counter</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_tasks</span><span class="o">*</span><span class="n">done</span><span class="o">.</span><span class="n">notify_all</span><span class="p">()</span>  <span class="c1"># Wake up join()</span>
 </pre></div>
 </div>
-<dl>
-<dt>def task_done(self):</dt><dd><dl>
-<dt>with self.mutex:</dt><dd><dl class="simple">
-<dt>if self.unfinished_tasks &lt;= 0:</dt><dd><p>raise ValueError(‘task_done() called too many times’)</p>
-</dd>
-</dl>
-<p>self.unfinished_tasks -= 1  # Decrement counter</p>
-<dl class="simple">
-<dt>if self.unfinished_tasks == 0:</dt><dd><p>self.all_tasks*done.notify_all()  # Wake up join()</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 <section id="two-operations">
 <h1>Two Operations<a class="headerlink" href="#two-operations" title="Link to this heading"></a></h1>
@@ -660,24 +610,17 @@ CONTINUES!</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>The Third Condition Variable: all_tasks*done</p>
 <p>Queue has <strong>THREE</strong> condition variables:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">__init</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mutex</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">not_empty</span> <span class="o">=</span> <span class="n">Condition</span><span class="p">()</span>      <span class="c1"># put() signals, get() waits</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">not_full</span> <span class="o">=</span> <span class="n">Condition</span><span class="p">()</span>       <span class="c1"># get() signals, put() waits</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">all_tasks</span><span class="o">*</span><span class="n">done</span> <span class="o">=</span> <span class="n">Condition</span><span class="p">()</span> <span class="c1"># task_done() signals, join() waits</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>class Queue:</dt><dd><dl class="simple">
-<dt>def __init**(self):</dt><dd><p>self.mutex = Lock()
-self.not_empty = Condition()      # put() signals, get() waits
-self.not_full = Condition()       # get() signals, put() waits
-self.all_tasks*done = Condition() # task_done() signals, join() waits
-self.items = []
-self.unfinished_tasks = 0</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 <section id="timeline-all-three-conditions">
 <h1>Timeline: All Three Conditions<a class="headerlink" href="#timeline-all-three-conditions" title="Link to this heading"></a></h1>
@@ -699,84 +642,54 @@ self.unfinished_tasks = 0</p>
 | <a href="#id15"><span class="problematic" id="id16">|</span></a>- Decremented by: task_done()     |
 | +- Checked by: join()              |
 .. code-block:: text</p>
-<p>—</p>
 <p>Complete Picture: All Operations</p>
 </section>
 <section id="put">
 <h1>put()<a class="headerlink" href="#put" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_full</span><span class="p">:</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxsize</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">not_full</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># &lt;- Increment here!</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">not_empty</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>
 </pre></div>
 </div>
-<dl>
-<dt>def put(self, item):</dt><dd><dl>
-<dt>with self.not_full:</dt><dd><dl class="simple">
-<dt>while len(self.items) &gt;= self.maxsize:</dt><dd><p>self.not_full.wait()</p>
-</dd>
-</dl>
-<p>self.items.append(item)
-self.unfinished_tasks += 1  # &lt;- Increment here!
-self.not_empty.notify()</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 <section id="get">
 <h1>get()<a class="headerlink" href="#get" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_empty</span><span class="p">:</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">not_empty</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+    <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">not_full</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">item</span>  <span class="c1"># &lt;- Returns just the item</span>
 </pre></div>
 </div>
-<dl>
-<dt>def get(self):</dt><dd><dl>
-<dt>with self.not_empty:</dt><dd><dl class="simple">
-<dt>while not self.items:</dt><dd><p>self.not_empty.wait()</p>
-</dd>
-</dl>
-<p>item = self.items.pop(0)
-self.not_full.notify()</p>
-<p>return item  # &lt;- Returns just the item</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 <section id="task-done">
 <h1>task_done()<a class="headerlink" href="#task-done" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutex</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">-=</span> <span class="mi">1</span>  <span class="c1"># &lt;- Decrement here!</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_tasks</span><span class="o">*</span><span class="n">done</span><span class="o">.</span><span class="n">notify_all</span><span class="p">()</span>  <span class="c1"># &lt;- Notify join()!</span>
 </pre></div>
 </div>
-<dl>
-<dt>def task_done(self):</dt><dd><dl>
-<dt>with self.mutex:</dt><dd><p>self.unfinished_tasks -= 1  # &lt;- Decrement here!</p>
-<dl class="simple">
-<dt>if self.unfinished_tasks == 0:</dt><dd><p>self.all_tasks*done.notify_all()  # &lt;- Notify join()!</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 <section id="join">
 <h1>join()<a class="headerlink" href="#join" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_tasks</span><span class="o">*</span><span class="n">done</span><span class="p">:</span>
+    <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_tasks</span><span class="o">*</span><span class="n">done</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># &lt;- Waits here!</span>
+    <span class="c1"># When counter reaches 0, task_done() wakes this up</span>
 </pre></div>
 </div>
-<dl>
-<dt>def join(self):</dt><dd><dl>
-<dt>with self.all_tasks*done:</dt><dd><dl class="simple">
-<dt>while self.unfinished_tasks:</dt><dd><p>self.all_tasks*done.wait()  # &lt;- Waits here!</p>
-</dd>
-</dl>
-<p># When counter reaches 0, task_done() wakes this up</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>The Complete Flow with All Three Conditions</p>
 </section>
 <section id="scenario-1-producer-1-consumer">
@@ -801,7 +714,6 @@ Returns!</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>Detailed Breakdown: task_done() with Counter</p>
 </section>
 <section id="step-1-put-increment-counter">
@@ -811,25 +723,19 @@ Returns!</p>
 | items: []            |</p>
 <p>put(1) called:
 .. code-block:: text</p>
-</section>
-<section id="step-2-get-item-removed-counter-unchanged">
-<h1>Step 2: get() - Item Removed, Counter Unchanged<a class="headerlink" href="#step-2-get-item-removed-counter-unchanged" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <p>Before get():
 | unfinished_tasks: 1  | &lt;- Still 1!
 | items: [1]           |</p>
 <p>get() called:
 .. code-block:: text</p>
-</section>
-<section id="step-3-task-done-decrement-counter">
-<h1>Step 3: task_done() - Decrement Counter<a class="headerlink" href="#step-3-task-done-decrement-counter" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <p>Before task_done():
 | unfinished_tasks: 1  |
 | items: []            |</p>
 <p>task_done() called:
 .. code-block:: text</p>
-</section>
-<section id="step-4-join-wait-then-return">
-<h1>Step 4: join() - Wait, Then Return<a class="headerlink" href="#step-4-join-wait-then-return" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <p>join() called (from main thread):</p>
 <p>[task_done() is called from consumer thread]
 [unfinished_tasks becomes 0]
@@ -840,7 +746,6 @@ Returns!</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>The Counter Lifecycle</p>
 </section>
 <section id="diagram-tracking-one-task">
@@ -886,7 +791,6 @@ task_done()  -&gt; unfinished=0 &lt;- Reached 0!</p>
 <p>join() was waiting…
 Now wakes up! &lt;- Can continue
 .. code-block:: text</p>
-<p>—</p>
 <p>Key Insight: Two Data Flows</p>
 <p>Queue has TWO independent data flows:</p>
 <ol class="arabic simple">
@@ -903,7 +807,6 @@ Signal: all_tasks*done (join() waits for completion)</p></li>
 - task_done() doesn’t remove items from list
 - They work in parallel
 .. code-block:: text</p>
-<p>—</p>
 <p>Why BOTH Counter AND Condition Variable?</p>
 </section>
 <section id="counter">
@@ -911,7 +814,6 @@ Signal: all_tasks*done (join() waits for completion)</p></li>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>unfinished_tasks: int</p>
 <p>Tracks how many items haven’t been marked done yet
 Used to know WHEN to signal
 Checked by join()</p>
@@ -921,27 +823,19 @@ Checked by join()</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>all_tasks*done: Condition()</p>
 <p>Efficiently wakes up waiting threads
 Avoids busy-waiting
 Used by join() to sleep instead of spinning</p>
 </section>
 <section id="together">
 <h1>Together<a class="headerlink" href="#together" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutex</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">-=</span> <span class="mi">1</span>  <span class="c1"># &lt;- Update counter</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># &lt;- Check counter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_tasks</span><span class="o">*</span><span class="n">done</span><span class="o">.</span><span class="n">notify_all</span><span class="p">()</span>  <span class="c1"># &lt;- Use condition</span>
 </pre></div>
 </div>
-<dl>
-<dt>def task_done(self):</dt><dd><dl>
-<dt>with self.mutex:</dt><dd><p>self.unfinished_tasks -= 1  # &lt;- Update counter</p>
-<dl class="simple">
-<dt>if self.unfinished_tasks == 0:  # &lt;- Check counter</dt><dd><p>self.all_tasks*done.notify_all()  # &lt;- Use condition</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Counter</span> <span class="n">answers</span> <span class="s2">&quot;when?&quot;</span><span class="o">**</span>
 <span class="o">**</span><span class="n">Condition</span> <span class="n">variable</span> <span class="n">answers</span> <span class="s2">&quot;how to signal efficiently?&quot;</span><span class="o">**</span>
 </pre></div>
@@ -953,15 +847,14 @@ Used by join() to sleep instead of spinning</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>WRONG - Wastes CPU
-def join_without*condition(self):</p>
-<blockquote>
-<div><dl class="simple">
+<dl class="simple">
+<dt>def join_without*condition(self):</dt><dd><dl class="simple">
 <dt>while self.unfinished_tasks &gt; 0:</dt><dd><p>time.sleep(0.01)  # Busy-wait, bad!
 # Keeps waking up to check, wastes CPU</p>
 </dd>
 </dl>
-</div></blockquote>
+</dd>
+</dl>
 <p>RIGHT - Uses condition variable
 def join_with*condition(self):</p>
 <blockquote>
@@ -977,7 +870,6 @@ def join_with*condition(self):</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>Visual: Counter and Condition Together</p>
 <p>Queue internals:</p>
 <div class="line-block">
@@ -995,7 +887,6 @@ def join_with*condition(self):</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>Complete Operation Table</p>
 <div class="line-block">
 <div class="line">Operation | What it touches | Effect |</div>
@@ -1018,7 +909,6 @@ def join_with*condition(self):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>queue = Queue()</p>
 <p>queue.put(1)
 queue.put(2)
 queue.put(3)</p>
@@ -1044,7 +934,6 @@ item = queue.get()</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>What Happens WITH task_done()</p>
 </section>
 <section id="queue-join-with-task-done">
@@ -1052,7 +941,6 @@ item = queue.get()</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>queue = Queue()</p>
 <p>queue.put(1)      # task_counter = 1
 queue.put(2)      # task_counter = 2
 queue.put(3)      # task_counter = 3</p>
@@ -1077,7 +965,6 @@ print(“Done!”)</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>—</p>
 <p>The Three-Step Cycle</p>
 </section>
 <section id="step-1-put-item">
@@ -1085,16 +972,14 @@ print(“Done!”)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>queue.put(item)
-task_counter increments</p>
+<p>task_counter increments</p>
 </section>
 <section id="step-2-get-and-process">
 <h1>Step 2: Get and Process<a class="headerlink" href="#step-2-get-and-process" title="Link to this heading"></a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>item = queue.get()  # Removes from queue but…
-task_counter STAYS the same
+<p>task_counter STAYS the same
 (item is “in flight”, being processed)
 process(item)       # Do actual work</p>
 </section>
@@ -1103,8 +988,7 @@ process(item)       # Do actual work</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>queue.task_done()
-task_counter decrements
+<p>task_counter decrements
 Tells queue: “I’m done with this item”</p>
 </section>
 <section id="flow-diagram">
@@ -1117,7 +1001,6 @@ Tells queue: “I’m done with this item”</p>
 </dl>
 <p>counter=1   counter=1   counter=0
 .. code-block:: text</p>
-<p>—</p>
 <p>Real Example: Work Queue Pattern</p>
 </section>
 <section id="without-task-done-problematic">
@@ -1125,8 +1008,7 @@ Tells queue: “I’m done with this item”</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from queue import Queue
-from threading import Thread</p>
+<p>from threading import Thread</p>
 <p>tasks = Queue()</p>
 <section id="add-tasks">
 <h2>Add tasks<a class="headerlink" href="#add-tasks" title="Link to this heading"></a></h2>
@@ -1165,16 +1047,13 @@ Working on Task 3
 Working on Task 4
 [Program hangs, never says “All done!”]
 .. code-block:: text</p>
-</section>
-</section>
-<section id="with-task-done-correct">
-<h1>With task_done() - CORRECT<a class="headerlink" href="#with-task-done-correct" title="Link to this heading"></a></h1>
+<hr class="docutils" />
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from queue import Queue
-from threading import Thread</p>
+<p>from threading import Thread</p>
 <p>tasks = Queue()</p>
+</section>
 <section id="id17">
 <h2>Add tasks<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
 <dl>
@@ -1212,7 +1091,6 @@ Working on Task 3
 Working on Task 4
 All done!
 .. code-block:: text</p>
-<p>—</p>
 <p>Why Is This Useful?</p>
 </section>
 </section>
@@ -1221,11 +1099,10 @@ All done!
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Main thread
-for task in tasks:</p>
-<blockquote>
-<div><p>queue.put(task)</p>
-</div></blockquote>
+<dl class="simple">
+<dt>for task in tasks:</dt><dd><p>queue.put(task)</p>
+</dd>
+</dl>
 <p>Wait for workers to finish ALL tasks
 queue.join()</p>
 <p>NOW we know all work is done
@@ -1238,12 +1115,9 @@ shutdown_workers()</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>queue = Queue()
-for i in range(100):</p>
-<blockquote>
-<div><p>queue.put(i)</p>
-</div></blockquote>
 <dl>
+<dt>for i in range(100):</dt><dd><p>queue.put(i)</p>
+</dd>
 <dt>def worker():</dt><dd><dl>
 <dt>while True:</dt><dd><p>task = queue.get()
 if task is None:</p>
@@ -1270,7 +1144,6 @@ print(f”All 100 tasks completed!”)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>batch_queue = Queue()</p>
 <dl>
 <dt>def add_to*batch(item):</dt><dd><p>batch_queue.put(item)</p>
 </dd>
@@ -1303,7 +1176,6 @@ batch = []</p>
 batch_queue.join()
 print(“All batches processed!”)
 .. code-block:: text</p>
-<p>—</p>
 <p>Comparison: With vs Without task_done()</p>
 </section>
 </section>
@@ -1319,24 +1191,17 @@ print(“All batches processed!”)
 <p>—</p>
 <p>The Flow in Your Code (05*queue.py)</p>
 <p>Looking back at the code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">__init</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queue</span><span class="p">):</span>
+    <span class="n">Thread</span><span class="o">.**</span><span class="n">init</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">queue</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>           <span class="c1"># Step 1: Remove from queue</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;consumer: got </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>    <span class="c1"># Step 2: Do work</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>            <span class="c1"># Step 3: Mark as done</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>class Consumer(Thread):</dt><dd><dl class="simple">
-<dt>def __init**(self, queue):</dt><dd><p>Thread.**init**(self)
-self.queue = queue</p>
-</dd>
-<dt>def run(self):</dt><dd><dl class="simple">
-<dt>while True:</dt><dd><p>item = self.queue.get()           # Step 1: Remove from queue
-print(f”consumer: got {item}”)    # Step 2: Do work
-self.queue.task_done()            # Step 3: Mark as done</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 <section id="timeline">
 <h1>Timeline<a class="headerlink" href="#timeline" title="Link to this heading"></a></h1>
@@ -1351,41 +1216,28 @@ Consumer2: get(12) -&gt; task_done() -&gt; counter = 0</p>
 Main thread: But consumers are in infinite loop (while True)
 Main thread: Tries to join consumers (would block forever)
 .. code-block:: text</p>
-<p>—</p>
 <p>The Missing Piece in the Code</p>
 <p>The code has an issue - consumers have <code class="docutils literal notranslate"><span class="pre">while</span> <span class="pre">True</span></code> (infinite loop):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># Never exits!</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;consumer notify: item popped from queue by </span><span class="si">{</span><span class="n">item</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>def run(self):</dt><dd><dl class="simple">
-<dt>while True:  # Never exits!</dt><dd><p>item = self.queue.get()
-print(f”consumer notify: item popped from queue by {item, self.name}”)
-self.queue.task_done()</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 <section id="better-code-pattern">
 <h1>Better Code Pattern<a class="headerlink" href="#better-code-pattern" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Poison pill - signal to exit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+        <span class="k">break</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;consumer: processing </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
 </pre></div>
 </div>
-<dl>
-<dt>def run(self):</dt><dd><dl>
-<dt>while True:</dt><dd><p>item = self.queue.get()</p>
-<dl class="simple">
-<dt>if item is None:  # Poison pill - signal to exit</dt><dd><p>self.queue.task_done()
-break</p>
-</dd>
-</dl>
-<p>print(f”consumer: processing {item}”)
-self.queue.task_done()</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <section id="in-main">
 <h2>In main<a class="headerlink" href="#in-main" title="Link to this heading"></a></h2>
 <p>producer.join()
@@ -1399,7 +1251,6 @@ for * in range(3):</p>
 consumer2.join()
 consumer3.join()
 .. code-block:: text</p>
-<p>—</p>
 <p>Summary: What task_done() Does</p>
 <p><strong>YES, task_done() is on Queue and does:</strong></p>
 <ol class="arabic simple">
@@ -1426,12 +1277,10 @@ consumer3.join()
 </section>
 <section id="the-pattern">
 <h1>The Pattern<a class="headerlink" href="#the-pattern" title="Link to this heading"></a></h1>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>down
 </pre></div>
 </div>
 <dl class="simple">
-<dt>put(item)      -&gt; “Item added to queue”</dt><dd><p>down</p>
-</dd>
 <dt>get(item)      -&gt; “Someone took the item”</dt><dd><p>down</p>
 </dd>
 <dt>task_done()    -&gt; “Item was PROCESSED”</dt><dd><p>down</p>
@@ -1446,8 +1295,7 @@ consumer3.join()
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>from queue import Queue
-from threading import Thread
+<p>from threading import Thread
 import time</p>
 <p>q = Queue()</p>
 <dl>

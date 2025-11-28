@@ -26,7 +26,6 @@ CodeGenerator Class
             self.function_ret_types = {}
             self.last_ret_type = None
 
-*Location:* `code_generator.py:285-300 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/compiler/code_generator.py#L285-L300>`_
 
 AST Visitor Pattern
 ~~~~~~~~~~~~~~~~~~~
@@ -72,7 +71,6 @@ The generator uses the **Visitor pattern** to walk the Python AST:
             return self.builder.create_mul(lhs, rhs)
         # ... more operators
 
-Triton Language Primitives
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Special handling for ``tl.*`` functions:
@@ -101,7 +99,6 @@ Special handling for ``tl.*`` functions:
             axis = self.visit(node.args[0])
             return self.builder.create_get_program_id(axis)
 
-**Mapping table:**
 
 Python                  Triton Operation             MLIR Op
 ``tl.load(ptr)``        Load from memory             ``tt.load``
@@ -136,7 +133,6 @@ Triton infers types automatically:
 
         return self.builder.create_add(lhs, rhs, result_ty)
 
-Example TTIR Output
 ~~~~~~~~~~~~~~~~~~~
 
 For this kernel:
@@ -152,7 +148,6 @@ For this kernel:
         y = tl.load(y_ptr + offs, mask=mask)
         tl.store(out_ptr + offs, x + y, mask=mask)
 
-Generated TTIR:
 
 .. code-block:: mlir
 
@@ -187,7 +182,6 @@ Generated TTIR:
       }
     }
 
-MLIR Lowering: TTIR -> TTGIR -> LLIR
 
 The MLIR pipeline applies a series of transformation passes.
 
@@ -213,7 +207,6 @@ Main compilation function (`compiler.py:226 <https://github.com/triton-lang/trit
         # Return compiled kernel
         return CompiledKernel(src, metadata_group, hash)
 
-**Stages dictionary:**
 
 .. code-block:: python
 
@@ -225,7 +218,6 @@ Main compilation function (`compiler.py:226 <https://github.com/triton-lang/trit
         "cubin": ptx_to_cubin,      # Binary
     }
 
-TTIR -> TTGIR Transformation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *Location:* `third_party/nvidia/backend/compiler.py <https://github.com/triton-lang/triton/tree/v3.5.1/third_party/nvidia/backend/compiler.py>`_
@@ -248,7 +240,6 @@ TTIR -> TTGIR Transformation
                              capability=metadata["capability"])
         return module
 
-**C++ passes applied** (in ``lib/Dialect/TritonGPU/``):
 
 - ``TritonGPUCoalesce`` - Coalesce memory accesses
 - ``TritonGPURemoveLayoutConversions`` - Optimize layout changes
@@ -268,7 +259,6 @@ TTGIR -> LLVM IR
                                      capability=metadata["capability"])
         return module
 
-**Transformations:**
 
 - ``tt.load`` -> LLVM load instructions
 - ``tt.store`` -> LLVM store instructions
@@ -292,7 +282,6 @@ LLVM IR -> PTX
         )
         return ptx
 
-**LLVM generates PTX assembly:**
 
 .. code-block:: ptx
 
@@ -325,7 +314,6 @@ LLVM IR -> PTX
         // ... more PTX ...
     }
 
-PTX -> CUBIN
 ~~~~~~~~~~~
 
 .. code-block:: python
@@ -339,13 +327,11 @@ PTX -> CUBIN
         )
         return cubin
 
-Uses ``ptxas`` subprocess:
 
 .. code-block:: bash
 
     ptxas --gpu-name=sm_80 --output-file kernel.cubin kernel.ptx
 
-The CUBIN file is a binary executable that can be loaded and run on the GPU.
 
 Caching Strategy
 
@@ -367,7 +353,6 @@ Cache Directory Structure
 
     ~/.triton/cache/
 
-Cache Lookup
 ~~~~~~~~~~~~
 
 .. code-block:: python
@@ -388,7 +373,6 @@ Cache Lookup
         # Cache miss - compile
         # ...
 
-Performance Timeline
 
 Typical compilation times:
 

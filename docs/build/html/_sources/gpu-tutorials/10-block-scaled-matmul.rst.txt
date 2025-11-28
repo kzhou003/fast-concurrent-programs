@@ -92,7 +92,6 @@ Tensor cores load scales in specific patterns. To avoid non-contiguous access, s
 
 .. code-block:: python
 
-Original linear layout: [M, K // VEC_SIZE]
 Each row has K // VEC_SIZE scales
 
 Preshuffled layout: [M // 128, K // VEC_SIZE // 4, 32, 4, 4]
@@ -117,7 +116,6 @@ Dimension breakdown:
 **Memory access pattern:**
 .. code-block:: python
 
-for each BLOCK_M x BLOCK_K tile:
     Load 128 rows x (BLOCK_K // VEC_SIZE) scales contiguously
     No strided access -> better memory bandwidth
 ::
@@ -129,7 +127,6 @@ Reshaping and Transposing
 Inside the kernel:
 .. code-block:: python
 
-Load in 5D preshuffled format
 scale_a = a_scale*desc.load([0, offs_scale*m, offs_scale*k, 0, 0])
 
 Reshape to 5D
@@ -151,7 +148,6 @@ AMD's MFMA (Matrix Fused Multiply-Add) instructions require different shuffling:
 
 .. code-block:: python
 
-def shuffle_scales*cdna4(scales, mfma_nonkdim):
     """
     Reorganize scales for MFMA instructions.
 
@@ -204,7 +200,6 @@ Code Walkthrough
 
 .. code-block:: python
 
-@triton.jit
 def block_scaled*matmul_kernel(
     a_desc, b_desc, c_desc,
     a_scale*desc, b_scale*desc,
@@ -297,7 +292,6 @@ def block_scaled*matmul_kernel(
 
 .. code-block:: python
 
-@triton.jit
 def block_scaled*matmul_kernel*cdna4(
     a_ptr, b_ptr, c_ptr,
     a_scales*ptr, b_scales*ptr,
@@ -389,7 +383,6 @@ NVIDIA Version
 
 .. code-block:: python
 
-def initialize_block*scaled(M, N, K, block_scale*type="nvfp4"):
     # Configuration based on format
     BLOCK_M = 128
     BLOCK_N = 256
@@ -438,7 +431,6 @@ AMD Version
 
 .. code-block:: python
 
-def initialize_block*scaled_amd(M, N, K, mfma_nonkdim):
     BLOCK_M = 128
     BLOCK_N = 128
     BLOCK_K = 256
@@ -509,7 +501,6 @@ Quantization Error
 
 .. code-block:: python
 
-FP16 range: +/-65504, ~3 decimal digits
 FP8 (E4M3) range: +/-448, ~2 decimal digits
 FP4 (E2M1) range: +/-6, ~1 decimal digit
 ::
@@ -518,7 +509,6 @@ FP4 (E2M1) range: +/-6, ~1 decimal digit
 **Per-block scaling helps:**
 .. code-block:: python
 
-Without scaling:
 fp4_val = quantize_fp16*to_fp4(1234.5)  # Overflow!
 
 With scaling:
@@ -533,7 +523,6 @@ E8M0 Scale Format (AMD)
 
 .. code-block:: python
 
-def e8m0_to*f32(x):
     """Convert 8-bit exponent-only to float32."""
     # No mantissa, only exponent
     # Value = 2^(exponent - 127)
@@ -560,7 +549,6 @@ Command-line Benchmarking
 
 .. code-block:: bash
 
-NVIDIA FP4
 ==========
 python 10-block-scaled-matmul.py --format nvfp4 --K_range 512 8192 --bench
 
@@ -581,7 +569,6 @@ Validation
 
 .. code-block:: python
 
-NVIDIA
 ======
 validate_block*scaled(8192, 8192, 8192, block_scale*type="nvfp4")
 [[OK]] (pass nvfp4)
@@ -602,7 +589,6 @@ Common Pitfalls
 
 .. code-block:: python
 
-if not supports_block*scaling():
     print("[blocked] This example requires GPU support for block scaled matmul")
     exit(1)
 
@@ -617,7 +603,6 @@ def supports_block*scaling():
 
 .. code-block:: python
 
-Bad: Using AMD kernel with NVIDIA formats
 if is_hip*cdna4():
     assert args.format == "mxfp4", "AMD only supports mxfp4"
 ::
@@ -628,7 +613,6 @@ if is_hip*cdna4():
 
 .. code-block:: python
 
-Scales must match data dimensions
 assert a_scale.shape == [M // 128, K // VEC_SIZE // 4, 32, 16]
 
 After packing to 5D
@@ -641,7 +625,6 @@ assert a_scale.shape == [1, M // 128, K // VEC_SIZE // 4, 2, 256]
 
 .. code-block:: python
 
-from typing import Optional
 
 def alloc_fn(size: int, alignment: int, stream: Optional[int]):
     return torch.empty(size, device="cuda", dtype=torch.int8)

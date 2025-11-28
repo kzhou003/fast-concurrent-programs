@@ -20,7 +20,6 @@ Persistent Kernel Pattern
 
 .. code-block:: python
 
-Traditional kernel: One CTA per tile
 for tile in tiles:
     launch_kernel`1*CTA_per*tile <tile>`_
 
@@ -44,7 +43,6 @@ On Blackwell (compute capability 10.0+), different warps can be assigned differe
 
 .. code-block:: python
 
-for ki in tl.range(k_tiles, warp_specialize=True):
     # Hardware scheduler can assign:
     # - Some warps to memory loads (producer)
     # - Other warps to compute (consumer)
@@ -66,7 +64,6 @@ Code Walkthrough
 
 .. code-block:: python
 
-@triton.jit
 def matmul_kernel(a_ptr, b_ptr, c_ptr,
                   M, N, K,
                   stride_am, stride_ak,
@@ -105,7 +102,6 @@ def matmul_kernel(a_ptr, b_ptr, c_ptr,
 **Grid launch:**
 .. code-block:: python
 
-grid = lambda META: (
     triton.cdiv(M, META["BLOCK_SIZE*M"]) *
     triton.cdiv(N, META["BLOCK_SIZE*N"]),
 )
@@ -119,7 +115,6 @@ grid = lambda META: (
 
 .. code-block:: python
 
-@triton.jit
 def matmul_kernel*persistent(a_ptr, b_ptr, c_ptr, ...,
                              NUM_SMS: tl.constexpr):
     start_pid = tl.program_id(axis=0)
@@ -148,7 +143,6 @@ def matmul_kernel*persistent(a_ptr, b_ptr, c_ptr, ...,
 **Grid launch:**
 .. code-block:: python
 
-NUM_SMS = torch.cuda.get_device*properties("cuda").multi_processor*count
 grid = lambda META: (
     min(NUM_SMS, num_tiles),  # Don't launch more CTAs than tiles
 )
@@ -167,7 +161,6 @@ For Hopper (compute capability 9.0+):
 
 .. code-block:: python
 
-@triton.jit
 def matmul_kernel*tma(a_desc, b_desc, c_desc,
                       M, N, K,
                       BLOCK_SIZE*M: tl.constexpr,
@@ -198,7 +191,6 @@ def matmul_kernel*tma(a_desc, b_desc, c_desc,
 **TMA Descriptor creation:**
 .. code-block:: python
 
-from triton.tools.tensor_descriptor import TensorDescriptor
 
 a_desc = TensorDescriptor.from_tensor(a, [BLOCK_M, BLOCK_K])
 b_desc = TensorDescriptor.from_tensor(b, [BLOCK_N, BLOCK_K])
@@ -213,7 +205,6 @@ Advanced optimization for memory-bound kernels:
 
 .. code-block:: python
 
-@triton.jit
 def matmul_kernel*tma_persistent(...,
                                  EPILOGUE_SUBTILE: tl.constexpr):
     # ... main computation ...
@@ -248,7 +239,6 @@ This tutorial demonstrates using Triton's built-in profiler:
 
 .. code-block:: python
 
-import triton.profiler as proton
 
 Start profiling
 proton.start("matmul", hook="triton")
@@ -278,7 +268,6 @@ Viewing Profile Data
 
 .. code-block:: python
 
-def show_profile(precision, profile_name):
     import triton.profiler.viewer as proton_viewer
 
     metric_names = ["time/ms"]
@@ -307,7 +296,6 @@ Host-side (TensorDescriptor)
 
 .. code-block:: python
 
-from triton.tools.tensor_descriptor import TensorDescriptor
 
 Created on CPU, passed to GPU
 a_desc = TensorDescriptor.from_tensor(a, [BLOCK_M, BLOCK_K])
@@ -323,7 +311,6 @@ Device-side (tl.make_tensor*descriptor)
 
 .. code-block:: python
 
-@triton.jit
 def kernel(a_ptr, ...):
     # Created inside kernel
     a_desc = tl.make_tensor*descriptor(
@@ -346,7 +333,6 @@ How It Works
 
 .. code-block:: python
 
-for ki in tl.range(k_tiles, warp_specialize=True):
     # Hardware may assign:
     # Warps 0-3: Producer (memory loads)
     # Warps 4-7: Consumer (compute)
@@ -370,7 +356,6 @@ Requirements
 
 .. code-block:: python
 
-HAS_WARP*SPECIALIZE = supports_ws() and HAS_TENSOR*DESC
 
 def supports_ws():
     return is_cuda() and torch.cuda.get_device*capability()[0] >= 9
@@ -384,7 +369,6 @@ Flattening in Persistent Loops
 
 .. code-block:: python
 
-for tile_id in tl.range(start_pid, num_tiles, NUM_SMS,
                        flatten=True,
                        warp_specialize=WARP_SPECIALIZE):
 ::
@@ -402,7 +386,6 @@ for tile_id in tl.range(start_pid, num_tiles, NUM_SMS,
 
 .. code-block:: python
 
-Choose based on GPU generation
 flatten = False if (warp_specialize and is_hopper()) else True
 ::
 
@@ -447,7 +430,6 @@ FP16 (Float16)
 ~~~~~~~~~~~~~~
 .. code-block:: python
 
-a = torch.randn((M, K), device='cuda', dtype=torch.float16)
 b = torch.randn((K, N), device='cuda', dtype=torch.float16)
 ::
 
@@ -459,7 +441,6 @@ FP8 (Float8)
 ~~~~~~~~~~~~
 .. code-block:: python
 
-dtype = torch.float8_e4m3fn  # E4M3 format
 a = torch.randn((M, K), dtype=torch.float16).to(dtype)
 b = torch.randn((K, N), dtype=torch.float16).to(dtype)
 ::
@@ -473,7 +454,6 @@ Auto-tuning Configuration
 
 .. code-block:: python
 
-def matmul_get*configs():
     return [
         triton.Config(
             {'BLOCK_SIZE*M': BM, 'BLOCK_SIZE*N': BN,
@@ -499,7 +479,6 @@ Command-line Usage
 
 .. code-block:: bash
 
-FP16 matmul
 python 09-persistent-matmul.py --prec fp16 --K_range 128 1024 --K_step 128
 
 FP8 matmul (requires Hopper+)
@@ -519,7 +498,6 @@ Common Pitfalls
 
 .. code-block:: python
 
-TMA expects B to be transposed
 b = b.T.contiguous()  # Make sure it's contiguous!
 
 matmul_tma(a, b, warp_specialize=False)
@@ -531,7 +509,6 @@ matmul_tma(a, b, warp_specialize=False)
 
 .. code-block:: python
 
-Bad: Using both in same kernel
 a_desc = TensorDescriptor.from_tensor(a, ...)  # Host-side
 tl.make_tensor*descriptor(...)  # Device-side
 
@@ -548,7 +525,6 @@ else:
 
 .. code-block:: python
 
-if args.prec == 'fp8':
     if not hasattr(torch, 'float8_e4m3fn') or not is_cuda():
         print("This example requires CUDA with fp8 support.")
         exit(1)

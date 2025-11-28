@@ -98,7 +98,6 @@ Threading (concurrent.futures.ThreadPoolExecutor)
 **Example** (from script 06):
 .. code-block:: python
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
     for item in number_list:
         executor.submit(evaluate, item)
 ::
@@ -128,7 +127,6 @@ Multiprocessing (concurrent.futures.ProcessPoolExecutor)
 **Example** (from script 06):
 .. code-block:: python
 
-with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
     for item in number_list:
         executor.submit(evaluate, item)
 ::
@@ -167,7 +165,6 @@ Impact on Performance:
 **CPU-bound tasks with threading**:
 .. code-block:: python
 
-With GIL, threads don't help CPU-bound tasks:
 Sequential:        ############ (10 seconds)
 Threading (4):     ############ (10 seconds) <- No improvement!
 Multiprocessing:   ### (2.5 seconds) <- True speedup!
@@ -177,7 +174,6 @@ Multiprocessing:   ### (2.5 seconds) <- True speedup!
 **I/O-bound tasks with threading**:
 .. code-block:: python
 
-GIL is released during I/O, so threading helps:
 Sequential:        ############ (10 seconds)
 Threading (4):     ### (2.5 seconds) <- Good improvement!
 Asyncio:           ## (2 seconds) <- Even better!
@@ -225,7 +221,6 @@ How It Works (from script 07):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def main():
     loop = asyncio.get_event*loop()
     end_loop = loop.time() + 60
     await task_A(end_loop)
@@ -248,7 +243,6 @@ Modern vs Old Patterns:
 **Old (Deprecated)**:
 .. code-block:: python
 
-loop = asyncio.get_event*loop()
 loop.run_until*complete(coro())
 loop.close()
 ::
@@ -257,7 +251,6 @@ loop.close()
 **Modern (Python 3.7+)**:
 .. code-block:: python
 
-asyncio.run(coro())  # Handles everything automatically
 ::
 
 
@@ -277,7 +270,6 @@ Defining Coroutines:
 **Old Syntax (Deprecated)**:
 .. code-block:: python
 
-@asyncio.coroutine
 def my_coroutine():
     result = yield from other_coroutine()
     return result
@@ -287,7 +279,6 @@ def my_coroutine():
 **Modern Syntax (Python 3.5+)**:
 .. code-block:: python
 
-async def my_coroutine():
     result = await other_coroutine()
     return result
 ::
@@ -304,7 +295,6 @@ Example from Script 08:
 ~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def state1(transition_value):
     output_value = f'State 1 with transition value = {transition_value}\n'
     await asyncio.sleep(1)  # Yields control
 
@@ -354,14 +344,12 @@ Tasks are wrappers around coroutines that schedule them for execution.
 **Old (Deprecated)**:
 .. code-block:: python
 
-task = asyncio.Task(my_coroutine())
 ::
 
 
 **Modern**:
 .. code-block:: python
 
-task = asyncio.create_task(my_coroutine())
 ::
 
 
@@ -376,7 +364,6 @@ Example from Script 09:
 ~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def main():
     tasks = [
         asyncio.create_task(factorial(10)),
         asyncio.create_task(fibonacci(10)),
@@ -399,8 +386,7 @@ Futures represent the eventual result of an asynchronous operation.
 **Old Pattern (Deprecated)**:
 .. code-block:: python
 
-future = asyncio.Future()
-future.add_done*callback(callback_function)
+future.add_done_callback(callback_function)
 future.set_result(value)
 result = future.result()
 ::
@@ -409,7 +395,6 @@ result = future.result()
 **Modern Pattern**:
 .. code-block:: python
 
-result = await my_coroutine()  # Direct return value
 ::
 
 
@@ -419,7 +404,6 @@ Waiting for Multiple Tasks:
 **asyncio.gather()** (Recommended):
 .. code-block:: python
 
-results = await asyncio.gather(task1, task2, task3)
 Returns results in order
 Raises exception if any task fails
 ::
@@ -428,7 +412,6 @@ Raises exception if any task fails
 **asyncio.wait()** (Old pattern):
 .. code-block:: python
 
-done, pending = await asyncio.wait([task1, task2, task3])
 Returns sets of done and pending tasks
 More complex to use
 ::
@@ -464,7 +447,6 @@ Operations limited by CPU processing speed.
 **Example** (from script 06):
 .. code-block:: python
 
-def count(number):
     for i in range(0, 10000000):  # CPU-intensive loop
         i += 1
     return i * number
@@ -501,7 +483,6 @@ Operations limited by input/output speed (waiting for data).
 **Example** (from scripts 07-10):
 .. code-block:: python
 
-async def fetch_data():
     await asyncio.sleep(2)  # Simulates I/O wait
     # During this wait, other tasks can run
     return data
@@ -525,7 +506,6 @@ Hybrid Workloads:
 Some applications have both:
 .. code-block:: python
 
-Combine approaches:
 async def process_data():
     # I/O: Fetch data asynchronously
     data = await fetch_from*api()
@@ -553,7 +533,6 @@ This section summarizes all deprecated features replaced during migration.
 **Before**:
 .. code-block:: python
 
-start = time.clock()
 ... work ...
 elapsed = time.clock() - start
 ::
@@ -562,7 +541,6 @@ elapsed = time.clock() - start
 **After**:
 .. code-block:: python
 
-start = time.perf_counter()
 ... work ...
 elapsed = time.perf_counter() - start
 ::
@@ -581,7 +559,6 @@ elapsed = time.perf_counter() - start
 **Before**:
 .. code-block:: python
 
-@asyncio.coroutine
 def my_coroutine():
     result = yield from other_coroutine()
     return result
@@ -591,7 +568,6 @@ def my_coroutine():
 **After**:
 .. code-block:: python
 
-async def my_coroutine():
     result = await other_coroutine()
     return result
 ::
@@ -611,14 +587,12 @@ async def my_coroutine():
 **Before**:
 .. code-block:: python
 
-task = asyncio.Task(my_coroutine())
 ::
 
 
 **After**:
 .. code-block:: python
 
-task = asyncio.create_task(my_coroutine())
 ::
 
 
@@ -636,7 +610,6 @@ task = asyncio.create_task(my_coroutine())
 **Before**:
 .. code-block:: python
 
-loop = asyncio.get_event*loop()
 loop.run_until*complete(my_coroutine())
 loop.close()
 ::
@@ -645,7 +618,6 @@ loop.close()
 **After**:
 .. code-block:: python
 
-asyncio.run(my_coroutine())
 ::
 
 
@@ -663,12 +635,11 @@ asyncio.run(my_coroutine())
 **Before**:
 .. code-block:: python
 
-future = asyncio.Future()
 
 def callback(future):
     print(future.result())
 
-future.add_done*callback(callback)
+future.add_done_callback(callback)
 await some_coroutine(future)
 future.set_result(value)
 ::
@@ -677,7 +648,6 @@ future.set_result(value)
 **After**:
 .. code-block:: python
 
-result = await some_coroutine()
 print(result)
 ::
 
@@ -696,7 +666,6 @@ print(result)
 **Before**:
 .. code-block:: python
 
-async def bad_function():
     time.sleep(5)  # [[FAIL]] Blocks entire event loop!
 ::
 
@@ -704,7 +673,6 @@ async def bad_function():
 **After**:
 .. code-block:: python
 
-async def good_function():
     await asyncio.sleep(5)  # [[OK]] Yields control
 ::
 
@@ -722,7 +690,6 @@ async def good_function():
 **Before**:
 .. code-block:: python
 
-print('Value: %s' % value)
 print('X: %s, Y: %s' % (x, y))
 ::
 
@@ -730,7 +697,6 @@ print('X: %s, Y: %s' % (x, y))
 **After**:
 .. code-block:: python
 
-print(f'Value: {value}')
 print(f'X: {x}, Y: {y}')
 ::
 

@@ -107,7 +107,6 @@ Kernel Structure
 
 .. code-block:: python
 
-@triton.jit
 def *layer_norm*fwd_fused(X, Y, W, B, Mean, Rstd, stride, N, eps, BLOCK_SIZE: tl.constexpr):
     row = tl.program_id(0)  # Each program handles one row
     Y += row * stride
@@ -125,7 +124,6 @@ Computing the Mean
 
 .. code-block:: python
 
-mean = 0
 *mean = tl.zeros([BLOCK_SIZE], dtype=tl.float32)
 for off in range(0, N, BLOCK_SIZE):
     cols = off + tl.arange(0, BLOCK_SIZE)
@@ -160,7 +158,6 @@ Computing the Variance
 
 .. code-block:: python
 
-*var = tl.zeros([BLOCK_SIZE], dtype=tl.float32)
 for off in range(0, N, BLOCK_SIZE):
     cols = off + tl.arange(0, BLOCK_SIZE)
     x = tl.load(X + cols, mask=cols < N, other=0.).to(tl.float32)
@@ -183,7 +180,6 @@ Normalization and Transformation
 
 .. code-block:: python
 
-rstd = 1 / tl.sqrt(var + eps)
 tl.store(Mean + row, mean)
 tl.store(Rstd + row, rstd)
 
@@ -289,7 +285,6 @@ The Challenge
 For weight gradients:
 .. code-block:: python
 
-dw = SIGMA (dy[i] (o) x_hat[i]) for i in batch
 ::
 
 
@@ -298,7 +293,6 @@ dw = SIGMA (dy[i] (o) x_hat[i]) for i in batch
 **Naive solution**: Atomic adds
 .. code-block:: python
 
-atomicAdd(&dw[j], dy[i, j] * x_hat[i, j])
 ::
 
 
@@ -331,7 +325,6 @@ Group Assignment
 
 .. code-block:: python
 
-GROUP_SIZE*M = 64  # Rows per group
 row = tl.program_id(0)
 group_id = row // GROUP_SIZE*M
 ::
@@ -354,7 +347,6 @@ Using Locks
 
 .. code-block:: python
 
-Lock = tl.zeros([num_groups], dtype=tl.int32)
 
 In kernel:
 ==========
@@ -380,7 +372,6 @@ tl.atomic_xchg(Lock + group_id, 0)
 **Atomic Compare-And-Swap** (``atomic_cas``):
 .. code-block:: python
 
-old_value = atomic_cas(ptr, compare, new)
 If *ptr == compare: *ptr = new
 Return old value of *ptr
 ::
@@ -389,7 +380,6 @@ Return old value of *ptr
 **Spin lock pattern**:
 .. code-block:: python
 
-while atomic_cas(Lock, 0, 1) == 1:  # Try to set lock from 0 to 1
     pass  # If already 1, keep trying
 
 Lock acquired (we set it to 1)
@@ -404,7 +394,6 @@ Stage 2: Final Reduction
 
 .. code-block:: python
 
-def *layer_norm*bwd_dwdb(DW, DB, FINAL_DW, FINAL_DB, M, N, GROUP_SIZE*M):
     num_groups = triton.cdiv(M, GROUP_SIZE*M)
 
     for group in range(num_groups):
@@ -442,7 +431,6 @@ Stride Usage
 
 .. code-block:: python
 
-Y += row * stride
 X += row * stride
 ::
 
@@ -456,7 +444,6 @@ Why Use float32 for Accumulation?
 
 .. code-block:: python
 
-a = tl.load(X + cols, mask=cols < N, other=0.).to(tl.float32)
 ::
 
 
@@ -518,7 +505,6 @@ Common Pitfalls
 **Problem**: ``sqrt(var)`` when var ~ 0
 .. code-block:: python
 
-rstd = 1 / tl.sqrt(var + eps)
 ::
 
 
@@ -530,7 +516,6 @@ Always add ``eps`` (e.g., 1e-5) before square root.
 Layer norm normalizes **across features** (last dimension):
 .. code-block:: python
 
-x = torch.randn(32, 128)  # (batch, features)
 Normalize each of 32 samples across 128 features
 ::
 
@@ -543,14 +528,12 @@ Not across batch (that's batch norm).
 **Wrong**:
 .. code-block:: python
 
-dw[j] += local_dw  # Multiple threads writing simultaneously!
 ::
 
 
 **Right**:
 .. code-block:: python
 
-Use locks or separate buffers
 with lock:
     dw[j] += local_dw
 ::
@@ -562,14 +545,12 @@ with lock:
 Weights are shared across batch:
 .. code-block:: python
 
-dw = sum(dy[i] * x_hat[i] for i in batch)  # Must sum!
 ::
 
 
 Not:
 .. code-block:: python
 
-dw = dy[0] * x_hat[0]  # Wrong! Only uses first sample
 ::
 
 
@@ -619,7 +600,6 @@ PyTorch Implementation
 
 .. code-block:: python
 
-torch.nn.LayerNorm(normalized_shape, eps=1e-5)
 ::
 
 

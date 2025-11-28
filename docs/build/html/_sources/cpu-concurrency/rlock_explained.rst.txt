@@ -10,7 +10,6 @@ Regular Lock vs RLock
 **Regular Lock (threading.Lock):**
 .. code-block:: python
 
-lock = threading.Lock()
 
 with lock:           # Thread acquires lock
     with lock:       # Same thread tries to acquire again
@@ -21,7 +20,6 @@ with lock:           # Thread acquires lock
 **RLock (threading.RLock):**
 .. code-block:: python
 
-rlock = threading.RLock()
 
 with rlock:          # Thread acquires lock (count = 1)
     with rlock:      # Same thread acquires again (count = 2)
@@ -32,7 +30,6 @@ with rlock:          # Thread acquires lock (count = 1)
 
 
 
----
 
 How RLock Works Internally
 
@@ -60,7 +57,6 @@ Thread B can now acquire
 
 
 
----
 
 The Code Explained
 
@@ -68,7 +64,6 @@ Looking at ``/basics/03*rlock.py``:
 
 .. code-block:: python
 
-class Box:
     def **init**(self):
         self.lock = threading.RLock()  # Reentrant lock
         self.total_items = 0
@@ -97,7 +92,6 @@ Without RLock, this would happen:
 
 .. code-block:: python
 
-With regular Lock - DEADLOCK!
 lock = threading.Lock()
 
 def execute(self, value):
@@ -115,7 +109,6 @@ With RLock, it works fine:
 
 .. code-block:: python
 
-With RLock - NO DEADLOCK!
 rlock = threading.RLock()
 
 def execute(self, value):
@@ -133,7 +126,6 @@ def add(self):
 
 
 
----
 
 When to Use RLock vs Regular Lock
 
@@ -145,7 +137,6 @@ Use Regular Lock When:
 
 .. code-block:: python
 
-class Counter:
     def **init**(self):
         self.lock = threading.Lock()  # Sufficient here
         self.value = 0
@@ -165,7 +156,6 @@ Use RLock When:
 
 .. code-block:: python
 
-class Box:
     def **init**(self):
         self.lock = threading.RLock()  # Needed here!
         self.items = 0
@@ -182,7 +172,6 @@ class Box:
 
 
 
----
 
 Execution Flow of the Code
 
@@ -230,7 +219,6 @@ Code Flow with Comments
 
 .. code-block:: python
 
-class Box:
     def **init**(self):
         self.lock = threading.RLock()  # Counter starts at 0
         self.total_items = 0
@@ -262,7 +250,6 @@ class Box:
 
 
 
----
 
 Visual Comparison
 
@@ -273,7 +260,6 @@ Regular Lock - Would Deadlock
 
 
 
-Thread trying to re-acquire the same lock:
 
          |   Thread A acquires     |
          |   Lock acquired [OK]       |
@@ -287,14 +273,12 @@ Thread trying to re-acquire the same lock:
 
 
 
-RLock - No Deadlock
 ~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: text
 
 
 
-Thread re-acquiring the same lock:
 
     | Thread A acquires (1)    |
     | Lock count = 1 [OK]         |
@@ -313,13 +297,11 @@ Thread re-acquiring the same lock:
 
 
 
----
 
 Real-World Example
 
 .. code-block:: python
 
-class Account:
     def **init**(self, balance=0):
         self.lock = threading.RLock()
         self.balance = balance
@@ -357,7 +339,6 @@ No deadlock!
 
 
 
----
 
 Summary Table
 
