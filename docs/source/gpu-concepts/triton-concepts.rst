@@ -500,6 +500,387 @@ Triton optimizes memory access patterns automatically, but contiguous access is 
     offsets = (block_start + tl.arange(0, BLOCK_SIZE)) * stride
     x = tl.load(x_ptr + offsets, mask=mask)
 
+Kernel Compilation, Warmup, and GPU Initialization
+===================================================
+
+When optimizing kernels for specific GPU architectures, you often need to:
+1. Compile the kernel ahead of time
+2. Extract resource usage information
+3. Calculate optimal grid size based on GPU properties
+4. Load the binary on the GPU
+
+This section explains the functions that enable this workflow.
+
+is_hip() - Detect AMD GPU Backend
+----------------------------------
+
+**Purpose**: Check if the kernel is running on an AMD GPU (HIP backend) vs NVIDIA (CUDA).
+
+**Definition**:
+
+.. code-block:: python
+
+    def is_hip():
+        return triton.runtime.driver.active.get_current_target().backend == "hip"
+
+**What it does:**
+- Returns ``True`` if backend is HIP (AMD's Heterogeneous-Interface for Portability)
+- Returns ``False`` if backend is CUDA (NVIDIA)
+
+**Why it matters:**
+
+AMD and NVIDIA GPUs have fundamentally different architectures:
+
+.. code-block:: text
+
+    NVIDIA Architecture          AMD RDNA/CDNA Architecture
+    ├── CUDA cores              ├── Stream Processors (SPs)
+    ├── Warps (32 threads)      ├── Waves (64 threads)
+    ├── Registers: ~256 per warp ├── VGPRs: 256 per wave
+    └── Occupancy formula       └── Different occupancy formula
+       based on register usage      (includes register pools)
+
+**Example usage:**
+
+.. code-block:: python
+
+    if is_hip():
+        # AMD-specific calculation
+        occupancy = min(NUM_GPRS // WARP_SIZE // n_regs, max_num_waves) // num_warps
+    else:
+        # NVIDIA-specific calculation
+        occupancy = NUM_REGS // (n_regs * WARP_SIZE * num_warps)
+
+is_cdna() - Detect AMD CDNA Architecture
+-----------------------------------------
+
+**Purpose**: Check if the AMD GPU is CDNA architecture (data center) vs RDNA (gaming).
+
+**Definition**:
+
+.. code-block:: python
+
+    def is_cdna():
+        return is_hip() and triton.runtime.driver.active.get_current_target().arch in (
+            'gfx940', 'gfx941', 'gfx942',  # CDNA 3 (MI300)
+            'gfx90a', 'gfx908'              # CDNA 1-2 (MI200/MI100)
+        )
+
+**AMD GPU Architecture Families**:
+
+.. code-block:: text
+
+    AMD GPUs
+    ├── RDNA (Gaming/Consumer)
+    │   ├── RX 6800, 6900, 7000 series
+    │   └── Single register pool (256 VGPRs per wave)
+    │
+    └── CDNA (Data Center)
+        ├── MI100 (CDNA 1)
+        │   └── arch: gfx908
+        ├── MI200 (CDNA 2)
+        │   └── arch: gfx90a
+        └── MI300 (CDNA 3)
+            ├── arch: gfx940, gfx941, gfx942
+            └── Dual register pools: 512 total VGPRs
+
+**CDNA Special Feature - Dual Register Pools:**
+
+CDNA architecture has a unique register organization for matrix operations:
+
+.. code-block:: text
+
+    CDNA Register Layout
+    ├── Regular VGPRs: 256 registers per wave
+    ├── Accumulation VGPRs: 256 registers per wave
+    └── Total: 512 registers available per wave
+
+This means CDNA can support higher occupancy than older architectures.
+
+**Example usage from fused softmax:**
+
+.. code-block:: python
+
+    if is_hip():
+        NUM_GPRS = NUM_REGS  # Start with regular registers
+        if is_cdna():
+            NUM_GPRS = NUM_REGS * 2  # CDNA can use 2x registers
+        occupancy = min(NUM_GPRS // WARP_SIZE // n_regs, max_num_waves) // num_warps
+    else:
+        # NVIDIA doesn't have dual pools
+        occupancy = NUM_REGS // (n_regs * WARP_SIZE * num_warps)
+
+warmup() - Pre-compile Kernel Without Execution
+------------------------------------------------
+
+**Purpose**: Compile the kernel and extract resource metadata (registers, shared memory) without actually running it on the GPU.
+
+**Signature**:
+
+.. code-block:: python
+
+    def warmup(self, *args, grid, **kwargs):
+        return self.run(grid=grid, warmup=True, *map(MockTensor.wrap_dtype, args), **kwargs)
+
+**What it does:**
+
+1. **Compiles** the kernel using the Triton compiler pipeline
+   - Python source code → LLVM IR → GPU assembly (PTX/AMDGPU)
+2. **Analyzes** the compiled binary to extract resource usage
+3. **Returns** a kernel object with metadata properties
+4. **Does NOT execute** on the GPU (warmup=True flag)
+
+**Resource information extracted:**
+
+.. code-block:: python
+
+    kernel = softmax_kernel.warmup(y, x, x.stride(0), y.stride(0),
+                                   n_rows, n_cols,
+                                   BLOCK_SIZE=256,
+                                   num_stages=4,
+                                   num_warps=8,
+                                   grid=(1,))
+
+    # After warmup, these properties are available:
+    n_regs = kernel.n_regs                    # Registers per thread
+    size_smem = kernel.metadata.shared        # Shared memory in bytes
+    n_spills = kernel.n_spills                # Spilled registers to memory
+    n_max_threads = kernel.n_max_threads      # Max concurrent threads
+
+**Why warmup is essential:**
+
+Occupancy calculations require **actual compiled kernel properties**, not just source code:
+
+.. code-block:: text
+
+    Without warmup:
+        Source code → ?? registers needed ??
+        Can't calculate occupancy accurately
+
+    With warmup:
+        Source code → Compiler → Analyze binary
+        |
+        ├── n_regs = 64 (per thread)
+        ├── metadata.shared = 2048 bytes
+        └── Can now calculate:
+            occupancy = NUM_REGS / (64 * WARP_SIZE * num_warps)
+            grid_size = NUM_SM * occupancy
+
+**Multi-specialization with warmup:**
+
+The warmup function respects constexpr specialization:
+
+.. code-block:: python
+
+    # Each unique constexpr combination requires separate warmup
+    kernel_256 = softmax_kernel.warmup(..., BLOCK_SIZE=256, num_stages=4, ...)
+    # kernel_256.n_regs = 32 (optimized for 256 elements)
+
+    kernel_512 = softmax_kernel.warmup(..., BLOCK_SIZE=512, num_stages=4, ...)
+    # kernel_512.n_regs = 64 (needs more registers for 512 elements)
+
+    # Different specializations have different resource usage!
+
+_init_handles() - Initialize GPU Binary Handles
+-----------------------------------------------
+
+**Purpose**: Load the compiled kernel binary on the GPU and initialize runtime handles.
+
+**Signature**:
+
+.. code-block:: python
+
+    def _init_handles(self):
+        if self.module is not None:
+            return  # Already initialized
+
+        device = driver.active.get_current_device()
+        self._run = driver.active.launcher_cls(self.src, self.metadata)
+
+        # Validate shared memory
+        max_shared = max_shared_mem(device)
+        if self.metadata.shared > max_shared:
+            raise OutOfResources(...)
+
+        # Load binary and extract register info from the loaded module
+        self.module, self.function, self.n_regs, self.n_spills, self.n_max_threads = \
+            driver.active.utils.load_binary(self.name, self.kernel,
+                                            self.metadata.shared, device)
+
+        # Validate thread resources
+        if self.metadata.num_warps * warp_size > self.n_max_threads:
+            raise OutOfResources(...)
+
+**What it does:**
+
+1. **Loads** the binary on the current GPU device
+2. **Validates** that kernel resources fit within GPU limits
+3. **Extracts** register and thread information from the loaded module
+4. **Initializes** GPU-specific launcher and function pointers
+5. **Raises errors** if resources exceed GPU capabilities
+
+**Resource validation:**
+
+.. code-block:: python
+
+    # Check 1: Shared memory
+    if kernel.metadata.shared > max_shared_mem:
+        raise OutOfResources("shared memory", actual, limit)
+
+    # Check 2: Tensor memory (Blackwell)
+    if kernel.metadata.tmem_size > 512:
+        raise OutOfResources("tensor memory", actual, limit)
+
+    # Check 3: Thread count
+    max_threads = num_warps * warp_size
+    if max_threads > max_threads_per_sm:
+        raise OutOfResources("threads", actual, limit)
+
+**Lazy initialization:**
+
+``_init_handles()`` is called lazily (on demand) for several reasons:
+
+.. code-block:: python
+
+    # Lazy initialization pattern:
+    @property
+    def run(self):
+        if self._run is None:
+            self._init_handles()  # Only when first accessed
+        return self._run
+
+    # Benefits:
+    # 1. Speed: Don't load binaries until actually needed
+    # 2. Device switching: Can switch GPU devices before first run
+    # 3. Memory efficiency: Defer loading expensive binaries
+
+**Manual initialization with _init_handles():**
+
+You explicitly call ``_init_handles()`` when you need resource information **before** launching:
+
+.. code-block:: python
+
+    # Warmup: compile and get basic metadata
+    kernel = softmax_kernel.warmup(..., BLOCK_SIZE=256, num_stages=4, ...)
+
+    # Initialize GPU handles to confirm resource usage
+    kernel._init_handles()
+
+    # Now safely access n_regs (confirmed from loaded binary)
+    n_regs = kernel.n_regs
+
+    # Calculate occupancy with verified register count
+    occupancy = NUM_REGS // (n_regs * WARP_SIZE * num_warps)
+
+    # Calculate grid size
+    num_programs = NUM_SM * occupancy
+
+    # Launch with optimized grid
+    kernel[(num_programs, 1, 1)](y, x, ...)
+
+Complete Workflow Example: Fused Softmax
+-----------------------------------------
+
+Here's how all these functions work together in the fused softmax kernel:
+
+.. code-block:: python
+
+    def softmax(x):
+        n_rows, n_cols = x.shape
+
+        # 1. Calculate basic parameters
+        BLOCK_SIZE = triton.next_power_of_2(n_cols)
+        num_warps = 8
+        num_stages = 4
+
+        # 2. WARMUP: Compile kernel and get resource usage
+        kernel = softmax_kernel.warmup(
+            y, x, x.stride(0), y.stride(0), n_rows, n_cols,
+            BLOCK_SIZE=BLOCK_SIZE,
+            num_stages=num_stages,
+            num_warps=num_warps,
+            grid=(1,)  # Dummy grid for warmup
+        )
+
+        # 3. INIT_HANDLES: Load binary on GPU and validate
+        kernel._init_handles()
+
+        # 4. EXTRACT METADATA
+        n_regs = kernel.n_regs          # Now confirmed from loaded binary
+        size_smem = kernel.metadata.shared
+
+        # 5. DETECT GPU ARCHITECTURE
+        if is_hip():
+            NUM_GPRS = NUM_REGS
+            if is_cdna():
+                NUM_GPRS = NUM_REGS * 2  # CDNA has dual register pools
+
+            max_num_waves = MAX_NUM_THREADS // WARP_SIZE
+            occupancy = min(NUM_GPRS // WARP_SIZE // n_regs,
+                           max_num_waves) // num_warps
+        else:
+            # NVIDIA GPU
+            occupancy = NUM_REGS // (n_regs * WARP_SIZE * num_warps)
+
+        # 6. APPLY CONSTRAINTS
+        occupancy = min(occupancy, SIZE_SMEM // size_smem)
+
+        # 7. CALCULATE GRID
+        num_programs = NUM_SM * occupancy
+        num_programs = min(num_programs, n_rows)
+
+        # 8. LAUNCH with optimized grid
+        kernel[(num_programs, 1, 1)](
+            y, x, x.stride(0), y.stride(0), n_rows, n_cols,
+            BLOCK_SIZE, num_stages
+        )
+        return y
+
+Data Flow Diagram
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: text
+
+    Source Code (02-fused-softmax.py)
+    └─ softmax_kernel (JIT function)
+       │
+       └─ warmup()  [Step 2]
+          ├─ Compile: Python → LLVM → GPU Assembly
+          ├─ Extract: n_regs = 64, shared = 2048
+          └─ Return: kernel object
+
+          kernel._init_handles()  [Step 3]
+          ├─ Load binary on GPU
+          ├─ Validate resources
+          ├─ Confirm: n_regs = 64 ✓
+
+          is_hip()  [Step 5a]
+          └─ Check: backend == "hip" → True
+
+          is_cdna()  [Step 5b]
+          └─ Check: arch in CDNA list → False
+
+          Occupancy Calculation  [Step 5-7]
+          ├─ occupancy = NUM_REGS // (64 * WARP_SIZE * 8)
+          ├─ occupancy = 65536 // (64 * 32 * 8) = 4
+          └─ num_programs = 160 SM * 4 = 640
+
+          Kernel Launch  [Step 8]
+          └─ kernel[(min(640, 1823), 1, 1)](...)
+             └─ Launch 1823 blocks (one per row)
+
+Summary Table
+~~~~~~~~~~~~~
+
+.. code-block:: text
+
+    Function        | Type    | Purpose                        | Returns
+    =============== ========= ================================ ==========================
+    is_hip()        | Check   | Detect AMD GPU backend         | True/False
+    is_cdna()       | Check   | Detect AMD CDNA arch           | True/False
+    warmup()        | Compile | Pre-compile + extract metadata | Kernel object with n_regs, shared
+    _init_handles() | Init    | Load binary on GPU + validate  | (Initializes internal state)
+
 Summary
 =======
 
