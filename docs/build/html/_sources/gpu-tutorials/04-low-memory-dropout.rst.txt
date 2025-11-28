@@ -1,12 +1,10 @@
 Low-Memory Dropout in Triton
-============================
 
 Overview
 --------
 This tutorial demonstrates a memory-efficient dropout implementation using **pseudo-random number generation (PRNG)** on GPU. Instead of storing a mask tensor, we use a single seed to reproduce random numbers on-the-fly, dramatically reducing memory footprint.
 
 What You'll Learn
------------------
 - Why naive dropout is memory-inefficient
 - **Parallel random number generation** in Triton
 - The **Philox algorithm** for PRNG
@@ -14,7 +12,6 @@ What You'll Learn
 - Memory vs computation trade-offs
 
 What is Dropout?
-----------------
 
 Purpose
 ~~~~~~~
@@ -71,7 +68,6 @@ E[output] = E[x[i] / (1-p) * keep]
 This is called **inverted dropout** (most common variant).
 
 Naive Implementation Problems
------------------------------
 
 Standard PyTorch Dropout
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,8 +75,8 @@ Standard PyTorch Dropout
 .. code-block:: python
 
 def dropout(x, p):
-    keep*mask = (torch.rand*like(x) > p).to(torch.float32)
-    return x * keep*mask / (1 - p), keep*mask
+    keep_mask = (torch.rand_like(x) > p).to(torch.float32)
+    return x * keep_mask / (1 - p), keep_mask
 ::
 
 
@@ -88,7 +84,7 @@ def dropout(x, p):
 - Input ``x``: N bytes
 - Output: N bytes
 - Mask tensor: N bytes (or N/8 if packed as bits)
-- Total: **2-3× input size**
+- Total: **2-3x input size**
 
 For a large tensor (e.g., 1GB):
 - Need 2-3 GB total
@@ -106,11 +102,10 @@ During training, we need the same dropout mask for:
 
 Forward
 =======
-output, mask = dropout*forward(x, p)
+output, mask = dropout_forward(x, p)
 
 Backward (later)
-================
-dx = dropout*backward(grad*output, mask)  # Need same mask!
+dx = dropout_backward(grad_output, mask)  # Need same mask!
 ::
 
 
@@ -125,17 +120,15 @@ Additional Complexity
 **With gradient checkpointing** (recompute activations to save memory):
 .. code-block:: python
 
-with torch.no*grad():
+with torch.no_grad():
     output = dropout(x, p)  # Different random numbers!
-Backward pass uses different mask → wrong gradients!
-====================================================
+Backward pass uses different mask -> wrong gradients!
 ::
 
 
-Need ``preserve*rng*state=True`` → more complexity and overhead.
+Need ``preserve_rng*state=True`` -> more complexity and overhead.
 
 Seeded Dropout Solution
------------------------
 
 Key Insight
 ~~~~~~~~~~~
@@ -156,20 +149,20 @@ The Triton Implementation
 .. code-block:: python
 
 @triton.jit
-def *seeded*dropout(x*ptr, output*ptr, n*elements, p, seed, BLOCK*SIZE: tl.constexpr):
-    pid = tl.program*id(axis=0)
-    block*start = pid * BLOCK*SIZE
-    offsets = block*start + tl.arange(0, BLOCK*SIZE)
+def *seeded_dropout(x_ptr, output_ptr, n_elements, p, seed, BLOCK_SIZE: tl.constexpr):
+    pid = tl.program_id(axis=0)
+    block_start = pid * BLOCK_SIZE
+    offsets = block_start + tl.arange(0, BLOCK_SIZE)
 
-    mask = offsets < n*elements
-    x = tl.load(x*ptr + offsets, mask=mask)
+    mask = offsets < n_elements
+    x = tl.load(x_ptr + offsets, mask=mask)
 
     # Generate random numbers from seed!
     random = tl.rand(seed, offsets)
-    x*keep = random > p
+    x_keep = random > p
 
-    output = tl.where(x*keep, x / (1 - p), 0.0)
-    tl.store(output*ptr + offsets, output, mask=mask)
+    output = tl.where(x_keep, x / (1 - p), 0.0)
+    tl.store(output_ptr + offsets, output, mask=mask)
 ::
 
 
@@ -182,10 +175,9 @@ random = tl.rand(seed, offsets)
 
 - ``seed``: Determines the random sequence
 - ``offsets``: Unique ID for each element (position in tensor)
-- Same ``seed`` + same ``offsets`` → **same random numbers**!
+- Same ``seed`` + same ``offsets`` -> **same random numbers**!
 
 Parallel Random Number Generation
----------------------------------
 
 The Challenge
 ~~~~~~~~~~~~~
@@ -207,7 +199,7 @@ The Solution: Counter-Based PRNG
 Instead of maintaining state, use a **function**:
 ::
 
-random*value = hash(seed, counter)
+random_value = hash(seed, counter)
 ::
 
 
@@ -215,7 +207,7 @@ Where ``hash`` is a deterministic, pseudo-random function.
 
 **Benefits**:
 1. **Parallel-friendly**: Each thread computes independently
-2. **Reproducible**: Same inputs → same outputs
+2. **Reproducible**: Same inputs -> same outputs
 3. **No state**: Just compute when needed
 
 The Philox Algorithm
@@ -225,7 +217,7 @@ Triton uses **Philox** (Parallel Random Number Generator):
 
 ::
 
-Philox(seed, counter) → pseudo-random uint64
+Philox(seed, counter) -> pseudo-random uint64
 ::
 
 
@@ -233,7 +225,7 @@ Philox(seed, counter) → pseudo-random uint64
 - **Fast**: A few multiply-add operations
 - **High quality**: Passes statistical randomness tests
 - **Parallel**: No inter-thread communication
-- **Deterministic**: Same seed + counter → same result
+- **Deterministic**: Same seed + counter -> same result
 
 **How it works** (simplified):
 .. code-block:: python
@@ -264,7 +256,7 @@ random = tl.rand(seed, offsets)
 Under the hood:
 1. ``offsets`` are element indices (counters)
 2. Applies Philox: ``hash(seed, offsets[i])`` for each i
-3. Converts uint64 → float32 in [0, 1)
+3. Converts uint64 -> float32 in [0, 1)
 4. Returns vector of random numbers
 
 **Example**:
@@ -275,24 +267,18 @@ offsets = [0, 1, 2, 3]
 
 random = tl.rand(seed, offsets)
 Generates: [0.37, 0.95, 0.22, 0.68]  (example values)
-=====================================================
 
 Call again with same seed and offsets:
-======================================
 random = tl.rand(seed, offsets)
 Generates: [0.37, 0.95, 0.22, 0.68]  (same values!)
-===================================================
 
 Different seed:
-===============
 random = tl.rand(seed=99, offsets)
 Generates: [0.81, 0.12, 0.44, 0.67]  (different values)
-=======================================================
 ::
 
 
 Memory and Performance Trade-offs
----------------------------------
 
 Memory Comparison
 ~~~~~~~~~~~~~~~~~
@@ -300,13 +286,12 @@ Memory Comparison
 For a tensor with N elements:
 
 | Method | Forward Memory | Backward Memory | Total |
-|--------|---------------|-----------------|-------|
 | Naive PyTorch | N + N mask | N + N mask | 4N bytes |
 | Triton Seeded | N | 4 bytes (seed) | N + 4 bytes |
 
 **Example** (1B parameters, fp32):
 - Naive: 4 GB + 4 GB = 8 GB
-- Seeded: 4 GB + 4 bytes ≈ 4 GB
+- Seeded: 4 GB + 4 bytes ~ 4 GB
 - **Savings: 4 GB** (50%)
 
 Computational Cost
@@ -343,7 +328,6 @@ When to Use Seeded Dropout
 In practice, **seeded dropout is almost always better** for modern deep learning.
 
 Reproducibility and Determinism
--------------------------------
 
 Ensuring Same Random Numbers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -352,14 +336,11 @@ For correct training, we need:
 .. code-block:: python
 
 Forward pass
-============
 output = dropout(x, p, seed=123)
 
 Backward pass (later)
-=====================
 Must use SAME seed to get SAME mask
-===================================
-grad = dropout*backward(grad*output, x, p, seed=123)
+grad = dropout_backward(grad_output, x, p, seed=123)
 ::
 
 
@@ -376,7 +357,7 @@ class Dropout(nn.Module):
 
     def forward(self, x):
         if self.training:
-            return seeded*dropout(x, self.p, self.seed)
+            return seeded_dropout(x, self.p, self.seed)
         return x
 ::
 
@@ -384,9 +365,9 @@ class Dropout(nn.Module):
 **Global seed with offsets**:
 .. code-block:: python
 
-global*seed = 42
-layer*id = 5
-seed = global*seed + layer*id
+global_seed = 42
+layer_id = 5
+seed = global_seed + layer_id
 ::
 
 
@@ -397,38 +378,37 @@ Testing Reproducibility
 
 x = torch.randn(10000, device='cuda')
 
-out1 = seeded*dropout(x, p=0.5, seed=123)
-out2 = seeded*dropout(x, p=0.5, seed=123)
+out1 = seeded_dropout(x, p=0.5, seed=123)
+out2 = seeded_dropout(x, p=0.5, seed=123)
 assert torch.equal(out1, out2)  # Exactly the same!
 
-out3 = seeded*dropout(x, p=0.5, seed=456)
-assert not torch.equal(out1, out3)  # Different seed → different output
+out3 = seeded_dropout(x, p=0.5, seed=456)
+assert not torch.equal(out1, out3)  # Different seed -> different output
 ::
 
 
 Implementation Details
-----------------------
 
 The ``tl.where`` Function
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-output = tl.where(x*keep, x / (1 - p), 0.0)
+output = tl.where(x_keep, x / (1 - p), 0.0)
 ::
 
 
 Equivalent to:
 .. code-block:: python
 
-output[i] = x[i] / (1-p) if x*keep[i] else 0.0
+output[i] = x[i] / (1-p) if x_keep[i] else 0.0
 ::
 
 
 **Why not use branching?**
 .. code-block:: python
 
-if x*keep[i]:
+if x_keep[i]:
     output[i] = x[i] / (1-p)
 else:
     output[i] = 0.0
@@ -445,13 +425,13 @@ Masking for Boundary Conditions
 
 .. code-block:: python
 
-mask = offsets < n*elements
-x = tl.load(x*ptr + offsets, mask=mask)
-tl.store(output*ptr + offsets, output, mask=mask)
+mask = offsets < n_elements
+x = tl.load(x_ptr + offsets, mask=mask)
+tl.store(output_ptr + offsets, output, mask=mask)
 ::
 
 
-As always, handle non-multiple-of-BLOCK*SIZE tensors safely.
+As always, handle non-multiple-of-BLOCK_SIZE tensors safely.
 
 Random Number Distribution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -459,16 +439,15 @@ Random Number Distribution
 .. code-block:: python
 
 random = tl.rand(seed, offsets)  # Returns float32 in [0, 1)
-x*keep = random > p               # Bernoulli with probability (1-p)
+x_keep = random > p               # Bernoulli with probability (1-p)
 ::
 
 
 If p=0.3 (drop 30%):
 - ``random > 0.3`` is True 70% of the time
-- So 70% of elements are kept ✓
+- So 70% of elements are kept [OK]
 
 Advanced Considerations
------------------------
 
 Different Random Distributions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -482,11 +461,9 @@ Triton provides:
 .. code-block:: python
 
 Generate normal distribution
-============================
-random*normal = tl.randn(seed, offsets)
+random_normal = tl.randn(seed, offsets)
 Apply threshold
-===============
-x*keep = tl.abs(random*normal) < threshold
+x_keep = tl.abs(random_normal) < threshold
 ::
 
 
@@ -514,13 +491,12 @@ Thread Safety and Race Conditions
 **Contrast with CPU**:
 .. code-block:: python
 
-global*rng = Random(seed)
-random*val = global*rng.next()  # Race condition if parallel!
+global_rng = Random(seed)
+random_val = global_rng.next()  # Race condition if parallel!
 ::
 
 
 Performance Benchmarks
-----------------------
 
 Expected Performance
 ~~~~~~~~~~~~~~~~~~~~
@@ -528,7 +504,6 @@ Expected Performance
 For a 10M element tensor (40 MB):
 
 | Method | Time (ms) | Memory (MB) | Bandwidth (GB/s) |
-|--------|-----------|-------------|------------------|
 | Naive | 0.05 | 80 (2x tensor) | 1600 |
 | Seeded | 0.08 | 40 (1x tensor) | 1000 |
 
@@ -554,7 +529,6 @@ Bottleneck Analysis
 - Still fast enough!
 
 Practical Usage
----------------
 
 Integration with PyTorch
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -564,19 +538,19 @@ Integration with PyTorch
 class SeededDropout(torch.autograd.Function):
     @staticmethod
     def forward(ctx, x, p, seed):
-        output = seeded*dropout*triton(x, p, seed)
-        ctx.save*for*backward(x)
+        output = seeded_dropout*triton(x, p, seed)
+        ctx.save_for*backward(x)
         ctx.p = p
         ctx.seed = seed
         return output
 
     @staticmethod
-    def backward(ctx, grad*output):
-        x, = ctx.saved*tensors
+    def backward(ctx, grad_output):
+        x, = ctx.saved_tensors
         # Reuse same seed to get same mask!
-        dropout*mask = generate*mask*triton(x.shape, ctx.p, ctx.seed)
-        grad*x = grad*output * dropout*mask / (1 - ctx.p)
-        return grad*x, None, None  # No gradients for p and seed
+        dropout_mask = generate_mask*triton(x.shape, ctx.p, ctx.seed)
+        grad_x = grad_output * dropout_mask / (1 - ctx.p)
+        return grad_x, None, None  # No gradients for p and seed
 ::
 
 
@@ -594,7 +568,7 @@ output = dropout(x, p, seed)
 **Deterministic for debugging**:
 .. code-block:: python
 
-torch.manual*seed(42)
+torch.manual_seed(42)
 seed = 42
 output = dropout(x, p, seed)
 ::
@@ -604,18 +578,16 @@ output = dropout(x, p, seed)
 .. code-block:: python
 
 Ensure different seeds on different GPUs
-========================================
-rank = dist.get*rank()
+rank = dist.get_rank()
 seed = base_seed + rank
 ::
 
 
 Key Takeaways
--------------
 
 1. **Seeded dropout trades computation for memory**: Tiny compute cost, huge memory savings
 2. **Philox enables parallel PRNG**: No state, deterministic, high quality
-3. **Reproducibility is crucial**: Same seed → same mask → correct gradients
+3. **Reproducibility is crucial**: Same seed -> same mask -> correct gradients
 4. **Memory efficiency matters**: Enables larger models and batches
 5. **Counter-based PRNGs are perfect for GPUs**: Parallel-friendly, no communication
 6. **Small overhead, big benefit**: ~50% memory reduction with negligible slowdown

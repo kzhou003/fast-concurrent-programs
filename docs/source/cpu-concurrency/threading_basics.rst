@@ -1,8 +1,6 @@
 Threading Basics: start() and join()
-====================================
 
 What is start()?
-----------------
 
 ``start()`` **launches the thread and begins execution**. It's the method that actually creates and starts running the thread.
 
@@ -25,11 +23,9 @@ def worker():
     print("Worker running")
 
 Create thread object (doesn't start yet)
-========================================
 thread = threading.Thread(target=worker)
 
 Call start() to actually begin execution
-========================================
 thread.start()
 
 print("Main continues here")
@@ -49,7 +45,6 @@ Notice: Both print statements execute, showing that main doesn't wait.
 ---
 
 What is join()?
----------------
 
 ``join()`` **makes the main thread wait until the worker thread finishes**. It's a blocking operation.
 
@@ -98,7 +93,6 @@ Main: worker finished, I can continue
 ---
 
 Comparison: With vs Without join()
-----------------------------------
 
 WITHOUT join() - DANGER!
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,9 +113,7 @@ thread.start()
 print("Download started! I'm moving on...")
 print("Program exiting")
 Program exits before download finishes!
-=======================================
 Download is interrupted!
-========================
 ::
 
 
@@ -172,33 +164,24 @@ Now the download completes before the program exits.
 ---
 
 Thread Lifecycle Diagram
-------------------------
 
 .. code-block:: text
 
 
-    +---------------------------------------------------------+
     | Thread Object Created                                   |
     | thread = Thread(target=worker_func)                     |
     | (Thread exists but doesn't run)                         |
-    +------------------+--------------------------------------+
-    |
     | thread.start()
     [v]
-    +---------------------------------------------------------+
     | Thread Running (in parallel with main)                  |
     | - Main thread continues immediately                     |
     | - Worker thread executes target function               |
     | - Both run concurrently                                |
-    +------------------+--------------------------------------+
-    |
     | Worker thread finishes
     [v]
-    +---------------------------------------------------------+
     | Thread Finished                                         |
     | (if no join(), main might exit before here)            |
     | (with join(), main waits here)                         |
-    +---------------------------------------------------------+
 
 .. code-block:: text
 
@@ -208,7 +191,6 @@ Thread Lifecycle Diagram
 ---
 
 Typical Pattern for Multiple Threads
-------------------------------------
 
 The standard pattern for managing multiple threads:
 
@@ -217,7 +199,6 @@ The standard pattern for managing multiple threads:
 import threading
 
 Step 1: Create all threads
-==========================
 threads = []
 for task in tasks:
     thread = threading.Thread(target=do_task, args=(task,))
@@ -225,7 +206,6 @@ for task in tasks:
     threads.append(thread)
 
 Step 2: Wait for all to finish
-==============================
 for thread in threads:
     thread.join()       # Wait for each one
 
@@ -241,7 +221,6 @@ This ensures:
 ---
 
 Common Mistakes
----------------
 
 Mistake 1: Calling the function directly instead of start()
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -249,12 +228,10 @@ Mistake 1: Calling the function directly instead of start()
 .. code-block:: python
 
 [[FAIL]] WRONG - runs worker in MAIN thread
-====================================
 thread = threading.Thread(target=worker)
 worker()  # This blocks main! Not parallel!
 
 [[OK]] CORRECT - runs worker in NEW thread
-=====================================
 thread = threading.Thread(target=worker)
 thread.start()  # Non-blocking, parallel execution
 ::
@@ -266,13 +243,11 @@ Mistake 2: Forgetting join()
 .. code-block:: python
 
 [[FAIL]] WRONG - main exits before worker finishes
-===========================================
 thread = threading.Thread(target=save_to*database)
 thread.start()
 print("Saved!")  # Exits immediately, database never saves
 
 [[OK]] CORRECT - wait for worker to finish
-=====================================
 thread = threading.Thread(target=save_to*database)
 thread.start()
 thread.join()  # Wait for it
@@ -286,7 +261,6 @@ Mistake 3: Thinking threads share data automatically
 .. code-block:: python
 
 [[FAIL]] NOT SAFE - race condition
-===========================
 counter = 0
 def increment():
     global counter
@@ -300,7 +274,6 @@ for t in threads:
 print(counter)  # Might not be 100!
 
 [[OK]] SAFE - use lock
-=================
 counter = 0
 lock = threading.Lock()
 def increment():
@@ -323,7 +296,6 @@ print(counter)  # Guaranteed to be 100
 ---
 
 Practical Example: Web Scraper
-------------------------------
 
 .. code-block:: python
 
@@ -338,12 +310,10 @@ def fetch_url(url, results):
     print(f"  Done: {url}")
 
 URLs to fetch
-=============
 urls = ["http://example.com/1", "http://example.com/2", "http://example.com/3"]
 results = []
 
 Create and start threads
-========================
 threads = []
 for url in urls:
     thread = threading.Thread(target=fetch_url, args=(url, results))
@@ -353,7 +323,6 @@ for url in urls:
 print(f"Started fetching {len(threads)} URLs...")
 
 Wait for all to complete
-========================
 for thread in threads:
     thread.join()       # Wait for each thread
 
@@ -380,10 +349,8 @@ All three URLs fetched in parallel. Without ``join()``, the program would exit b
 ---
 
 Summary Table
--------------
 
 | Method | What it does | When to use | Important notes |
-|--------|------------|------------|-----------------|
 | ``start()`` | Launches the thread | Always, right after creating Thread object | Can only call once per thread; doesn't block |
 | ``join()`` | Waits for thread to finish | Always, before assuming work is done | Blocks execution; use with multiple threads for parallel work |
 | Neither | Thread created but never runs | Never (waste of memory) | You MUST call start() or thread does nothing |
@@ -391,7 +358,6 @@ Summary Table
 ---
 
 Key Takeaways
--------------
 
 1. **start() launches**, **join() waits**
 2. **Without start()** - thread never runs (dead code)

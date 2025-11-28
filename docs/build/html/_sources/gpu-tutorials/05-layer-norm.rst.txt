@@ -1,12 +1,10 @@
 Layer Normalization in Triton
-=============================
 
 Overview
 --------
 Layer normalization is a critical component of Transformers and modern neural networks. This tutorial shows how to implement both **forward** and **backward** passes with advanced techniques like **parallel reduction** and **gradient accumulation**.
 
 What You'll Learn
------------------
 - The mathematics of Layer Normalization
 - Implementing **forward and backward passes**
 - **Parallel reduction** strategies for mean and variance
@@ -15,7 +13,6 @@ What You'll Learn
 - Why Layer Norm is important for Transformers
 
 What is Layer Normalization?
-----------------------------
 
 The Formula
 ~~~~~~~~~~~
@@ -24,14 +21,14 @@ Given input vector x of length N:
 
 ::
 
-y = (x - E[x]) / sqrt(Var[x] + ε) * w + b
+y = (x - E[x]) / sqrt(Var[x] + eps) * w + b
 ::
 
 
 Where:
 - ``E[x]``: Mean of x
 - ``Var[x]``: Variance of x
-- ``ε``: Small constant for numerical stability (e.g., 1e-5)
+- ``eps``: Small constant for numerical stability (e.g., 1e-5)
 - ``w``: Learnable weight (scaling)
 - ``b``: Learnable bias (shifting)
 
@@ -41,28 +38,28 @@ Step-by-Step Math
 1. **Compute mean**:
    ::
 
-   μ = (1/N) * Σ x[i]
+   mu = (1/N) * SIGMA x[i]
    ::
 
 
 2. **Compute variance**:
    ::
 
-   σ² = (1/N) * Σ (x[i] - μ)²
+   sigma^2 = (1/N) * SIGMA (x[i] - mu)^2
    ::
 
 
 3. **Normalize**:
    ::
 
-   x*hat[i] = (x[i] - μ) / sqrt(σ² + ε)
+   x_hat[i] = (x[i] - mu) / sqrt(sigma^2 + eps)
    ::
 
 
 4. **Scale and shift**:
    ::
 
-   y[i] = x*hat[i] * w[i] + b[i]
+   y[i] = x_hat[i] * w[i] + b[i]
    ::
 
 
@@ -89,8 +86,8 @@ For input shape (Batch, Features):
 ::
 
 For each feature j:
-    μ[j] = mean(x[:, j])  # Mean across batch
-    σ²[j] = var(x[:, j])  # Variance across batch
+    mu[j] = mean(x[:, j])  # Mean across batch
+    sigma^2[j] = var(x[:, j])  # Variance across batch
 ::
 
 
@@ -98,13 +95,12 @@ For each feature j:
 ::
 
 For each sample i:
-    μ[i] = mean(x[i, :])  # Mean across features
-    σ²[i] = var(x[i, :])  # Variance across features
+    mu[i] = mean(x[i, :])  # Mean across features
+    sigma^2[i] = var(x[i, :])  # Variance across features
 ::
 
 
 The Forward Pass
-----------------
 
 Kernel Structure
 ~~~~~~~~~~~~~~~~
@@ -112,8 +108,8 @@ Kernel Structure
 .. code-block:: python
 
 @triton.jit
-def *layer*norm*fwd*fused(X, Y, W, B, Mean, Rstd, stride, N, eps, BLOCK*SIZE: tl.constexpr):
-    row = tl.program*id(0)  # Each program handles one row
+def *layer_norm*fwd_fused(X, Y, W, B, Mean, Rstd, stride, N, eps, BLOCK_SIZE: tl.constexpr):
+    row = tl.program_id(0)  # Each program handles one row
     Y += row * stride
     X += row * stride
 ::
@@ -130,25 +126,25 @@ Computing the Mean
 .. code-block:: python
 
 mean = 0
-*mean = tl.zeros([BLOCK*SIZE], dtype=tl.float32)
-for off in range(0, N, BLOCK*SIZE):
-    cols = off + tl.arange(0, BLOCK*SIZE)
+*mean = tl.zeros([BLOCK_SIZE], dtype=tl.float32)
+for off in range(0, N, BLOCK_SIZE):
+    cols = off + tl.arange(0, BLOCK_SIZE)
     a = tl.load(X + cols, mask=cols < N, other=0.).to(tl.float32)
     *mean += a
 mean = tl.sum(*mean, axis=0) / N
 ::
 
 
-**Why a loop?** If N > BLOCK*SIZE, can't load entire row at once.
+**Why a loop?** If N > BLOCK_SIZE, can't load entire row at once.
 
 **Process**:
 1. Initialize accumulator ``*mean``
-2. Load chunks of size BLOCK*SIZE
+2. Load chunks of size BLOCK_SIZE
 3. Add to accumulator
 4. After loop: reduce accumulator to single value
 5. Divide by N to get mean
 
-**Example** (N=1000, BLOCK*SIZE=256):
+**Example** (N=1000, BLOCK_SIZE=256):
 ::
 
 Iteration 0: Load x[0:256], add to *mean
@@ -164,9 +160,9 @@ Computing the Variance
 
 .. code-block:: python
 
-*var = tl.zeros([BLOCK*SIZE], dtype=tl.float32)
-for off in range(0, N, BLOCK*SIZE):
-    cols = off + tl.arange(0, BLOCK*SIZE)
+*var = tl.zeros([BLOCK_SIZE], dtype=tl.float32)
+for off in range(0, N, BLOCK_SIZE):
+    cols = off + tl.arange(0, BLOCK_SIZE)
     x = tl.load(X + cols, mask=cols < N, other=0.).to(tl.float32)
     x = tl.where(cols < N, x - mean, 0.)
     *var += x * x
@@ -191,14 +187,14 @@ rstd = 1 / tl.sqrt(var + eps)
 tl.store(Mean + row, mean)
 tl.store(Rstd + row, rstd)
 
-for off in range(0, N, BLOCK*SIZE):
-    cols = off + tl.arange(0, BLOCK*SIZE)
+for off in range(0, N, BLOCK_SIZE):
+    cols = off + tl.arange(0, BLOCK_SIZE)
     mask = cols < N
     w = tl.load(W + cols, mask=mask)
     b = tl.load(B + cols, mask=mask)
     x = tl.load(X + cols, mask=mask, other=0.).to(tl.float32)
-    x*hat = (x - mean) * rstd
-    y = x*hat * w + b
+    x_hat = (x - mean) * rstd
+    y = x_hat * w + b
     tl.store(Y + cols, y, mask=mask)
 ::
 
@@ -210,19 +206,18 @@ for off in range(0, N, BLOCK*SIZE):
 **Third pass**: Apply normalization and affine transformation
 - Load weights and biases
 - Normalize: ``(x - mean) * rstd``
-- Transform: ``x*hat * w + b``
+- Transform: ``x_hat * w + b``
 - Store result
 
 The Backward Pass
------------------
 
 Gradient Mathematics
 ~~~~~~~~~~~~~~~~~~~~
 
-Given upstream gradient ∂L/∂y, compute:
-1. **∂L/∂x** (gradient w.r.t. input)
-2. **∂L/∂w** (gradient w.r.t. weights)
-3. **∂L/∂b** (gradient w.r.t. biases)
+Given upstream gradient d/dL/d/dy, compute:
+1. **d/dL/d/dx** (gradient w.r.t. input)
+2. **d/dL/d/dw** (gradient w.r.t. weights)
+3. **d/dL/d/db** (gradient w.r.t. biases)
 
 Gradient for Biases
 ~~~~~~~~~~~~~~~~~~~
@@ -230,7 +225,7 @@ Gradient for Biases
 Simplest:
 ::
 
-∂L/∂b = ∂L/∂y
+d/dL/d/db = d/dL/d/dy
 ::
 
 
@@ -241,16 +236,16 @@ Gradient for Weights
 
 ::
 
-∂L/∂w = ∂L/∂y ⊙ x*hat
+d/dL/d/dw = d/dL/d/dy (o) x_hat
 ::
 
 
-Where ``⊙`` is element-wise multiplication.
+Where ``(o)`` is element-wise multiplication.
 
 **But**: Same w and b are used for all samples in batch!
 ::
 
-∂L/∂w = Σ (∂L/∂y[i] ⊙ x*hat[i]) for all i in batch
+d/dL/d/dw = SIGMA (d/dL/d/dy[i] (o) x_hat[i]) for all i in batch
 ::
 
 
@@ -261,33 +256,32 @@ Gradient for Input (Complex!)
 
 ::
 
-∂L/∂x = (1/σ) * (∂L/∂y ⊙ w - c₁ ⊙ x*hat - c₂)
+d/dL/d/dx = (1/sigma) * (d/dL/d/dy (o) w - c_1 (o) x_hat - c_2)
 ::
 
 
 Where:
 ::
 
-c₁ = (1/N) * (x*hat · (∂L/∂y ⊙ w))  # Scalar dot product
-c₂ = (1/N) * (∂L/∂y · w)            # Scalar dot product
-σ = sqrt(Var[x] + ε)                 # Standard deviation
+c_1 = (1/N) * (x_hat * (d/dL/d/dy (o) w))  # Scalar dot product
+c_2 = (1/N) * (d/dL/d/dy * w)            # Scalar dot product
+sigma = sqrt(Var[x] + eps)                 # Standard deviation
 ::
 
 
 **Intuition**:
 - First term: Direct gradient through normalization
-- c₁ term: Gradient from variance
-- c₂ term: Gradient from mean
+- c_1 term: Gradient from variance
+- c_2 term: Gradient from mean
 
 **Derivation** (brief sketch):
-1. ∂y/∂x*hat = w (affine transform gradient)
-2. ∂x*hat/∂x involves ∂(x-μ)/∂x and ∂σ/∂x
-3. ∂μ/∂x = 1/N (each x affects mean)
-4. ∂σ²/∂x involves all x values
+1. d/dy/d/dx_hat = w (affine transform gradient)
+2. d/dx_hat/d/dx involves d/d(x-mu)/d/dx and d/dsigma/d/dx
+3. d/dmu/d/dx = 1/N (each x affects mean)
+4. d/dsigma^2/d/dx involves all x values
 5. Chain rule gives the formula above
 
 Parallel Reduction Strategy
----------------------------
 
 The Challenge
 ~~~~~~~~~~~~~
@@ -295,16 +289,16 @@ The Challenge
 For weight gradients:
 .. code-block:: python
 
-dw = Σ (dy[i] ⊙ x*hat[i]) for i in batch
+dw = SIGMA (dy[i] (o) x_hat[i]) for i in batch
 ::
 
 
-**Problem**: Multiple threads updating same dw simultaneously → **race condition**!
+**Problem**: Multiple threads updating same dw simultaneously -> **race condition**!
 
 **Naive solution**: Atomic adds
 .. code-block:: python
 
-atomicAdd(&dw[j], dy[i, j] * x*hat[i, j])
+atomicAdd(&dw[j], dy[i, j] * x_hat[i, j])
 ::
 
 
@@ -337,19 +331,19 @@ Group Assignment
 
 .. code-block:: python
 
-GROUP*SIZE*M = 64  # Rows per group
-row = tl.program*id(0)
-group*id = row // GROUP*SIZE*M
+GROUP_SIZE*M = 64  # Rows per group
+row = tl.program_id(0)
+group_id = row // GROUP_SIZE*M
 ::
 
 
-Example (M=256 rows, GROUP*SIZE*M=64):
+Example (M=256 rows, GROUP_SIZE*M=64):
 ::
 
-Rows 0-63   → Group 0 → Buffer 0
-Rows 64-127 → Group 1 → Buffer 1
-Rows 128-191 → Group 2 → Buffer 2
-Rows 192-255 → Group 3 → Buffer 3
+Rows 0-63   -> Group 0 -> Buffer 0
+Rows 64-127 -> Group 1 -> Buffer 1
+Rows 128-191 -> Group 2 -> Buffer 2
+Rows 192-255 -> Group 3 -> Buffer 3
 ::
 
 
@@ -360,54 +354,48 @@ Using Locks
 
 .. code-block:: python
 
-Lock = tl.zeros([num*groups], dtype=tl.int32)
+Lock = tl.zeros([num_groups], dtype=tl.int32)
 
 In kernel:
 ==========
-group*id = row // GROUP*SIZE*M
+group_id = row // GROUP_SIZE*M
 
 Acquire lock
-============
-while tl.atomic*cas(Lock + group*id, 0, 1) == 1:
+while tl.atomic_cas(Lock + group_id, 0, 1) == 1:
     pass  # Spin until lock acquired
 
 Critical section: Update DW and DB
-==================================
-dw*ptrs = DW + group*id * N + cols
-db*ptrs = DB + group*id * N + cols
-current*dw = tl.load(dw*ptrs, mask=mask)
-current*db = tl.load(db*ptrs, mask=mask)
-tl.store(dw*ptrs, current*dw + dw, mask=mask)
-tl.store(db*ptrs, current*db + db, mask=mask)
+dw_ptrs = DW + group_id * N + cols
+db_ptrs = DB + group_id * N + cols
+current_dw = tl.load(dw_ptrs, mask=mask)
+current_db = tl.load(db_ptrs, mask=mask)
+tl.store(dw_ptrs, current_dw + dw, mask=mask)
+tl.store(db_ptrs, current_db + db, mask=mask)
 
 Release lock
-============
-tl.atomic*xchg(Lock + group*id, 0)
+tl.atomic_xchg(Lock + group_id, 0)
 ::
 
 
-**Atomic Compare-And-Swap** (``atomic*cas``):
+**Atomic Compare-And-Swap** (``atomic_cas``):
 .. code-block:: python
 
-old*value = atomic*cas(ptr, compare, new)
+old_value = atomic_cas(ptr, compare, new)
 If *ptr == compare: *ptr = new
-==============================
 Return old value of *ptr
-========================
 ::
 
 
 **Spin lock pattern**:
 .. code-block:: python
 
-while atomic*cas(Lock, 0, 1) == 1:  # Try to set lock from 0 to 1
+while atomic_cas(Lock, 0, 1) == 1:  # Try to set lock from 0 to 1
     pass  # If already 1, keep trying
 
 Lock acquired (we set it to 1)
-==============================
 Do work...
 ==========
-atomic*xchg(Lock, 0)  # Release lock
+atomic_xchg(Lock, 0)  # Release lock
 ::
 
 
@@ -416,13 +404,13 @@ Stage 2: Final Reduction
 
 .. code-block:: python
 
-def *layer*norm*bwd*dwdb(DW, DB, FINAL*DW, FINAL*DB, M, N, GROUP*SIZE*M):
-    num*groups = triton.cdiv(M, GROUP*SIZE*M)
+def *layer_norm*bwd_dwdb(DW, DB, FINAL_DW, FINAL_DB, M, N, GROUP_SIZE*M):
+    num_groups = triton.cdiv(M, GROUP_SIZE*M)
 
-    for group in range(num*groups):
+    for group in range(num_groups):
         for col in range(N):
-            FINAL*DW[col] += DW[group, col]
-            FINAL*DB[col] += DB[group, col]
+            FINAL_DW[col] += DW[group, col]
+            FINAL_DB[col] += DB[group, col]
 ::
 
 
@@ -434,19 +422,18 @@ Simple sum across all group buffers.
 - In practice, often done with a separate GPU kernel
 
 Triton Implementation Details
------------------------------
 
 Memory Layout
 ~~~~~~~~~~~~~
 
 ::
 
-X: (batch*size, N)  Row-major
-Y: (batch*size, N)  Row-major
+X: (batch_size, N)  Row-major
+Y: (batch_size, N)  Row-major
 W: (N,)             1D
 B: (N,)             1D
-Mean: (batch*size,) 1D
-Rstd: (batch*size,) 1D (reciprocal standard deviation)
+Mean: (batch_size,) 1D
+Rstd: (batch_size,) 1D (reciprocal standard deviation)
 ::
 
 
@@ -487,7 +474,6 @@ Variance computation: Very sensitive to precision
 - Store result as fp16/bf16 if needed
 
 Performance Characteristics
----------------------------
 
 Computational Complexity
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -513,7 +499,7 @@ Writes:
 - Mean: M
 - Rstd: M
 
-Total: ~2MN + 2N + 2M ≈ 2MN for large N.
+Total: ~2MN + 2N + 2M ~ 2MN for large N.
 
 **Bandwidth-bound**: Similar to softmax, most time spent on memory.
 
@@ -521,16 +507,15 @@ Optimization Opportunities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. **Fuse with other ops**: Layer norm + residual, layer norm + dropout
-2. **Larger BLOCK*SIZE**: Better memory efficiency (fewer iterations)
-3. **Adjust GROUP*SIZE*M**: Balance parallelism vs lock contention
+2. **Larger BLOCK_SIZE**: Better memory efficiency (fewer iterations)
+3. **Adjust GROUP_SIZE*M**: Balance parallelism vs lock contention
 
 Common Pitfalls
----------------
 
 1. Numerical Stability
 ~~~~~~~~~~~~~~~~~~~~~~
 
-**Problem**: ``sqrt(var)`` when var ≈ 0
+**Problem**: ``sqrt(var)`` when var ~ 0
 .. code-block:: python
 
 rstd = 1 / tl.sqrt(var + eps)
@@ -547,7 +532,6 @@ Layer norm normalizes **across features** (last dimension):
 
 x = torch.randn(32, 128)  # (batch, features)
 Normalize each of 32 samples across 128 features
-================================================
 ::
 
 
@@ -559,7 +543,7 @@ Not across batch (that's batch norm).
 **Wrong**:
 .. code-block:: python
 
-dw[j] += local*dw  # Multiple threads writing simultaneously!
+dw[j] += local_dw  # Multiple threads writing simultaneously!
 ::
 
 
@@ -567,9 +551,8 @@ dw[j] += local*dw  # Multiple threads writing simultaneously!
 .. code-block:: python
 
 Use locks or separate buffers
-=============================
 with lock:
-    dw[j] += local*dw
+    dw[j] += local_dw
 ::
 
 
@@ -579,19 +562,18 @@ with lock:
 Weights are shared across batch:
 .. code-block:: python
 
-dw = sum(dy[i] * x*hat[i] for i in batch)  # Must sum!
+dw = sum(dy[i] * x_hat[i] for i in batch)  # Must sum!
 ::
 
 
 Not:
 .. code-block:: python
 
-dw = dy[0] * x*hat[0]  # Wrong! Only uses first sample
+dw = dy[0] * x_hat[0]  # Wrong! Only uses first sample
 ::
 
 
 Advanced Concepts
------------------
 
 RMSNorm (Simpler Variant)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -599,7 +581,7 @@ RMSNorm (Simpler Variant)
 Layer norm without mean subtraction:
 ::
 
-y = x / sqrt(mean(x²) + eps) * w
+y = x / sqrt(mean(x^2) + eps) * w
 ::
 
 
@@ -631,7 +613,6 @@ FP8 and Mixed Precision
 - Can use fp8/fp16 for input/output
 
 Comparison to PyTorch
----------------------
 
 PyTorch Implementation
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -666,7 +647,6 @@ Performance
 Triton achieves near-native performance with much more flexibility!
 
 Key Takeaways
--------------
 
 1. **Layer norm is essential for Transformers**: Enables training deep networks
 2. **Two-pass algorithm**: First mean, then variance (numerically stable)

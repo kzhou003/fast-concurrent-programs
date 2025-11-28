@@ -1,12 +1,10 @@
 Fused Softmax in Triton
-=======================
 
 Overview
 --------
 This tutorial demonstrates **kernel fusion**, a critical GPU optimization technique. By fusing the softmax operation into a single kernel, we can achieve ~4x speedup over naive implementations by reducing memory traffic.
 
 What You'll Learn
------------------
 - The concept and benefits of **kernel fusion**
 - How to perform **reduction operations** on GPU
 - Why **bandwidth-bound operations** benefit from fusion
@@ -14,7 +12,6 @@ What You'll Learn
 - **Numerical stability** techniques for softmax
 
 The Problem with Naive Softmax
-------------------------------
 
 Standard Softmax Formula
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,7 +52,6 @@ For a matrix of size 4096x1024 (float32):
 **Problem**: We're moving 8x more data than necessary!
 
 GPU Memory Hierarchy
---------------------
 
 DRAM (Global Memory)
 ~~~~~~~~~~~~~~~~~~~~
@@ -83,7 +79,6 @@ If a row fits in SRAM, we can:
 This is what **kernel fusion** achieves.
 
 How the Fused Kernel Works
---------------------------
 
 Block-Level Processing
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -162,7 +157,6 @@ tl.store(output_ptrs, softmax_output, mask=mask)
 Only one write to DRAM for the entire row!
 
 Power-of-Two Block Sizes
-------------------------
 
 Why Must BLOCK_SIZE Be Power of 2?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -194,7 +188,6 @@ For example:
 - n_cols = 512 -> BLOCK_SIZE = 512
 
 Occupancy and Performance Tuning
---------------------------------
 
 Number of Warps
 ~~~~~~~~~~~~~~~
@@ -276,7 +269,6 @@ waves = ceil(4096 / 432) ~ 10 waves
 
 
 Persistent Kernels
-------------------
 
 The Pattern
 ~~~~~~~~~~~
@@ -302,7 +294,6 @@ Instead of launching one kernel per row:
 - When kernel launch overhead is significant
 
 Numerical Stability
--------------------
 
 Why Subtract Max?
 ~~~~~~~~~~~~~~~~~
@@ -354,7 +345,6 @@ For out-of-bounds elements:
 - Result is mathematically correct for the actual row length
 
 Memory Bandwidth Analysis
--------------------------
 
 Theoretical Speedup
 ~~~~~~~~~~~~~~~~~~~
@@ -381,7 +371,6 @@ From benchmark results, you might see:
 - Less overhead, better optimization for this specific case
 
 Key CUDA/Triton Concepts
-------------------------
 
 Reduction Operations
 ~~~~~~~~~~~~~~~~~~~~
@@ -416,7 +405,6 @@ Block vs Thread
 - Compiler generates thread code automatically
 
 Common Pitfalls
----------------
 
 1. Row Too Large for SRAM
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -448,7 +436,6 @@ mask = col_offsets < n_cols
 - ``-inf`` is usually the right padding value for softmax
 
 Performance Tips
-----------------
 
 1. **Ensure rows fit in SRAM**: Check ``BLOCK_SIZE * 4 < SRAM_SIZE``
 2. **Use float32 for accumulation**: Better numerical accuracy
@@ -457,7 +444,6 @@ Performance Tips
 5. **Profile occupancy**: Use ``nsys`` or ``ncu`` to see if you're register/SRAM limited
 
 Comparison to Other Approaches
-------------------------------
 
 JIT Fusion (torch.jit.script)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -488,7 +474,6 @@ Ideas to explore:
 5. **Flash Attention**: Use this softmax as building block
 
 Key Takeaways
--------------
 
 1. **Kernel fusion reduces memory traffic**: Fewer DRAM accesses = faster
 2. **SRAM is 10-20x faster than DRAM**: Keep data on-chip when possible

@@ -1,12 +1,10 @@
 Low-Memory Dropout in Triton
-============================
 
 Overview
 --------
 This tutorial demonstrates a memory-efficient dropout implementation using **pseudo-random number generation (PRNG)** on GPU. Instead of storing a mask tensor, we use a single seed to reproduce random numbers on-the-fly, dramatically reducing memory footprint.
 
 What You'll Learn
------------------
 - Why naive dropout is memory-inefficient
 - **Parallel random number generation** in Triton
 - The **Philox algorithm** for PRNG
@@ -14,7 +12,6 @@ What You'll Learn
 - Memory vs computation trade-offs
 
 What is Dropout?
-----------------
 
 Purpose
 ~~~~~~~
@@ -71,7 +68,6 @@ E[output] = E[x[i] / (1-p) * keep]
 This is called **inverted dropout** (most common variant).
 
 Naive Implementation Problems
------------------------------
 
 Standard PyTorch Dropout
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -109,7 +105,6 @@ Forward
 output, mask = dropout_forward(x, p)
 
 Backward (later)
-================
 dx = dropout_backward(grad_output, mask)  # Need same mask!
 ::
 
@@ -128,14 +123,12 @@ Additional Complexity
 with torch.no_grad():
     output = dropout(x, p)  # Different random numbers!
 Backward pass uses different mask -> wrong gradients!
-====================================================
 ::
 
 
 Need ``preserve_rng*state=True`` -> more complexity and overhead.
 
 Seeded Dropout Solution
------------------------
 
 Key Insight
 ~~~~~~~~~~~
@@ -185,7 +178,6 @@ random = tl.rand(seed, offsets)
 - Same ``seed`` + same ``offsets`` -> **same random numbers**!
 
 Parallel Random Number Generation
----------------------------------
 
 The Challenge
 ~~~~~~~~~~~~~
@@ -275,24 +267,18 @@ offsets = [0, 1, 2, 3]
 
 random = tl.rand(seed, offsets)
 Generates: [0.37, 0.95, 0.22, 0.68]  (example values)
-=====================================================
 
 Call again with same seed and offsets:
-======================================
 random = tl.rand(seed, offsets)
 Generates: [0.37, 0.95, 0.22, 0.68]  (same values!)
-===================================================
 
 Different seed:
-===============
 random = tl.rand(seed=99, offsets)
 Generates: [0.81, 0.12, 0.44, 0.67]  (different values)
-=======================================================
 ::
 
 
 Memory and Performance Trade-offs
----------------------------------
 
 Memory Comparison
 ~~~~~~~~~~~~~~~~~
@@ -300,7 +286,6 @@ Memory Comparison
 For a tensor with N elements:
 
 | Method | Forward Memory | Backward Memory | Total |
-|--------|---------------|-----------------|-------|
 | Naive PyTorch | N + N mask | N + N mask | 4N bytes |
 | Triton Seeded | N | 4 bytes (seed) | N + 4 bytes |
 
@@ -343,7 +328,6 @@ When to Use Seeded Dropout
 In practice, **seeded dropout is almost always better** for modern deep learning.
 
 Reproducibility and Determinism
--------------------------------
 
 Ensuring Same Random Numbers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -352,13 +336,10 @@ For correct training, we need:
 .. code-block:: python
 
 Forward pass
-============
 output = dropout(x, p, seed=123)
 
 Backward pass (later)
-=====================
 Must use SAME seed to get SAME mask
-===================================
 grad = dropout_backward(grad_output, x, p, seed=123)
 ::
 
@@ -407,7 +388,6 @@ assert not torch.equal(out1, out3)  # Different seed -> different output
 
 
 Implementation Details
-----------------------
 
 The ``tl.where`` Function
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -468,7 +448,6 @@ If p=0.3 (drop 30%):
 - So 70% of elements are kept [OK]
 
 Advanced Considerations
------------------------
 
 Different Random Distributions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -482,10 +461,8 @@ Triton provides:
 .. code-block:: python
 
 Generate normal distribution
-============================
 random_normal = tl.randn(seed, offsets)
 Apply threshold
-===============
 x_keep = tl.abs(random_normal) < threshold
 ::
 
@@ -520,7 +497,6 @@ random_val = global_rng.next()  # Race condition if parallel!
 
 
 Performance Benchmarks
-----------------------
 
 Expected Performance
 ~~~~~~~~~~~~~~~~~~~~
@@ -528,7 +504,6 @@ Expected Performance
 For a 10M element tensor (40 MB):
 
 | Method | Time (ms) | Memory (MB) | Bandwidth (GB/s) |
-|--------|-----------|-------------|------------------|
 | Naive | 0.05 | 80 (2x tensor) | 1600 |
 | Seeded | 0.08 | 40 (1x tensor) | 1000 |
 
@@ -554,7 +529,6 @@ Bottleneck Analysis
 - Still fast enough!
 
 Practical Usage
----------------
 
 Integration with PyTorch
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -604,14 +578,12 @@ output = dropout(x, p, seed)
 .. code-block:: python
 
 Ensure different seeds on different GPUs
-========================================
 rank = dist.get_rank()
 seed = base_seed + rank
 ::
 
 
 Key Takeaways
--------------
 
 1. **Seeded dropout trades computation for memory**: Tiny compute cost, huge memory savings
 2. **Philox enables parallel PRNG**: No state, deterministic, high quality

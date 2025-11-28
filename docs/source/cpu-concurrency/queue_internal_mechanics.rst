@@ -1,5 +1,4 @@
 Queue Internal Mechanics: Condition Variables & Events
-======================================================
 
 The Answer
 ----------
@@ -11,7 +10,6 @@ Instead, the **Queue object maintains condition variables** that signal **all wa
 ---
 
 Queue's Internal Structure
---------------------------
 
 When you create a Queue, here's what's inside:
 
@@ -22,47 +20,19 @@ from queue import Queue
 q = Queue()
 
 Inside the Queue object:
-========================
-+-----------------------------------------+
-===========================================
 | Queue Internal State                    |
-===========================================
-|-----------------------------------------|
-===========================================
 | mutex: Lock()                           |
-===========================================
 |   - Protects all modifications          |
-===========================================
-|                                         |
-===========================================
 | not_empty: Condition()                  |
-===========================================
 |   - Signals when items added            |
-===========================================
 |   - Consumers wait on this              |
-===========================================
-|                                         |
-===========================================
 | not_full: Condition()                   |
-===========================================
 |   - Signals when items removed          |
-===========================================
 |   - Producers wait on this              |
-===========================================
-|                                         |
-===========================================
 | items: []                               |
-===========================================
 |   - Actual items (without conditions)   |
-===========================================
-|                                         |
-===========================================
 | task_counter: 0                         |
-===========================================
 |   - Tracks unfinished tasks             |
-===========================================
-+-----------------------------------------+
-===========================================
 ::
 
 
@@ -72,17 +42,12 @@ The Items Don't Have Conditions
 .. code-block:: python
 
 When you put an item
-====================
 q.put(42)
 
 Inside queue:
-=============
 items = [42]  <- Just the number, no condition attached
-======================================================
 not_empty condition wakes up consumers
-======================================
 not_full condition might wake up producers
-==========================================
 ::
 
 
@@ -91,7 +56,6 @@ The **item** is just data. The **conditions** belong to the **Queue**, not the i
 ---
 
 How Conditions Work in Queue
-----------------------------
 
 Condition Variables Explained
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -103,11 +67,8 @@ A **Condition variable** is like a **notification system**:
 ::
 
 Condition Variable (not_empty):
-+--------------------------------+
 | Waiting Threads Queue:         |
 | [Consumer1] [Consumer2] [C3]   | <- Sleeping, waiting for items
-+--------------------------------+
-         |
          | when put() is called
          | notify() is called
          [v]
@@ -120,7 +81,6 @@ One waiting thread wakes up!
 ---
 
 put() - What Actually Happens
------------------------------
 
 Step-by-Step Execution
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -163,7 +123,6 @@ Timeline: put() with Condition Variable
 ::
 
 Time  Queue                    Condition Variables    Consumers
-----------------------------------------------------------------
 0     put(42)                                         waiting...
       acquire mutex
 
@@ -184,7 +143,6 @@ Time  Queue                    Condition Variables    Consumers
 ---
 
 get() - What Actually Happens
------------------------------
 
 Step-by-Step Execution
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -231,7 +189,6 @@ Timeline: get() with Condition Variable
 ::
 
 Time  Queue                    Condition Variables    Producers
-----------------------------------------------------------------
 0     get()                                           put() blocked
       acquire mutex                                   (queue full)
 
@@ -252,35 +209,22 @@ Time  Queue                    Condition Variables    Producers
 ---
 
 Visual: No Condition On Items
------------------------------
 
 ::
 
 Queue Structure:
 
-+--------------------------------------------------+
 | Queue                                            |
-|                                                  |
 |  not_empty Condition Variable                   |
-|  +-----------------------------------------+   |
 |  | Waiting Consumers: [C1] [C2] [C3]       |   |
 |  | (sleeping, blocked on not_empty.wait()) |   |
-|  +-----------------------------------------+   |
-|                                                  |
 |  Items List (just data, no conditions):         |
-|  +-----------------------------------------+   |
 |  | [42]  [7]  [199]  [88]                  |   |
 |  |  up                                       |   |
 |  |  +- Just numbers, no events attached    |   |
-|  +-----------------------------------------+   |
-|                                                  |
 |  not_full Condition Variable                    |
-|  +-----------------------------------------+   |
 |  | Waiting Producers: [P1]                 |   |
 |  | (sleeping, blocked on not_full.wait())  |   |
-|  +-----------------------------------------+   |
-|                                                  |
-+--------------------------------------------------+
 
 KEY: The conditions are properties of the QUEUE,
      not attached to individual items!
@@ -292,7 +236,6 @@ KEY: The conditions are properties of the QUEUE,
 ---
 
 Complete put() and get() Timeline
----------------------------------
 
 Scenario: Queue with maxsize=2, multiple producers/consumers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -305,63 +248,30 @@ not_empty: [Consumer1, Consumer2]  <- Waiting for items
 not_full: []                       <- No one waiting
 
 Time 0: Producer1.put(42)
-|- Acquire mutex
-|- Queue not full, add item
-|- items = [42]
-|- Call not_empty.notify()
-|  +- Consumer1 wakes up!
-|- Release mutex
-+- (put done)
 
 Queue: [42]
 not_empty: [Consumer2]  <- Consumer1 woke up
 not_full: []
 
 Time 1: Producer2.put(7)
-|- Acquire mutex
-|- Queue not full, add item
-|- items = [42, 7]
-|- Call not_empty.notify()
-|  +- Consumer2 wakes up!
-|- Release mutex
-+- (put done)
 
 Queue: [42, 7]  <- FULL (maxsize=2)
 not_empty: []   <- All consumers woke
 not_full: []
 
 Time 2: Producer3.put(199)
-|- Acquire mutex
-|- Queue IS FULL! len(items)=2 >= maxsize=2
-|- Call not_full.wait(mutex)
-|  +- Producer3 BLOCKS here
-|  +- Releases mutex
-+- (waiting for space)
 
 Queue: [42, 7]
 not_empty: []
 not_full: [Producer3]  <- Waiting for space
 
 Time 3: Consumer1.get()
-|- Acquire mutex
-|- items = [42, 7], not empty
-|- item = items.pop(0) = 42  <- Returns just 42, no condition
-|- Call not_full.notify()
-|  +- Producer3 wakes up!
-|- Release mutex
-+- Return 42
 
 Queue: [7]
 not_empty: []
 not_full: []  <- Producer3 woke up
 
 Time 4: Producer3 continues from where it blocked
-|- Acquire mutex (had released it, now reacquires)
-|- Queue not full anymore, add item
-|- items = [7, 199]
-|- Call not_empty.notify() (no one waiting)
-|- Release mutex
-+- (put done)
 
 Queue: [7, 199]  <- FULL again
 .. code-block:: text
@@ -372,7 +282,6 @@ Queue: [7, 199]  <- FULL again
 ---
 
 Key Insight: Conditions Are On Queue, Not Items
------------------------------------------------
 
 What People Might Think (WRONG):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -380,7 +289,6 @@ What People Might Think (WRONG):
 .. code-block:: python
 
 [[FAIL]] WRONG MENTAL MODEL
-====================
 q.put(42)  # Does the item 42 carry an event/condition with it?
 item = q.get()  # Does the returned item have a condition?
 ::
@@ -392,7 +300,6 @@ The Actual Truth:
 .. code-block:: python
 
 [OK] CORRECT MENTAL MODEL
-======================
 q.put(42)  # 42 goes into queue
            # Queue's not_empty condition is signaled
            # The number 42 itself has NO condition
@@ -408,7 +315,6 @@ item = q.get()  # 42 is returned as plain data
 ---
 
 Why Queue Uses Shared Conditions
---------------------------------
 
 Instead of Per-Item Events
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -416,7 +322,6 @@ Instead of Per-Item Events
 .. code-block:: python
 
 [[FAIL]] This would be inefficient (if items had events)
-=================================================
 class BadQueue:
     def put(self, item):
         event = Event()
@@ -430,7 +335,6 @@ class BadQueue:
         return item
 
 [OK] This is efficient (what Queue actually does)
-==============================================
 class GoodQueue:
     def **init**(self):
         self.items = []
@@ -451,7 +355,6 @@ class GoodQueue:
 ---
 
 How Conditions Work: The Mechanism
-----------------------------------
 
 not_empty.notify() - What It Does
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -459,29 +362,20 @@ not_empty.notify() - What It Does
 .. code-block:: python
 
 When put() is called
-====================
 q.put(42)
 
 Inside put():
-=============
 self.not_empty.notify()
 
 This tells the condition variable:
-==================================
 "Someone just added an item"
-============================
 #
 The condition variable wakes ONE waiting thread
-===============================================
 (the one sleeping on not_empty.wait())
-======================================
 #
 That thread checks: "Is there data now?"
-========================================
 If yes, it continues
-====================
 If no, it goes back to sleep
-============================
 ::
 
 
@@ -491,39 +385,24 @@ Diagram: Condition Variable Notification
 ::
 
 BEFORE put():
-+-------------------------+
 | not_empty Condition     |
 | Waiting threads:        |
 | [Consumer1]             | <- Sleeping, waiting for items
 | [Consumer2]             |
 | [Consumer3]             |
 | Items: []               |
-+-------------------------+
 
 put(42) called:
-|
-|- items.append(42)
-|
-|- not_empty.notify()
-|  +- Sends signal!
-|
-+- (mutex released)
 
 AFTER notify():
-+-------------------------+
 | not_empty Condition     |
 | Waiting threads:        |
 | [Consumer1] <- WOKEN UP! |
 | [Consumer2]             |
 | [Consumer3]             |
 | Items: [42]             |
-+-------------------------+
 
 Consumer1 wakes up:
-|- Reacquires mutex
-|- Checks: is items not empty? YES!
-|- Proceeds to pop item
-+- (gets the 42)
 .. code-block:: text
 
 
@@ -532,7 +411,6 @@ Consumer1 wakes up:
 ---
 
 Back to Your Original Question
-------------------------------
 
 "Does each item get a condition?"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -551,13 +429,11 @@ The Flow
 ::
 
 put(42)
-  |
   +- Add 42 to items list
   +- Signal not_empty
      +- Wakes one consumer
 
 get()
-  |
   +- Wait on not_empty (if empty)
   +- Remove 42 from items
   +- Return 42 (just the value, no condition)
@@ -571,7 +447,6 @@ get()
 ---
 
 Real Code Example
------------------
 
 What Queue.put() Actually Does
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -633,7 +508,6 @@ Summary
 -------
 
 | Question | Answer |
-|----------|--------|
 | **Do items have conditions?** | No, items are just data |
 | **Where are conditions?** | In the Queue object itself |
 | **How many conditions?** | Two: not_empty and not_full |
@@ -645,7 +519,6 @@ Summary
 ---
 
 Key Takeaways
--------------
 
 1. **Items are just data** - No conditions attached
 2. **Queue owns the conditions** - not_empty and not_full

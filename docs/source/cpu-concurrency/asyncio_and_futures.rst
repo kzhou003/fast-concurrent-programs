@@ -1,16 +1,13 @@
 Asyncio and Futures
-===================
 
 Overview
 --------
 This script demonstrates asyncio with command-line arguments, executing two mathematical computations (sum and factorial) concurrently and returning their results.
 
 File Location
--------------
 ``basics/10*asyncio_and*futures.py``
 
 Key Concepts
-------------
 
 Command-Line Arguments
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -25,7 +22,6 @@ Concurrent Computation
 Two independent computations run concurrently, each with their own delay.
 
 Code Breakdown
---------------
 
 First Coroutine - Sum of N Integers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -81,7 +77,6 @@ async def main():
 Reads command-line arguments, creates two tasks, and runs them concurrently.
 
 Python 3.12 Updates
--------------------
 
 Changes Made
 ~~~~~~~~~~~~
@@ -116,7 +111,6 @@ Changes Made
    - f-strings throughout
 
 Before vs After Comparison
---------------------------
 
 Old Pattern (Deprecated)
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -135,14 +129,12 @@ New Pattern (Modern)
 
 result = await coroutine(value)
 Or with tasks:
-==============
 task = asyncio.create_task(coroutine(value))
 result = await task
 ::
 
 
 Execution Flow
---------------
 
 ::
 
@@ -151,12 +143,8 @@ main() starts
 Reads command-line arguments
   down
 Creates 2 tasks:
-  |--> first_coroutine(num1)
-  +--> second_coroutine(num2)
 
 Both tasks execute concurrently:
-  |--> first: computes sum, sleeps 4s, prints/returns result
-  +--> second: computes factorial, sleeps 4s, prints/returns result
 
 gather() waits for both
   down
@@ -208,7 +196,6 @@ Second coroutine (factorial) result = 5040
 
 
 Performance
------------
 
 - **Sequential execution**: Would take 8 seconds (4 + 4)
 - **Concurrent execution**: Takes only 4 seconds (both run together)
@@ -216,7 +203,6 @@ Performance
 - Demonstrates time savings from concurrency
 
 Key Takeaways
--------------
 
 1. **Direct Returns**: Modern async functions return values directly, no need for Future objects
 2. **Task Results**: ``asyncio.gather()`` can collect return values: ``results = await asyncio.gather(*tasks)``
@@ -225,7 +211,6 @@ Key Takeaways
 5. **Concurrent I/O**: Multiple operations run together during wait times
 
 Modern Best Practices
----------------------
 
 1. **Avoid explicit Future objects** in application code
 2. **Use ``asyncio.create_task()``** to schedule coroutines
@@ -234,7 +219,6 @@ Modern Best Practices
 5. **Use ``asyncio.run()``** as the entry point
 
 When to Use This Pattern
-------------------------
 
 - Multiple independent async operations
 - Need to collect results from concurrent tasks
@@ -242,7 +226,6 @@ When to Use This Pattern
 - Want clean, readable async code without callbacks
 
 Capturing Results
------------------
 
 If you need the return values:
 .. code-block:: python

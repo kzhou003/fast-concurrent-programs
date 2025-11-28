@@ -1,12 +1,10 @@
 Vector Addition in Triton
-=========================
 
 Overview
 --------
 Vector addition is the fundamental "Hello World" of GPU programming. This tutorial demonstrates how to write a simple element-wise vector addition kernel in Triton and introduces core GPU programming concepts.
 
 What You'll Learn
------------------
 - The basic programming model of GPU parallel computing
 - How Triton kernels are structured using ``@triton.jit``
 - The SPMD (Single Program, Multiple Data) execution model
@@ -14,7 +12,6 @@ What You'll Learn
 - How to benchmark GPU kernels
 
 GPU/CUDA Concepts
------------------
 
 SPMD (Single Program, Multiple Data)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,7 +85,6 @@ What if your vector size isn't a perfect multiple of BLOCK_SIZE?
 - In CUDA, you'd typically use conditional statements for this
 
 How the Kernel Works
---------------------
 
 Step-by-Step Execution
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -144,7 +140,6 @@ Step-by-Step Execution
    Writes the result back to global memory.
 
 Performance Characteristics
----------------------------
 
 Bandwidth-Bound Operation
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -168,7 +163,6 @@ For a GPU with 1 TB/s memory bandwidth::
 
 
 Triton-Specific Features
-------------------------
 
 ``@triton.jit`` Decorator
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -205,7 +199,6 @@ Launch Grid Syntax
 - Meta-parameters (like BLOCK_SIZE) are passed as keywords
 
 Benchmarking Insights
----------------------
 
 The benchmark code measures **GB/s (Gigabytes per second)**:
 
@@ -228,7 +221,6 @@ For modern GPUs:
 - Both PyTorch and Triton should achieve similar performance (both are memory-bound)
 
 Common Patterns You'll See
---------------------------
 
 1. Pointer Arithmetic
 ~~~~~~~~~~~~~~~~~~~~~
@@ -259,7 +251,6 @@ This single line actually adds BLOCK_SIZE elements in parallel!
 Essential for handling non-uniform sizes safely.
 
 Key Takeaways
--------------
 
 1. **GPU programming uses SPMD**: Write code for one block, GPU runs many copies in parallel
 2. **Block size matters**: Too small = overhead, too large = wasted resources
@@ -268,7 +259,6 @@ Key Takeaways
 5. **Triton abstracts complexity**: You don't need to write raw CUDA to get good performance
 
 Comparison to CUDA
-------------------
 
 If you were to write this in CUDA, you'd need:
 - Explicit block/thread indexing (``blockIdx.x``, ``threadIdx.x``)

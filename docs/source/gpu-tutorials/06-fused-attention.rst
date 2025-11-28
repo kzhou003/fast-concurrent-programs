@@ -1,12 +1,10 @@
 Fused Attention (Flash Attention) in Triton
-===========================================
 
 Overview
 --------
 This implements **Flash Attention v2**, a revolutionary algorithm for computing attention in Transformers. It reduces memory usage from O(N^2) to O(N) and achieves 2-4x speedup by using **tiling**, **online softmax**, and **recomputation** strategies. This is one of the most advanced GPU kernels you'll encounter.
 
 What You'll Learn
------------------
 - The **quadratic memory problem** in standard attention
 - **Flash Attention algorithm** and its innovations
 - **Online softmax**: Computing softmax without storing QK^T matrix
@@ -16,7 +14,6 @@ What You'll Learn
 - Why attention is the bottleneck in long-sequence Transformers
 
 Background: The Attention Mechanism
------------------------------------
 
 Standard Attention Formula
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,7 +79,6 @@ For sequence length N=2048, head_dim=64, fp16:
 **Clearly unsustainable!**
 
 Flash Attention: The Key Insights
----------------------------------
 
 Insight 1: We Don't Need to Store S and P
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -111,11 +107,9 @@ Insight 2: Online Softmax
 .. code-block:: python
 
 Pass 1: Find max
-================
 max_score = max(S)
 
 Pass 2: Compute softmax
-=======================
 P = exp(S - max_score) / sum(exp(S - max_score))
 ::
 
@@ -139,7 +133,6 @@ For each block of Q (BLOCK_M rows):
 **Benefit**: Each block fits in SRAM (fast)!
 
 The Online Softmax Algorithm
-----------------------------
 
 Standard Softmax
 ~~~~~~~~~~~~~~~~
@@ -216,7 +209,6 @@ output_new = alpha * output_old + (1/l_new) * [exp(s_3-m_new)*v_3 + exp(s_4-m_ne
 **This is the heart of Flash Attention!**
 
 Triton Implementation Details
------------------------------
 
 The Inner Loop
 ~~~~~~~~~~~~~~
@@ -320,7 +312,6 @@ else:
 **Optimization**: Stage 1 can skip masking checks, runs faster!
 
 Memory Optimizations
---------------------
 
 Tensor Descriptors
 ~~~~~~~~~~~~~~~~~~
@@ -393,7 +384,6 @@ else:
 - Trade-off: Slight accuracy loss (acceptable for ML)
 
 Backward Pass
--------------
 
 The backward pass is even more complex!
 
@@ -484,7 +474,6 @@ Why Recomputation?
 - But enables 100x longer sequences!
 
 Performance Characteristics
----------------------------
 
 Memory Complexity
 ~~~~~~~~~~~~~~~~~
@@ -529,7 +518,6 @@ Arithmetic Intensity: 1M / 20K ~ 50 FLOPs/byte
 Flash Attention is **25x more compute-efficient** in memory access!
 
 Auto-Tuning Configurations
---------------------------
 
 .. code-block:: python
 
@@ -553,7 +541,6 @@ configs = [
 - More stages: Better for Hopper/Blackwell with more SRAM
 
 Common Pitfalls
----------------
 
 1. SRAM Overflow
 ~~~~~~~~~~~~~~~~
@@ -597,7 +584,6 @@ p = tl.exp(qk - m_ij[:, None])
 .. code-block:: python
 
 Wrong for causal (token can't attend to itself!)
-================================================
 mask = offs_m[:, None] > (start_n + offs_n[None, :])
 
 Right
@@ -612,12 +598,10 @@ mask = offs_m[:, None] >= (start_n + offs_n[None, :])
 .. code-block:: python
 
 Must update both m_i and l_i!
-=============================
 l_i = l_i * alpha + l_ij
 m_i = m_ij
 
 And correct accumulator
-=======================
 acc = acc * alpha[:, None]
 ::
 
@@ -625,7 +609,6 @@ acc = acc * alpha[:, None]
 Forgetting any of these -> wrong results.
 
 Extensions and Variants
------------------------
 
 Multi-Query Attention (MQA)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -664,10 +647,8 @@ Latest version (Hopper H100+):
 - 1.5-2x faster than Flash Attention 2
 
 Comparison to Standard Attention
---------------------------------
 
 | Aspect | Standard | Flash Attention |
-|--------|----------|-----------------|
 | Memory | O(N^2) | O(N) |
 | Speed (2K seq) | 1x | 2-3x faster |
 | Speed (16K seq) | OOM | 10x+ faster |
@@ -675,7 +656,6 @@ Comparison to Standard Attention
 | Implementation | Simple | Complex |
 
 Key Takeaways
--------------
 
 1. **Flash Attention solves the O(N^2) memory problem**: Enables long sequences
 2. **Online softmax is the key innovation**: Compute softmax without full materialization

@@ -1,16 +1,13 @@
 Asyncio Task Manipulation
-=========================
 
 Overview
 --------
 This script demonstrates how to run multiple asyncio tasks in parallel by executing three mathematical computations (factorial, fibonacci, binomial coefficient) concurrently.
 
 File Location
--------------
 ``basics/09*asyncio_task*manipulation.py``
 
 Key Concepts
-------------
 
 Asyncio Tasks
 ~~~~~~~~~~~~~
@@ -25,7 +22,6 @@ asyncio.gather()
 Runs multiple awaitables concurrently and waits for all to complete, maintaining order of results.
 
 Code Breakdown
---------------
 
 Factorial Computation
 ~~~~~~~~~~~~~~~~~~~~~
@@ -92,7 +88,6 @@ async def main():
 Creates three tasks and runs them concurrently using ``gather()``.
 
 Python 3.12 Updates
--------------------
 
 Changes Made
 ~~~~~~~~~~~~
@@ -124,16 +119,12 @@ Changes Made
    - f-strings instead of ``%`` formatting
 
 Execution Flow
---------------
 
 ::
 
 main() starts
   down
 Creates 3 tasks simultaneously:
-  |--> factorial(10) task
-  |--> fibonacci(10) task
-  +--> binomial_coefficient(20, 10) task
 
 All tasks run concurrently:
   Each task:
@@ -149,7 +140,6 @@ main() completes
 
 
 Concurrency vs Parallelism
---------------------------
 
 This demonstrates **concurrency** (not parallelism):
 - Tasks interleave execution in a single thread
@@ -166,7 +156,6 @@ python3 09*asyncio_task*manipulation.py
 
 
 Output Example
---------------
 ::
 
 Asyncio.Task: Compute factorial(2)
@@ -186,7 +175,6 @@ Asyncio.Task - binomial_coefficient(20, 10) = 184756.0
 Notice how the output interleaves between tasks, showing concurrent execution.
 
 Performance
------------
 
 - **Sequential execution**: Would take ~30 seconds (10 + 10 + 10)
 - **Concurrent execution**: Takes ~10 seconds (all run together)
@@ -194,7 +182,6 @@ Performance
 - While one sleeps, others continue
 
 Key Takeaways
--------------
 
 1. **Task Creation**: Use ``asyncio.create_task()`` to schedule coroutines
 2. **Concurrent Execution**: Multiple tasks can run together in one thread
@@ -203,7 +190,6 @@ Key Takeaways
 5. **Efficiency**: Great for I/O-bound operations where waiting dominates
 
 When to Use
------------
 
 - Multiple I/O operations (network requests, file operations)
 - Operations that involve waiting

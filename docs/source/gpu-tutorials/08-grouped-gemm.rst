@@ -1,5 +1,4 @@
 Tutorial 08: Grouped GEMM
-=========================
 
 Overview
 --------
@@ -14,7 +13,6 @@ Overview
 Instead of launching separate kernels for each GEMM, grouped GEMM uses a **fixed number of CTAs (Cooperative Thread Arrays)** that statically schedule work across all problems.
 
 Key Concepts
-------------
 
 Static On-Device Scheduling
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,7 +47,6 @@ g_lds  # Leading dimensions [lda, ldb, ldc] for each GEMM
 - Allows dynamic problem lookup during execution
 
 Code Walkthrough
-----------------
 
 1. Grouped GEMM Kernel (Basic Version)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -193,7 +190,6 @@ def group_gemm*fn(group_A, group_B):
 - Python list of output matrices returned
 
 Auto-tuning Configurations
---------------------------
 
 .. code-block:: python
 
@@ -217,7 +213,6 @@ Auto-tuning Configurations
 - Auto-tuning finds optimal configuration for your GPU
 
 Memory Layout Considerations
-----------------------------
 
 Pointer Indirection
 ~~~~~~~~~~~~~~~~~~~
@@ -239,16 +234,13 @@ Leading Dimension (Stride)
 .. code-block:: python
 
 For row-major matrix A[M, K]:
-=============================
 lda = A.stride(0)  # Usually equals K for contiguous tensors
 
 Element at (i, j) is at: base_ptr + i * lda + j
-===============================================
 ::
 
 
 Performance Characteristics
----------------------------
 
 When Grouped GEMM Wins
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -287,7 +279,6 @@ From the script:
 - Overhead becomes negligible for N >= 256
 
 GPU Architecture Insights
--------------------------
 
 Why Fixed Number of CTAs?
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -324,7 +315,6 @@ SM 83: Tiles 83, 167, ...
 - Handles variable problem sizes gracefully
 
 Advanced: TMA Descriptor Creation
----------------------------------
 
 For TMA version:
 .. code-block:: python
@@ -337,7 +327,6 @@ a_desc = tl.make_tensor*descriptor(
 )
 
 Load a block starting at (offs_am, offs_k)
-==========================================
 a = a_desc.load([offs_am, offs_k])
 ::
 
@@ -349,7 +338,6 @@ a = a_desc.load([offs_am, offs_k])
 - Simplified kernel code
 
 Common Pitfalls
----------------
 
 1. Forgetting Contiguity
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -357,12 +345,10 @@ Common Pitfalls
 .. code-block:: python
 
 Bad: B might not be contiguous after transpose
-==============================================
 B = B.T
 grouped_matmul*kernel`grid <...>`_
 
 Good: Ensure contiguity
-=======================
 B_T = B.T.contiguous()
 ::
 
@@ -373,11 +359,9 @@ B_T = B.T.contiguous()
 .. code-block:: python
 
 Wrong: Assuming contiguous
-==========================
 lda = K
 
 Correct: Use actual stride
-==========================
 lda = A.stride(0)
 ::
 
@@ -388,25 +372,21 @@ lda = A.stride(0)
 .. code-block:: python
 
 FP8 requires compute capability >= 9.0
-======================================
 if dtype == torch.float8_e4m3fn:
     assert torch.cuda.get_device*capability()[0] >= 9
 ::
 
 
 Practical Example
------------------
 
 .. code-block:: python
 
 Define different problem sizes
-==============================
 group_m = [1024, 512, 256, 128]
 group_n = [1024, 512, 256, 128]
 group_k = [1024, 512, 256, 128]
 
 Create random matrices
-======================
 group_A = []
 group_B = []
 for i in range(len(group_m)):
@@ -417,11 +397,9 @@ for i in range(len(group_m)):
     group_B.append(B)
 
 Compute all GEMMs in one kernel launch
-======================================
 tri_out = group_gemm*fn(group_A, group_B)
 
 Verify against PyTorch
-======================
 ref_out = [torch.matmul(a, b) for a, b in zip(group_A, group_B)]
 for i in range(len(group_m)):
     assert torch.allclose(ref_out[i], tri_out[i], atol=1e-2)

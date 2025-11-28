@@ -1,12 +1,10 @@
 Fused Attention (Flash Attention) in Triton
-===========================================
 
 Overview
 --------
-This implements **Flash Attention v2**, a revolutionary algorithm for computing attention in Transformers. It reduces memory usage from O(N²) to O(N) and achieves 2-4x speedup by using **tiling**, **online softmax**, and **recomputation** strategies. This is one of the most advanced GPU kernels you'll encounter.
+This implements **Flash Attention v2**, a revolutionary algorithm for computing attention in Transformers. It reduces memory usage from O(N^2) to O(N) and achieves 2-4x speedup by using **tiling**, **online softmax**, and **recomputation** strategies. This is one of the most advanced GPU kernels you'll encounter.
 
 What You'll Learn
------------------
 - The **quadratic memory problem** in standard attention
 - **Flash Attention algorithm** and its innovations
 - **Online softmax**: Computing softmax without storing QK^T matrix
@@ -16,22 +14,21 @@ What You'll Learn
 - Why attention is the bottleneck in long-sequence Transformers
 
 Background: The Attention Mechanism
------------------------------------
 
 Standard Attention Formula
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
-Attention(Q, K, V) = softmax(QK^T / √d) V
+Attention(Q, K, V) = softmax(QK^T / sqrtd) V
 ::
 
 
 Where:
-- Q (Query): (batch, heads, seq*len, head*dim)
-- K (Key): (batch, heads, seq*len, head*dim)
-- V (Value): (batch, heads, seq*len, head*dim)
-- Output: (batch, heads, seq*len, head*dim)
+- Q (Query): (batch, heads, seq_len, head_dim)
+- K (Key): (batch, heads, seq_len, head_dim)
+- V (Value): (batch, heads, seq_len, head_dim)
+- Output: (batch, heads, seq_len, head_dim)
 
 Step-by-Step Computation
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -39,8 +36,8 @@ Step-by-Step Computation
 1. **Compute similarity scores**:
    ::
 
-   S = QK^T / √d*k
-   S shape: (seq*len, seq*len)  # N×N matrix!
+   S = QK^T / sqrtd_k
+   S shape: (seq_len, seq_len)  # NxN matrix!
    ::
 
 
@@ -48,7 +45,7 @@ Step-by-Step Computation
    ::
 
    P = softmax(S)
-   P shape: (seq*len, seq*len)  # Still N×N!
+   P shape: (seq_len, seq_len)  # Still NxN!
    ::
 
 
@@ -56,33 +53,32 @@ Step-by-Step Computation
    ::
 
    O = PV
-   O shape: (seq*len, head*dim)
+   O shape: (seq_len, head_dim)
    ::
 
 
 The Memory Problem
 ~~~~~~~~~~~~~~~~~~
 
-For sequence length N=2048, head*dim=64, fp16:
+For sequence length N=2048, head_dim=64, fp16:
 
 **Intermediate matrices**:
-- S (scores): 2048 × 2048 × 2 bytes = 8 MB
-- P (attention weights): 2048 × 2048 × 2 bytes = 8 MB
+- S (scores): 2048 x 2048 x 2 bytes = 8 MB
+- P (attention weights): 2048 x 2048 x 2 bytes = 8 MB
 - Total per head: 16 MB
 
 **For a Transformer**:
 - Batch size: 32
 - Heads: 16
-- Total: 32 × 16 × 16 MB = **8 GB** just for attention matrices!
+- Total: 32 x 16 x 16 MB = **8 GB** just for attention matrices!
 
 **For N=16384** (long sequences):
-- Per head: 16384² × 2 bytes = 512 MB
-- Total: 32 × 16 × 512 MB = **256 GB** 😱
+- Per head: 16384^2 x 2 bytes = 512 MB
+- Total: 32 x 16 x 512 MB = **256 GB** [wow]
 
 **Clearly unsustainable!**
 
 Flash Attention: The Key Insights
----------------------------------
 
 Insight 1: We Don't Need to Store S and P
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,7 +96,7 @@ Insight 1: We Don't Need to Store S and P
 3. Never materialize full S or P in HBM
 4. Only store final output O
 
-**Memory**: O(N²) → O(N) 🎉
+**Memory**: O(N^2) -> O(N) [celebrate]
 
 Insight 2: Online Softmax
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -111,12 +107,10 @@ Insight 2: Online Softmax
 .. code-block:: python
 
 Pass 1: Find max
-================
-max*score = max(S)
+max_score = max(S)
 
 Pass 2: Compute softmax
-=======================
-P = exp(S - max*score) / sum(exp(S - max*score))
+P = exp(S - max_score) / sum(exp(S - max_score))
 ::
 
 
@@ -128,8 +122,8 @@ Insight 3: Tiling
 Process attention in blocks:
 ::
 
-For each block of Q (BLOCK*M rows):
-    For each block of K,V (BLOCK*N columns):
+For each block of Q (BLOCK_M rows):
+    For each block of K,V (BLOCK_N columns):
         Compute block of S
         Update running softmax statistics
         Accumulate into output
@@ -139,60 +133,59 @@ For each block of Q (BLOCK*M rows):
 **Benefit**: Each block fits in SRAM (fast)!
 
 The Online Softmax Algorithm
-----------------------------
 
 Standard Softmax
 ~~~~~~~~~~~~~~~~
 
-For a row S*i = [s₁, s₂, ..., sₙ]:
+For a row S_i = [s_1, s_2, ..., s_n]:
 
 .. code-block:: python
 
-m = max(s₁, s₂, ..., sₙ)
-numerator = [exp(s₁-m), exp(s₂-m), ..., exp(sₙ-m)]
+m = max(s_1, s_2, ..., s_n)
+numerator = [exp(s_1-m), exp(s_2-m), ..., exp(s_n-m)]
 l = sum(numerator)
-P*i = numerator / l
+P_i = numerator / l
 ::
 
 
 Block-wise Computation
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Suppose we process in two blocks: [s₁, s₂] and [s₃, s₄]:
+Suppose we process in two blocks: [s_1, s_2] and [s_3, s_4]:
 
 **After block 1**:
 ::
 
-m*old = max(s₁, s₂)
-l*old = exp(s₁ - m*old) + exp(s₂ - m*old)
+m_old = max(s_1, s_2)
+l_old = exp(s_1 - m_old) + exp(s_2 - m_old)
 ::
 
 
 **After block 2**:
 ::
 
-m*new = max(m*old, max(s₃, s₄))
+m_new = max(m_old, max(s_3, s_4))
 ::
 
 
-**Problem**: How to update l*old when m changes?
+**Problem**: How to update l_old when m changes?
 
 **Solution**: Correction factor!
 ::
 
-α = exp(m*old - m*new)
-l*new = α * l*old + exp(s₃ - m*new) + exp(s₄ - m*new)
+alpha = exp(m_old - m_new)
+l_new = alpha * l_old + exp(s_3 - m_new) + exp(s_4 - m_new)
 ::
 
 
-**Why α?**
+**Why alpha?**
 ::
 
-Old contribution: exp(s₁ - m*old) + exp(s₂ - m*old)
-With new max:      exp(s₁ - m*new) + exp(s₂ - m*new)
-                 = exp(s₁ - m*old - (m*new - m*old)) + exp(s₂ - m*old - (m*new - m*old))
-                 = [exp(s₁ - m*old) + exp(s₂ - m*old)] * exp(m*old - m*new)
-                 = l*old * α
+Old contribution: exp(s_1 - m_old) + exp(s_2 - m_old)
+With new max:      exp(s_1 - m_new) + exp(s_2 - m_new)
+                 = exp(s_1 - m_old - (m_new - m_old)) + exp(s_2 - m_old - (m_new - m_old))
+                 = [exp(s_1 - m_old) + exp(s_2 - m_old)] * exp(m_old - m_new)
+                 = l_old * alpha
 ::
 
 
@@ -202,71 +195,70 @@ Updating the Output
 Similarly, the accumulated output needs correction:
 ::
 
-output*old = (1/l*old) * [exp(s₁-m*old)*v₁ + exp(s₂-m*old)*v₂]
+output_old = (1/l_old) * [exp(s_1-m_old)*v_1 + exp(s_2-m_old)*v_2]
 ::
 
 
 When we update max:
 ::
 
-output*new = α * output*old + (1/l*new) * [exp(s₃-m*new)*v₃ + exp(s₄-m*new)*v₄]
+output_new = alpha * output_old + (1/l_new) * [exp(s_3-m_new)*v_3 + exp(s_4-m_new)*v_4]
 ::
 
 
 **This is the heart of Flash Attention!**
 
 Triton Implementation Details
------------------------------
 
 The Inner Loop
 ~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-def *attn*fwd*inner(acc, l*i, m*i, q, desc*k, desc*v, ...):
-    for start*n in range(lo, hi, BLOCK*N):
+def *attn_fwd*inner(acc, l_i, m_i, q, desc_k, desc_v, ...):
+    for start_n in range(lo, hi, BLOCK_N):
         # Load K block
-        k = desc*k.load([offsetk*y, 0]).T
+        k = desc_k.load([offsetk_y, 0]).T
 
         # Compute QK^T for this block
         qk = tl.dot(q, k)
 
         # Apply scaling and mask (if causal)
-        qk = qk * qk*scale
+        qk = qk * qk_scale
         if STAGE == 2:  # Causal
-            mask = offs*m[:, None] >= (start*n + offs*n[None, :])
+            mask = offs_m[:, None] >= (start_n + offs_n[None, :])
             qk = qk + tl.where(mask, 0, -1.0e6)
 
         # Update max
-        m*ij = tl.maximum(m*i, tl.max(qk, 1))
+        m_ij = tl.maximum(m_i, tl.max(qk, 1))
 
         # Compute softmax probabilities for this block
-        p = tl.exp(qk - m*ij[:, None])
+        p = tl.exp(qk - m_ij[:, None])
 
         # Correction factor
-        alpha = tl.exp(m*i - m*ij)
+        alpha = tl.exp(m_i - m_ij)
 
         # Update sum
-        l*ij = tl.sum(p, 1)
+        l_ij = tl.sum(p, 1)
 
         # Update output with correction
         acc = acc * alpha[:, None]
 
         # Load V block
-        v = desc*v.load([offsetv*y, 0])
+        v = desc_v.load([offsetv_y, 0])
 
         # Accumulate
         acc = tl.dot(p, v, acc)
 
         # Update running statistics
-        l*i = l*i * alpha + l*ij
-        m*i = m*ij
+        l_i = l_i * alpha + l_ij
+        m_i = m_ij
 ::
 
 
 **Key variables**:
-- ``m*i``: Current max for each row
-- ``l*i``: Current sum of exponentials for each row
+- ``m_i``: Current max for each row
+- ``l_i``: Current sum of exponentials for each row
 - ``acc``: Current weighted sum output
 - ``alpha``: Correction factor when max changes
 
@@ -277,12 +269,12 @@ For autoregressive models (GPT), prevent attending to future tokens:
 
 .. code-block:: python
 
-mask = offs*m[:, None] >= (start*n + offs*n[None, :])
+mask = offs_m[:, None] >= (start_n + offs_n[None, :])
 qk = qk + tl.where(mask, 0, -1.0e6)
 ::
 
 
-**Visual example** (BLOCK*M=4, BLOCK*N=4):
+**Visual example** (BLOCK_M=4, BLOCK_N=4):
 
 ::
 
@@ -297,7 +289,7 @@ Mask (1 = allowed, 0 = masked):
 ::
 
 
-Setting masked positions to ``-1e6`` → ``exp(-1e6) ≈ 0`` → effectively ignored.
+Setting masked positions to ``-1e6`` -> ``exp(-1e6) ~ 0`` -> effectively ignored.
 
 Stages for Causal Attention
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -305,11 +297,11 @@ Stages for Causal Attention
 .. code-block:: python
 
 if STAGE == 1:
-    lo, hi = 0, start*m * BLOCK*M  # Before diagonal
+    lo, hi = 0, start_m * BLOCK_M  # Before diagonal
 elif STAGE == 2:
-    lo, hi = start*m * BLOCK*M, (start*m + 1) * BLOCK*M  # On diagonal (causal)
+    lo, hi = start_m * BLOCK_M, (start_m + 1) * BLOCK_M  # On diagonal (causal)
 else:
-    lo, hi = 0, N*CTX  # Full attention (non-causal)
+    lo, hi = 0, N_CTX  # Full attention (non-causal)
 ::
 
 
@@ -320,7 +312,6 @@ else:
 **Optimization**: Stage 1 can skip masking checks, runs faster!
 
 Memory Optimizations
---------------------
 
 Tensor Descriptors
 ~~~~~~~~~~~~~~~~~~
@@ -329,9 +320,9 @@ Modern GPUs (Hopper, Blackwell) support **tensor descriptors**:
 
 .. code-block:: python
 
-desc*q = TensorDescriptor(q, shape=[y*dim, HEAD*DIM],
-                          strides=[HEAD*DIM, 1],
-                          block*shape=[BLOCK*M, HEAD*DIM])
+desc_q = TensorDescriptor(q, shape=[y_dim, HEAD_DIM],
+                          strides=[HEAD_DIM, 1],
+                          block_shape=[BLOCK_M, HEAD_DIM])
 ::
 
 
@@ -343,7 +334,7 @@ desc*q = TensorDescriptor(q, shape=[y*dim, HEAD*DIM],
 **Triton abstracts this**:
 .. code-block:: python
 
-q = desc*q.load([offset*y, 0])
+q = desc_q.load([offset_y, 0])
 ::
 
 
@@ -354,7 +345,7 @@ Warp Specialization
 
 .. code-block:: python
 
-warp*specialize = True
+warp_specialize = True
 ::
 
 
@@ -381,9 +372,9 @@ For Blackwell GPUs with FP8 Tensor Cores:
 .. code-block:: python
 
 if dtype == tl.float8e5:
-    v = desc*v.load([0, offsetv*y]).T  # Transposed layout for FP8
+    v = desc_v.load([0, offsetv_y]).T  # Transposed layout for FP8
 else:
-    v = desc*v.load([offsetv*y, 0])
+    v = desc_v.load([offsetv_y, 0])
 ::
 
 
@@ -393,7 +384,6 @@ else:
 - Trade-off: Slight accuracy loss (acceptable for ML)
 
 Backward Pass
--------------
 
 The backward pass is even more complex!
 
@@ -402,7 +392,7 @@ Preprocess Step
 
 .. code-block:: python
 
-def *attn*bwd*preprocess(O, DO, Delta, ...):
+def *attn_bwd*preprocess(O, DO, Delta, ...):
     # Compute delta = sum(O * DO) for each row
     o = tl.load(O + ...)
     do = tl.load(DO + ...)
@@ -420,7 +410,7 @@ Computing dK and dV
 
 .. code-block:: python
 
-def *attn*bwd*dkdv(dk, dv, Q, k, v, DO, M, D, ...):
+def *attn_bwd*dkdv(dk, dv, Q, k, v, DO, M, D, ...):
     for each block of Q:
         # Recompute attention weights
         qk = tl.dot(k, Q)
@@ -451,7 +441,7 @@ Similar structure, but processes different blocks:
 
 .. code-block:: python
 
-def *attn*bwd*dq(dq, q, K, V, DO, M, D, ...):
+def *attn_bwd*dq(dq, q, K, V, DO, M, D, ...):
     for each block of K,V:
         # Recompute attention
         qk = tl.dot(q, K)
@@ -472,7 +462,7 @@ Why Recomputation?
 ~~~~~~~~~~~~~~~~~~
 
 **Traditional approach**:
-- Forward: Compute and store P (N² memory)
+- Forward: Compute and store P (N^2 memory)
 - Backward: Load P, compute gradients
 
 **Flash Attention**:
@@ -484,24 +474,23 @@ Why Recomputation?
 - But enables 100x longer sequences!
 
 Performance Characteristics
----------------------------
 
 Memory Complexity
 ~~~~~~~~~~~~~~~~~
 
 **Standard attention**:
-- O(N²) for S and P matrices
+- O(N^2) for S and P matrices
 - Becomes prohibitive for long sequences
 
 **Flash Attention**:
 - O(N) for Q, K, V, O
-- No intermediate N² matrices
+- No intermediate N^2 matrices
 - Enables sequences of 16K, 32K, even 100K+ tokens
 
 Compute Complexity
 ~~~~~~~~~~~~~~~~~~
 
-Still O(N²) FLOPs (can't change the math), but:
+Still O(N^2) FLOPs (can't change the math), but:
 - Better memory access patterns
 - Higher arithmetic intensity
 - Better cache utilization
@@ -511,30 +500,29 @@ Still O(N²) FLOPs (can't change the math), but:
 Arithmetic Intensity
 ~~~~~~~~~~~~~~~~~~~~
 
-With tiling (BLOCK*M=128, BLOCK*N=64):
-- Load Q block: 128 × 64 elements
-- Load K block: 64 × 64 elements
-- Load V block: 64 × 64 elements
-- Compute QK: 128 × 64 × 64 = 512K FLOPs
-- Compute PV: 128 × 64 × 64 = 512K FLOPs
+With tiling (BLOCK_M=128, BLOCK_N=64):
+- Load Q block: 128 x 64 elements
+- Load K block: 64 x 64 elements
+- Load V block: 64 x 64 elements
+- Compute QK: 128 x 64 x 64 = 512K FLOPs
+- Compute PV: 128 x 64 x 64 = 512K FLOPs
 - Total: ~1M FLOPs per ~20K bytes loaded
 
-Arithmetic Intensity: 1M / 20K ≈ 50 FLOPs/byte
+Arithmetic Intensity: 1M / 20K ~ 50 FLOPs/byte
 
 **Compare to naive** (no tiling):
 - Each element of S: 1 load Q row, 1 load K row
 - Each element of P: 1 load/store
-- AI ≈ 2 FLOPs/byte
+- AI ~ 2 FLOPs/byte
 
 Flash Attention is **25x more compute-efficient** in memory access!
 
 Auto-Tuning Configurations
---------------------------
 
 .. code-block:: python
 
 configs = [
-    triton.Config({'BLOCK*M': BM, 'BLOCK*N': BN}, num*stages=s, num*warps=w)
+    triton.Config({'BLOCK_M': BM, 'BLOCK_N': BN}, num_stages=s, num_warps=w)
     for BM in [64, 128]
     for BN in [32, 64, 128]
     for s in [2, 3, 4]
@@ -548,12 +536,11 @@ configs = [
 - **Smaller blocks**: Less SRAM, but more overhead
 
 **Typical good configs**:
-- BLOCK*M=128, BLOCK*N=64: Balanced
-- BLOCK*M=64, BLOCK*N=32: Smaller SRAM GPUs
+- BLOCK_M=128, BLOCK_N=64: Balanced
+- BLOCK_M=64, BLOCK_N=32: Smaller SRAM GPUs
 - More stages: Better for Hopper/Blackwell with more SRAM
 
 Common Pitfalls
----------------
 
 1. SRAM Overflow
 ~~~~~~~~~~~~~~~~
@@ -567,8 +554,8 @@ Error: out of resource: shared memory
 **Cause**: Blocks too large for available SRAM
 
 **Solution**:
-- Reduce BLOCK*M or BLOCK*N
-- Reduce num*stages
+- Reduce BLOCK_M or BLOCK_N
+- Reduce num_stages
 - Adjust auto-tune configs
 
 2. Numerical Instability
@@ -584,8 +571,8 @@ p = tl.exp(qk)
 
 Right
 =====
-m*ij = tl.max(qk, 1)
-p = tl.exp(qk - m*ij[:, None])
+m_ij = tl.max(qk, 1)
+p = tl.exp(qk - m_ij[:, None])
 ::
 
 
@@ -597,12 +584,11 @@ p = tl.exp(qk - m*ij[:, None])
 .. code-block:: python
 
 Wrong for causal (token can't attend to itself!)
-================================================
-mask = offs*m[:, None] > (start*n + offs*n[None, :])
+mask = offs_m[:, None] > (start_n + offs_n[None, :])
 
 Right
 =====
-mask = offs*m[:, None] >= (start*n + offs*n[None, :])
+mask = offs_m[:, None] >= (start_n + offs_n[None, :])
 ::
 
 
@@ -611,29 +597,26 @@ mask = offs*m[:, None] >= (start*n + offs*n[None, :])
 
 .. code-block:: python
 
-Must update both m*i and l*i!
-=============================
-l*i = l*i * alpha + l*ij
-m*i = m*ij
+Must update both m_i and l_i!
+l_i = l_i * alpha + l_ij
+m_i = m_ij
 
 And correct accumulator
-=======================
 acc = acc * alpha[:, None]
 ::
 
 
-Forgetting any of these → wrong results.
+Forgetting any of these -> wrong results.
 
 Extensions and Variants
------------------------
 
 Multi-Query Attention (MQA)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use same K, V for all heads:
-- K, V shape: (batch, 1, seq*len, head*dim)
-- Q shape: (batch, num*heads, seq*len, head*dim)
-- Memory savings: num*heads× less for K, V
+- K, V shape: (batch, 1, seq_len, head_dim)
+- Q shape: (batch, num_heads, seq_len, head_dim)
+- Memory savings: num_headsx less for K, V
 
 Grouped Query Attention (GQA)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -648,11 +631,11 @@ Sliding Window Attention
 Only attend to nearby tokens:
 .. code-block:: python
 
-mask = abs(offs*m[:, None] - offs*n[None, :]) <= window*size
+mask = abs(offs_m[:, None] - offs_n[None, :]) <= window_size
 ::
 
 
-Reduces complexity to O(N × window_size).
+Reduces complexity to O(N x window_size).
 
 Flash Attention 3
 ~~~~~~~~~~~~~~~~~
@@ -664,20 +647,17 @@ Latest version (Hopper H100+):
 - 1.5-2x faster than Flash Attention 2
 
 Comparison to Standard Attention
---------------------------------
 
 | Aspect | Standard | Flash Attention |
-|--------|----------|-----------------|
-| Memory | O(N²) | O(N) |
+| Memory | O(N^2) | O(N) |
 | Speed (2K seq) | 1x | 2-3x faster |
 | Speed (16K seq) | OOM | 10x+ faster |
 | Max sequence | ~2048 | 100K+ |
 | Implementation | Simple | Complex |
 
 Key Takeaways
--------------
 
-1. **Flash Attention solves the O(N²) memory problem**: Enables long sequences
+1. **Flash Attention solves the O(N^2) memory problem**: Enables long sequences
 2. **Online softmax is the key innovation**: Compute softmax without full materialization
 3. **Tiling + correction factors**: Update statistics as we process blocks
 4. **Recomputation in backward pass**: Trade compute for memory

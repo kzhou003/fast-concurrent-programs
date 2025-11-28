@@ -1,10 +1,8 @@
 References and Resources
-========================
 
 Essential resources for learning more about GPU programming, Triton, and related topics.
 
 Official Documentation
------------------------
 
 Triton
 ~~~~~~
@@ -38,7 +36,6 @@ PyTorch
 * `PyTorch Internals <https://pytorch.org/blog/>`_
 
 Research Papers
----------------
 
 Flash Attention
 ~~~~~~~~~~~~~~~
@@ -148,7 +145,6 @@ Deep Learning
    * `Available online <https://d2l.ai/>`_
 
 Tools and Profilers
--------------------
 
 NVIDIA Tools
 ~~~~~~~~~~~~
@@ -231,7 +227,6 @@ Benchmarking
     print(t.timeit(100))
 
 Online Resources
-----------------
 
 Tutorials and Courses
 ~~~~~~~~~~~~~~~~~~~~~
@@ -295,7 +290,6 @@ Blogs and Articles
    * Optimization techniques
 
 Example Repositories
---------------------
 
 Triton Examples
 ~~~~~~~~~~~~~~~
@@ -312,7 +306,6 @@ Production Usage
 * `xformers <https://github.com/facebookresearch/xformers>`_ - Efficient Transformer components
 
 Hardware Documentation
-----------------------
 
 NVIDIA GPUs
 ~~~~~~~~~~~
@@ -338,7 +331,6 @@ AMD GPUs
    * `MI300 Series <https://www.amd.com/en/products/accelerators/instinct/mi300.html>`_
 
 Performance Databases
----------------------
 
 **MLPerf**
 
@@ -352,7 +344,6 @@ Performance Databases
    * Vendor benchmarks
 
 Keeping Up to Date
-------------------
 
 Subscribe To
 ~~~~~~~~~~~~
@@ -371,7 +362,6 @@ Conferences
 * **MLSys** - Machine Learning and Systems
 
 Academic Courses
-----------------
 
 **Stanford CS149 - Parallel Computing**
 
@@ -390,7 +380,6 @@ Academic Courses
    * Includes GPU optimization
 
 Contributing
-------------
 
 Want to contribute to the ecosystem?
 
@@ -424,7 +413,6 @@ For Flash Attention::
     }
 
 Quick Reference
----------------
 
 **Most Important**:
 
@@ -442,4 +430,4 @@ Quick Reference
 1. NVIDIA: ``nsys`` and ``ncu``
 2. AMD: ``rocprof``
 
-Stay curious and keep optimizing! 🚀
+Stay curious and keep optimizing! [rocket]

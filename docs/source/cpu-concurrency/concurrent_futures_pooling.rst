@@ -1,16 +1,13 @@
 Concurrent Futures Pooling
-==========================
 
 Overview
 --------
 This script demonstrates the performance differences between sequential execution, thread pool execution, and process pool execution using Python's ``concurrent.futures`` module.
 
 File Location
--------------
 ``basics/06*concurrent_futures*pooling.py``
 
 Key Concepts
-------------
 
 Executor Pattern
 ~~~~~~~~~~~~~~~~
@@ -24,7 +21,6 @@ Execution Models
 3. **ProcessPoolExecutor**: Tasks run in parallel using multiple processes (true parallelism for CPU-bound tasks)
 
 Code Breakdown
---------------
 
 CPU-Intensive Task
 ~~~~~~~~~~~~~~~~~~
@@ -84,7 +80,6 @@ with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
 Uses a pool of 5 separate processes. This bypasses the GIL and provides true parallel execution for CPU-bound tasks.
 
 Performance Expectations
-------------------------
 
 For CPU-bound tasks:
 - **Sequential**: Baseline performance
@@ -92,7 +87,6 @@ For CPU-bound tasks:
 - **ProcessPool**: Significantly faster (near-linear speedup based on number of cores)
 
 Python 3.12 Updates
--------------------
 
 Changes Made
 ~~~~~~~~~~~~
@@ -113,7 +107,6 @@ python3 06*concurrent_futures_pooling.py
 
 
 Output Example
---------------
 ::
 
 Item 1, result 10000000
@@ -128,7 +121,6 @@ Process Pool Execution in 1.23 seconds
 
 
 When to Use Each Approach
--------------------------
 
 - **Sequential**: Simple tasks, I/O-bound operations, or when order matters
 - **ThreadPool**: I/O-bound tasks (network requests, file operations)

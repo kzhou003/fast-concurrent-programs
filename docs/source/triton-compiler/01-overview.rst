@@ -1,10 +1,8 @@
 Triton Compiler Architecture Overview
-======================================
 
 This document provides a comprehensive overview of how the Triton compiler works, from Python decorators to GPU binary code.
 
 What is Triton?
----------------
 
 **Triton** is a language and compiler for writing highly efficient GPU kernels using Python-like syntax. Unlike CUDA, which requires explicit memory management and complex threading, Triton provides a high-level block-based programming model that automatically handles many low-level details.
 
@@ -19,7 +17,6 @@ Key Features
 - **Multi-backend** - Supports NVIDIA (CUDA), AMD (ROCm), and potentially others
 
 Compilation Pipeline Overview
-------------------------------
 
 The Triton compiler transforms Python code through several stages:
 
@@ -42,7 +39,6 @@ The Triton compiler transforms Python code through several stages:
 Each stage performs specific transformations and optimizations.
 
 Architecture Components
-------------------------
 
 The Triton compiler consists of several key components:
 
@@ -90,7 +86,6 @@ The Triton compiler consists of several key components:
    *Location:* ``python/triton/runtime/``
 
 Compilation Stages in Detail
------------------------------
 
 Stage 1: Python AST Parsing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -254,7 +249,6 @@ PTX is assembled into CUBIN (CUDA binary) using ``ptxas``, or AMDGCN is assemble
 This binary can be executed on the GPU.
 
 Key Design Decisions
---------------------
 
 Block-based Programming Model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -336,7 +330,6 @@ Triton uses **MLIR (Multi-Level Intermediate Representation)** instead of custom
 - ``rocdl`` - AMD ROCm specific
 
 Source Code Organization
--------------------------
 
 Python Components
 ~~~~~~~~~~~~~~~~~
@@ -377,7 +370,6 @@ Backend Components
 - ``driver.py`` - ROCm driver interface
 
 Links to Source Code
----------------------
 
 All links reference Triton v3.5.1:
 

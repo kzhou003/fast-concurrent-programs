@@ -1,10 +1,8 @@
 Learning Paths
-==============
 
 Choose a learning path based on your goals and experience level.
 
 Path 1: Fast Track (Essentials)
---------------------------------
 
 **Goal**: Get productive with Triton quickly
 
@@ -40,7 +38,6 @@ Path 1: Fast Track (Essentials)
 **Outcome**: You can write and optimize basic GPU kernels for common operations.
 
 Path 2: Deep Understanding (Comprehensive)
-------------------------------------------
 
 **Goal**: Become a Triton/GPU programming expert
 
@@ -85,7 +82,6 @@ Path 2: Deep Understanding (Comprehensive)
 **Outcome**: You can implement complex, production-ready GPU kernels and optimize them for maximum performance.
 
 Path 3: Transformer Focus (For LLM/NLP)
-----------------------------------------
 
 **Goal**: Optimize Transformers and attention mechanisms
 
@@ -127,7 +123,6 @@ Path 3: Transformer Focus (For LLM/NLP)
 **Outcome**: You can optimize Transformer models, implement efficient attention, and handle long sequences.
 
 Path 4: Computer Vision Focus
-------------------------------
 
 **Goal**: Optimize CNN and vision models
 
@@ -163,7 +158,6 @@ Path 4: Computer Vision Focus
 **Outcome**: Optimize convolutions, pooling, and other vision-specific operations.
 
 Path 5: Performance Engineering
---------------------------------
 
 **Goal**: Maximize GPU utilization and performance
 
@@ -234,7 +228,6 @@ Advanced Techniques
 3. :doc:`gpu-tutorials/07-extern-functions` - External libraries
 
 Learning Tips
--------------
 
 1. **Run the Code**
 
@@ -274,7 +267,6 @@ Learning Tips
    * Ask questions
 
 Assessment Checkpoints
-----------------------
 
 After Path 1 (Fast Track)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -310,7 +302,6 @@ You should be able to:
 [ ] Understand Flash Attention algorithm
 
 Next Steps After Completing a Path
------------------------------------
 
 1. **Build a Project**
 
@@ -332,7 +323,6 @@ Next Steps After Completing a Path
    * Help others in community
 
 Resources for Continued Learning
----------------------------------
 
 * :doc:`references` - Papers and documentation
 * :doc:`troubleshooting` - Common issues and solutions
@@ -340,7 +330,6 @@ Resources for Continued Learning
 * `CUDA Programming Guide <https://docs.nvidia.com/cuda/cuda-c-programming-guide/>`_ - Deep dive
 
 Choose Your Path
-----------------
 
 Ready to start? Pick the path that matches your goals:
 

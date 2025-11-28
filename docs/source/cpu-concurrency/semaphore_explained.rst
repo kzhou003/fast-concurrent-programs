@@ -1,8 +1,6 @@
 Semaphore Explained
-===================
 
 What is a Semaphore?
---------------------
 
 A **semaphore** is a synchronization primitive that uses an **internal counter** to control access to a shared resource. It's like having a certain number of "permits" or "tokens" that threads need to acquire.
 
@@ -15,7 +13,6 @@ Key Concept
 ---
 
 Two Types of Semaphores
------------------------
 
 1. Counting Semaphore (Counter > 1)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,7 +41,6 @@ semaphore = threading.Semaphore(0)  # Counter starts at 0
 
 semaphore.acquire()  # Counter: 0 - WAIT! (blocked, waiting for signal)
 ... thread blocks until...
-==========================
 semaphore.release()  # Counter: 0 -> 1 (signal sent! waiting thread wakes up)
 .. code-block:: text
 
@@ -54,7 +50,6 @@ semaphore.release()  # Counter: 0 -> 1 (signal sent! waiting thread wakes up)
 ---
 
 The Code Explained: Producer-Consumer Pattern
----------------------------------------------
 
 Looking at ``/basics/04*semaphore.py``:
 
@@ -83,7 +78,6 @@ Execution Timeline
 ::
 
 Time  Consumer                 Semaphore Counter    Producer
---------------------------------------------------------------
 0     waiting...              0
 
 0     acquire()               BLOCKED!             (sleeping 3s)
@@ -103,7 +97,6 @@ Time  Consumer                 Semaphore Counter    Producer
 ---
 
 Semaphore Operations
---------------------
 
 ``acquire()``
 ~~~~~~~~~~~
@@ -131,7 +124,6 @@ semaphore.acquire()  # Counter: 0 - BLOCKS HERE (waits for release)
 
 semaphore.acquire()  # Counter: 0 - BLOCKED
 ... from another thread ...
-===========================
 semaphore.release()  # Counter: 0 -> 1 (wakes up blocked thread)
                      # Blocked thread can now continue
 .. code-block:: text
@@ -142,7 +134,6 @@ semaphore.release()  # Counter: 0 -> 1 (wakes up blocked thread)
 ---
 
 Visual Representation
----------------------
 
 Counting Semaphore (3 spots available)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,48 +141,36 @@ Counting Semaphore (3 spots available)
 ::
 
 Initial: Semaphore(3)
-+---------------------------------+
 | Available Spots: 3              |
-+---------------------------------+
 
 Thread A calls acquire():
-+---------------------------------+
 | Available Spots: 2              |
 | Thread A: ACQUIRED [OK]            |
-+---------------------------------+
 
 Thread B calls acquire():
-+---------------------------------+
 | Available Spots: 1              |
 | Thread A: ACQUIRED              |
 | Thread B: ACQUIRED [OK]            |
-+---------------------------------+
 
 Thread C calls acquire():
-+---------------------------------+
 | Available Spots: 0              |
 | Thread A: ACQUIRED              |
 | Thread B: ACQUIRED              |
 | Thread C: ACQUIRED [OK]            |
-+---------------------------------+
 
 Thread D calls acquire():
-+---------------------------------+
 | Available Spots: 0              |
 | Thread A: ACQUIRED              |
 | Thread B: ACQUIRED              |
 | Thread C: ACQUIRED              |
 | Thread D: WAITING (blocked)     | <- Can't proceed
-+---------------------------------+
 
 Thread A calls release():
-+---------------------------------+
 | Available Spots: 1              |
 | Thread A: RELEASED              |
 | Thread B: ACQUIRED              |
 | Thread C: ACQUIRED              |
 | Thread D: ACQUIRED (now!) [OK]     | <- Unblocked!
-+---------------------------------+
 .. code-block:: text
 
 
@@ -203,24 +182,18 @@ Binary Semaphore (Producer-Consumer)
 ::
 
 Initial: Semaphore(0)
-+----------------------+
 | Counter: 0           |
 | Signal: NOT SET      |
-+----------------------+
 
 Consumer calls acquire():
-+----------------------+
 | Counter: 0           |
 | Consumer: WAITING    | <- BLOCKED here
 | Signal: NOT SET      |
-+----------------------+
 
 Producer (after work) calls release():
-+----------------------+
 | Counter: 1           |
 | Consumer: PROCEED [OK]  | <- UNBLOCKED!
 | Signal: SET          |
-+----------------------+
 .. code-block:: text
 
 
@@ -229,10 +202,8 @@ Producer (after work) calls release():
 ---
 
 Semaphore vs Lock
------------------
 
 | Aspect | Lock | Semaphore |
-|--------|------|-----------|
 | **Purpose** | Mutual exclusion | Signaling / Resource pooling |
 | **Counter** | 0 or 1 (locked/unlocked) | Any number |
 | **Multiple resources** | 1 | Many |
@@ -242,7 +213,6 @@ Semaphore vs Lock
 ---
 
 Real-World Examples
--------------------
 
 Example 1: Swimming Pool with Limited Capacity
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -350,17 +320,14 @@ Consumer: received item 42
 ---
 
 How the Code Works Step by Step
--------------------------------
 
 .. code-block:: python
 
 Initial state
-=============
 semaphore = threading.Semaphore(0)  # Counter = 0
 item = 0
 
 Consumer thread starts
-======================
 def consumer():
     logging.info("Consumer waiting")
     semaphore.acquire()              # Counter is 0, BLOCKS HERE
@@ -368,7 +335,6 @@ def consumer():
     logging.info(f"Consumer notify: item number {item}")  # Not reached yet
 
 Producer thread starts (10 times in the loop)
-=============================================
 def producer():
     global item
     time.sleep(3)                    # Simulate work for 3 seconds
@@ -378,24 +344,15 @@ def producer():
                                      # This WAKES UP the consumer
 
 Execution timeline:
-===================
 Time 0:   consumer() starts, calls acquire(), blocks (counter=0)
-================================================================
 Time 0:   producer() starts, sleeps for 3 seconds
-=================================================
 Time 3:   producer() wakes up, generates item
-=============================================
 Time 3:   producer() calls release() - counter becomes 1
-========================================================
 Time 3:   consumer() wakes up from acquire(), can continue
-==========================================================
 Time 3:   consumer() prints the item
-====================================
 Time 3:   both threads finish (join completes)
-==============================================
 #
 Loop repeats 10 times
-=====================
 .. code-block:: text
 
 
@@ -404,7 +361,6 @@ Loop repeats 10 times
 ---
 
 Semaphore States and Transitions
---------------------------------
 
 .. code-block:: text
 
@@ -413,27 +369,19 @@ Semaphore States and Transitions
 Binary Semaphore (0 or 1) - Producer-Consumer
 
 INITIAL STATE:
-+-------------+
 | Counter: 0  |
 | No signal   |
-+------+------+
-       |
        | Consumer acquire()
        | (counter = 0, so block)
        [v]
-+------------------+
 | Counter: 0       |
 | Consumer WAITING |
-+------+-----------+
-       |
        | Producer release()
        | (counter 0 -> 1, wake consumer)
        [v]
-+----------------------+
 | Counter: 1           |
 | Consumer UNBLOCKED   |
 | Can now acquire() -> 0|
-+----------------------+
 .. code-block:: text
 
 
@@ -442,7 +390,6 @@ INITIAL STATE:
 ---
 
 Counting Semaphore States
--------------------------
 
 .. code-block:: text
 
@@ -451,46 +398,29 @@ Counting Semaphore States
 Counting Semaphore(3) - Resource Pool
 
 INITIAL:
-+-------------+
 | Counter: 3  |
 | 3 available |
-+------+------+
-       |
        | Thread A acquire()
        [v]
-+------------------+
 | Counter: 2       |
 | A acquired       |
-+------+-----------+
-       |
        | Thread B acquire()
        [v]
-+------------------+
 | Counter: 1       |
 | B acquired       |
-+------+-----------+
-       |
        | Thread C acquire()
        [v]
-+------------------+
 | Counter: 0       |
 | C acquired       |
-+------+-----------+
-       |
        | Thread D acquire() - BLOCKS!
        [v]
-+------------------+
 | Counter: 0       |
 | D WAITING        |
-+------+-----------+
-       |
        | Thread A release()
        | (counter 0 -> 1, wake D)
        [v]
-+------------------+
 | Counter: 0       |
 | D acquired!      |
-+------------------+
 .. code-block:: text
 
 
@@ -499,14 +429,12 @@ INITIAL:
 ---
 
 Common Use Cases
-----------------
 
 1. **Limiting Concurrent Access**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
 Only 5 threads can access database at once
-==========================================
 db_access = threading.Semaphore(5)
 
 def query_database(query):
@@ -523,7 +451,6 @@ def query_database(query):
 .. code-block:: python
 
 Sender signals receiver
-=======================
 data_ready = threading.Semaphore(0)
 
 def sender():
@@ -541,7 +468,6 @@ def receiver():
 .. code-block:: python
 
 Wait for all workers to finish
-==============================
 workers_done = threading.Semaphore(0)
 num_workers = 5
 
@@ -550,7 +476,6 @@ def worker():
     workers_done.release()
 
 Main waits for all
-==================
 for * in range(num_workers):
     workers_done.acquire()
 print("All workers done!")
@@ -562,7 +487,6 @@ print("All workers done!")
 ---
 
 Key Differences from Lock
--------------------------
 
 Lock (``threading.Lock``)
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -595,12 +519,10 @@ Semaphore (Binary - Used as Signal)
 signal = threading.Semaphore(0)
 
 Thread A waits for signal
-=========================
 signal.acquire()
 print("I've been signaled!")
 
 Thread B sends signal
-=====================
 signal.release()
 .. code-block:: text
 
@@ -610,10 +532,8 @@ signal.release()
 ---
 
 Summary Table
--------------
 
 | Operation | Effect | When |
-|-----------|--------|------|
 | ``acquire()`` | Counter - 1, blocks if 0 | When entering critical section |
 | ``release()`` | Counter + 1, wakes 1 thread | When leaving critical section |
 | Multiple resources | [OK] Semaphore(n) | Manage pool |
@@ -622,7 +542,6 @@ Summary Table
 ---
 
 Key Takeaways
--------------
 
 1. **Semaphore = Counter + Wait Queue**
    - ``acquire()`` decrements, blocks if 0

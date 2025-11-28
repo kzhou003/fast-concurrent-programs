@@ -1,10 +1,8 @@
 Key Concepts in Concurrent Programming
-======================================
 
 This document explains the fundamental concepts used across the concurrent programming examples (scripts 06-10).
 
 Table of Contents
------------------
 1. `Concurrency vs Parallelism <#concurrency-vs-parallelism>`_
 2. `Threading vs Multiprocessing <#threading-vs-multiprocessing>`_
 3. `The Global Interpreter Lock (GIL) <#the-global-interpreter-lock-gil>`_
@@ -17,7 +15,6 @@ Table of Contents
 ---
 
 Concurrency vs Parallelism
---------------------------
 
 Concurrency
 ~~~~~~~~~~~
@@ -78,7 +75,6 @@ Time:   ------------------------------------------------->
 ---
 
 Threading vs Multiprocessing
-----------------------------
 
 Threading (concurrent.futures.ThreadPoolExecutor)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,7 +138,6 @@ When to Use What
 ~~~~~~~~~~~~~~~~
 
 | Scenario | Use Threading | Use Multiprocessing |
-|----------|--------------|---------------------|
 | I/O-bound tasks (network, files) | [[OK]] Yes | [[FAIL]] Overkill |
 | CPU-bound tasks | [[FAIL]] No (GIL) | [[OK]] Yes |
 | Need shared memory | [[OK]] Yes | [[FAIL]] Complex |
@@ -152,7 +147,6 @@ When to Use What
 ---
 
 The Global Interpreter Lock (GIL)
----------------------------------
 
 What is the GIL?
 ~~~~~~~~~~~~~~~~
@@ -174,7 +168,6 @@ Impact on Performance:
 .. code-block:: python
 
 With GIL, threads don't help CPU-bound tasks:
-=============================================
 Sequential:        ############ (10 seconds)
 Threading (4):     ############ (10 seconds) <- No improvement!
 Multiprocessing:   ### (2.5 seconds) <- True speedup!
@@ -185,7 +178,6 @@ Multiprocessing:   ### (2.5 seconds) <- True speedup!
 .. code-block:: python
 
 GIL is released during I/O, so threading helps:
-===============================================
 Sequential:        ############ (10 seconds)
 Threading (4):     ### (2.5 seconds) <- Good improvement!
 Asyncio:           ## (2 seconds) <- Even better!
@@ -207,7 +199,6 @@ The thread pool shows minimal improvement because the CPU-bound task is limited 
 ---
 
 Asyncio and Event Loops
------------------------
 
 Event Loop
 ~~~~~~~~~~
@@ -222,13 +213,11 @@ The event loop is the core of asyncio. It:
 ::
 
 Event Loop:
-  +--------------------------------+
   |  1. Check for ready tasks      |
   |  2. Execute task until await   |
   |  3. Switch to next ready task  |
   |  4. Handle I/O operations      |
   |  5. Repeat                     |
-  +--------------------------------+
 ::
 
 
@@ -354,7 +343,6 @@ Important Rules:
 ---
 
 Tasks and Futures
------------------
 
 Tasks
 ~~~~~
@@ -433,9 +421,7 @@ Waiting for Multiple Tasks:
 
 results = await asyncio.gather(task1, task2, task3)
 Returns results in order
-========================
 Raises exception if any task fails
-==================================
 ::
 
 
@@ -444,16 +430,13 @@ Raises exception if any task fails
 
 done, pending = await asyncio.wait([task1, task2, task3])
 Returns sets of done and pending tasks
-======================================
 More complex to use
-===================
 ::
 
 
 ---
 
 CPU-bound vs I/O-bound Operations
----------------------------------
 
 CPU-bound Operations
 ~~~~~~~~~~~~~~~~~~~~
@@ -487,7 +470,6 @@ def count(number):
     return i * number
 
 Use ProcessPoolExecutor for CPU-bound tasks
-===========================================
 with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
     for item in number_list:
         executor.submit(evaluate, item)
@@ -530,7 +512,6 @@ Comparison Table:
 ~~~~~~~~~~~~~~~~~
 
 | Aspect | CPU-bound | I/O-bound |
-|--------|-----------|-----------|
 | **Bottleneck** | CPU processing | Waiting for I/O |
 | **CPU Usage** | High (100%) | Low (often idle) |
 | **Best Solution** | Multiprocessing | Asyncio / Threading |
@@ -545,7 +526,6 @@ Some applications have both:
 .. code-block:: python
 
 Combine approaches:
-===================
 async def process_data():
     # I/O: Fetch data asynchronously
     data = await fetch_from*api()
@@ -562,7 +542,6 @@ async def process_data():
 ---
 
 Python 3.12 Migration Changes
------------------------------
 
 This section summarizes all deprecated features replaced during migration.
 
@@ -576,7 +555,6 @@ This section summarizes all deprecated features replaced during migration.
 
 start = time.clock()
 ... work ...
-============
 elapsed = time.clock() - start
 ::
 
@@ -586,7 +564,6 @@ elapsed = time.clock() - start
 
 start = time.perf_counter()
 ... work ...
-============
 elapsed = time.perf_counter() - start
 ::
 
@@ -797,7 +774,6 @@ Quick Reference Guide
 ~~~~~~~~~~~~~~~~~~~~~
 
 | Task Type | Best Solution | Example Script |
-|-----------|--------------|----------------|
 | CPU-intensive | ProcessPoolExecutor | Script 06 |
 | I/O-intensive | Asyncio | Scripts 07-10 |
 | Mixed workload | Asyncio + ProcessPool | - |

@@ -1,5 +1,4 @@
 Tutorial 10: Block Scaled Matrix Multiplication
-===============================================
 
 Overview
 --------
@@ -22,7 +21,6 @@ This tutorial supports **four quantization formats**:
 - **AMD**: CDNA4 architecture (MI300 series) with scaled MFMA instructions
 
 Key Concepts
-------------
 
 Block Scaling Fundamentals
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,7 +55,6 @@ Quantization Formats
 ~~~~~~~~~~~~~~~~~~~~
 
 | Format | Bits/elem | Vec Size | Hardware | Notes |
-|--------|-----------|----------|----------|-------|
 | nvfp4 | 4 | 16 | NVIDIA Blackwell | Proprietary, optimized for NVIDIA |
 | mxfp4 | 4 | 32 | NVIDIA/AMD | OCP standard, better portability |
 | mxfp8 | 8 | 32 | NVIDIA/AMD | Higher precision, still efficient |
@@ -87,7 +84,6 @@ Plus scale factors:
 - FP4 + scales: 32 MB + 2 MB = 34 MB (73% reduction)
 
 Scale Preshuffling (NVIDIA)
----------------------------
 
 Why Preshuffling?
 ~~~~~~~~~~~~~~~~~
@@ -97,14 +93,10 @@ Tensor cores load scales in specific patterns. To avoid non-contiguous access, s
 .. code-block:: python
 
 Original linear layout: [M, K // VEC_SIZE]
-==========================================
 Each row has K // VEC_SIZE scales
-=================================
 
 Preshuffled layout: [M // 128, K // VEC_SIZE // 4, 32, 4, 4]
-============================================================
 Organized for 128-element blocks along M
-========================================
 ::
 
 
@@ -138,24 +130,19 @@ Inside the kernel:
 .. code-block:: python
 
 Load in 5D preshuffled format
-=============================
 scale_a = a_scale*desc.load([0, offs_scale*m, offs_scale*k, 0, 0])
 
 Reshape to 5D
-=============
 scale_a = scale_a.reshape(rep_m, rep_k, 32, 4, 4)
 
 Transpose to logical 2D layout
-==============================
 scale_a = scale_a.trans(0, 3, 2, 1, 4).reshape(BLOCK_M, BLOCK_K // VEC_SIZE)
 
 Now ready for tl.dot_scaled
-===========================
 ::
 
 
 Scale Preshuffling (AMD CDNA4)
-------------------------------
 
 MFMA Scale Organization
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,7 +198,6 @@ With shuffling:
 - Lower LDS (shared memory) pressure
 
 Code Walkthrough
-----------------
 
 1. NVIDIA Kernel (TMA-based)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -397,7 +383,6 @@ def block_scaled*matmul_kernel*cdna4(
 - E8M0 scale format (exponent-only, 8 bits)
 
 Initialization and Setup
-------------------------
 
 NVIDIA Version
 ~~~~~~~~~~~~~~
@@ -481,7 +466,6 @@ def initialize_block*scaled_amd(M, N, K, mfma_nonkdim):
 
 
 Performance Characteristics
----------------------------
 
 Theoretical Speedup
 ~~~~~~~~~~~~~~~~~~~
@@ -519,7 +503,6 @@ From benchmarking on H100:
 - Memory vs compute bound (FP4 helps more when memory-bound)
 
 Numerical Considerations
-------------------------
 
 Quantization Error
 ~~~~~~~~~~~~~~~~~~
@@ -527,11 +510,8 @@ Quantization Error
 .. code-block:: python
 
 FP16 range: +/-65504, ~3 decimal digits
-=====================================
 FP8 (E4M3) range: +/-448, ~2 decimal digits
-=========================================
 FP4 (E2M1) range: +/-6, ~1 decimal digit
-======================================
 ::
 
 
@@ -539,11 +519,9 @@ FP4 (E2M1) range: +/-6, ~1 decimal digit
 .. code-block:: python
 
 Without scaling:
-================
 fp4_val = quantize_fp16*to_fp4(1234.5)  # Overflow!
 
 With scaling:
-=============
 scale = 1234.5 / 6.0  # ~205
 fp4_val = quantize_fp16*to_fp4(1234.5 / scale)  # ~ 6
 reconstructed = fp4_val * scale  # ~ 1234.5
@@ -564,11 +542,8 @@ def e8m0_to*f32(x):
 Example:
 ========
 x = 135 -> 2^(135-127) = 2^8 = 256
-=================================
 x = 127 -> 2^0 = 1
-=================
 x = 119 -> 2^(-8) = 0.00390625
-=============================
 ::
 
 
@@ -579,7 +554,6 @@ x = 119 -> 2^(-8) = 0.00390625
 - Exact representation for power-of-2 scales
 
 Usage Examples
---------------
 
 Command-line Benchmarking
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -595,11 +569,9 @@ NVIDIA FP8
 python 10-block-scaled-matmul.py --format mxfp8 --K 4096 --bench
 
 AMD MXFP4 (automatic detection)
-===============================
 python 10-block-scaled-matmul.py --format mxfp4 --bench
 
 Mixed precision
-===============
 python 10-block-scaled-matmul.py --format mixed --K_range 2048 8192 --K_step 2048
 ::
 
@@ -613,22 +585,17 @@ NVIDIA
 ======
 validate_block*scaled(8192, 8192, 8192, block_scale*type="nvfp4")
 [[OK]] (pass nvfp4)
-==============
 
 AMD with both MFMA shapes
-=========================
 validate_block*scaled_amd(8192, 8192, 8192, block_scale*type="mxfp4", mfma_nonkdim=16)
 [[OK]] (pass mxfp4, mfma_nonk*dim 16)
-================================
 
 validate_block*scaled_amd(8192, 8192, 8192, block_scale*type="mxfp4", mfma_nonkdim=32)
 [[OK]] (pass mxfp4, mfma_nonk*dim 32)
-================================
 ::
 
 
 Common Pitfalls
----------------
 
 1. Unsupported Hardware
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -651,7 +618,6 @@ def supports_block*scaling():
 .. code-block:: python
 
 Bad: Using AMD kernel with NVIDIA formats
-=========================================
 if is_hip*cdna4():
     assert args.format == "mxfp4", "AMD only supports mxfp4"
 ::
@@ -663,11 +629,9 @@ if is_hip*cdna4():
 .. code-block:: python
 
 Scales must match data dimensions
-=================================
 assert a_scale.shape == [M // 128, K // VEC_SIZE // 4, 32, 16]
 
 After packing to 5D
-===================
 assert a_scale.shape == [1, M // 128, K // VEC_SIZE // 4, 2, 256]
 ::
 

@@ -1,12 +1,10 @@
 Matrix Multiplication in Triton
-===============================
 
 Overview
 --------
 Matrix multiplication (GEMM: General Matrix Multiply) is the cornerstone of deep learning. This tutorial shows how to write a high-performance matmul kernel that rivals cuBLAS/rocBLAS. You'll learn advanced GPU optimization techniques including **tiling**, **cache optimization**, and **auto-tuning**.
 
 What You'll Learn
------------------
 - **Block-level tiling** for matrix multiplication
 - **Multi-dimensional pointer arithmetic**
 - **L2 cache optimization** through program reordering
@@ -15,7 +13,6 @@ What You'll Learn
 - **Tensor Cores** and specialized hardware
 
 The Matrix Multiplication Problem
----------------------------------
 
 Basic Algorithm
 ~~~~~~~~~~~~~~~
@@ -47,7 +44,6 @@ Why It's Hard to Optimize
 **Our goal**: Achieve 10+ TFLOPS (Tera-FLOPs, trillions of operations per second)!
 
 GPU Matrix Multiplication Strategy
-----------------------------------
 
 Blocked Algorithm
 ~~~~~~~~~~~~~~~~~
@@ -56,7 +52,6 @@ Instead of computing one element at a time, we compute **blocks** of C:
 .. code-block:: python
 
 Pseudocode for our kernel
-=========================
 for m in range(0, M, BLOCK_M):           # Parallel on GPU
     for n in range(0, N, BLOCK_N):       # Parallel on GPU
         accumulator = zeros(BLOCK_M, BLOCK_N)
@@ -95,7 +90,6 @@ HBM/Global Memory (slowest, ~400 cycles, 40-80 GB)
 **Data reuse** = fewer slow memory accesses!
 
 Pointer Arithmetic in 2D
-------------------------
 
 Understanding Strides
 ~~~~~~~~~~~~~~~~~~~~~
@@ -149,7 +143,6 @@ offs_am[:, None] = [[0],   # shape (2, 1)
 offs_k[None, :] = [[0, 1]]  # shape (1, 2)
 
 Broadcasting multiplication:
-============================
 offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak
 = [[0*stride_am + 0*stride_ak, 0*stride_am + 1*stride_ak],
    [1*stride_am + 0*stride_ak, 1*stride_am + 1*stride_ak]]
@@ -172,7 +165,6 @@ b_ptrs += BLOCK_K * stride_bk
 This shifts all pointers in the block by BLOCK_K positions in the K dimension.
 
 L2 Cache Optimization
----------------------
 
 The Problem with Row-Major Ordering
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -228,7 +220,6 @@ Needs to load: 54 unique blocks into SRAM
 **Savings**: 40% fewer loads from HBM! This can improve performance by 10-20%.
 
 Auto-Tuning
------------
 
 The Configuration Space
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -301,7 +292,6 @@ Good Configurations
 - Tensor Cores process 4x more data per cycle
 
 The Kernel Implementation
--------------------------
 
 Step 1: Compute Program IDs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -389,7 +379,6 @@ tl.store(c_ptrs, c, mask=c_mask)
 **Masking** ensures we don't write out of bounds.
 
 Tensor Cores
-------------
 
 What Are Tensor Cores?
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -435,7 +424,6 @@ When you use ``tl.dot()`` with appropriate types and sizes, Triton automatically
 - Block sizes that are multiples of Tensor Core dimensions (usually 16)
 
 Performance Analysis
---------------------
 
 Arithmetic Intensity
 ~~~~~~~~~~~~~~~~~~~~
@@ -496,7 +484,6 @@ Expected Performance
 - Pipeline stalls
 
 Advanced Optimizations
-----------------------
 
 Software Pipelining
 ~~~~~~~~~~~~~~~~~~~
@@ -578,7 +565,6 @@ If too many registers -> fewer blocks per SM -> lower occupancy -> lower perform
 **Balance**: Larger blocks = more reuse but more register pressure.
 
 Common Pitfalls
----------------
 
 1. Non-Contiguous Tensors
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -626,7 +612,6 @@ Using FP16 for accumulation -> loss of precision -> degraded accuracy.
 **Best practice**: Accumulate in FP32, cast to FP16 for storage.
 
 Benchmarking Tips
------------------
 
 1. Warm-up
 ~~~~~~~~~~
@@ -675,7 +660,6 @@ Performance varies with size:
 - Large: Compute-bound, approaching peak
 
 Key Takeaways
--------------
 
 1. **Tiling/Blocking is essential**: Reuse data in fast SRAM
 2. **Pointer arithmetic**: Understanding strides is crucial for multi-dimensional arrays

@@ -19,710 +19,767 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \babel@aux{english}{}
-\newlabel{index::doc}{{}{1}{}{section*.2}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}What is Concurrent Programming?}{3}{chapter.1}\protected@file@percent }
+\newlabel{index::doc}{{}{3}{}{section*.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Parallelism}{5}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{index:what-is-concurrent-programming}{{1}{3}{What is Concurrent Programming?}{chapter.1}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Who This Guide Is For}{5}{chapter.2}\protected@file@percent }
+\newlabel{cpu-concurrency/key_concepts:parallelism}{{1}{5}{Parallelism}{chapter.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Visual Comparison}{7}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{index:who-this-guide-is-for}{{2}{5}{Who This Guide Is For}{chapter.2}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Prerequisites}{7}{chapter.3}\protected@file@percent }
+\newlabel{cpu-concurrency/key_concepts:visual-comparison}{{2}{7}{Visual Comparison}{chapter.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Threading (concurrent.futures.ThreadPoolExecutor)}{9}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{index:prerequisites}{{3}{7}{Prerequisites}{chapter.3}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Getting Started}{9}{chapter.4}\protected@file@percent }
+\newlabel{cpu-concurrency/key_concepts:threading-concurrent-futures-threadpoolexecutor}{{3}{9}{Threading (concurrent.futures.ThreadPoolExecutor)}{chapter.3}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Multiprocessing (concurrent.futures.ProcessPoolExecutor)}{11}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{index:getting-started}{{4}{9}{Getting Started}{chapter.4}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Documentation Structure}{11}{chapter.5}\protected@file@percent }
+\newlabel{cpu-concurrency/key_concepts:multiprocessing-concurrent-futures-processpoolexecutor}{{4}{11}{Multiprocessing (concurrent.futures.ProcessPoolExecutor)}{chapter.4}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}When to Use What}{13}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{index:documentation-structure}{{5}{11}{Documentation Structure}{chapter.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Key Concepts in Concurrent Programming}{11}{section.5.1}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:key-concepts-in-concurrent-programming}{{5.1}{11}{Key Concepts in Concurrent Programming}{section.5.1}{}}
-\newlabel{cpu-concurrency/key_concepts::doc}{{5.1}{11}{Key Concepts in Concurrent Programming}{section.5.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Table of Contents}{11}{subsection.5.1.1}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:table-of-contents}{{5.1.1}{11}{Table of Contents}{subsection.5.1.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Concurrency vs Parallelism}{11}{subsection.5.1.2}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:id1}{{5.1.2}{11}{Concurrency vs Parallelism}{subsection.5.1.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Concurrency}{11}{subsubsection*.3}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:concurrency}{{5.1.2}{11}{Concurrency}{subsubsection*.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Parallelism}{11}{subsubsection*.4}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:parallelism}{{5.1.2}{11}{Parallelism}{subsubsection*.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Visual Comparison}{12}{subsubsection*.5}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:visual-comparison}{{5.1.2}{12}{Visual Comparison}{subsubsection*.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Threading vs Multiprocessing}{12}{subsection.5.1.3}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:id2}{{5.1.3}{12}{Threading vs Multiprocessing}{subsection.5.1.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Threading (concurrent.futures.ThreadPoolExecutor)}{12}{subsubsection*.6}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:threading-concurrent-futures-threadpoolexecutor}{{5.1.3}{12}{Threading (concurrent.futures.ThreadPoolExecutor)}{subsubsection*.6}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Multiprocessing (concurrent.futures.ProcessPoolExecutor)}{12}{subsubsection*.7}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:multiprocessing-concurrent-futures-processpoolexecutor}{{5.1.3}{12}{Multiprocessing (concurrent.futures.ProcessPoolExecutor)}{subsubsection*.7}{}}
-\@writefile{toc}{\contentsline {subsubsection}{When to Use What}{12}{subsubsection*.8}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:when-to-use-what}{{5.1.3}{12}{When to Use What}{subsubsection*.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}The Global Interpreter Lock (GIL)}{13}{subsection.5.1.4}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:id3}{{5.1.4}{13}{The Global Interpreter Lock (GIL)}{subsection.5.1.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{What is the GIL?}{13}{subsubsection*.9}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:what-is-the-gil}{{5.1.4}{13}{What is the GIL?}{subsubsection*.9}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Key Points:}{13}{subsubsection*.10}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:key-points}{{5.1.4}{13}{Key Points:}{subsubsection*.10}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Impact on Performance:}{13}{subsubsection*.11}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:impact-on-performance}{{5.1.4}{13}{Impact on Performance:}{subsubsection*.11}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}With GIL, threads don’t help CPU\sphinxhyphen {}bound tasks:}{13}{section.5.2}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:with-gil-threads-don-t-help-cpu-bound-tasks}{{5.2}{13}{With GIL, threads don’t help CPU\sphinxhyphen {}bound tasks:}{section.5.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}GIL is released during I/O, so threading helps:}{13}{section.5.3}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:gil-is-released-during-i-o-so-threading-helps}{{5.3}{13}{GIL is released during I/O, so threading helps:}{section.5.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Asyncio and Event Loops}{13}{subsection.5.3.1}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:id4}{{5.3.1}{13}{Asyncio and Event Loops}{subsection.5.3.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Event Loop}{13}{subsubsection*.12}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:event-loop}{{5.3.1}{13}{Event Loop}{subsubsection*.12}{}}
-\@writefile{toc}{\contentsline {subsubsection}{How It Works (from script 07):}{14}{subsubsection*.13}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:how-it-works-from-script-07}{{5.3.1}{14}{How It Works (from script 07):}{subsubsection*.13}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Event Loop Lifecycle:}{14}{subsubsection*.14}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:event-loop-lifecycle}{{5.3.1}{14}{Event Loop Lifecycle:}{subsubsection*.14}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Modern vs Old Patterns:}{14}{subsubsection*.15}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:modern-vs-old-patterns}{{5.3.1}{14}{Modern vs Old Patterns:}{subsubsection*.15}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Coroutines}{14}{subsection.5.3.2}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:id5}{{5.3.2}{14}{Coroutines}{subsection.5.3.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{What are Coroutines?}{14}{subsubsection*.16}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:what-are-coroutines}{{5.3.2}{14}{What are Coroutines?}{subsubsection*.16}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Defining Coroutines:}{14}{subsubsection*.17}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:defining-coroutines}{{5.3.2}{14}{Defining Coroutines:}{subsubsection*.17}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Key Features:}{15}{subsubsection*.18}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:key-features}{{5.3.2}{15}{Key Features:}{subsubsection*.18}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Example from Script 08:}{15}{subsubsection*.19}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:example-from-script-08}{{5.3.2}{15}{Example from Script 08:}{subsubsection*.19}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Execution Flow:}{15}{subsubsection*.20}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:execution-flow}{{5.3.2}{15}{Execution Flow:}{subsubsection*.20}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Important Rules:}{15}{subsubsection*.21}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:important-rules}{{5.3.2}{15}{Important Rules:}{subsubsection*.21}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Tasks and Futures}{16}{subsection.5.3.3}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:id6}{{5.3.3}{16}{Tasks and Futures}{subsection.5.3.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Tasks}{16}{subsubsection*.22}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:tasks}{{5.3.3}{16}{Tasks}{subsubsection*.22}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Task Characteristics:}{16}{subsubsection*.23}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:task-characteristics}{{5.3.3}{16}{Task Characteristics:}{subsubsection*.23}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Example from Script 09:}{16}{subsubsection*.24}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:example-from-script-09}{{5.3.3}{16}{Example from Script 09:}{subsubsection*.24}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Futures}{16}{subsubsection*.25}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:futures}{{5.3.3}{16}{Futures}{subsubsection*.25}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Waiting for Multiple Tasks:}{17}{subsubsection*.26}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:waiting-for-multiple-tasks}{{5.3.3}{17}{Waiting for Multiple Tasks:}{subsubsection*.26}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}CPU\sphinxhyphen {}bound vs I/O\sphinxhyphen {}bound Operations}{17}{subsection.5.3.4}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:id9}{{5.3.4}{17}{CPU\sphinxhyphen {}bound vs I/O\sphinxhyphen {}bound Operations}{subsection.5.3.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{CPU\sphinxhyphen {}bound Operations}{17}{subsubsection*.27}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:cpu-bound-operations}{{5.3.4}{17}{CPU\sphinxhyphen {}bound Operations}{subsubsection*.27}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Use ProcessPoolExecutor for CPU\sphinxhyphen {}bound tasks}{17}{section.5.4}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:use-processpoolexecutor-for-cpu-bound-tasks}{{5.4}{17}{Use ProcessPoolExecutor for CPU\sphinxhyphen {}bound tasks}{section.5.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Combine approaches:}{18}{section.5.5}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:combine-approaches}{{5.5}{18}{Combine approaches:}{section.5.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Python 3.12 Migration Changes}{18}{subsection.5.5.1}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:id10}{{5.5.1}{18}{Python 3.12 Migration Changes}{subsection.5.5.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{1. Time Measurement (\sphinxstyleliteralintitle {\sphinxupquote {time.clock()}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {time.perf\_counter()}})}{18}{subsubsection*.28}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:time-measurement-time-clock-time-perf-counter}{{5.5.1}{18}{1. Time Measurement (\sphinxstyleliteralintitle {\sphinxupquote {time.clock()}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {time.perf\_counter()}})}{subsubsection*.28}{}}
-\@writefile{toc}{\contentsline {subsubsection}{2. Coroutine Syntax (\sphinxstyleliteralintitle {\sphinxupquote {@asyncio.coroutine}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {async def}})}{18}{subsubsection*.29}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:coroutine-syntax-asyncio-coroutine-async-def}{{5.5.1}{18}{2. Coroutine Syntax (\sphinxstyleliteralintitle {\sphinxupquote {@asyncio.coroutine}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {async def}})}{subsubsection*.29}{}}
-\@writefile{toc}{\contentsline {subsubsection}{3. Task Creation (\sphinxstyleliteralintitle {\sphinxupquote {asyncio.Task()}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {asyncio.create\_task()}})}{19}{subsubsection*.30}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:task-creation-asyncio-task-asyncio-create-task}{{5.5.1}{19}{3. Task Creation (\sphinxstyleliteralintitle {\sphinxupquote {asyncio.Task()}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {asyncio.create\_task()}})}{subsubsection*.30}{}}
-\@writefile{toc}{\contentsline {subsubsection}{4. Event Loop Management}{19}{subsubsection*.31}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:event-loop-management}{{5.5.1}{19}{4. Event Loop Management}{subsubsection*.31}{}}
-\@writefile{toc}{\contentsline {subsubsection}{5. Future Callbacks (Callbacks \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {await}})}{20}{subsubsection*.32}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:future-callbacks-callbacks-await}{{5.5.1}{20}{5. Future Callbacks (Callbacks \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {await}})}{subsubsection*.32}{}}
-\@writefile{toc}{\contentsline {subsubsection}{6. Blocking Calls in Async Code}{20}{subsubsection*.33}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:blocking-calls-in-async-code}{{5.5.1}{20}{6. Blocking Calls in Async Code}{subsubsection*.33}{}}
-\@writefile{toc}{\contentsline {subsubsection}{7. String Formatting (\sphinxstyleliteralintitle {\sphinxupquote {\%}} \sphinxhyphen {}\textgreater {} f\sphinxhyphen {}strings)}{21}{subsubsection*.34}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:string-formatting-f-strings}{{5.5.1}{21}{7. String Formatting (\sphinxstyleliteralintitle {\sphinxupquote {\%}} \sphinxhyphen {}\textgreater {} f\sphinxhyphen {}strings)}{subsubsection*.34}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Migration Checklist}{21}{subsubsection*.35}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:migration-checklist}{{5.5.1}{21}{Migration Checklist}{subsubsection*.35}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Compatibility}{21}{subsubsection*.36}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:compatibility}{{5.5.1}{21}{Compatibility}{subsubsection*.36}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Summary}{21}{subsection.5.5.2}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:summary}{{5.5.2}{21}{Summary}{subsection.5.5.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Quick Reference Guide}{21}{subsubsection*.37}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:quick-reference-guide}{{5.5.2}{21}{Quick Reference Guide}{subsubsection*.37}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Key Takeaways}{22}{subsubsection*.38}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:key-takeaways}{{5.5.2}{22}{Key Takeaways}{subsubsection*.38}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Further Reading}{22}{subsubsection*.39}\protected@file@percent }
-\newlabel{cpu-concurrency/key_concepts:further-reading}{{5.5.2}{22}{Further Reading}{subsubsection*.39}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.6}Hardware Parallelism: Cores, Hyperthreading, and GPUs}{22}{section.5.6}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:hardware-parallelism-cores-hyperthreading-and-gpus}{{5.6}{22}{Hardware Parallelism: Cores, Hyperthreading, and GPUs}{section.5.6}{}}
-\newlabel{cpu-concurrency/hardware_parallelism::doc}{{5.6}{22}{Hardware Parallelism: Cores, Hyperthreading, and GPUs}{section.5.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Table of Contents}{22}{subsection.5.6.1}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:table-of-contents}{{5.6.1}{22}{Table of Contents}{subsection.5.6.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Physical Cores vs Logical Cores}{22}{subsection.5.6.2}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id1}{{5.6.2}{22}{Physical Cores vs Logical Cores}{subsection.5.6.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Physical Cores}{22}{subsubsection*.40}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:physical-cores}{{5.6.2}{22}{Physical Cores}{subsubsection*.40}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Logical Cores}{23}{subsubsection*.41}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:logical-cores}{{5.6.2}{23}{Logical Cores}{subsubsection*.41}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.7}Check on your system}{23}{section.5.7}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:check-on-your-system}{{5.7}{23}{Check on your system}{section.5.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7.1}What is Hyperthreading?}{23}{subsection.5.7.1}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id2}{{5.7.1}{23}{What is Hyperthreading?}{subsection.5.7.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{The Concept}{23}{subsubsection*.42}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:the-concept}{{5.7.1}{23}{The Concept}{subsubsection*.42}{}}
-\@writefile{toc}{\contentsline {subsubsection}{How It Works}{23}{subsubsection*.43}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:how-it-works}{{5.7.1}{23}{How It Works}{subsubsection*.43}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Technical Implementation}{24}{subsubsection*.44}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:technical-implementation}{{5.7.1}{24}{Technical Implementation}{subsubsection*.44}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Performance Characteristics}{24}{subsubsection*.45}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:performance-characteristics}{{5.7.1}{24}{Performance Characteristics}{subsubsection*.45}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Hyperthreading Limitations}{24}{subsubsection*.46}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:hyperthreading-limitations}{{5.7.1}{24}{Hyperthreading Limitations}{subsubsection*.46}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Checking Hyperthreading Status}{24}{subsubsection*.47}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:checking-hyperthreading-status}{{5.7.1}{24}{Checking Hyperthreading Status}{subsubsection*.47}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.8}Check if HT is enabled}{24}{section.5.8}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:check-if-ht-is-enabled}{{5.8}{24}{Check if HT is enabled}{section.5.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.9}Or check CPU info}{25}{section.5.9}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:or-check-cpu-info}{{5.9}{25}{Or check CPU info}{section.5.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.10}Logical cores}{25}{section.5.10}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id3}{{5.10}{25}{Logical cores}{section.5.10}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.11}Physical cores}{25}{section.5.11}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id4}{{5.11}{25}{Physical cores}{section.5.11}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.12}If logical \textgreater {} physical, HT is enabled}{25}{section.5.12}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:if-logical-physical-ht-is-enabled}{{5.12}{25}{If logical \textgreater {} physical, HT is enabled}{section.5.12}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.13}Platform\sphinxhyphen {}specific physical core detection}{25}{section.5.13}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:platform-specific-physical-core-detection}{{5.13}{25}{Platform\sphinxhyphen {}specific physical core detection}{section.5.13}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.13.1}How Threading is Bounded by Physical Cores}{26}{subsection.5.13.1}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id5}{{5.13.1}{26}{How Threading is Bounded by Physical Cores}{subsection.5.13.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{The Fundamental Constraint}{26}{subsubsection*.48}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:the-fundamental-constraint}{{5.13.1}{26}{The Fundamental Constraint}{subsubsection*.48}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Why More Threads != More Speed}{26}{subsubsection*.49}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:why-more-threads-more-speed}{{5.13.1}{26}{Why More Threads != More Speed}{subsubsection*.49}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.14}Benchmark: Computing sum of squares}{27}{section.5.14}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:benchmark-computing-sum-of-squares}{{5.14}{27}{Benchmark: Computing sum of squares}{section.5.14}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.15}Results on 4\sphinxhyphen {}core CPU:}{27}{section.5.15}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:results-on-4-core-cpu}{{5.15}{27}{Results on 4\sphinxhyphen {}core CPU:}{section.5.15}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.16}1 worker: 10.0s (baseline)}{27}{section.5.16}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:worker-10-0s-baseline}{{5.16}{27}{1 worker: 10.0s (baseline)}{section.5.16}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.17}2 workers: 5.1s (1.96x speedup) {[}{[}OK{]}{]}}{27}{section.5.17}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:workers-5-1s-1-96x-speedup-ok}{{5.17}{27}{2 workers: 5.1s (1.96x speedup) {[}{[}OK{]}{]}}{section.5.17}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.18}4 workers: 2.6s (3.85x speedup) {[}{[}OK{]}{]}}{27}{section.5.18}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:workers-2-6s-3-85x-speedup-ok}{{5.18}{27}{4 workers: 2.6s (3.85x speedup) {[}{[}OK{]}{]}}{section.5.18}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.19}8 workers: 2.8s (3.57x speedup) {[}warning{]} (worse than 4!)}{27}{section.5.19}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:workers-2-8s-3-57x-speedup-warning-worse-than-4}{{5.19}{27}{8 workers: 2.8s (3.57x speedup) {[}warning{]} (worse than 4!)}{section.5.19}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.20}16 workers: 3.2s (3.13x speedup) {[}{[}FAIL{]}{]} (much worse!)}{27}{section.5.20}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:workers-3-2s-3-13x-speedup-fail-much-worse}{{5.20}{27}{16 workers: 3.2s (3.13x speedup) {[}{[}FAIL{]}{]} (much worse!)}{section.5.20}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.21}Best practice:}{28}{section.5.21}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:best-practice}{{5.21}{28}{Best practice:}{section.5.21}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.22}Conservative (recommended for production):}{28}{section.5.22}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:conservative-recommended-for-production}{{5.22}{28}{Conservative (recommended for production):}{section.5.22}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.23}Or detect actual physical cores:}{28}{section.5.23}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:or-detect-actual-physical-cores}{{5.23}{28}{Or detect actual physical cores:}{section.5.23}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.24}Matrix multiplication (CPU\sphinxhyphen {}intensive)}{28}{section.5.24}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:matrix-multiplication-cpu-intensive}{{5.24}{28}{Matrix multiplication (CPU\sphinxhyphen {}intensive)}{section.5.24}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.25}Test on 4\sphinxhyphen {}core CPU:}{28}{section.5.25}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:test-on-4-core-cpu}{{5.25}{28}{Test on 4\sphinxhyphen {}core CPU:}{section.5.25}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.26}Typical output:}{29}{section.5.26}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:typical-output}{{5.26}{29}{Typical output:}{section.5.26}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.27}Workers | Time | Speedup | Efficiency}{29}{section.5.27}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:workers-time-speedup-efficiency}{{5.27}{29}{Workers | Time | Speedup | Efficiency}{section.5.27}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.28}——\textendash {}{\color  {red}\bfseries  {}|\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}|}———{\color  {red}\bfseries  {}|}————}{29}{section.5.28}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id18}{{5.28}{29}{——\textendash {}{\color {red}\bfseries {}|\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}\sphinxhyphen {}|}———{\color {red}\bfseries {}|}————}{section.5.28}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.28.1}Why GPUs Excel at Parallel Computing}{29}{subsection.5.28.1}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id19}{{5.28.1}{29}{Why GPUs Excel at Parallel Computing}{subsection.5.28.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{CPU vs GPU: Different Design Philosophies}{29}{subsubsection*.50}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:cpu-vs-gpu-different-design-philosophies}{{5.28.1}{29}{CPU vs GPU: Different Design Philosophies}{subsubsection*.50}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Key Differences}{30}{subsubsection*.51}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:key-differences}{{5.28.1}{30}{Key Differences}{subsubsection*.51}{}}
-\@writefile{toc}{\contentsline {subsubsection}{SIMD and GPU Architecture}{30}{subsubsection*.52}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:simd-and-gpu-architecture}{{5.28.1}{30}{SIMD and GPU Architecture}{subsubsection*.52}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Why GPUs Excel at Compute\sphinxhyphen {}Intensive Tasks}{30}{subsubsection*.53}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:why-gpus-excel-at-compute-intensive-tasks}{{5.28.1}{30}{Why GPUs Excel at Compute\sphinxhyphen {}Intensive Tasks}{subsubsection*.53}{}}
-\@writefile{toc}{\contentsline {paragraph}{1. Massive Parallelism}{30}{paragraph*.54}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:massive-parallelism}{{5.28.1}{30}{1. Massive Parallelism}{paragraph*.54}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.29}CPU approach (4 cores):}{31}{section.5.29}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:cpu-approach-4-cores}{{5.29}{31}{CPU approach (4 cores):}{section.5.29}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.30}Split into 4 chunks of 250,000 each}{31}{section.5.30}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:split-into-4-chunks-of-250-000-each}{{5.30}{31}{Split into 4 chunks of 250,000 each}{section.5.30}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.31}Each core processes 250,000 additions sequentially}{31}{section.5.31}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:each-core-processes-250-000-additions-sequentially}{{5.31}{31}{Each core processes 250,000 additions sequentially}{section.5.31}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.32}GPU approach (16,384 cores):}{31}{section.5.32}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:gpu-approach-16-384-cores}{{5.32}{31}{GPU approach (16,384 cores):}{section.5.32}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.33}Split into 16,384 chunks of \textasciitilde {}61 each}{31}{section.5.33}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:split-into-16-384-chunks-of-61-each}{{5.33}{31}{Split into 16,384 chunks of \textasciitilde {}61 each}{section.5.33}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.34}Each core processes \textasciitilde {}61 additions}{31}{section.5.34}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:each-core-processes-61-additions}{{5.34}{31}{Each core processes \textasciitilde {}61 additions}{section.5.34}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.34.1}CPU vs GPU Architecture}{33}{subsection.5.34.1}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id40}{{5.34.1}{33}{CPU vs GPU Architecture}{subsection.5.34.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Silicon Real Estate Comparison}{33}{subsubsection*.55}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:silicon-real-estate-comparison}{{5.34.1}{33}{Silicon Real Estate Comparison}{subsubsection*.55}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Performance Comparison}{33}{subsubsection*.56}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:performance-comparison}{{5.34.1}{33}{Performance Comparison}{subsubsection*.56}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.35}Generate random matrices}{33}{section.5.35}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:generate-random-matrices}{{5.35}{33}{Generate random matrices}{section.5.35}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.36}CPU (NumPy with optimized BLAS)}{33}{section.5.36}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:cpu-numpy-with-optimized-blas}{{5.36}{33}{CPU (NumPy with optimized BLAS)}{section.5.36}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.37}GPU (using CuPy \sphinxhyphen {} CUDA arrays)}{33}{section.5.37}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:gpu-using-cupy-cuda-arrays}{{5.37}{33}{GPU (using CuPy \sphinxhyphen {} CUDA arrays)}{section.5.37}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.38}Typical results:}{33}{section.5.38}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:typical-results}{{5.38}{33}{Typical results:}{section.5.38}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.39}CPU time: 0.850s (Intel i9, 8 cores)}{33}{section.5.39}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:cpu-time-0-850s-intel-i9-8-cores}{{5.39}{33}{CPU time: 0.850s (Intel i9, 8 cores)}{section.5.39}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.40}GPU time: 0.012s (NVIDIA RTX 4090)}{33}{section.5.40}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:gpu-time-0-012s-nvidia-rtx-4090}{{5.40}{33}{GPU time: 0.012s (NVIDIA RTX 4090)}{section.5.40}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.41}Speedup: 70.8x}{33}{section.5.41}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:speedup-70-8x}{{5.41}{33}{Speedup: 70.8x}{section.5.41}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.41.1}When to Use What}{34}{subsection.5.41.1}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id41}{{5.41.1}{34}{When to Use What}{subsection.5.41.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Decision Matrix}{34}{subsubsection*.57}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:decision-matrix}{{5.41.1}{34}{Decision Matrix}{subsubsection*.57}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Practical Guidelines}{34}{subsubsection*.58}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:practical-guidelines}{{5.41.1}{34}{Practical Guidelines}{subsubsection*.58}{}}
-\@writefile{toc}{\contentsline {paragraph}{Use CPU When:}{34}{paragraph*.59}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:use-cpu-when}{{5.41.1}{34}{Use CPU When:}{paragraph*.59}{}}
-\@writefile{toc}{\contentsline {paragraph}{Use GPU When:}{35}{paragraph*.60}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:use-gpu-when}{{5.41.1}{35}{Use GPU When:}{paragraph*.60}{}}
-\@writefile{toc}{\contentsline {paragraph}{Use Hyperthreading When:}{35}{paragraph*.61}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:use-hyperthreading-when}{{5.41.1}{35}{Use Hyperthreading When:}{paragraph*.61}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.41.2}Practical Examples}{35}{subsection.5.41.2}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:id58}{{5.41.2}{35}{Practical Examples}{subsection.5.41.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Example 1: Image Processing}{35}{subsubsection*.62}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:example-1-image-processing}{{5.41.2}{35}{Example 1: Image Processing}{subsubsection*.62}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.42}Task: Apply Gaussian blur to 100 images (4K resolution)}{35}{section.5.42}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:task-apply-gaussian-blur-to-100-images-4k-resolution}{{5.42}{35}{Task: Apply Gaussian blur to 100 images (4K resolution)}{section.5.42}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.43}Approach 1: Sequential (CPU, 1 core)}{35}{section.5.43}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:approach-1-sequential-cpu-1-core}{{5.43}{35}{Approach 1: Sequential (CPU, 1 core)}{section.5.43}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.44}Time: \textasciitilde {}300 seconds}{36}{section.5.44}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:time-300-seconds}{{5.44}{36}{Time: \textasciitilde {}300 seconds}{section.5.44}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.45}Approach 2: CPU Multiprocessing (4 physical cores)}{36}{section.5.45}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:approach-2-cpu-multiprocessing-4-physical-cores}{{5.45}{36}{Approach 2: CPU Multiprocessing (4 physical cores)}{section.5.45}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.46}Time: \textasciitilde {}80 seconds (3.75x speedup)}{36}{section.5.46}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:time-80-seconds-3-75x-speedup}{{5.46}{36}{Time: \textasciitilde {}80 seconds (3.75x speedup)}{section.5.46}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.47}Approach 3: GPU (CUDA)}{36}{section.5.47}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:approach-3-gpu-cuda}{{5.47}{36}{Approach 3: GPU (CUDA)}{section.5.47}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.48}Time: \textasciitilde {}4 seconds (75x speedup!)}{36}{section.5.48}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:time-4-seconds-75x-speedup}{{5.48}{36}{Time: \textasciitilde {}4 seconds (75x speedup!)}{section.5.48}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.49}Task: Estimate pi using Monte Carlo (1 billion points)}{36}{section.5.49}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:task-estimate-pi-using-monte-carlo-1-billion-points}{{5.49}{36}{Task: Estimate pi using Monte Carlo (1 billion points)}{section.5.49}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.50}Sequential CPU}{36}{section.5.50}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:sequential-cpu}{{5.50}{36}{Sequential CPU}{section.5.50}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.51}CPU Multiprocessing (4 cores)}{36}{section.5.51}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:cpu-multiprocessing-4-cores}{{5.51}{36}{CPU Multiprocessing (4 cores)}{section.5.51}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.52}GPU (CUDA)}{37}{section.5.52}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:gpu-cuda}{{5.52}{37}{GPU (CUDA)}{section.5.52}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.53}Task: Train a neural network on MNIST dataset}{37}{section.5.53}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:task-train-a-neural-network-on-mnist-dataset}{{5.53}{37}{Task: Train a neural network on MNIST dataset}{section.5.53}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.54}Define simple network}{37}{section.5.54}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:define-simple-network}{{5.54}{37}{Define simple network}{section.5.54}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.55}CPU Training}{37}{section.5.55}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:cpu-training}{{5.55}{37}{CPU Training}{section.5.55}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.56}GPU Training}{37}{section.5.56}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:gpu-training}{{5.56}{37}{GPU Training}{section.5.56}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.56.1}Summary}{38}{subsection.5.56.1}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:summary}{{5.56.1}{38}{Summary}{subsection.5.56.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Core Principles}{38}{subsubsection*.63}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:core-principles}{{5.56.1}{38}{Core Principles}{subsubsection*.63}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Quick Reference}{38}{subsubsection*.64}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:quick-reference}{{5.56.1}{38}{Quick Reference}{subsubsection*.64}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Key Takeaways}{38}{subsubsection*.65}\protected@file@percent }
-\newlabel{cpu-concurrency/hardware_parallelism:key-takeaways}{{5.56.1}{38}{Key Takeaways}{subsubsection*.65}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.57}Threading Basics: start() and join()}{38}{section.5.57}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:threading-basics-start-and-join}{{5.57}{38}{Threading Basics: start() and join()}{section.5.57}{}}
-\newlabel{cpu-concurrency/threading_basics::doc}{{5.57}{38}{Threading Basics: start() and join()}{section.5.57}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.57.1}What is start()?}{38}{subsection.5.57.1}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:what-is-start}{{5.57.1}{38}{What is start()?}{subsection.5.57.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Key Points About start()}{39}{subsubsection*.66}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:key-points-about-start}{{5.57.1}{39}{Key Points About start()}{subsubsection*.66}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Example}{39}{subsubsection*.67}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:example}{{5.57.1}{39}{Example}{subsubsection*.67}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.58}Create thread object (doesn’t start yet)}{39}{section.5.58}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:create-thread-object-doesn-t-start-yet}{{5.58}{39}{Create thread object (doesn’t start yet)}{section.5.58}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.59}Call start() to actually begin execution}{39}{section.5.59}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:call-start-to-actually-begin-execution}{{5.59}{39}{Call start() to actually begin execution}{section.5.59}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.59.1}What is join()?}{39}{subsection.5.59.1}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:what-is-join}{{5.59.1}{39}{What is join()?}{subsection.5.59.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Key Points About join()}{39}{subsubsection*.68}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:key-points-about-join}{{5.59.1}{39}{Key Points About join()}{subsubsection*.68}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Example}{39}{subsubsection*.69}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:id1}{{5.59.1}{39}{Example}{subsubsection*.69}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.59.2}Comparison: With vs Without join()}{40}{subsection.5.59.2}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:comparison-with-vs-without-join}{{5.59.2}{40}{Comparison: With vs Without join()}{subsection.5.59.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{WITHOUT join() \sphinxhyphen {} DANGER!}{40}{subsubsection*.70}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:without-join-danger}{{5.59.2}{40}{WITHOUT join() \sphinxhyphen {} DANGER!}{subsubsection*.70}{}}
-\@writefile{toc}{\contentsline {subsubsection}{WITH join() \sphinxhyphen {} CORRECT!}{40}{subsubsection*.71}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:with-join-correct}{{5.59.2}{40}{WITH join() \sphinxhyphen {} CORRECT!}{subsubsection*.71}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.59.3}Thread Lifecycle Diagram}{41}{subsection.5.59.3}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:thread-lifecycle-diagram}{{5.59.3}{41}{Thread Lifecycle Diagram}{subsection.5.59.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.59.4}Typical Pattern for Multiple Threads}{41}{subsection.5.59.4}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:typical-pattern-for-multiple-threads}{{5.59.4}{41}{Typical Pattern for Multiple Threads}{subsection.5.59.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.60}Step 1: Create all threads}{41}{section.5.60}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:step-1-create-all-threads}{{5.60}{41}{Step 1: Create all threads}{section.5.60}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.61}Step 2: Wait for all to finish}{41}{section.5.61}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:step-2-wait-for-all-to-finish}{{5.61}{41}{Step 2: Wait for all to finish}{section.5.61}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.61.1}Common Mistakes}{42}{subsection.5.61.1}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:common-mistakes}{{5.61.1}{42}{Common Mistakes}{subsection.5.61.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Mistake 1: Calling the function directly instead of start()}{42}{subsubsection*.72}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:mistake-1-calling-the-function-directly-instead-of-start}{{5.61.1}{42}{Mistake 1: Calling the function directly instead of start()}{subsubsection*.72}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.62}{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} runs worker in MAIN thread}{42}{section.5.62}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:fail-wrong-runs-worker-in-main-thread}{{5.62}{42}{{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} runs worker in MAIN thread}{section.5.62}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.63}{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} runs worker in NEW thread}{42}{section.5.63}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:ok-correct-runs-worker-in-new-thread}{{5.63}{42}{{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} runs worker in NEW thread}{section.5.63}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.64}{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} main exits before worker finishes}{42}{section.5.64}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:fail-wrong-main-exits-before-worker-finishes}{{5.64}{42}{{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} main exits before worker finishes}{section.5.64}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.65}{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} wait for worker to finish}{42}{section.5.65}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:ok-correct-wait-for-worker-to-finish}{{5.65}{42}{{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} wait for worker to finish}{section.5.65}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.66}{[}{[}FAIL{]}{]} NOT SAFE \sphinxhyphen {} race condition}{42}{section.5.66}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:fail-not-safe-race-condition}{{5.66}{42}{{[}{[}FAIL{]}{]} NOT SAFE \sphinxhyphen {} race condition}{section.5.66}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.67}{[}{[}OK{]}{]} SAFE \sphinxhyphen {} use lock}{42}{section.5.67}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:ok-safe-use-lock}{{5.67}{42}{{[}{[}OK{]}{]} SAFE \sphinxhyphen {} use lock}{section.5.67}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.67.1}Practical Example: Web Scraper}{43}{subsection.5.67.1}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:practical-example-web-scraper}{{5.67.1}{43}{Practical Example: Web Scraper}{subsection.5.67.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.68}URLs to fetch}{43}{section.5.68}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:urls-to-fetch}{{5.68}{43}{URLs to fetch}{section.5.68}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.69}Create and start threads}{43}{section.5.69}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:create-and-start-threads}{{5.69}{43}{Create and start threads}{section.5.69}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.70}Wait for all to complete}{43}{section.5.70}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:wait-for-all-to-complete}{{5.70}{43}{Wait for all to complete}{section.5.70}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.70.1}Summary Table}{43}{subsection.5.70.1}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:summary-table}{{5.70.1}{43}{Summary Table}{subsection.5.70.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.70.2}Key Takeaways}{44}{subsection.5.70.2}\protected@file@percent }
-\newlabel{cpu-concurrency/threading_basics:key-takeaways}{{5.70.2}{44}{Key Takeaways}{subsection.5.70.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.71}Asyncio Event Loop}{44}{section.5.71}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:asyncio-event-loop}{{5.71}{44}{Asyncio Event Loop}{section.5.71}{}}
-\newlabel{cpu-concurrency/asyncio_event_loop::doc}{{5.71}{44}{Asyncio Event Loop}{section.5.71}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.71.1}Overview}{44}{subsection.5.71.1}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:overview}{{5.71.1}{44}{Overview}{subsection.5.71.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.71.2}File Location}{44}{subsection.5.71.2}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:file-location}{{5.71.2}{44}{File Location}{subsection.5.71.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.71.3}Key Concepts}{44}{subsection.5.71.3}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:key-concepts}{{5.71.3}{44}{Key Concepts}{subsection.5.71.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Asyncio Event Loop}{44}{subsubsection*.73}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:id1}{{5.71.3}{44}{Asyncio Event Loop}{subsubsection*.73}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Async/Await Pattern}{44}{subsubsection*.74}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:async-await-pattern}{{5.71.3}{44}{Async/Await Pattern}{subsubsection*.74}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.71.4}Code Breakdown}{44}{subsection.5.71.4}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:code-breakdown}{{5.71.4}{44}{Code Breakdown}{subsection.5.71.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Task Functions}{44}{subsubsection*.75}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:task-functions}{{5.71.4}{44}{Task Functions}{subsubsection*.75}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Main Function}{45}{subsubsection*.76}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:main-function}{{5.71.4}{45}{Main Function}{subsubsection*.76}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Entry Point}{45}{subsubsection*.77}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:entry-point}{{5.71.4}{45}{Entry Point}{subsubsection*.77}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.71.5}Python 3.12 Updates}{45}{subsection.5.71.5}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:python-3-12-updates}{{5.71.5}{45}{Python 3.12 Updates}{subsection.5.71.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Changes Made}{45}{subsubsection*.78}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:changes-made}{{5.71.5}{45}{Changes Made}{subsubsection*.78}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.71.6}Execution Flow}{45}{subsection.5.71.6}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:execution-flow}{{5.71.6}{45}{Execution Flow}{subsection.5.71.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.71.7}Usage}{46}{subsection.5.71.7}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:usage}{{5.71.7}{46}{Usage}{subsection.5.71.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.71.8}Output Example}{46}{subsection.5.71.8}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:output-example}{{5.71.8}{46}{Output Example}{subsection.5.71.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.71.9}Key Takeaways}{46}{subsection.5.71.9}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_event_loop:key-takeaways}{{5.71.9}{46}{Key Takeaways}{subsection.5.71.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.72}Asyncio Coroutine \sphinxhyphen {} Finite State Machine}{46}{section.5.72}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:asyncio-coroutine-finite-state-machine}{{5.72}{46}{Asyncio Coroutine \sphinxhyphen {} Finite State Machine}{section.5.72}{}}
-\newlabel{cpu-concurrency/asyncio_coroutine::doc}{{5.72}{46}{Asyncio Coroutine \sphinxhyphen {} Finite State Machine}{section.5.72}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.1}Overview}{46}{subsection.5.72.1}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:overview}{{5.72.1}{46}{Overview}{subsection.5.72.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.2}File Location}{46}{subsection.5.72.2}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:file-location}{{5.72.2}{46}{File Location}{subsection.5.72.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.3}Key Concepts}{46}{subsection.5.72.3}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:key-concepts}{{5.72.3}{46}{Key Concepts}{subsection.5.72.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Finite State Machine (FSM)}{46}{subsubsection*.79}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:finite-state-machine-fsm}{{5.72.3}{46}{Finite State Machine (FSM)}{subsubsection*.79}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Coroutines}{46}{subsubsection*.80}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:coroutines}{{5.72.3}{46}{Coroutines}{subsubsection*.80}{}}
-\@writefile{toc}{\contentsline {subsubsection}{State Transitions}{46}{subsubsection*.81}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:state-transitions}{{5.72.3}{46}{State Transitions}{subsubsection*.81}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.4}Code Breakdown}{46}{subsection.5.72.4}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:code-breakdown}{{5.72.4}{46}{Code Breakdown}{subsection.5.72.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{State Machine Structure}{46}{subsubsection*.82}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:state-machine-structure}{{5.72.4}{46}{State Machine Structure}{subsubsection*.82}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Start State}{47}{subsubsection*.83}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:start-state}{{5.72.4}{47}{Start State}{subsubsection*.83}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Intermediate States (State 1, 2, 3)}{47}{subsubsection*.84}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:intermediate-states-state-1-2-3}{{5.72.4}{47}{Intermediate States (State 1, 2, 3)}{subsubsection*.84}{}}
-\@writefile{toc}{\contentsline {subsubsection}{End State}{47}{subsubsection*.85}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:end-state}{{5.72.4}{47}{End State}{subsubsection*.85}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.5}Python 3.12 Updates}{47}{subsection.5.72.5}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:python-3-12-updates}{{5.72.5}{47}{Python 3.12 Updates}{subsection.5.72.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Changes Made}{47}{subsubsection*.86}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:changes-made}{{5.72.5}{47}{Changes Made}{subsubsection*.86}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.6}Execution Flow Example}{48}{subsection.5.72.6}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:execution-flow-example}{{5.72.6}{48}{Execution Flow Example}{subsection.5.72.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.7}Usage}{48}{subsection.5.72.7}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:usage}{{5.72.7}{48}{Usage}{subsection.5.72.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.8}Output Example}{48}{subsection.5.72.8}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:output-example}{{5.72.8}{48}{Output Example}{subsection.5.72.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.9}Key Takeaways}{48}{subsection.5.72.9}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:key-takeaways}{{5.72.9}{48}{Key Takeaways}{subsection.5.72.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.72.10}Use Cases}{48}{subsection.5.72.10}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_coroutine:use-cases}{{5.72.10}{48}{Use Cases}{subsection.5.72.10}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.73}Asyncio and Futures}{49}{section.5.73}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:asyncio-and-futures}{{5.73}{49}{Asyncio and Futures}{section.5.73}{}}
-\newlabel{cpu-concurrency/asyncio_and_futures::doc}{{5.73}{49}{Asyncio and Futures}{section.5.73}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.1}Overview}{49}{subsection.5.73.1}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:overview}{{5.73.1}{49}{Overview}{subsection.5.73.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.2}File Location}{49}{subsection.5.73.2}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:file-location}{{5.73.2}{49}{File Location}{subsection.5.73.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.3}Key Concepts}{49}{subsection.5.73.3}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:key-concepts}{{5.73.3}{49}{Key Concepts}{subsection.5.73.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Command\sphinxhyphen {}Line Arguments}{49}{subsubsection*.87}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:command-line-arguments}{{5.73.3}{49}{Command\sphinxhyphen {}Line Arguments}{subsubsection*.87}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Async Task Results}{49}{subsubsection*.88}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:async-task-results}{{5.73.3}{49}{Async Task Results}{subsubsection*.88}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Concurrent Computation}{49}{subsubsection*.89}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:concurrent-computation}{{5.73.3}{49}{Concurrent Computation}{subsubsection*.89}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.4}Code Breakdown}{49}{subsection.5.73.4}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:code-breakdown}{{5.73.4}{49}{Code Breakdown}{subsection.5.73.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{First Coroutine \sphinxhyphen {} Sum of N Integers}{49}{subsubsection*.90}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:first-coroutine-sum-of-n-integers}{{5.73.4}{49}{First Coroutine \sphinxhyphen {} Sum of N Integers}{subsubsection*.90}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Second Coroutine \sphinxhyphen {} Factorial}{49}{subsubsection*.91}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:second-coroutine-factorial}{{5.73.4}{49}{Second Coroutine \sphinxhyphen {} Factorial}{subsubsection*.91}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Main Function}{49}{subsubsection*.92}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:main-function}{{5.73.4}{49}{Main Function}{subsubsection*.92}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.5}Python 3.12 Updates}{50}{subsection.5.73.5}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:python-3-12-updates}{{5.73.5}{50}{Python 3.12 Updates}{subsection.5.73.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Changes Made}{50}{subsubsection*.93}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:changes-made}{{5.73.5}{50}{Changes Made}{subsubsection*.93}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.6}Before vs After Comparison}{50}{subsection.5.73.6}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:before-vs-after-comparison}{{5.73.6}{50}{Before vs After Comparison}{subsection.5.73.6}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Old Pattern (Deprecated)}{50}{subsubsection*.94}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:old-pattern-deprecated}{{5.73.6}{50}{Old Pattern (Deprecated)}{subsubsection*.94}{}}
-\@writefile{toc}{\contentsline {subsubsection}{New Pattern (Modern)}{50}{subsubsection*.95}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:new-pattern-modern}{{5.73.6}{50}{New Pattern (Modern)}{subsubsection*.95}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.7}Execution Flow}{50}{subsection.5.73.7}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:execution-flow}{{5.73.7}{50}{Execution Flow}{subsection.5.73.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.8}Usage}{51}{subsection.5.73.8}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:usage}{{5.73.8}{51}{Usage}{subsection.5.73.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.9}Examples}{51}{subsection.5.73.9}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:examples}{{5.73.9}{51}{Examples}{subsection.5.73.9}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Example 1}{51}{subsubsection*.96}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:example-1}{{5.73.9}{51}{Example 1}{subsubsection*.96}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Example 2}{51}{subsubsection*.97}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:example-2}{{5.73.9}{51}{Example 2}{subsubsection*.97}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.10}Performance}{51}{subsection.5.73.10}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:performance}{{5.73.10}{51}{Performance}{subsection.5.73.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.11}Key Takeaways}{51}{subsection.5.73.11}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:key-takeaways}{{5.73.11}{51}{Key Takeaways}{subsection.5.73.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.12}Modern Best Practices}{52}{subsection.5.73.12}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:modern-best-practices}{{5.73.12}{52}{Modern Best Practices}{subsection.5.73.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.13}When to Use This Pattern}{52}{subsection.5.73.13}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:when-to-use-this-pattern}{{5.73.13}{52}{When to Use This Pattern}{subsection.5.73.13}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.73.14}Capturing Results}{52}{subsection.5.73.14}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_and_futures:capturing-results}{{5.73.14}{52}{Capturing Results}{subsection.5.73.14}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.74}Asyncio Task Manipulation}{52}{section.5.74}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:asyncio-task-manipulation}{{5.74}{52}{Asyncio Task Manipulation}{section.5.74}{}}
-\newlabel{cpu-concurrency/asyncio_task_manipulation::doc}{{5.74}{52}{Asyncio Task Manipulation}{section.5.74}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.1}Overview}{52}{subsection.5.74.1}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:overview}{{5.74.1}{52}{Overview}{subsection.5.74.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.2}File Location}{52}{subsection.5.74.2}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:file-location}{{5.74.2}{52}{File Location}{subsection.5.74.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.3}Key Concepts}{52}{subsection.5.74.3}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:key-concepts}{{5.74.3}{52}{Key Concepts}{subsection.5.74.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Asyncio Tasks}{52}{subsubsection*.98}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:asyncio-tasks}{{5.74.3}{52}{Asyncio Tasks}{subsubsection*.98}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Concurrent Execution}{52}{subsubsection*.99}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:concurrent-execution}{{5.74.3}{52}{Concurrent Execution}{subsubsection*.99}{}}
-\@writefile{toc}{\contentsline {subsubsection}{asyncio.gather()}{53}{subsubsection*.100}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:asyncio-gather}{{5.74.3}{53}{asyncio.gather()}{subsubsection*.100}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.4}Code Breakdown}{53}{subsection.5.74.4}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:code-breakdown}{{5.74.4}{53}{Code Breakdown}{subsection.5.74.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Factorial Computation}{53}{subsubsection*.101}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:factorial-computation}{{5.74.4}{53}{Factorial Computation}{subsubsection*.101}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Fibonacci Computation}{53}{subsubsection*.102}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:fibonacci-computation}{{5.74.4}{53}{Fibonacci Computation}{subsubsection*.102}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Binomial Coefficient Computation}{53}{subsubsection*.103}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:binomial-coefficient-computation}{{5.74.4}{53}{Binomial Coefficient Computation}{subsubsection*.103}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Main Function}{53}{subsubsection*.104}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:main-function}{{5.74.4}{53}{Main Function}{subsubsection*.104}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.5}Python 3.12 Updates}{54}{subsection.5.74.5}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:python-3-12-updates}{{5.74.5}{54}{Python 3.12 Updates}{subsection.5.74.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Changes Made}{54}{subsubsection*.105}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:changes-made}{{5.74.5}{54}{Changes Made}{subsubsection*.105}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.6}Execution Flow}{54}{subsection.5.74.6}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:execution-flow}{{5.74.6}{54}{Execution Flow}{subsection.5.74.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.7}Concurrency vs Parallelism}{54}{subsection.5.74.7}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:concurrency-vs-parallelism}{{5.74.7}{54}{Concurrency vs Parallelism}{subsection.5.74.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.8}Usage}{54}{subsection.5.74.8}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:usage}{{5.74.8}{54}{Usage}{subsection.5.74.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.9}Output Example}{55}{subsection.5.74.9}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:output-example}{{5.74.9}{55}{Output Example}{subsection.5.74.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.10}Performance}{55}{subsection.5.74.10}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:performance}{{5.74.10}{55}{Performance}{subsection.5.74.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.11}Key Takeaways}{55}{subsection.5.74.11}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:key-takeaways}{{5.74.11}{55}{Key Takeaways}{subsection.5.74.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.74.12}When to Use}{55}{subsection.5.74.12}\protected@file@percent }
-\newlabel{cpu-concurrency/asyncio_task_manipulation:when-to-use}{{5.74.12}{55}{When to Use}{subsection.5.74.12}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.75}Concurrent Futures Pooling}{55}{section.5.75}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:concurrent-futures-pooling}{{5.75}{55}{Concurrent Futures Pooling}{section.5.75}{}}
-\newlabel{cpu-concurrency/concurrent_futures_pooling::doc}{{5.75}{55}{Concurrent Futures Pooling}{section.5.75}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.75.1}Overview}{55}{subsection.5.75.1}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:overview}{{5.75.1}{55}{Overview}{subsection.5.75.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.75.2}File Location}{55}{subsection.5.75.2}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:file-location}{{5.75.2}{55}{File Location}{subsection.5.75.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.75.3}Key Concepts}{55}{subsection.5.75.3}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:key-concepts}{{5.75.3}{55}{Key Concepts}{subsection.5.75.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Executor Pattern}{55}{subsubsection*.106}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:executor-pattern}{{5.75.3}{55}{Executor Pattern}{subsubsection*.106}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Execution Models}{56}{subsubsection*.107}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:execution-models}{{5.75.3}{56}{Execution Models}{subsubsection*.107}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.75.4}Code Breakdown}{56}{subsection.5.75.4}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:code-breakdown}{{5.75.4}{56}{Code Breakdown}{subsection.5.75.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{CPU\sphinxhyphen {}Intensive Task}{56}{subsubsection*.108}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:cpu-intensive-task}{{5.75.4}{56}{CPU\sphinxhyphen {}Intensive Task}{subsubsection*.108}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Evaluation Function}{56}{subsubsection*.109}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:evaluation-function}{{5.75.4}{56}{Evaluation Function}{subsubsection*.109}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Sequential Execution}{56}{subsubsection*.110}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:sequential-execution}{{5.75.4}{56}{Sequential Execution}{subsubsection*.110}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Thread Pool Execution}{56}{subsubsection*.111}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:thread-pool-execution}{{5.75.4}{56}{Thread Pool Execution}{subsubsection*.111}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Process Pool Execution}{57}{subsubsection*.112}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:process-pool-execution}{{5.75.4}{57}{Process Pool Execution}{subsubsection*.112}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.75.5}Performance Expectations}{57}{subsection.5.75.5}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:performance-expectations}{{5.75.5}{57}{Performance Expectations}{subsection.5.75.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.75.6}Python 3.12 Updates}{57}{subsection.5.75.6}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:python-3-12-updates}{{5.75.6}{57}{Python 3.12 Updates}{subsection.5.75.6}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Changes Made}{57}{subsubsection*.113}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:changes-made}{{5.75.6}{57}{Changes Made}{subsubsection*.113}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.75.7}Usage}{57}{subsection.5.75.7}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:usage}{{5.75.7}{57}{Usage}{subsection.5.75.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.75.8}Output Example}{57}{subsection.5.75.8}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:output-example}{{5.75.8}{57}{Output Example}{subsection.5.75.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.75.9}When to Use Each Approach}{57}{subsection.5.75.9}\protected@file@percent }
-\newlabel{cpu-concurrency/concurrent_futures_pooling:when-to-use-each-approach}{{5.75.9}{57}{When to Use Each Approach}{subsection.5.75.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.76}Queue Explained: Thread\sphinxhyphen {}Safe Data Structure \& Locking}{57}{section.5.76}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:queue-explained-thread-safe-data-structure-locking}{{5.76}{57}{Queue Explained: Thread\sphinxhyphen {}Safe Data Structure \& Locking}{section.5.76}{}}
-\newlabel{cpu-concurrency/queue_explained::doc}{{5.76}{57}{Queue Explained: Thread\sphinxhyphen {}Safe Data Structure \& Locking}{section.5.76}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.76.1}What is a Queue?}{57}{subsection.5.76.1}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:what-is-a-queue}{{5.76.1}{57}{What is a Queue?}{subsection.5.76.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Key Concept}{57}{subsubsection*.114}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:key-concept}{{5.76.1}{57}{Key Concept}{subsubsection*.114}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.76.2}How Queue Works Internally}{58}{subsection.5.76.2}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:how-queue-works-internally}{{5.76.2}{58}{How Queue Works Internally}{subsection.5.76.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Internal Structure}{58}{subsubsection*.115}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:internal-structure}{{5.76.2}{58}{Internal Structure}{subsubsection*.115}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Automatic Locking}{58}{subsubsection*.116}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:automatic-locking}{{5.76.2}{58}{Automatic Locking}{subsubsection*.116}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.76.3}Queue Operations}{58}{subsection.5.76.3}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:queue-operations}{{5.76.3}{58}{Queue Operations}{subsection.5.76.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\sphinxstyleliteralintitle {\sphinxupquote {put(item)}}}{58}{subsubsection*.117}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:put-item}{{5.76.3}{58}{\sphinxstyleliteralintitle {\sphinxupquote {put(item)}}}{subsubsection*.117}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.76.4}Why Queue is Best Practice}{59}{subsection.5.76.4}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:why-queue-is-best-practice}{{5.76.4}{59}{Why Queue is Best Practice}{subsection.5.76.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Problem with Manual Locks}{59}{subsubsection*.118}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:problem-with-manual-locks}{{5.76.4}{59}{Problem with Manual Locks}{subsubsection*.118}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.77}Problems:}{60}{section.5.77}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:problems}{{5.77}{60}{Problems:}{section.5.77}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.78}1. Easy to forget lock somewhere}{60}{section.5.78}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:easy-to-forget-lock-somewhere}{{5.78}{60}{1. Easy to forget lock somewhere}{section.5.78}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.79}2. Busy\sphinxhyphen {}waiting wastes CPU}{60}{section.5.79}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:busy-waiting-wastes-cpu}{{5.79}{60}{2. Busy\sphinxhyphen {}waiting wastes CPU}{section.5.79}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.80}3. No synchronization between threads}{60}{section.5.80}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:no-synchronization-between-threads}{{5.80}{60}{3. No synchronization between threads}{section.5.80}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.81}4. Race conditions possible}{60}{section.5.81}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:race-conditions-possible}{{5.81}{60}{4. Race conditions possible}{section.5.81}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.82}Benefits:}{60}{section.5.82}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:benefits}{{5.82}{60}{Benefits:}{section.5.82}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.83}1. Synchronization automatic}{60}{section.5.83}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:synchronization-automatic}{{5.83}{60}{1. Synchronization automatic}{section.5.83}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.84}2. No busy\sphinxhyphen {}waiting}{60}{section.5.84}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:no-busy-waiting}{{5.84}{60}{2. No busy\sphinxhyphen {}waiting}{section.5.84}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.85}3. Blocks correctly when empty/full}{60}{section.5.85}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:blocks-correctly-when-empty-full}{{5.85}{60}{3. Blocks correctly when empty/full}{section.5.85}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.86}4. Task tracking with task\_done()}{60}{section.5.86}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:task-tracking-with-task-done}{{5.86}{60}{4. Task tracking with task\_done()}{section.5.86}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.86.1}Queue as Locking Mechanism}{60}{subsection.5.86.1}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:queue-as-locking-mechanism}{{5.86.1}{60}{Queue as Locking Mechanism}{subsection.5.86.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{How Queue Does Locking}{60}{subsubsection*.119}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:how-queue-does-locking}{{5.86.1}{60}{How Queue Does Locking}{subsubsection*.119}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Locking Benefits}{61}{subsubsection*.120}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:locking-benefits}{{5.86.1}{61}{Locking Benefits}{subsubsection*.120}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.86.2}The Code Explained: Producer\sphinxhyphen {}Consumer}{61}{subsection.5.86.2}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:the-code-explained-producer-consumer}{{5.86.2}{61}{The Code Explained: Producer\sphinxhyphen {}Consumer}{subsection.5.86.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.87}Create queue}{61}{section.5.87}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:create-queue}{{5.87}{61}{Create queue}{section.5.87}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.88}Create threads}{62}{section.5.88}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:create-threads}{{5.88}{62}{Create threads}{section.5.88}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.89}Start all}{62}{section.5.89}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:start-all}{{5.89}{62}{Start all}{section.5.89}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.89.1}Time Producer Queue Consumer1/2/3}{62}{subsection.5.89.1}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:time-producer-queue-consumer1-2-3}{{5.89.1}{62}{Time Producer Queue Consumer1/2/3}{subsection.5.89.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.89.2}Queue vs Lock vs Semaphore vs RLock}{62}{subsection.5.89.2}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:queue-vs-lock-vs-semaphore-vs-rlock}{{5.89.2}{62}{Queue vs Lock vs Semaphore vs RLock}{subsection.5.89.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.89.3}Queue Benefits Summary}{62}{subsection.5.89.3}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:queue-benefits-summary}{{5.89.3}{62}{Queue Benefits Summary}{subsection.5.89.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{1. \sphinxstylestrong {Thread\sphinxhyphen {}Safe Data Structure}}{62}{subsubsection*.121}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:thread-safe-data-structure}{{5.89.3}{62}{1. \sphinxstylestrong {Thread\sphinxhyphen {}Safe Data Structure}}{subsubsection*.121}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.90}Without Queue \sphinxhyphen {} Need to manage locking}{63}{section.5.90}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:without-queue-need-to-manage-locking}{{5.90}{63}{Without Queue \sphinxhyphen {} Need to manage locking}{section.5.90}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.91}With Queue \sphinxhyphen {} Automatic}{63}{section.5.91}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:with-queue-automatic}{{5.91}{63}{With Queue \sphinxhyphen {} Automatic}{section.5.91}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.92}Without Queue \sphinxhyphen {} Need condition variables}{63}{section.5.92}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:without-queue-need-condition-variables}{{5.92}{63}{Without Queue \sphinxhyphen {} Need condition variables}{section.5.92}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.93}With Queue \sphinxhyphen {} Blocks automatically}{63}{section.5.93}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:with-queue-blocks-automatically}{{5.93}{63}{With Queue \sphinxhyphen {} Blocks automatically}{section.5.93}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.94}Bad \sphinxhyphen {} Busy\sphinxhyphen {}wait (wastes CPU)}{63}{section.5.94}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:bad-busy-wait-wastes-cpu}{{5.94}{63}{Bad \sphinxhyphen {} Busy\sphinxhyphen {}wait (wastes CPU)}{section.5.94}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.95}Good \sphinxhyphen {} Queue blocks efficiently}{63}{section.5.95}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:good-queue-blocks-efficiently}{{5.95}{63}{Good \sphinxhyphen {} Queue blocks efficiently}{section.5.95}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.96}Process items}{63}{section.5.96}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:process-items}{{5.96}{63}{Process items}{section.5.96}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.97}Multiple producers}{64}{section.5.97}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:multiple-producers}{{5.97}{64}{Multiple producers}{section.5.97}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.98}Multiple consumers}{64}{section.5.98}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:multiple-consumers}{{5.98}{64}{Multiple consumers}{section.5.98}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.99}All safe! Queue handles synchronization}{64}{section.5.99}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:all-safe-queue-handles-synchronization}{{5.99}{64}{All safe! Queue handles synchronization}{section.5.99}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.99.1}Internal Queue Locking Mechanism}{64}{subsection.5.99.1}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:internal-queue-locking-mechanism}{{5.99.1}{64}{Internal Queue Locking Mechanism}{subsection.5.99.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Step\sphinxhyphen {}by\sphinxhyphen {}Step: What Happens in \sphinxstyleliteralintitle {\sphinxupquote {put()}}}{64}{subsubsection*.122}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:step-by-step-what-happens-in-put}{{5.99.1}{64}{Step\sphinxhyphen {}by\sphinxhyphen {}Step: What Happens in \sphinxstyleliteralintitle {\sphinxupquote {put()}}}{subsubsection*.122}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.100}Internally in Queue:}{64}{section.5.100}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:internally-in-queue}{{5.100}{64}{Internally in Queue:}{section.5.100}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.101}1. Acquire mutex (lock)}{64}{section.5.101}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:acquire-mutex-lock}{{5.101}{64}{1. Acquire mutex (lock)}{section.5.101}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.102}2. Check if full}{64}{section.5.102}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:check-if-full}{{5.102}{64}{2. Check if full}{section.5.102}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.103}4. Notify consumers}{64}{section.5.103}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:notify-consumers}{{5.103}{64}{4. Notify consumers}{section.5.103}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.104}5. Release mutex}{64}{section.5.104}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:release-mutex}{{5.104}{64}{5. Release mutex}{section.5.104}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.105}Internally in Queue:}{65}{section.5.105}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:id9}{{5.105}{65}{Internally in Queue:}{section.5.105}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.106}1. Acquire mutex (lock)}{65}{section.5.106}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:id10}{{5.106}{65}{1. Acquire mutex (lock)}{section.5.106}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.107}2. Check if empty}{65}{section.5.107}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:check-if-empty}{{5.107}{65}{2. Check if empty}{section.5.107}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.108}4. Notify producers}{65}{section.5.108}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:notify-producers}{{5.108}{65}{4. Notify producers}{section.5.108}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.109}5. Release mutex}{65}{section.5.109}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:id11}{{5.109}{65}{5. Release mutex}{section.5.109}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.109.1}Why Queue is Safer Than Manual Locking}{65}{subsection.5.109.1}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:why-queue-is-safer-than-manual-locking}{{5.109.1}{65}{Why Queue is Safer Than Manual Locking}{subsection.5.109.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Mistake 1: Forgetting Lock}{65}{subsubsection*.123}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:mistake-1-forgetting-lock}{{5.109.1}{65}{Mistake 1: Forgetting Lock}{subsubsection*.123}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.110}{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} No lock on append}{65}{section.5.110}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:fail-wrong-no-lock-on-append}{{5.110}{65}{{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} No lock on append}{section.5.110}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.111}{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} Queue is always locked}{65}{section.5.111}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:ok-correct-queue-is-always-locked}{{5.111}{65}{{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} Queue is always locked}{section.5.111}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.112}{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} Wastes CPU}{66}{section.5.112}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:fail-wrong-wastes-cpu}{{5.112}{66}{{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} Wastes CPU}{section.5.112}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.113}{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} Queue blocks efficiently}{66}{section.5.113}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:ok-correct-queue-blocks-efficiently}{{5.113}{66}{{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} Queue blocks efficiently}{section.5.113}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.114}{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} Check and pop not atomic}{66}{section.5.114}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:fail-wrong-check-and-pop-not-atomic}{{5.114}{66}{{[}{[}FAIL{]}{]} WRONG \sphinxhyphen {} Check and pop not atomic}{section.5.114}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.115}{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} Queue makes check and pop atomic}{66}{section.5.115}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:ok-correct-queue-makes-check-and-pop-atomic}{{5.115}{66}{{[}{[}OK{]}{]} CORRECT \sphinxhyphen {} Queue makes check and pop atomic}{section.5.115}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.115.1}Practical Example: Work Queue}{66}{subsection.5.115.1}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:practical-example-work-queue}{{5.115.1}{66}{Practical Example: Work Queue}{subsection.5.115.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.116}Create workers}{66}{section.5.116}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:create-workers}{{5.116}{66}{Create workers}{section.5.116}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.117}Add tasks}{67}{section.5.117}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:add-tasks}{{5.117}{67}{Add tasks}{section.5.117}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.118}Wait for all tasks to be processed}{67}{section.5.118}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:wait-for-all-tasks-to-be-processed}{{5.118}{67}{Wait for all tasks to be processed}{section.5.118}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.119}Stop workers}{67}{section.5.119}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:stop-workers}{{5.119}{67}{Stop workers}{section.5.119}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.119.1}Key Takeaways}{67}{subsection.5.119.1}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_explained:key-takeaways}{{5.119.1}{67}{Key Takeaways}{subsection.5.119.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.120}Queue Internal Mechanics: Condition Variables \& Events}{67}{section.5.120}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_internal_mechanics:queue-internal-mechanics-condition-variables-events}{{5.120}{67}{Queue Internal Mechanics: Condition Variables \& Events}{section.5.120}{}}
-\newlabel{cpu-concurrency/queue_internal_mechanics::doc}{{5.120}{67}{Queue Internal Mechanics: Condition Variables \& Events}{section.5.120}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.120.1}The Answer}{67}{subsection.5.120.1}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_internal_mechanics:the-answer}{{5.120.1}{67}{The Answer}{subsection.5.120.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.120.2}Queue’s Internal Structure}{67}{subsection.5.120.2}\protected@file@percent }
-\newlabel{cpu-concurrency/queue_internal_mechanics:queue-s-internal-structure}{{5.120.2}{67}{Queue’s Internal Structure}{subsection.5.120.2}{}}
+\newlabel{cpu-concurrency/key_concepts:when-to-use-what}{{5}{13}{When to Use What}{chapter.5}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}What is the GIL?}{15}{chapter.6}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:what-is-the-gil}{{6}{15}{What is the GIL?}{chapter.6}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Key Points:}{17}{chapter.7}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:key-points}{{7}{17}{Key Points:}{chapter.7}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Impact on Performance:}{19}{chapter.8}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:impact-on-performance}{{8}{19}{Impact on Performance:}{chapter.8}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {9}Observing the GIL (from script 06):}{21}{chapter.9}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:observing-the-gil-from-script-06}{{9}{21}{Observing the GIL (from script 06):}{chapter.9}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {10}Event Loop}{23}{chapter.10}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:event-loop}{{10}{23}{Event Loop}{chapter.10}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {11}How It Works (from script 07):}{25}{chapter.11}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:how-it-works-from-script-07}{{11}{25}{How It Works (from script 07):}{chapter.11}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {12}Event Loop Lifecycle:}{27}{chapter.12}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:event-loop-lifecycle}{{12}{27}{Event Loop Lifecycle:}{chapter.12}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {13}Modern vs Old Patterns:}{29}{chapter.13}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:modern-vs-old-patterns}{{13}{29}{Modern vs Old Patterns:}{chapter.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {13.1}Coroutines}{29}{section.13.1}\protected@file@percent }
+\newlabel{cpu-concurrency/key_concepts:id1}{{13.1}{29}{Coroutines}{section.13.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {14}What are Coroutines?}{31}{chapter.14}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:what-are-coroutines}{{14}{31}{What are Coroutines?}{chapter.14}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {15}Defining Coroutines:}{33}{chapter.15}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:defining-coroutines}{{15}{33}{Defining Coroutines:}{chapter.15}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {16}Key Features:}{35}{chapter.16}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:key-features}{{16}{35}{Key Features:}{chapter.16}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {17}Example from Script 08:}{37}{chapter.17}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:example-from-script-08}{{17}{37}{Example from Script 08:}{chapter.17}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {18}Execution Flow:}{39}{chapter.18}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:execution-flow}{{18}{39}{Execution Flow:}{chapter.18}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {19}Important Rules:}{41}{chapter.19}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:important-rules}{{19}{41}{Important Rules:}{chapter.19}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {20}Tasks}{43}{chapter.20}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:tasks}{{20}{43}{Tasks}{chapter.20}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {21}Task Characteristics:}{45}{chapter.21}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:task-characteristics}{{21}{45}{Task Characteristics:}{chapter.21}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {22}Example from Script 09:}{47}{chapter.22}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:example-from-script-09}{{22}{47}{Example from Script 09:}{chapter.22}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {23}Futures}{49}{chapter.23}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:futures}{{23}{49}{Futures}{chapter.23}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {24}Waiting for Multiple Tasks:}{51}{chapter.24}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:waiting-for-multiple-tasks}{{24}{51}{Waiting for Multiple Tasks:}{chapter.24}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {25}CPU\sphinxhyphen {}bound Operations}{53}{chapter.25}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:cpu-bound-operations}{{25}{53}{CPU\sphinxhyphen {}bound Operations}{chapter.25}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {26}I/O\sphinxhyphen {}bound Operations}{55}{chapter.26}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:i-o-bound-operations}{{26}{55}{I/O\sphinxhyphen {}bound Operations}{chapter.26}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {27}Comparison Table:}{57}{chapter.27}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:comparison-table}{{27}{57}{Comparison Table:}{chapter.27}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {28}Hybrid Workloads:}{59}{chapter.28}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:hybrid-workloads}{{28}{59}{Hybrid Workloads:}{chapter.28}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {29}1. Time Measurement (\sphinxstyleliteralintitle {\sphinxupquote {time.clock()}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {time.perf\_counter()}})}{61}{chapter.29}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:time-measurement-time-clock-time-perf-counter}{{29}{61}{1. Time Measurement (\sphinxstyleliteralintitle {\sphinxupquote {time.clock()}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {time.perf\_counter()}})}{chapter.29}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {30}2. Coroutine Syntax (\sphinxstyleliteralintitle {\sphinxupquote {@asyncio.coroutine}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {async def}})}{63}{chapter.30}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:coroutine-syntax-asyncio-coroutine-async-def}{{30}{63}{2. Coroutine Syntax (\sphinxstyleliteralintitle {\sphinxupquote {@asyncio.coroutine}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {async def}})}{chapter.30}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {31}3. Task Creation (\sphinxstyleliteralintitle {\sphinxupquote {asyncio.Task()}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {asyncio.create\_task()}})}{65}{chapter.31}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:task-creation-asyncio-task-asyncio-create-task}{{31}{65}{3. Task Creation (\sphinxstyleliteralintitle {\sphinxupquote {asyncio.Task()}} \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {asyncio.create\_task()}})}{chapter.31}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {32}4. Event Loop Management}{67}{chapter.32}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:event-loop-management}{{32}{67}{4. Event Loop Management}{chapter.32}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {33}5. Future Callbacks (Callbacks \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {await}})}{69}{chapter.33}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:future-callbacks-callbacks-await}{{33}{69}{5. Future Callbacks (Callbacks \sphinxhyphen {}\textgreater {} \sphinxstyleliteralintitle {\sphinxupquote {await}})}{chapter.33}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {34}6. Blocking Calls in Async Code}{71}{chapter.34}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:blocking-calls-in-async-code}{{34}{71}{6. Blocking Calls in Async Code}{chapter.34}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {35}7. String Formatting (\sphinxstyleliteralintitle {\sphinxupquote {\%}} \sphinxhyphen {}\textgreater {} f\sphinxhyphen {}strings)}{73}{chapter.35}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:string-formatting-f-strings}{{35}{73}{7. String Formatting (\sphinxstyleliteralintitle {\sphinxupquote {\%}} \sphinxhyphen {}\textgreater {} f\sphinxhyphen {}strings)}{chapter.35}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {36}Migration Checklist}{75}{chapter.36}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:migration-checklist}{{36}{75}{Migration Checklist}{chapter.36}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {37}Compatibility}{77}{chapter.37}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:compatibility}{{37}{77}{Compatibility}{chapter.37}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {37.1}Summary}{77}{section.37.1}\protected@file@percent }
+\newlabel{cpu-concurrency/key_concepts:summary}{{37.1}{77}{Summary}{section.37.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {38}Quick Reference Guide}{79}{chapter.38}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:quick-reference-guide}{{38}{79}{Quick Reference Guide}{chapter.38}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {39}Key Takeaways}{81}{chapter.39}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:key-takeaways}{{39}{81}{Key Takeaways}{chapter.39}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {40}Further Reading}{83}{chapter.40}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/key_concepts:further-reading}{{40}{83}{Further Reading}{chapter.40}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {41}Physical Cores}{85}{chapter.41}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:physical-cores}{{41}{85}{Physical Cores}{chapter.41}{}}
+\newlabel{cpu-concurrency/hardware_parallelism::doc}{{41}{85}{Physical Cores}{chapter.41}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {42}Logical Cores}{87}{chapter.42}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:logical-cores}{{42}{87}{Logical Cores}{chapter.42}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {43}The Concept}{89}{chapter.43}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:the-concept}{{43}{89}{The Concept}{chapter.43}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {44}How It Works}{91}{chapter.44}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:how-it-works}{{44}{91}{How It Works}{chapter.44}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {45}Technical Implementation}{93}{chapter.45}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:technical-implementation}{{45}{93}{Technical Implementation}{chapter.45}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {46}Performance Characteristics}{95}{chapter.46}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:performance-characteristics}{{46}{95}{Performance Characteristics}{chapter.46}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {47}Hyperthreading Limitations}{97}{chapter.47}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:hyperthreading-limitations}{{47}{97}{Hyperthreading Limitations}{chapter.47}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {48}Checking Hyperthreading Status}{99}{chapter.48}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:checking-hyperthreading-status}{{48}{99}{Checking Hyperthreading Status}{chapter.48}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {49}The Fundamental Constraint}{101}{chapter.49}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:the-fundamental-constraint}{{49}{101}{The Fundamental Constraint}{chapter.49}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {50}Why More Threads != More Speed}{103}{chapter.50}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:why-more-threads-more-speed}{{50}{103}{Why More Threads != More Speed}{chapter.50}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {51}Optimal Worker Count}{105}{chapter.51}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:optimal-worker-count}{{51}{105}{Optimal Worker Count}{chapter.51}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {52}Real\sphinxhyphen {}World Example}{107}{chapter.52}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:real-world-example}{{52}{107}{Real\sphinxhyphen {}World Example}{chapter.52}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {53}CPU vs GPU: Different Design Philosophies}{109}{chapter.53}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:cpu-vs-gpu-different-design-philosophies}{{53}{109}{CPU vs GPU: Different Design Philosophies}{chapter.53}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {54}Key Differences}{111}{chapter.54}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:key-differences}{{54}{111}{Key Differences}{chapter.54}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {55}SIMD and GPU Architecture}{113}{chapter.55}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:simd-and-gpu-architecture}{{55}{113}{SIMD and GPU Architecture}{chapter.55}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {56}Why GPUs Excel at Compute\sphinxhyphen {}Intensive Tasks}{115}{chapter.56}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:why-gpus-excel-at-compute-intensive-tasks}{{56}{115}{Why GPUs Excel at Compute\sphinxhyphen {}Intensive Tasks}{chapter.56}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {56.1}1. Massive Parallelism}{115}{section.56.1}\protected@file@percent }
+\newlabel{cpu-concurrency/hardware_parallelism:massive-parallelism}{{56.1}{115}{1. Massive Parallelism}{section.56.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {56.2}2. Perfect for Data\sphinxhyphen {}Parallel Problems}{115}{section.56.2}\protected@file@percent }
+\newlabel{cpu-concurrency/hardware_parallelism:perfect-for-data-parallel-problems}{{56.2}{115}{2. Perfect for Data\sphinxhyphen {}Parallel Problems}{section.56.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {56.3}3. High Memory Bandwidth}{115}{section.56.3}\protected@file@percent }
+\newlabel{cpu-concurrency/hardware_parallelism:high-memory-bandwidth}{{56.3}{115}{3. High Memory Bandwidth}{section.56.3}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {57}What GPUs Are Good At}{117}{chapter.57}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:what-gpus-are-good-at}{{57}{117}{What GPUs Are Good At}{chapter.57}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {58}Silicon Real Estate Comparison}{119}{chapter.58}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:silicon-real-estate-comparison}{{58}{119}{Silicon Real Estate Comparison}{chapter.58}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {59}Performance Comparison}{121}{chapter.59}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:performance-comparison}{{59}{121}{Performance Comparison}{chapter.59}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {60}Detailed Benchmark Results}{123}{chapter.60}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:detailed-benchmark-results}{{60}{123}{Detailed Benchmark Results}{chapter.60}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {61}Decision Matrix}{125}{chapter.61}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:decision-matrix}{{61}{125}{Decision Matrix}{chapter.61}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {62}Practical Guidelines}{127}{chapter.62}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:practical-guidelines}{{62}{127}{Practical Guidelines}{chapter.62}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {62.1}Use CPU When:}{127}{section.62.1}\protected@file@percent }
+\newlabel{cpu-concurrency/hardware_parallelism:use-cpu-when}{{62.1}{127}{Use CPU When:}{section.62.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {62.2}Use GPU When:}{127}{section.62.2}\protected@file@percent }
+\newlabel{cpu-concurrency/hardware_parallelism:use-gpu-when}{{62.2}{127}{Use GPU When:}{section.62.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {62.3}Use Hyperthreading When:}{128}{section.62.3}\protected@file@percent }
+\newlabel{cpu-concurrency/hardware_parallelism:use-hyperthreading-when}{{62.3}{128}{Use Hyperthreading When:}{section.62.3}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {63}Example 1: Image Processing}{129}{chapter.63}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:example-1-image-processing}{{63}{129}{Example 1: Image Processing}{chapter.63}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {64}Example 2: Monte Carlo Simulation}{131}{chapter.64}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:example-2-monte-carlo-simulation}{{64}{131}{Example 2: Monte Carlo Simulation}{chapter.64}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {65}Example 3: Neural Network Training}{133}{chapter.65}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:example-3-neural-network-training}{{65}{133}{Example 3: Neural Network Training}{chapter.65}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {66}Core Principles}{135}{chapter.66}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:core-principles}{{66}{135}{Core Principles}{chapter.66}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {67}Quick Reference}{137}{chapter.67}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:quick-reference}{{67}{137}{Quick Reference}{chapter.67}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {68}Key Takeaways}{139}{chapter.68}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/hardware_parallelism:key-takeaways}{{68}{139}{Key Takeaways}{chapter.68}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {69}Key Points About start()}{141}{chapter.69}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/threading_basics:key-points-about-start}{{69}{141}{Key Points About start()}{chapter.69}{}}
+\newlabel{cpu-concurrency/threading_basics::doc}{{69}{141}{Key Points About start()}{chapter.69}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {70}Example}{143}{chapter.70}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/threading_basics:example}{{70}{143}{Example}{chapter.70}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {71}Key Points About join()}{145}{chapter.71}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/threading_basics:key-points-about-join}{{71}{145}{Key Points About join()}{chapter.71}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {72}Example}{147}{chapter.72}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/threading_basics:id1}{{72}{147}{Example}{chapter.72}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {73}WITHOUT join() \sphinxhyphen {} DANGER!}{149}{chapter.73}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/threading_basics:without-join-danger}{{73}{149}{WITHOUT join() \sphinxhyphen {} DANGER!}{chapter.73}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {74}WITH join() \sphinxhyphen {} CORRECT!}{151}{chapter.74}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/threading_basics:with-join-correct}{{74}{151}{WITH join() \sphinxhyphen {} CORRECT!}{chapter.74}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {75}Mistake 1: Calling the function directly instead of start()}{153}{chapter.75}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/threading_basics:mistake-1-calling-the-function-directly-instead-of-start}{{75}{153}{Mistake 1: Calling the function directly instead of start()}{chapter.75}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {76}Mistake 2: Forgetting join()}{155}{chapter.76}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/threading_basics:mistake-2-forgetting-join}{{76}{155}{Mistake 2: Forgetting join()}{chapter.76}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {77}Mistake 3: Thinking threads share data automatically}{157}{chapter.77}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/threading_basics:mistake-3-thinking-threads-share-data-automatically}{{77}{157}{Mistake 3: Thinking threads share data automatically}{chapter.77}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {78}Overview}{159}{chapter.78}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_event_loop:overview}{{78}{159}{Overview}{chapter.78}{}}
+\newlabel{cpu-concurrency/asyncio_event_loop::doc}{{78}{159}{Overview}{chapter.78}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {78.1}Asyncio Event Loop}{159}{section.78.1}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_event_loop:asyncio-event-loop}{{78.1}{159}{Asyncio Event Loop}{section.78.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {78.2}Async/Await Pattern}{159}{section.78.2}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_event_loop:async-await-pattern}{{78.2}{159}{Async/Await Pattern}{section.78.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {78.3}Task Functions}{159}{section.78.3}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_event_loop:task-functions}{{78.3}{159}{Task Functions}{section.78.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {78.4}Main Function}{159}{section.78.4}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_event_loop:main-function}{{78.4}{159}{Main Function}{section.78.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {78.5}Entry Point}{160}{section.78.5}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_event_loop:entry-point}{{78.5}{160}{Entry Point}{section.78.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {78.6}Changes Made}{160}{section.78.6}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_event_loop:changes-made}{{78.6}{160}{Changes Made}{section.78.6}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {79}Usage}{161}{chapter.79}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_event_loop:usage}{{79}{161}{Usage}{chapter.79}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {80}Overview}{163}{chapter.80}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_coroutine:overview}{{80}{163}{Overview}{chapter.80}{}}
+\newlabel{cpu-concurrency/asyncio_coroutine::doc}{{80}{163}{Overview}{chapter.80}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {80.1}Finite State Machine (FSM)}{163}{section.80.1}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_coroutine:finite-state-machine-fsm}{{80.1}{163}{Finite State Machine (FSM)}{section.80.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {80.2}Coroutines}{163}{section.80.2}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_coroutine:coroutines}{{80.2}{163}{Coroutines}{section.80.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {80.3}State Transitions}{163}{section.80.3}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_coroutine:state-transitions}{{80.3}{163}{State Transitions}{section.80.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {80.4}State Machine Structure}{163}{section.80.4}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_coroutine:state-machine-structure}{{80.4}{163}{State Machine Structure}{section.80.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {80.5}Start State}{163}{section.80.5}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_coroutine:start-state}{{80.5}{163}{Start State}{section.80.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {80.6}Intermediate States (State 1, 2, 3)}{164}{section.80.6}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_coroutine:intermediate-states-state-1-2-3}{{80.6}{164}{Intermediate States (State 1, 2, 3)}{section.80.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {80.7}End State}{164}{section.80.7}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_coroutine:end-state}{{80.7}{164}{End State}{section.80.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {80.8}Changes Made}{164}{section.80.8}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_coroutine:changes-made}{{80.8}{164}{Changes Made}{section.80.8}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {81}Usage}{167}{chapter.81}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_coroutine:usage}{{81}{167}{Usage}{chapter.81}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {82}Use Cases}{169}{chapter.82}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_coroutine:use-cases}{{82}{169}{Use Cases}{chapter.82}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {83}Overview}{171}{chapter.83}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_and_futures:overview}{{83}{171}{Overview}{chapter.83}{}}
+\newlabel{cpu-concurrency/asyncio_and_futures::doc}{{83}{171}{Overview}{chapter.83}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {83.1}Command\sphinxhyphen {}Line Arguments}{171}{section.83.1}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:command-line-arguments}{{83.1}{171}{Command\sphinxhyphen {}Line Arguments}{section.83.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {83.2}Async Task Results}{171}{section.83.2}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:async-task-results}{{83.2}{171}{Async Task Results}{section.83.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {83.3}Concurrent Computation}{171}{section.83.3}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:concurrent-computation}{{83.3}{171}{Concurrent Computation}{section.83.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {83.4}First Coroutine \sphinxhyphen {} Sum of N Integers}{171}{section.83.4}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:first-coroutine-sum-of-n-integers}{{83.4}{171}{First Coroutine \sphinxhyphen {} Sum of N Integers}{section.83.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {83.5}Second Coroutine \sphinxhyphen {} Factorial}{171}{section.83.5}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:second-coroutine-factorial}{{83.5}{171}{Second Coroutine \sphinxhyphen {} Factorial}{section.83.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {83.6}Main Function}{172}{section.83.6}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:main-function}{{83.6}{172}{Main Function}{section.83.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {83.7}Changes Made}{172}{section.83.7}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:changes-made}{{83.7}{172}{Changes Made}{section.83.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {83.8}Old Pattern (Deprecated)}{172}{section.83.8}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:old-pattern-deprecated}{{83.8}{172}{Old Pattern (Deprecated)}{section.83.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {83.9}New Pattern (Modern)}{173}{section.83.9}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:new-pattern-modern}{{83.9}{173}{New Pattern (Modern)}{section.83.9}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {84}Usage}{175}{chapter.84}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_and_futures:usage}{{84}{175}{Usage}{chapter.84}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {85}Examples}{177}{chapter.85}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_and_futures:examples}{{85}{177}{Examples}{chapter.85}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {85.1}Example 1}{177}{section.85.1}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:example-1}{{85.1}{177}{Example 1}{section.85.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {85.2}Example 2}{177}{section.85.2}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_and_futures:example-2}{{85.2}{177}{Example 2}{section.85.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {86}Overview}{179}{chapter.86}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_task_manipulation:overview}{{86}{179}{Overview}{chapter.86}{}}
+\newlabel{cpu-concurrency/asyncio_task_manipulation::doc}{{86}{179}{Overview}{chapter.86}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {86.1}Asyncio Tasks}{179}{section.86.1}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_task_manipulation:asyncio-tasks}{{86.1}{179}{Asyncio Tasks}{section.86.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {86.2}Concurrent Execution}{179}{section.86.2}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_task_manipulation:concurrent-execution}{{86.2}{179}{Concurrent Execution}{section.86.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {86.3}asyncio.gather()}{179}{section.86.3}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_task_manipulation:asyncio-gather}{{86.3}{179}{asyncio.gather()}{section.86.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {86.4}Factorial Computation}{179}{section.86.4}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_task_manipulation:factorial-computation}{{86.4}{179}{Factorial Computation}{section.86.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {86.5}Fibonacci Computation}{179}{section.86.5}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_task_manipulation:fibonacci-computation}{{86.5}{179}{Fibonacci Computation}{section.86.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {86.6}Binomial Coefficient Computation}{180}{section.86.6}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_task_manipulation:binomial-coefficient-computation}{{86.6}{180}{Binomial Coefficient Computation}{section.86.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {86.7}Main Function}{180}{section.86.7}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_task_manipulation:main-function}{{86.7}{180}{Main Function}{section.86.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {86.8}Changes Made}{180}{section.86.8}\protected@file@percent }
+\newlabel{cpu-concurrency/asyncio_task_manipulation:changes-made}{{86.8}{180}{Changes Made}{section.86.8}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {87}Usage}{183}{chapter.87}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/asyncio_task_manipulation:usage}{{87}{183}{Usage}{chapter.87}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {88}Overview}{185}{chapter.88}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/concurrent_futures_pooling:overview}{{88}{185}{Overview}{chapter.88}{}}
+\newlabel{cpu-concurrency/concurrent_futures_pooling::doc}{{88}{185}{Overview}{chapter.88}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {88.1}Executor Pattern}{185}{section.88.1}\protected@file@percent }
+\newlabel{cpu-concurrency/concurrent_futures_pooling:executor-pattern}{{88.1}{185}{Executor Pattern}{section.88.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {88.2}Execution Models}{185}{section.88.2}\protected@file@percent }
+\newlabel{cpu-concurrency/concurrent_futures_pooling:execution-models}{{88.2}{185}{Execution Models}{section.88.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {88.3}CPU\sphinxhyphen {}Intensive Task}{185}{section.88.3}\protected@file@percent }
+\newlabel{cpu-concurrency/concurrent_futures_pooling:cpu-intensive-task}{{88.3}{185}{CPU\sphinxhyphen {}Intensive Task}{section.88.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {88.4}Evaluation Function}{185}{section.88.4}\protected@file@percent }
+\newlabel{cpu-concurrency/concurrent_futures_pooling:evaluation-function}{{88.4}{185}{Evaluation Function}{section.88.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {88.5}Sequential Execution}{186}{section.88.5}\protected@file@percent }
+\newlabel{cpu-concurrency/concurrent_futures_pooling:sequential-execution}{{88.5}{186}{Sequential Execution}{section.88.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {88.6}Thread Pool Execution}{186}{section.88.6}\protected@file@percent }
+\newlabel{cpu-concurrency/concurrent_futures_pooling:thread-pool-execution}{{88.6}{186}{Thread Pool Execution}{section.88.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {88.7}Process Pool Execution}{186}{section.88.7}\protected@file@percent }
+\newlabel{cpu-concurrency/concurrent_futures_pooling:process-pool-execution}{{88.7}{186}{Process Pool Execution}{section.88.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {88.8}Changes Made}{186}{section.88.8}\protected@file@percent }
+\newlabel{cpu-concurrency/concurrent_futures_pooling:changes-made}{{88.8}{186}{Changes Made}{section.88.8}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {89}Usage}{187}{chapter.89}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/concurrent_futures_pooling:usage}{{89}{187}{Usage}{chapter.89}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {90}Key Concept}{189}{chapter.90}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:key-concept}{{90}{189}{Key Concept}{chapter.90}{}}
+\newlabel{cpu-concurrency/queue_explained::doc}{{90}{189}{Key Concept}{chapter.90}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {91}Internal Structure}{191}{chapter.91}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:internal-structure}{{91}{191}{Internal Structure}{chapter.91}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {92}Automatic Locking}{193}{chapter.92}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:automatic-locking}{{92}{193}{Automatic Locking}{chapter.92}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {93}\sphinxstyleliteralintitle {\sphinxupquote {put(item)}}}{195}{chapter.93}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:put-item}{{93}{195}{\sphinxstyleliteralintitle {\sphinxupquote {put(item)}}}{chapter.93}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {94}Problem with Manual Locks}{197}{chapter.94}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:problem-with-manual-locks}{{94}{197}{Problem with Manual Locks}{chapter.94}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {94.1}Problems:}{197}{section.94.1}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_explained:problems}{{94.1}{197}{Problems:}{section.94.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {94.2}Benefits:}{198}{section.94.2}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_explained:benefits}{{94.2}{198}{Benefits:}{section.94.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {95}How Queue Does Locking}{199}{chapter.95}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:how-queue-does-locking}{{95}{199}{How Queue Does Locking}{chapter.95}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {96}Locking Benefits}{201}{chapter.96}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:locking-benefits}{{96}{201}{Locking Benefits}{chapter.96}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {96.1}Start all}{201}{section.96.1}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_explained:start-all}{{96.1}{201}{Start all}{section.96.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {97}Execution Flow}{203}{chapter.97}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:execution-flow}{{97}{203}{Execution Flow}{chapter.97}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {98}1. \sphinxstylestrong {Thread\sphinxhyphen {}Safe Data Structure}}{205}{chapter.98}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:thread-safe-data-structure}{{98}{205}{1. \sphinxstylestrong {Thread\sphinxhyphen {}Safe Data Structure}}{chapter.98}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {99}2. \sphinxstylestrong {Blocks Correctly}}{207}{chapter.99}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:blocks-correctly}{{99}{207}{2. \sphinxstylestrong {Blocks Correctly}}{chapter.99}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {100}3. \sphinxstylestrong {No Busy\sphinxhyphen {}Waiting}}{209}{chapter.100}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:no-busy-waiting}{{100}{209}{3. \sphinxstylestrong {No Busy\sphinxhyphen {}Waiting}}{chapter.100}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {101}4. \sphinxstylestrong {Task Tracking}}{211}{chapter.101}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:task-tracking}{{101}{211}{4. \sphinxstylestrong {Task Tracking}}{chapter.101}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {102}5. \sphinxstylestrong {Safe for Multiple Producers/Consumers}}{213}{chapter.102}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:safe-for-multiple-producers-consumers}{{102}{213}{5. \sphinxstylestrong {Safe for Multiple Producers/Consumers}}{chapter.102}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {103}Step\sphinxhyphen {}by\sphinxhyphen {}Step: What Happens in \sphinxstyleliteralintitle {\sphinxupquote {put()}}}{215}{chapter.103}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:step-by-step-what-happens-in-put}{{103}{215}{Step\sphinxhyphen {}by\sphinxhyphen {}Step: What Happens in \sphinxstyleliteralintitle {\sphinxupquote {put()}}}{chapter.103}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {104}Step\sphinxhyphen {}by\sphinxhyphen {}Step: What Happens in \sphinxstyleliteralintitle {\sphinxupquote {get()}}}{217}{chapter.104}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:step-by-step-what-happens-in-get}{{104}{217}{Step\sphinxhyphen {}by\sphinxhyphen {}Step: What Happens in \sphinxstyleliteralintitle {\sphinxupquote {get()}}}{chapter.104}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {105}Mistake 1: Forgetting Lock}{219}{chapter.105}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:mistake-1-forgetting-lock}{{105}{219}{Mistake 1: Forgetting Lock}{chapter.105}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {106}Mistake 2: Busy\sphinxhyphen {}Waiting}{221}{chapter.106}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:mistake-2-busy-waiting}{{106}{221}{Mistake 2: Busy\sphinxhyphen {}Waiting}{chapter.106}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {107}Mistake 3: Race Condition}{223}{chapter.107}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_explained:mistake-3-race-condition}{{107}{223}{Mistake 3: Race Condition}{chapter.107}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {107.1}Add tasks}{223}{section.107.1}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_explained:add-tasks}{{107.1}{223}{Add tasks}{section.107.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {108}The Answer}{225}{chapter.108}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_internal_mechanics:the-answer}{{108}{225}{The Answer}{chapter.108}{}}
+\newlabel{cpu-concurrency/queue_internal_mechanics::doc}{{108}{225}{The Answer}{chapter.108}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.1}The Items Don’t Have Conditions}{225}{section.108.1}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:the-items-don-t-have-conditions}{{108.1}{225}{The Items Don’t Have Conditions}{section.108.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.2}Condition Variables Explained}{225}{section.108.2}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:condition-variables-explained}{{108.2}{225}{Condition Variables Explained}{section.108.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.3}Step\sphinxhyphen {}by\sphinxhyphen {}Step Execution}{226}{section.108.3}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:step-by-step-execution}{{108.3}{226}{Step\sphinxhyphen {}by\sphinxhyphen {}Step Execution}{section.108.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.4}Timeline: put() with Condition Variable}{226}{section.108.4}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:timeline-put-with-condition-variable}{{108.4}{226}{Timeline: put() with Condition Variable}{section.108.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.5}Step\sphinxhyphen {}by\sphinxhyphen {}Step Execution}{227}{section.108.5}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:id1}{{108.5}{227}{Step\sphinxhyphen {}by\sphinxhyphen {}Step Execution}{section.108.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.6}Timeline: get() with Condition Variable}{227}{section.108.6}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:timeline-get-with-condition-variable}{{108.6}{227}{Timeline: get() with Condition Variable}{section.108.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.7}Scenario: Queue with maxsize=2, multiple producers/consumers}{228}{section.108.7}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:scenario-queue-with-maxsize-2-multiple-producers-consumers}{{108.7}{228}{Scenario: Queue with maxsize=2, multiple producers/consumers}{section.108.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.8}What People Might Think (WRONG):}{228}{section.108.8}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:what-people-might-think-wrong}{{108.8}{228}{What People Might Think (WRONG):}{section.108.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.9}The Actual Truth:}{228}{section.108.9}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:the-actual-truth}{{108.9}{228}{The Actual Truth:}{section.108.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.10}Instead of Per\sphinxhyphen {}Item Events}{229}{section.108.10}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:instead-of-per-item-events}{{108.10}{229}{Instead of Per\sphinxhyphen {}Item Events}{section.108.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.11}not\_empty.notify() \sphinxhyphen {} What It Does}{229}{section.108.11}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:not-empty-notify-what-it-does}{{108.11}{229}{not\_empty.notify() \sphinxhyphen {} What It Does}{section.108.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.12}Diagram: Condition Variable Notification}{229}{section.108.12}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:diagram-condition-variable-notification}{{108.12}{229}{Diagram: Condition Variable Notification}{section.108.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.13}“Does each item get a condition?”}{230}{section.108.13}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:does-each-item-get-a-condition}{{108.13}{230}{“Does each item get a condition?”}{section.108.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.14}The Flow}{230}{section.108.14}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:the-flow}{{108.14}{230}{The Flow}{section.108.14}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {108.15}What Queue.put() Actually Does}{230}{section.108.15}\protected@file@percent }
+\newlabel{cpu-concurrency/queue_internal_mechanics:what-queue-put-actually-does}{{108.15}{230}{What Queue.put() Actually Does}{section.108.15}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {109}Summary}{233}{chapter.109}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/queue_internal_mechanics:summary}{{109}{233}{Summary}{chapter.109}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {110}Without task\_done() \sphinxhyphen {} Can’t Track Completion}{235}{chapter.110}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:without-task-done-can-t-track-completion}{{110}{235}{Without task\_done() \sphinxhyphen {} Can’t Track Completion}{chapter.110}{}}
+\newlabel{cpu-concurrency/task_done_queue_explained::doc}{{110}{235}{Without task\_done() \sphinxhyphen {} Can’t Track Completion}{chapter.110}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {111}With task\_done() \sphinxhyphen {} Can Track Completion}{237}{chapter.111}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:with-task-done-can-track-completion}{{111}{237}{With task\_done() \sphinxhyphen {} Can Track Completion}{chapter.111}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {112}Internal Counter System}{239}{chapter.112}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:internal-counter-system}{{112}{239}{Internal Counter System}{chapter.112}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {113}Visual Timeline}{241}{chapter.113}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:visual-timeline}{{113}{241}{Visual Timeline}{chapter.113}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {114}Code (Simplified)}{243}{chapter.114}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:code-simplified}{{114}{243}{Code (Simplified)}{chapter.114}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {115}Two Operations}{245}{chapter.115}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:two-operations}{{115}{245}{Two Operations}{chapter.115}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {116}Timeline: All Three Conditions}{247}{chapter.116}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:timeline-all-three-conditions}{{116}{247}{Timeline: All Three Conditions}{chapter.116}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {117}put()}{249}{chapter.117}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:put}{{117}{249}{put()}{chapter.117}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {118}get()}{251}{chapter.118}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:get}{{118}{251}{get()}{chapter.118}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {119}task\_done()}{253}{chapter.119}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:task-done}{{119}{253}{task\_done()}{chapter.119}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {120}join()}{255}{chapter.120}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:join}{{120}{255}{join()}{chapter.120}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {121}Scenario: 1 Producer, 1 Consumer}{257}{chapter.121}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:scenario-1-producer-1-consumer}{{121}{257}{Scenario: 1 Producer, 1 Consumer}{chapter.121}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {122}Step 1: put() \sphinxhyphen {} Increment Counter}{259}{chapter.122}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:step-1-put-increment-counter}{{122}{259}{Step 1: put() \sphinxhyphen {} Increment Counter}{chapter.122}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {123}Step 2: get() \sphinxhyphen {} Item Removed, Counter Unchanged}{261}{chapter.123}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:step-2-get-item-removed-counter-unchanged}{{123}{261}{Step 2: get() \sphinxhyphen {} Item Removed, Counter Unchanged}{chapter.123}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {124}Step 3: task\_done() \sphinxhyphen {} Decrement Counter}{263}{chapter.124}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:step-3-task-done-decrement-counter}{{124}{263}{Step 3: task\_done() \sphinxhyphen {} Decrement Counter}{chapter.124}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {125}Step 4: join() \sphinxhyphen {} Wait, Then Return}{265}{chapter.125}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:step-4-join-wait-then-return}{{125}{265}{Step 4: join() \sphinxhyphen {} Wait, Then Return}{chapter.125}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {126}Diagram: Tracking One Task}{267}{chapter.126}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:diagram-tracking-one-task}{{126}{267}{Diagram: Tracking One Task}{chapter.126}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {127}Diagram: Multiple Tasks}{269}{chapter.127}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:diagram-multiple-tasks}{{127}{269}{Diagram: Multiple Tasks}{chapter.127}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {128}Counter}{271}{chapter.128}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:counter}{{128}{271}{Counter}{chapter.128}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {129}Condition Variable}{273}{chapter.129}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:condition-variable}{{129}{273}{Condition Variable}{chapter.129}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {130}Together}{275}{chapter.130}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:together}{{130}{275}{Together}{chapter.130}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {131}Without all\_tasks*done Condition}{277}{chapter.131}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:without-all-tasks-done-condition}{{131}{277}{Without all\_tasks*done Condition}{chapter.131}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {132}Queue.join() Without task\_done()}{279}{chapter.132}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:queue-join-without-task-done}{{132}{279}{Queue.join() Without task\_done()}{chapter.132}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {133}Why It Blocks Forever}{281}{chapter.133}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:why-it-blocks-forever}{{133}{281}{Why It Blocks Forever}{chapter.133}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {134}Queue.join() With task\_done()}{283}{chapter.134}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:queue-join-with-task-done}{{134}{283}{Queue.join() With task\_done()}{chapter.134}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {135}Why It Works}{285}{chapter.135}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:why-it-works}{{135}{285}{Why It Works}{chapter.135}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {136}Step 1: Put Item}{287}{chapter.136}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:step-1-put-item}{{136}{287}{Step 1: Put Item}{chapter.136}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {137}Step 2: Get and Process}{289}{chapter.137}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:step-2-get-and-process}{{137}{289}{Step 2: Get and Process}{chapter.137}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {138}Step 3: Mark Done}{291}{chapter.138}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:step-3-mark-done}{{138}{291}{Step 3: Mark Done}{chapter.138}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {139}Flow Diagram}{293}{chapter.139}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:flow-diagram}{{139}{293}{Flow Diagram}{chapter.139}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {140}Without task\_done() \sphinxhyphen {} PROBLEMATIC}{295}{chapter.140}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:without-task-done-problematic}{{140}{295}{Without task\_done() \sphinxhyphen {} PROBLEMATIC}{chapter.140}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {140.1}Add tasks}{295}{section.140.1}\protected@file@percent }
+\newlabel{cpu-concurrency/task_done_queue_explained:add-tasks}{{140.1}{295}{Add tasks}{section.140.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {141}With task\_done() \sphinxhyphen {} CORRECT}{297}{chapter.141}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:with-task-done-correct}{{141}{297}{With task\_done() \sphinxhyphen {} CORRECT}{chapter.141}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {141.1}Add tasks}{297}{section.141.1}\protected@file@percent }
+\newlabel{cpu-concurrency/task_done_queue_explained:id17}{{141.1}{297}{Add tasks}{section.141.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {142}Use Case 1: Verify All Work Complete}{299}{chapter.142}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:use-case-1-verify-all-work-complete}{{142}{299}{Use Case 1: Verify All Work Complete}{chapter.142}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {143}Use Case 2: Track Progress}{301}{chapter.143}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:use-case-2-track-progress}{{143}{301}{Use Case 2: Track Progress}{chapter.143}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {144}Use Case 3: Batch Processing}{303}{chapter.144}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:use-case-3-batch-processing}{{144}{303}{Use Case 3: Batch Processing}{chapter.144}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {144.1}Main}{303}{section.144.1}\protected@file@percent }
+\newlabel{cpu-concurrency/task_done_queue_explained:main}{{144.1}{303}{Main}{section.144.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {145}Scenario: Main thread needs to know when workers finish}{305}{chapter.145}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:scenario-main-thread-needs-to-know-when-workers-finish}{{145}{305}{Scenario: Main thread needs to know when workers finish}{chapter.145}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {146}Timeline}{307}{chapter.146}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:timeline}{{146}{307}{Timeline}{chapter.146}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {147}Better Code Pattern}{309}{chapter.147}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:better-code-pattern}{{147}{309}{Better Code Pattern}{chapter.147}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {147.1}In main}{309}{section.147.1}\protected@file@percent }
+\newlabel{cpu-concurrency/task_done_queue_explained:in-main}{{147.1}{309}{In main}{section.147.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {148}Why We Need task\_done()}{311}{chapter.148}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:why-we-need-task-done}{{148}{311}{Why We Need task\_done()}{chapter.148}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {149}The Pattern}{313}{chapter.149}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/task_done_queue_explained:the-pattern}{{149}{313}{The Pattern}{chapter.149}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {150}Regular Lock vs RLock}{315}{chapter.150}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/rlock_explained:regular-lock-vs-rlock}{{150}{315}{Regular Lock vs RLock}{chapter.150}{}}
+\newlabel{cpu-concurrency/rlock_explained::doc}{{150}{315}{Regular Lock vs RLock}{chapter.150}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {151}Why RLock is Needed Here}{317}{chapter.151}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/rlock_explained:why-rlock-is-needed-here}{{151}{317}{Why RLock is Needed Here}{chapter.151}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {152}Use Regular Lock When:}{319}{chapter.152}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cpu-concurrency/rlock_explained:use-regular-lock-when}{{152}{319}{Use Regular Lock When:}{chapter.152}{}}

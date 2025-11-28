@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.11.27)  27 NOV 2025 18:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.11.27)  27 NOV 2025 18:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -721,7 +721,7 @@ Package: times 2020/03/25 PSNFSS-v9.3 (SPQR)
 
 
 Writing index file FastConcurrentProgramming.idx
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 79
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 80
 .
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
@@ -734,24 +734,24 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 (./FastConcurrentProgramming.aux)
 \openout1 = `FastConcurrentProgramming.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -811,7 +811,7 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 79.
+Package hyperref Info: Link coloring ON on input line 80.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 
@@ -823,31 +823,31 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count328
 )
-LaTeX Info: Redefining \ref on input line 79.
-LaTeX Info: Redefining \pageref on input line 79.
-LaTeX Info: Redefining \nameref on input line 79.
+LaTeX Info: Redefining \ref on input line 80.
+LaTeX Info: Redefining \pageref on input line 80.
+LaTeX Info: Redefining \nameref on input line 80.
 \@outlinefile=\write5
 \openout5 = `FastConcurrentProgramming.out'.
 
-Package hyperref Info: Option `pageanchor' set `false' on input line 87.
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 87
+Package hyperref Info: Option `pageanchor' set `false' on input line 88.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 88
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/b/it' in size <10> not available
-(Font)              Font shape `T1/phv/b/sl' tried instead on input line 87.
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 88.
 LaTeX Font Info:    Font shape `T1/phv/b/it' in size <17.28> not available
-(Font)              Font shape `T1/phv/b/sl' tried instead on input line 87.
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 88.
 <<ot1.cmap>><<oml.cmap>><<oms.cmap>><<omx.cmap>>
-LaTeX Font Info:    Trying to load font information for U+msa on input line 87.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 88.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 87.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 88.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -858,169 +858,257 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 ]
-\tf@toc=\write6
-\openout6 = `FastConcurrentProgramming.toc'.
-
- [1
-
-] [2
-
-] [1] [2
-
-]
-Chapter 1.
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-13.
+15.
+
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [3] [4
+)
 
-]
-Chapter 2.
-[5] [6
-
-]
-Chapter 3.
-[7] [8
-
-]
-Chapter 4.
-
-LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts::doc' on page 9 un
-defined on input line 214.
+LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts::doc' on page 3 un
+defined on input line 216.
 
 
-LaTeX Warning: Hyper reference `gpu-concepts/gpu-fundamentals::doc' on page 9 u
-ndefined on input line 217.
+LaTeX Warning: Hyper reference `gpu-concepts/gpu-fundamentals::doc' on page 3 u
+ndefined on input line 219.
 
-[9] [10
-
-]
-Chapter 5.
+[3]
 
 LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts:concurrency-vs-par
-allelism' on page 11 undefined on input line 239.
+allelism' on page 4 undefined on input line 237.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts:threading-vs-multi
-processing' on page 11 undefined on input line 243.
+processing' on page 4 undefined on input line 238.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts:the-global-interpr
-eter-lock-gil' on page 11 undefined on input line 247.
+eter-lock-gil' on page 4 undefined on input line 239.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts:asyncio-and-event-
-loops' on page 11 undefined on input line 251.
+loops' on page 4 undefined on input line 240.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts:coroutines' on pag
-e 11 undefined on input line 255.
+e 4 undefined on input line 241.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts:tasks-and-futures'
- on page 11 undefined on input line 259.
+ on page 4 undefined on input line 242.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts:cpu-bound-vs-io-bo
-und-operations' on page 11 undefined on input line 263.
+und-operations' on page 4 undefined on input line 243.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/key_concepts:python-312-migrati
-on-changes' on page 11 undefined on input line 267.
+on-changes' on page 4 undefined on input line 244.
 
-[11]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 34
-2.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+[4]
+Chapter 1.
+[5
+
+] [6
+
+]
+Chapter 2.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 31
+6.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-) [12] [13]
-[14]
+) [7] [8
+
+]
+Chapter 3.
+[9] [10
+
+]
+Chapter 4.
+[11] [12
+
+]
+Chapter 5.
+[13] [14
+
+]
+Chapter 6.
+[15] [16
+
+]
+Chapter 7.
+[17] [18
+
+]
+Chapter 8.
+[19] [20
+
+]
+Chapter 9.
+[21] [22
+
+]
+Chapter 10.
+[23] [24
+
+]
+Chapter 11.
+[25] [26
+
+]
+Chapter 12.
+[27] [28
+
+]
+Chapter 13.
+[29] [30
+
+]
+Chapter 14.
+[31] [32
+
+]
+Chapter 15.
+[33] [34
+
+]
+Chapter 16.
+[35] [36
+
+]
+Chapter 17.
+[37] [38
+
+]
+Chapter 18.
+[39] [40
+
+]
+Chapter 19.
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 758.
+(textcomp)                Default family used instead on input line 701.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 758.
+(textcomp)                Default family used instead on input line 701.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 758.
+(textcomp)                Default family used instead on input line 701.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 758.
+(textcomp)                Default family used instead on input line 701.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 762.
+(textcomp)                Default family used instead on input line 705.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 762.
+(textcomp)                Default family used instead on input line 705.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 762.
+(textcomp)                Default family used instead on input line 705.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 762.
+(textcomp)                Default family used instead on input line 705.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 770.
+(textcomp)                Default family used instead on input line 713.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 770.
+(textcomp)                Default family used instead on input line 713.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 770.
+(textcomp)                Default family used instead on input line 713.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 770.
+(textcomp)                Default family used instead on input line 713.
 
-[15]
-Underfull \hbox (badness 10000) in paragraph at lines 837--841
+[41] [42
+
+]
+Chapter 20.
+[43] [44
+
+]
+Chapter 21.
+[45] [46
+
+]
+Chapter 22.
+
+Underfull \hbox (badness 10000) in paragraph at lines 780--784
 \T1/ptm/m/n/10 asyn-cio.create_task(factorial(10)), asyn-cio.create_task(fibona
 cci(10)), asyn-
  []
 
-[16]
-Underfull \hbox (badness 6675) in paragraph at lines 905--911
-[]\T1/ptm/m/n/10 done, pend-ing = await asyn-cio.wait([task1, task2, task3]) Re
--turns sets of done and pend-ing tasks
+[47] [48
+
+]
+Chapter 23.
+[49] [50
+
+]
+Chapter 24.
+[51] [52
+
+]
+Chapter 25.
+[53] [54
+
+]
+Chapter 26.
+[55] [56
+
+]
+Chapter 27.
+[57] [58
+
+]
+Chapter 28.
+
+Underfull \hbox (badness 10000) in paragraph at lines 985--988
+[]\T1/ptm/m/n/10 loop = asyn-cio.get_event*loop() re-sult = await loop.run_in*e
+xecutor(executor,
  []
 
-[17]
+[59] [60
+
+]
+Chapter 29.
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1090.
+(textcomp)                Default family used instead on input line 1033.
 
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-090.
+033.
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
-1090.
+1033.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
@@ -1028,1058 +1116,1542 @@ File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1090.
+(textcomp)                Default family used instead on input line 1033.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1090.
+(textcomp)                Default family used instead on input line 1033.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1090.
+(textcomp)                Default family used instead on input line 1033.
 
-[18]
+[61] [62
 
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1143.
-
+]
+Chapter 30.
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1143.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1143.
+(textcomp)                Default family used instead on input line 1086.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1143.
+(textcomp)                Default family used instead on input line 1086.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1189.
+(textcomp)                Default family used instead on input line 1086.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1189.
+(textcomp)                Default family used instead on input line 1086.
+
+[63] [64
+
+]
+Chapter 31.
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 1132.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1189.
+(textcomp)                Default family used instead on input line 1132.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1189.
+(textcomp)                Default family used instead on input line 1132.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1237.
+(textcomp)                Default family used instead on input line 1132.
+
+[65] [66
+
+]
+Chapter 32.
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 1180.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1237.
+(textcomp)                Default family used instead on input line 1180.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1237.
+(textcomp)                Default family used instead on input line 1180.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1237.
+(textcomp)                Default family used instead on input line 1180.
 
-[19]
+[67] [68
 
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1347.
+]
+Chapter 33.
+[69] [70
 
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1347.
-
+]
+Chapter 34.
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1347.
+(textcomp)                Default family used instead on input line 1290.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 1347.
+(textcomp)                Default family used instead on input line 1290.
 
-[20]
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 1290.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 1290.
+
+[71] [72
+
+]
+Chapter 35.
 LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 1
 .
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
-) [21]
+) [73] [74
+
+]
+Chapter 36.
+[75] [76
+
+]
+Chapter 37.
+[77] [78
+
+]
+Chapter 38.
+[79] [80
+
+]
+Chapter 39.
+[81] [82
+
+]
+Chapter 40.
 
 LaTeX Warning: Hyper reference `cpu-concurrency/hardware_parallelism:physical-c
-ores-vs-logical-cores' on page 22 undefined on input line 1562.
+ores-vs-logical-cores' on page 83 undefined on input line 1498.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/hardware_parallelism:what-is-hy
-perthreading' on page 22 undefined on input line 1566.
+perthreading' on page 83 undefined on input line 1499.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/hardware_parallelism:how-thread
-ing-is-bounded-by-physical-cores' on page 22 undefined on input line 1570.
+ing-is-bounded-by-physical-cores' on page 83 undefined on input line 1500.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/hardware_parallelism:why-gpus-e
-xcel-at-parallel-computing' on page 22 undefined on input line 1574.
+xcel-at-parallel-computing' on page 83 undefined on input line 1501.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/hardware_parallelism:cpu-vs-gpu
--architecture' on page 22 undefined on input line 1578.
+-architecture' on page 83 undefined on input line 1502.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/hardware_parallelism:when-to-us
-e-what' on page 22 undefined on input line 1582.
+e-what' on page 83 undefined on input line 1503.
 
 
 LaTeX Warning: Hyper reference `cpu-concurrency/hardware_parallelism:practical-
-examples' on page 22 undefined on input line 1586.
+examples' on page 83 undefined on input line 1504.
 
-[22]
-Underfull \hbox (badness 10000) in paragraph at lines 1654--1664
-\T1/ptm/m/n/10 log-i-cal_cores = os.cpu_count() # e.g., 8 Phys-i-cal cores re-q
-uire platform-specific
+[83] [84
+
+]
+Chapter 41.
+[85] [86
+
+]
+Chapter 42.
+[87] [88
+
+]
+Chapter 43.
+[89] [90
+
+]
+Chapter 44.
+[91] [92
+
+]
+Chapter 45.
+[93] [94
+
+]
+Chapter 46.
+[95] [96
+
+]
+Chapter 47.
+[97] [98
+
+]
+Chapter 48.
+[99] [100]
+Chapter 49.
+[101
+
+] [102
+
+]
+Chapter 50.
+[103] [104
+
+]
+Chapter 51.
+[105] [106
+
+]
+Chapter 52.
+[107] [108
+
+]
+Chapter 53.
+[109] [110
+
+]
+Chapter 54.
+[111] [112
+
+]
+Chapter 55.
+[113] [114
+
+]
+Chapter 56.
+[115] [116]
+Chapter 57.
+[117
+
+] [118]
+Chapter 58.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2463--2479
+[]\T1/ptm/m/n/10 GPU Die Lay-out (ap-prox-i-mate): | ##########################
+########### | |
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1654--1664
-\T1/ptm/m/n/10 code: ============================================== On Linux: c
-heck
+Underfull \hbox (badness 10000) in paragraph at lines 2463--2479
+\T1/ptm/m/n/10 ##################################### | | ######################
+############### | |
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1654--1664
-\T1/ptm/m/n/10 /proc/cpuinfo ============================= On ma-cOS: sysctl hw
-.physicalcpu
- []
-
-[23]
-Underfull \hbox (badness 10000) in paragraph at lines 1845--1851
-\T1/ptm/m/n/10 lscpu | grep ^^PThread(s) per core^^Q Out-put: Thread(s) per cor
-e: 2 <- HT en-abled
- []
-
-[24]
-Underfull \hbox (badness 10000) in paragraph at lines 1855--1861
-\T1/ptm/m/n/10 grep -E ^^Psib-lings|cpu cores^^Q /proc/cpuinfo | head -2 sib-li
-ngs = log-i-cal cores per phys-i-cal CPU
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1855--1861
-\T1/ptm/m/n/10 ========================================= cpu cores = phys-i-cal
- cores per phys-i-cal CPU
- []
-
-[25] [26] [27] [28]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@ifnextchar' on input line 2226.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@ifnextchar' on input line 2226.
-
-[29] [30] [31] [32]
-Overfull \hbox (13.02303pt too wide) in paragraph at lines 2667--2686
-[]\T1/ptm/m/n/10 GPU Die Lay-out (ap-prox-i-mate): +^^V^^V^^V^^V^^V^^V^^V^^V^^V
-^^V^^V^^V^^V^^V^^V+ | #####################################
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2686
-\T1/ptm/m/n/10 | | ##################################### | | ##################
-################### | |
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2686
+Underfull \hbox (badness 10000) in paragraph at lines 2463--2479
 \T1/ptm/m/n/10 ##################################### | | ######################
 ############### | | Com-
  []
 
 
-Underfull \hbox (badness 7379) in paragraph at lines 2667--2686
+Underfull \hbox (badness 7379) in paragraph at lines 2463--2479
 \T1/ptm/m/n/10 pute Units (80-85%) | | Thou-sands of sim-ple ALUs | | #########
 ############################
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2686
+Underfull \hbox (badness 10000) in paragraph at lines 2463--2479
 \T1/ptm/m/n/10 | | ##################################### | | ##################
 ################### | |
  []
 
-[33] [34] [35] [36]
-Underfull \hbox (badness 10000) in paragraph at lines 3085--3091
-[]\T1/ptm/m/n/10 start = time.time() pi_estimate = es-ti-mate_pi*parallel(1*000
-*000*000, 4) print(f^^QCPU par-al-
- []
+[119
 
+] [120
 
-Underfull \hbox (badness 10000) in paragraph at lines 3085--3091
-\T1/ptm/m/n/10 lel time: {time.time() - start:.2f}s^^Q) Out-put: CPU par-al-lel
- time: 47.00s (3.8x speedup)
- []
+]
+Chapter 59.
+[121] [122
 
+]
+Chapter 60.
+[123] [124
 
-Underfull \hbox (badness 10000) in paragraph at lines 3108--3115
-[]\T1/ptm/m/n/10 start = time.time() pi_estimate = es-ti-mate_pi*gpu(1*000*000*
-000) cp.cuda.Stream.null.synchronize()
- []
+]
+Chapter 61.
+[125] [126
 
+]
+Chapter 62.
+[127] [128]
+Chapter 63.
+[129
 
-Underfull \hbox (badness 10000) in paragraph at lines 3108--3115
-\T1/ptm/m/n/10 print(f^^QGPU time: {time.time() - start:.2f}s^^Q) Out-put: GPU 
-time: 1.50s (120x speedup!)
- []
+] [130
 
-[37] [38] [39] [40]
-Underfull \hbox (badness 10000) in paragraph at lines 3598--3602
+]
+Chapter 64.
+[131] [132
+
+]
+Chapter 65.
+[133] [134
+
+]
+Chapter 66.
+[135] [136
+
+]
+Chapter 67.
+[137] [138
+
+]
+Chapter 68.
+[139] [140
+
+]
+Chapter 69.
+[141] [142
+
+]
+Chapter 70.
+[143] [144
+
+]
+Chapter 71.
+[145] [146
+
+]
+Chapter 72.
+[147] [148
+
+]
+Chapter 73.
+[149] [150
+
+]
+Chapter 74.
+[151]
+Underfull \hbox (badness 10000) in paragraph at lines 3282--3286
 []\T1/ptm/m/n/10 thread = thread-ing.Thread(target=do_task, args=(task,)) threa
 d.start() # Start each thread
  []
 
-[41] [42] [43] [44]
+[152]
+Chapter 75.
+[153
+
+] [154
+
+]
+Chapter 76.
+[155] [156
+
+]
+Chapter 77.
+[157] [158]
+Chapter 78.
+[159
+
+]
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 3974.
+(textcomp)                Default family used instead on input line 3643.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 3974.
+(textcomp)                Default family used instead on input line 3643.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 3974.
+(textcomp)                Default family used instead on input line 3643.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 3974.
+(textcomp)                Default family used instead on input line 3643.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3986.
+(textcomp)                Default family used instead on input line 3655.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3986.
+(textcomp)                Default family used instead on input line 3655.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3986.
+(textcomp)                Default family used instead on input line 3655.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3986.
+(textcomp)                Default family used instead on input line 3655.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3986.
+(textcomp)                Default family used instead on input line 3655.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3986.
+(textcomp)                Default family used instead on input line 3655.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3986.
+(textcomp)                Default family used instead on input line 3655.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3986.
+(textcomp)                Default family used instead on input line 3655.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3998.
+(textcomp)                Default family used instead on input line 3667.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3998.
+(textcomp)                Default family used instead on input line 3667.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3998.
+(textcomp)                Default family used instead on input line 3667.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 3998.
+(textcomp)                Default family used instead on input line 3667.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4004.
+(textcomp)                Default family used instead on input line 3673.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4004.
+(textcomp)                Default family used instead on input line 3673.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4004.
+(textcomp)                Default family used instead on input line 3673.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4004.
+(textcomp)                Default family used instead on input line 3673.
 
-[45] [46]
+[160]
+Chapter 79.
+[161
 
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4255.
+] [162
 
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4255.
-
+]
+Chapter 80.
+[163]
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4255.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4255.
+(textcomp)                Default family used instead on input line 3914.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4255.
+(textcomp)                Default family used instead on input line 3914.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4255.
+(textcomp)                Default family used instead on input line 3914.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4255.
+(textcomp)                Default family used instead on input line 3914.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4255.
+(textcomp)                Default family used instead on input line 3914.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4262.
+(textcomp)                Default family used instead on input line 3914.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4262.
+(textcomp)                Default family used instead on input line 3914.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4262.
+(textcomp)                Default family used instead on input line 3914.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4262.
+(textcomp)                Default family used instead on input line 3921.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4262.
+(textcomp)                Default family used instead on input line 3921.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4262.
+(textcomp)                Default family used instead on input line 3921.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4262.
+(textcomp)                Default family used instead on input line 3921.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4262.
+(textcomp)                Default family used instead on input line 3921.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4269.
+(textcomp)                Default family used instead on input line 3921.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4269.
+(textcomp)                Default family used instead on input line 3921.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4269.
+(textcomp)                Default family used instead on input line 3921.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4269.
+(textcomp)                Default family used instead on input line 3928.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4269.
+(textcomp)                Default family used instead on input line 3928.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4269.
+(textcomp)                Default family used instead on input line 3928.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4269.
+(textcomp)                Default family used instead on input line 3928.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4269.
-
-[47]
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4275.
+(textcomp)                Default family used instead on input line 3928.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4275.
+(textcomp)                Default family used instead on input line 3928.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4275.
+(textcomp)                Default family used instead on input line 3928.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4275.
+(textcomp)                Default family used instead on input line 3928.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4274--4279
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 3934.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 3934.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 3934.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 3934.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3933--3938
 []\T1/ptm/b/n/10 Up-dated to \TS1/cmr/b/n/10 ``\T1/ptm/b/n/10 asyn-cio.run()\TS
 1/cmr/b/n/10 `` \T1/ptm/m/n/10 - Old: \T1/pcr/m/n/10 loop = asyncio.get_event*l
 oop(); loop.
  []
 
-[48] [49]
+[164] [165] [166
+
+]
+Chapter 81.
+[167] [168
+
+]
+Chapter 82.
+[169] [170
+
+]
+Chapter 83.
+[171]
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4513.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4513.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4513.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4513.
+(textcomp)                Default family used instead on input line 4170.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4520.
+(textcomp)                Default family used instead on input line 4170.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4520.
+(textcomp)                Default family used instead on input line 4170.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4520.
+(textcomp)                Default family used instead on input line 4170.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4520.
+(textcomp)                Default family used instead on input line 4177.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4520.
+(textcomp)                Default family used instead on input line 4177.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4520.
+(textcomp)                Default family used instead on input line 4177.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4520.
+(textcomp)                Default family used instead on input line 4177.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4520.
+(textcomp)                Default family used instead on input line 4177.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4525.
+(textcomp)                Default family used instead on input line 4177.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4525.
+(textcomp)                Default family used instead on input line 4177.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4525.
+(textcomp)                Default family used instead on input line 4177.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4525.
+(textcomp)                Default family used instead on input line 4182.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4525.
+(textcomp)                Default family used instead on input line 4182.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4525.
+(textcomp)                Default family used instead on input line 4182.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4525.
+(textcomp)                Default family used instead on input line 4182.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4525.
+(textcomp)                Default family used instead on input line 4182.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4530.
+(textcomp)                Default family used instead on input line 4182.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4530.
+(textcomp)                Default family used instead on input line 4182.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4530.
+(textcomp)                Default family used instead on input line 4182.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4530.
+(textcomp)                Default family used instead on input line 4187.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4537.
+(textcomp)                Default family used instead on input line 4187.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4537.
+(textcomp)                Default family used instead on input line 4187.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4537.
+(textcomp)                Default family used instead on input line 4187.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4537.
+(textcomp)                Default family used instead on input line 4194.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4543.
+(textcomp)                Default family used instead on input line 4194.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4543.
+(textcomp)                Default family used instead on input line 4194.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4543.
+(textcomp)                Default family used instead on input line 4194.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4543.
+(textcomp)                Default family used instead on input line 4200.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4543.
+(textcomp)                Default family used instead on input line 4200.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4543.
+(textcomp)                Default family used instead on input line 4200.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4543.
+(textcomp)                Default family used instead on input line 4200.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4543.
+(textcomp)                Default family used instead on input line 4200.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4549.
+(textcomp)                Default family used instead on input line 4200.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4549.
+(textcomp)                Default family used instead on input line 4200.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4549.
+(textcomp)                Default family used instead on input line 4200.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4549.
+(textcomp)                Default family used instead on input line 4206.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4569--4574
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 4206.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 4206.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 4206.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4226--4231
 []\T1/ptm/m/n/10 fu-ture = asyn-cio.Future() fu-ture.add_done*callback(callback
 _function) await corou-tine(future, value) fu-
  []
 
-[50] [51]
+[172] [173] [174
+
+]
+Chapter 84.
+[175] [176
+
+]
+Chapter 85.
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4723.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4723.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4723.
+(textcomp)                Default family used instead on input line 4377.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4723.
+(textcomp)                Default family used instead on input line 4377.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4727.
+(textcomp)                Default family used instead on input line 4377.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4727.
+(textcomp)                Default family used instead on input line 4377.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4727.
+(textcomp)                Default family used instead on input line 4381.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4727.
+(textcomp)                Default family used instead on input line 4381.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4735.
+(textcomp)                Default family used instead on input line 4381.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4735.
+(textcomp)                Default family used instead on input line 4381.
+
+[177]
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 4389.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4735.
+(textcomp)                Default family used instead on input line 4389.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4735.
+(textcomp)                Default family used instead on input line 4389.
 
-[52]
-Underfull \hbox (badness 10000) in paragraph at lines 4914--4918
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 4389.
+
+[178]
+Chapter 86.
+[179
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 4566--4570
 \T1/ptm/m/n/10 asyn-cio.create_task(factorial(10)), asyn-cio.create_task(fibona
 cci(10)), asyn-
  []
 
-[53]
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4939.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4939.
+(textcomp)                Default family used instead on input line 4591.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4939.
+(textcomp)                Default family used instead on input line 4591.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4939.
+(textcomp)                Default family used instead on input line 4591.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4939.
+(textcomp)                Default family used instead on input line 4591.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4939.
+(textcomp)                Default family used instead on input line 4591.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4939.
+(textcomp)                Default family used instead on input line 4591.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4939.
+(textcomp)                Default family used instead on input line 4591.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4945.
+(textcomp)                Default family used instead on input line 4591.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4945.
+(textcomp)                Default family used instead on input line 4597.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4945.
+(textcomp)                Default family used instead on input line 4597.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4945.
+(textcomp)                Default family used instead on input line 4597.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4945.
+(textcomp)                Default family used instead on input line 4597.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4945.
+(textcomp)                Default family used instead on input line 4597.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4945.
+(textcomp)                Default family used instead on input line 4597.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4945.
+(textcomp)                Default family used instead on input line 4597.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4951.
+(textcomp)                Default family used instead on input line 4597.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4951.
+(textcomp)                Default family used instead on input line 4603.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4951.
+(textcomp)                Default family used instead on input line 4603.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4951.
+(textcomp)                Default family used instead on input line 4603.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4951.
+(textcomp)                Default family used instead on input line 4603.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4951.
+(textcomp)                Default family used instead on input line 4603.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4951.
+(textcomp)                Default family used instead on input line 4603.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4951.
+(textcomp)                Default family used instead on input line 4603.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4959.
+(textcomp)                Default family used instead on input line 4603.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4959.
+(textcomp)                Default family used instead on input line 4611.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4959.
+(textcomp)                Default family used instead on input line 4611.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4959.
+(textcomp)                Default family used instead on input line 4611.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4959.
+(textcomp)                Default family used instead on input line 4611.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4959.
+(textcomp)                Default family used instead on input line 4611.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4959.
+(textcomp)                Default family used instead on input line 4611.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4959.
+(textcomp)                Default family used instead on input line 4611.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4967.
+(textcomp)                Default family used instead on input line 4611.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4967.
+(textcomp)                Default family used instead on input line 4619.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4967.
+(textcomp)                Default family used instead on input line 4619.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 4967.
+(textcomp)                Default family used instead on input line 4619.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 5028.
+(textcomp)                Default family used instead on input line 4619.
+
+[180]
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 4679.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 5028.
+(textcomp)                Default family used instead on input line 4679.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 5028.
+(textcomp)                Default family used instead on input line 4679.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
-(textcomp)                Default family used instead on input line 5028.
+(textcomp)                Default family used instead on input line 4679.
 
-[54] [55] [56] [57]
+[181] [182
+
+]
+Chapter 87.
+[183] [184
+
+]
+Chapter 88.
+[185] [186]
+Chapter 89.
+[187
+
+] [188
+
+]
+Chapter 90.
+[189] [190
+
+]
+Chapter 91.
+[191] [192
+
+]
+Chapter 92.
+[193] [194
+
+]
+Chapter 93.
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5459.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5459.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5459.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5459.
-
-[58]
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5490.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5490.
-
-
-Package textcomp Warning: Symbol \textasciigrave not provided by
-(textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5490.
+(textcomp)                Default family used instead on input line 5111.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5490.
+(textcomp)                Default family used instead on input line 5111.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5511.
+(textcomp)                Default family used instead on input line 5111.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5511.
+(textcomp)                Default family used instead on input line 5111.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5511.
+(textcomp)                Default family used instead on input line 5142.
 
 
 Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family pcr in TS1 encoding.
-(textcomp)                Default family used instead on input line 5511.
+(textcomp)                Default family used instead on input line 5142.
 
-[59] [60]
-Underfull \hbox (badness 7522) in paragraph at lines 5763--5767
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 5142.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 5142.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 5162.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 5162.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 5162.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 5162.
+
+[195] [196]
+Chapter 94.
+[197
+
+] [198]
+Chapter 95.
+[199
+
+] [200
+
+]
+Chapter 96.
+
+Underfull \hbox (badness 7522) in paragraph at lines 5426--5430
 \T1/ptm/m/n/10 item = self.queue.get() # Safely re-move from queue print(f^^Qco
 nsumer: got {item}^^Q)
  []
 
-[61] [62] [63] [64] [65] [66] [67]
+[201] [202
 
-! Package array Error: Empty preamble: `l' used.
+]
+Chapter 97.
+[203] [204
 
-See the array package documentation for explanation.
+]
+Chapter 98.
+[205] [206
+
+]
+Chapter 99.
+[207] [208
+
+]
+Chapter 100.
+[209] [210
+
+]
+Chapter 101.
+[211] [212
+
+]
+Chapter 102.
+[213] [214
+
+]
+Chapter 103.
+[215] [216
+
+]
+Chapter 104.
+[217] [218
+
+]
+Chapter 105.
+[219] [220
+
+]
+Chapter 106.
+[221] [222
+
+]
+Chapter 107.
+[223] [224]
+Chapter 108.
+[225
+
+] [226] [227]
+Underfull \hbox (badness 10000) in paragraph at lines 6288--6288
+|[][]\T1/phv/b/n/14.4 Scenario: Queue with max-size=2, mul-ti-ple pro-duc-
+ []
+
+[228] [229] [230] [231] [232
+
+]
+Chapter 109.
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 6735.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 6735.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 6735.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 6735.
+
+[233] [234
+
+]
+Chapter 110.
+[235] [236
+
+]
+Chapter 111.
+[237] [238
+
+]
+Chapter 112.
+[239] [240
+
+]
+Chapter 113.
+[241] [242
+
+]
+Chapter 114.
+[243] [244
+
+]
+Chapter 115.
+[245] [246
+
+]
+Chapter 116.
+[247] [248
+
+]
+Chapter 117.
+[249] [250
+
+]
+Chapter 118.
+[251] [252
+
+]
+Chapter 119.
+[253] [254
+
+]
+Chapter 120.
+[255] [256
+
+]
+Chapter 121.
+[257] [258
+
+]
+Chapter 122.
+[259] [260
+
+]
+Chapter 123.
+[261] [262
+
+]
+Chapter 124.
+[263] [264
+
+]
+Chapter 125.
+[265] [266
+
+]
+Chapter 126.
+[267] [268
+
+]
+Chapter 127.
+[269] [270
+
+]
+Chapter 128.
+[271] [272
+
+]
+Chapter 129.
+[273] [274
+
+]
+Chapter 130.
+[275] [276
+
+]
+Chapter 131.
+[277] [278]
+Chapter 132.
+[279
+
+] [280
+
+]
+Chapter 133.
+[281] [282
+
+]
+Chapter 134.
+[283] [284
+
+]
+Chapter 135.
+[285] [286
+
+]
+Chapter 136.
+[287] [288
+
+]
+Chapter 137.
+[289] [290
+
+]
+Chapter 138.
+[291] [292
+
+]
+Chapter 139.
+[293] [294
+
+]
+Chapter 140.
+[295] [296
+
+]
+Chapter 141.
+[297] [298
+
+]
+Chapter 142.
+[299] [300
+
+]
+Chapter 143.
+[301] [302
+
+]
+Chapter 144.
+[303] [304
+
+]
+Chapter 145.
+[305] [306
+
+]
+Chapter 146.
+[307] [308
+
+]
+Chapter 147.
+[309] [310
+
+]
+Chapter 148.
+[311] [312
+
+]
+Chapter 149.
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 8214.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 8214.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 8214.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 8214.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 8214.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 8214.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 8214.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family pcr in TS1 encoding.
+(textcomp)                Default family used instead on input line 8214.
+
+[313] [314]
+Chapter 150.
+[315
+
+] [316]
+Chapter 151.
+[317
+
+] [318
+
+]
+Chapter 152.
+[319] [320
+
+]
+Chapter 153.
+
+! LaTeX Error: Too deeply nested.
+
+See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.6378 \end{tabulary}
-                     
+l.8647 ...te(\sphinxhyphen{}1)}\begin{description}
+                                                  
 ? 
 ! Emergency stop.
  ...                                              
                                                   
-l.6378 \end{tabulary}
-                     
-Try typing  <return>  to proceed.
+l.8647 ...te(\sphinxhyphen{}1)}\begin{description}
+                                                  
+You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
  
 Here is how much of TeX's memory you used:
- 17437 strings out of 480247
- 298664 string characters out of 5896150
- 759787 words of memory out of 5000000
- 34418 multiletter control sequences out of 15000+600000
- 519689 words of font info for 88 fonts, out of 8000000 for 9000
+ 17562 strings out of 480247
+ 297653 string characters out of 5896150
+ 658618 words of memory out of 5000000
+ 34398 multiletter control sequences out of 15000+600000
+ 514208 words of font info for 86 fonts, out of 8000000 for 9000
  15 hyphenation exceptions out of 8191
- 70i,12n,83p,1214b,553s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 70i,12n,83p,1214b,541s stack positions out of 5000i,500n,10000p,200000b,80000s
 !  ==> Fatal error occurred, no output PDF file produced!

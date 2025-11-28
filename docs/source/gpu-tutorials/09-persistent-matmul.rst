@@ -1,5 +1,4 @@
 Tutorial 09: Persistent Matmul
-==============================
 
 Overview
 --------
@@ -15,7 +14,6 @@ Overview
 This tutorial also uses **Triton Proton profiler** for detailed performance analysis.
 
 Key Concepts
-------------
 
 Persistent Kernel Pattern
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,12 +21,10 @@ Persistent Kernel Pattern
 .. code-block:: python
 
 Traditional kernel: One CTA per tile
-====================================
 for tile in tiles:
     launch_kernel`1*CTA_per*tile <tile>`_
 
 Persistent kernel: NUM_SMS CTAs process all tiles
-=================================================
 launch_kernel`NUM_SMS <all_tiles>`_
 for tile in my_assigned*tiles:
     process(tile)
@@ -64,7 +60,6 @@ for ki in tl.range(k_tiles, warp_specialize=True):
 - Hardware-managed producer-consumer pattern
 
 Code Walkthrough
-----------------
 
 1. Naive Matmul (Baseline)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -248,7 +243,6 @@ def matmul_kernel*tma_persistent(...,
 - Can increase overall throughput
 
 Proton Profiler Integration
----------------------------
 
 This tutorial demonstrates using Triton's built-in profiler:
 
@@ -257,12 +251,10 @@ This tutorial demonstrates using Triton's built-in profiler:
 import triton.profiler as proton
 
 Start profiling
-===============
 proton.start("matmul", hook="triton")
 proton.deactivate()  # Don't profile initialization
 
 Run benchmarks
-==============
 for K in range(K_min, K_max, K_step):
     proton.activate(0)
     for * in range(reps):
@@ -270,7 +262,6 @@ for K in range(K_min, K_max, K_step):
     proton.deactivate(0)
 
 Finalize and show results
-=========================
 proton.finalize()
 show_profile("fp16", "matmul")
 ::
@@ -306,15 +297,10 @@ Output shows hierarchical breakdown:
 ::
 
 matmul
-|- naive [M=8192, N=8192, K=512]      1.23 ms, 220 tflop16/s
-|- persistent [M=8192, N=8192, K=512] 1.15 ms, 235 tflop16/s
-|- tma [M=8192, N=8192, K=512]        1.05 ms, 257 tflop16/s
-+- tma_persistent [...]               0.98 ms, 276 tflop16/s
 ::
 
 
 Device-side vs Host-side Descriptors
-------------------------------------
 
 Host-side (TensorDescriptor)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -324,7 +310,6 @@ Host-side (TensorDescriptor)
 from triton.tools.tensor_descriptor import TensorDescriptor
 
 Created on CPU, passed to GPU
-=============================
 a_desc = TensorDescriptor.from_tensor(a, [BLOCK_M, BLOCK_K])
 matmul_kernel*tma`grid <a_desc, b_desc, c_desc, ...>`_
 ::
@@ -355,7 +340,6 @@ def kernel(a_ptr, ...):
 **Cons:** Only available on newer GPUs
 
 Warp Specialization Details
----------------------------
 
 How It Works
 ~~~~~~~~~~~~
@@ -392,14 +376,11 @@ def supports_ws():
     return is_cuda() and torch.cuda.get_device*capability()[0] >= 9
 
 On Hopper: Software pipelining
-==============================
 On Blackwell: Hardware warp specialization
-==========================================
 ::
 
 
 Flattening in Persistent Loops
-------------------------------
 
 .. code-block:: python
 
@@ -422,19 +403,16 @@ for tile_id in tl.range(start_pid, num_tiles, NUM_SMS,
 .. code-block:: python
 
 Choose based on GPU generation
-==============================
 flatten = False if (warp_specialize and is_hopper()) else True
 ::
 
 
 Performance Comparison
-----------------------
 
 Expected speedups (relative to naive):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 | Variant | FP16 Speedup | FP8 Speedup | Notes |
-|---------|--------------|-------------|-------|
 | Persistent | 1.05-1.15x | 1.05-1.1x | Saves launch overhead |
 | TMA | 1.15-1.25x | 1.2-1.3x | Better memory access |
 | TMA Persistent | 1.2-1.35x | 1.25-1.4x | Combined benefits |
@@ -464,7 +442,6 @@ When Each Variant Wins
 - Maximum performance needed
 
 Precision Support
------------------
 
 FP16 (Float16)
 ~~~~~~~~~~~~~~
@@ -493,7 +470,6 @@ b = torch.randn((K, N), dtype=torch.float16).to(dtype)
 - Ideal for inference
 
 Auto-tuning Configuration
--------------------------
 
 .. code-block:: python
 
@@ -520,20 +496,16 @@ def matmul_get*configs():
 - ``GROUP_SIZE*M``: Swizzling factor for L2 locality
 
 Command-line Usage
-------------------
 
 .. code-block:: bash
 
 FP16 matmul
-===========
 python 09-persistent-matmul.py --prec fp16 --K_range 128 1024 --K_step 128
 
 FP8 matmul (requires Hopper+)
-=============================
 python 09-persistent-matmul.py --prec fp8 --K 512
 
 Profile specific K dimension
-============================
 python 09-persistent-matmul.py --prec fp16 -K 2048
 ::
 
@@ -541,7 +513,6 @@ python 09-persistent-matmul.py --prec fp16 -K 2048
 **Note:** May fail on GPUs with small shared memory (e.g., RTX 4090). Reduce ``num_stages`` if needed.
 
 Common Pitfalls
----------------
 
 1. Wrong B Matrix Layout for TMA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -549,7 +520,6 @@ Common Pitfalls
 .. code-block:: python
 
 TMA expects B to be transposed
-==============================
 b = b.T.contiguous()  # Make sure it's contiguous!
 
 matmul_tma(a, b, warp_specialize=False)
@@ -562,12 +532,10 @@ matmul_tma(a, b, warp_specialize=False)
 .. code-block:: python
 
 Bad: Using both in same kernel
-==============================
 a_desc = TensorDescriptor.from_tensor(a, ...)  # Host-side
 tl.make_tensor*descriptor(...)  # Device-side
 
 Good: Pick one approach
-=======================
 if HAS_HOST*TENSOR_DESC:
     use_host*descriptors()
 else:

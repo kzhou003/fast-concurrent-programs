@@ -1,5 +1,4 @@
 The @triton.jit Decorator
-=========================
 
 The ``@triton.jit`` decorator is the entry point to Triton compilation. This document explains how it works, from Python function decoration to compilation triggering.
 
@@ -25,7 +24,6 @@ When you write a Triton kernel, you decorate it with ``@triton.jit``:
 The ``@triton.jit`` decorator transforms the function into a ``JITFunction`` object that handles compilation and execution.
 
 How the Decorator Works
-------------------------
 
 Implementation
 ~~~~~~~~~~~~~~
@@ -52,7 +50,6 @@ The decorator is defined in `jit.py <https://github.com/triton-lang/triton/tree/
 When you apply ``@triton.jit``, it creates a ``JITFunction`` instance wrapping your original function.
 
 The JITCallable Base Class
----------------------------
 
 All JIT-compiled Triton code inherits from ``JITCallable``, which provides core functionality:
 
@@ -148,7 +145,6 @@ Every kernel has a **cache key** based on its source code and dependencies:
 - All transitively called functions
 
 Dependencies Tracking
----------------------
 
 The ``DependenciesFinder`` class walks the AST to find all dependencies:
 
@@ -274,7 +270,6 @@ The dependency finder:
 *Location:* `jit.py:99-115 <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/runtime/jit.py#L99-L115>`_
 
 The JITFunction Class
----------------------
 
 ``JITFunction`` extends ``JITCallable`` to add kernel launching:
 
@@ -393,7 +388,6 @@ Triton can **specialize** kernels based on runtime argument values:
     kernel[grid](y, N=1024)  # Reuses first binary (cached)
 
 Compilation Triggering
-----------------------
 
 If no cached kernel exists, ``JITFunction`` triggers compilation:
 
@@ -439,7 +433,6 @@ If no cached kernel exists, ``JITFunction`` triggers compilation:
 Compilation creates an ``ASTSource`` object and passes it to the main ``compile()`` function (covered in next sections).
 
 Kernel Metadata
----------------
 
 Launch Metadata
 ~~~~~~~~~~~~~~~
@@ -453,7 +446,7 @@ You can attach metadata to kernels for profiling:
         return {
             "name": f"matmul [M={M}, N={N}, K={K}]",
             "flops": 2 * M * N * K,
-            "bytes": 2 * (M*K + K*N + M*N)
+            "bytes": 2 * (M_K + K_N + M_N)
         }
 
     @triton.jit(launch_metadata=_matmul_launch_metadata)
@@ -479,7 +472,6 @@ Attributes and Hints
 - ``repr``: Custom repr() for the function
 
 Constexpr Parameters
---------------------
 
 ``tl.constexpr`` marks compile-time constants:
 

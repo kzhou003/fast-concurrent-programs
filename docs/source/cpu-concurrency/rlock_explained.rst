@@ -1,8 +1,6 @@
 RLock (Reentrant Lock) Explained
-================================
 
 What is RLock?
---------------
 
 **RLock** stands for **Reentrant Lock**. It's a special type of lock that allows the **same thread to acquire it multiple times** without deadlocking.
 
@@ -37,7 +35,6 @@ with rlock:          # Thread acquires lock (count = 1)
 ---
 
 How RLock Works Internally
---------------------------
 
 RLock uses a **counter system**:
 
@@ -66,7 +63,6 @@ Thread B can now acquire
 ---
 
 The Code Explained
-------------------
 
 Looking at ``/basics/03*rlock.py``:
 
@@ -102,7 +98,6 @@ Without RLock, this would happen:
 .. code-block:: python
 
 With regular Lock - DEADLOCK!
-=============================
 lock = threading.Lock()
 
 def execute(self, value):
@@ -121,7 +116,6 @@ With RLock, it works fine:
 .. code-block:: python
 
 With RLock - NO DEADLOCK!
-=========================
 rlock = threading.RLock()
 
 def execute(self, value):
@@ -142,7 +136,6 @@ def add(self):
 ---
 
 When to Use RLock vs Regular Lock
----------------------------------
 
 Use Regular Lock When:
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -192,7 +185,6 @@ class Box:
 ---
 
 Execution Flow of the Code
---------------------------
 
 ::
 
@@ -218,12 +210,10 @@ Thread 1 (adder):              Thread 2 (remover):
 ---
 
 Reentrant Lock Counter Animation
---------------------------------
 
 ::
 
 Time  Thread A              RLock Counter    Thread B Status
-------------------------------------------------------------
 1     acquire()            1                blocked (waiting)
 2     acquire()            2                blocked
 3     release()            1                blocked
@@ -237,7 +227,6 @@ With a regular Lock, Thread B would wait forever because Thread A keeps acquirin
 ---
 
 Code Flow with Comments
------------------------
 
 .. code-block:: python
 
@@ -276,7 +265,6 @@ class Box:
 ---
 
 Visual Comparison
------------------
 
 Regular Lock - Would Deadlock
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -287,17 +275,13 @@ Regular Lock - Would Deadlock
 
 Thread trying to re-acquire the same lock:
 
-         +-------------------------+
          |   Thread A acquires     |
          |   Lock acquired [OK]       |
-         +------------+------------+
-                      |
          +------------[v]-------------+
          | Thread A tries to        |
          | acquire again            |
          | WAITING... (deadlock!)   | <- Blocked forever
          | (waiting for itself)     |
-         +-------------------------+
 .. code-block:: text
 
 
@@ -312,26 +296,18 @@ RLock - No Deadlock
 
 Thread re-acquiring the same lock:
 
-    +--------------------------+
     | Thread A acquires (1)    |
     | Lock count = 1 [OK]         |
-    +-------------+------------+
-                  |
     +-------------[v]-------------+
     | Thread A acquires again   |
     | Lock count = 2 [OK]          | <- Allowed!
     | (same thread, no block)   |
-    +-------------+-------------+
-                  |
     +-------------[v]-------------+
     | Thread A releases (2->1)   |
     | Lock still held [OK]         |
-    +-------------+-------------+
-                  |
     +-------------[v]-------------+
     | Thread A releases (1->0)   |
     | Lock released [OK]           | <- Now others can acquire
-    +--------------------------+
 .. code-block:: text
 
 
@@ -340,7 +316,6 @@ Thread re-acquiring the same lock:
 ---
 
 Real-World Example
-------------------
 
 .. code-block:: python
 
@@ -368,22 +343,15 @@ class Account:
             return False
 
 Without RLock:
-==============
 transfer() acquires self.lock
-=============================
 withdraw() tries to acquire self.lock again
-===========================================
 DEADLOCK!
 =========
 
 With RLock:
-===========
 transfer() acquires self.lock (count=1)
-=======================================
 withdraw() acquires self.lock (count=2) - allowed!
-==================================================
 No deadlock!
-============
 .. code-block:: text
 
 
@@ -392,10 +360,8 @@ No deadlock!
 ---
 
 Summary Table
--------------
 
 | Aspect | Regular Lock | RLock |
-|--------|-------------|-------|
 | **Same thread re-acquire** | [[FAIL]] Deadlock | [OK] Allowed |
 | **Counter system** | No | Yes (0, 1, 2, ...) |
 | **Nested calls** | Dangerous | Safe |
@@ -405,7 +371,6 @@ Summary Table
 ---
 
 Key Takeaways
--------------
 
 1. **RLock = Reentrant Lock** - allows same thread to acquire multiple times
 2. **Uses a counter** - increments on acquire, decrements on release

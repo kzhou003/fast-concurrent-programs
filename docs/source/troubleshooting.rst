@@ -1,10 +1,8 @@
 Troubleshooting Guide
-=====================
 
 Common issues and their solutions when working with Triton and GPU programming.
 
 Out of Memory Errors
---------------------
 
 CUDA Out of Memory
 ~~~~~~~~~~~~~~~~~~
@@ -87,7 +85,6 @@ Out of Shared Memory
     ]
 
 Correctness Issues
-------------------
 
 Wrong Results
 ~~~~~~~~~~~~~
@@ -156,7 +153,6 @@ NaN or Inf Values
        acc = tl.zeros([M, N], dtype=tl.float32)  # Not: acc = tl.empty(...)
 
 Performance Issues
-------------------
 
 Slower Than PyTorch
 ~~~~~~~~~~~~~~~~~~~
@@ -227,7 +223,6 @@ Low GPU Utilization
 * Compute-bound: Use Tensor Cores, increase arithmetic intensity
 
 Compilation Issues
-------------------
 
 Compilation Errors
 ~~~~~~~~~~~~~~~~~~
@@ -271,7 +266,6 @@ Slow Compilation
       export TRITON_CACHE_DIR=/path/to/cache
 
 Platform-Specific Issues
--------------------------
 
 NVIDIA-Specific
 ~~~~~~~~~~~~~~~
@@ -311,7 +305,6 @@ AMD-Specific
 * Verify ROCm version matches GPU architecture
 
 Multi-GPU Issues
-----------------
 
 Wrong GPU Selected
 ~~~~~~~~~~~~~~~~~~
@@ -331,7 +324,6 @@ Wrong GPU Selected
     x = torch.randn(1000, device=DEVICE)
 
 Debugging Techniques
---------------------
 
 Print Debugging
 ~~~~~~~~~~~~~~~
@@ -407,7 +399,6 @@ Unit Testing
         torch.testing.assert_close(y_triton, y_torch, rtol=1e-3, atol=1e-3)
 
 Common Error Messages
----------------------
 
 .. list-table::
    :header-rows: 1
@@ -433,7 +424,6 @@ Common Error Messages
      - Out of bounds access, check masking
 
 Getting Help
-------------
 
 When Stuck
 ~~~~~~~~~~
@@ -465,7 +455,6 @@ When Stuck
    * `PyTorch Forums <https://discuss.pytorch.org/>`_ - PyTorch integration
 
 Best Practices for Avoiding Issues
------------------------------------
 
 1. **Start simple**: Get basic version working before optimizing
 2. **Test incrementally**: Add features one at a time
@@ -477,7 +466,6 @@ Best Practices for Avoiding Issues
 8. **Maintain precision**: Use float32 for accumulation
 
 Prevention Checklist
---------------------
 
 Before deploying:
 

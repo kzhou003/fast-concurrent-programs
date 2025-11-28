@@ -1,12 +1,10 @@
 Using External Functions (libdevice) in Triton
-==============================================
 
 Overview
 --------
 This tutorial shows how to call external library functions from Triton kernels. Specifically, we'll use CUDA's ``libdevice`` (or AMD's device libraries) to access optimized mathematical functions that aren't available in standard Triton.
 
 What You'll Learn
------------------
 - How to use **external library functions** in Triton
 - What **libdevice** is and why it's useful
 - How to specify **library paths** for compilation
@@ -14,7 +12,6 @@ What You'll Learn
 - When to use external functions vs Triton built-ins
 
 What is libdevice?
-------------------
 
 NVIDIA's libdevice
 ~~~~~~~~~~~~~~~~~~
@@ -52,7 +49,6 @@ double __nv*tgamma(double)     // Gamma function
 **Full list**: See `CUDA libdevice Users Guide <https://docs.nvidia.com/cuda/libdevice-users-guide/>`_
 
 Why Use External Functions?
----------------------------
 
 Triton Built-in Math
 ~~~~~~~~~~~~~~~~~~~~
@@ -89,7 +85,6 @@ gamma(x)     # Gamma function - need libdevice
 2. Use libdevice (optimized, tested, easy)
 
 Using libdevice in Triton
--------------------------
 
 The Simple Way (Default Path)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -128,13 +123,11 @@ import triton
 from pathlib import Path
 
 Find libdevice in Triton installation
-=====================================
 triton_dir = Path(triton.**file**).parent
 libdir = triton_dir / 'backends/nvidia/lib'
 extern_libs = {'libdevice': str(libdir / 'libdevice.10.bc')}
 
 Pass to kernel
-==============
 asin_kernel`grid <x, y, n_elements, BLOCK_SIZE=1024, extern_libs=extern_libs>`_
 ::
 
@@ -145,7 +138,6 @@ asin_kernel`grid <x, y, n_elements, BLOCK_SIZE=1024, extern_libs=extern_libs>`_
 - Debugging linking issues
 
 How It Works Under the Hood
----------------------------
 
 Compilation Process
 ~~~~~~~~~~~~~~~~~~~
@@ -187,7 +179,6 @@ Libdevice functions use standard LLVM calling conventions:
 - Triton generates correct call sequences automatically
 
 Available libdevice Functions in Triton
----------------------------------------
 
 Triton's libdevice Wrapper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -199,7 +190,6 @@ Located in ``triton/language/extra/libdevice.py``:
 from triton.language.extra import libdevice
 
 Trigonometric
-=============
 libdevice.sin(x)
 libdevice.cos(x)
 libdevice.tan(x)
@@ -214,13 +204,11 @@ libdevice.cosh(x)
 libdevice.tanh(x)
 
 Exponential/Logarithmic
-=======================
 libdevice.exp(x)
 libdevice.log(x)
 libdevice.pow(x, y)
 
 Special functions
-=================
 libdevice.erf(x)     # Error function
 libdevice.erfc(x)    # Complementary error function
 libdevice.j0(x)      # Bessel function J0
@@ -228,14 +216,12 @@ libdevice.j1(x)      # Bessel function J1
 libdevice.y0(x)      # Bessel function Y0
 
 And many more!
-==============
 ::
 
 
 **Tip**: Look at ``triton/language/extra/libdevice.py`` in the Triton source for full list.
 
 Example: Arc Sine (asin)
-------------------------
 
 The Math
 ~~~~~~~~
@@ -310,14 +296,12 @@ y_torch = torch.asin(x)
 y_triton = asin_triton(x)
 
 Should match!
-=============
 max_diff = torch.max(torch.abs(y_torch - y_triton))
 print(f'Max difference: {max_diff}')  # Should be ~1e-7 (float precision)
 ::
 
 
 Performance Considerations
---------------------------
 
 Libdevice Performance
 ~~~~~~~~~~~~~~~~~~~~~
@@ -351,7 +335,6 @@ Triton intrinsics may have special optimizations.
 - Complex mathematical operations
 
 Linking Multiple Libraries (AMD Example)
-----------------------------------------
 
 For AMD GPUs, need both ocml and ockl:
 
@@ -379,7 +362,6 @@ if is_hip():
 - OCKL: Kernel utilities (barriers, atomics, etc.)
 
 Debugging Linking Issues
-------------------------
 
 Common Errors
 ~~~~~~~~~~~~~
@@ -446,7 +428,6 @@ print(f'AMD ocml: {amd_lib.exists()}')
 
 
 Advanced Usage
---------------
 
 Calling Custom External Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -509,7 +490,6 @@ my_kernel`grid <..., extern_libs=extern_libs>`_
 All libraries are linked together during compilation.
 
 Portability Considerations
---------------------------
 
 NVIDIA vs AMD
 ~~~~~~~~~~~~~
@@ -547,7 +527,6 @@ Some functions have different names:
 **Triton's libdevice wrapper handles this automatically!**
 
 Comparison to CUDA
-------------------
 
 In CUDA
 ~~~~~~~
@@ -586,7 +565,6 @@ def asin_kernel(x_ptr, y_ptr, n_elements, BLOCK_SIZE: tl.constexpr):
 **Very similar experience!**
 
 Key Takeaways
--------------
 
 1. **libdevice provides optimized math functions**: Beyond Triton's built-ins
 2. **Easy to use**: ``from triton.language.extra import libdevice``

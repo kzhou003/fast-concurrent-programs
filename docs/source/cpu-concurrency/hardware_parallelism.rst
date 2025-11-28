@@ -1,10 +1,8 @@
 Hardware Parallelism: Cores, Hyperthreading, and GPUs
-=====================================================
 
 A comprehensive guide to understanding physical cores, hyperthreading, and why GPUs excel at compute-intensive parallel tasks.
 
 Table of Contents
------------------
 1. `Physical Cores vs Logical Cores <#physical-cores-vs-logical-cores>`_
 2. `What is Hyperthreading? <#what-is-hyperthreading>`_
 3. `How Threading is Bounded by Physical Cores <#how-threading-is-bounded-by-physical-cores>`_
@@ -16,7 +14,6 @@ Table of Contents
 ---
 
 Physical Cores vs Logical Cores
--------------------------------
 
 Physical Cores
 ~~~~~~~~~~~~~~
@@ -30,22 +27,11 @@ Physical Cores
 ::
 
 Physical CPU Chip:
-+-----------------------------------------------------+
-|                                                     |
-|  +----------+  +----------+  +----------+         |
 |  |  Core 0  |  |  Core 1  |  |  Core 2  |   ...   |
-|  |          |  |          |  |          |         |
-|  | +------+ |  | +------+ |  | +------+ |         |
 |  | | ALU  | |  | | ALU  | |  | | ALU  | |         |
-|  | |------| |  | |------| |  | |------| |         |
 |  | | FPU  | |  | | FPU  | |  | | FPU  | |         |
-|  | |------| |  | |------| |  | |------| |         |
 |  | | L1/L2| |  | | L1/L2| |  | | L1/L2| |         |
-|  | +------+ |  | +------+ |  | +------+ |         |
-|  +----------+  +----------+  +----------+         |
-|                                                     |
 |              Shared L3 Cache                        |
-+-----------------------------------------------------+
 
 
 **Characteristics**:
@@ -69,23 +55,17 @@ Logical Cores
 import os
 
 Check on your system
-====================
 logical_cores = os.cpu_count()  # e.g., 8
 Physical cores require platform-specific code:
-==============================================
 On Linux: check /proc/cpuinfo
-=============================
 On macOS: sysctl hw.physicalcpu
-===============================
 Typically: physical_cores = logical_cores / 2 (if HT enabled)
-=============================================================
 ::
 
 
 ---
 
 What is Hyperthreading?
------------------------
 
 The Concept
 ~~~~~~~~~~~
@@ -134,25 +114,17 @@ Each physical core with HT has:
 ::
 
 Physical Core with Hyperthreading:
-+----------------------------------------+
 |  Duplicated (per thread):              |
-|  +----------+      +----------+        |
 |  | Thread 1 |      | Thread 2 |        |
-|  |          |      |          |        |
 |  | * PC     |      | * PC     |        |  PC = Program Counter
 |  | * Regs   |      | * Regs   |        |  Regs = Registers
 |  | * State  |      | * State  |        |
-|  +----------+      +----------+        |
-|                                        |
 |  Shared (between both threads):        |
-|  +----------------------------------+  |
 |  | * ALU (Arithmetic Logic Unit)    |  |
 |  | * FPU (Floating Point Unit)      |  |
 |  | * L1/L2 Cache                    |  |
 |  | * Execution Units                |  |
 |  | * Load/Store Units               |  |
-|  +----------------------------------+  |
-+----------------------------------------+
 
 
 **Key Insight**: Two threads share the same execution hardware but have separate architectural state (registers, program counter).
@@ -226,20 +198,14 @@ Checking Hyperthreading Status
 .. code-block:: bash
 
 Check if HT is enabled
-======================
 lscpu | grep "Thread(s) per core"
 Output: Thread(s) per core: 2  <- HT enabled
-===========================================
 Output: Thread(s) per core: 1  <- HT disabled
-============================================
 
 Or check CPU info
-=================
 grep -E "siblings|cpu cores" /proc/cpuinfo | head -2
 siblings = logical cores per physical CPU
-=========================================
 cpu cores = physical cores per physical CPU
-===========================================
 ::
 
 
@@ -247,19 +213,14 @@ cpu cores = physical cores per physical CPU
 .. code-block:: bash
 
 Logical cores
-=============
 sysctl hw.logicalcpu
 Output: hw.logicalcpu: 8
-========================
 
 Physical cores
-==============
 sysctl hw.physicalcpu
 Output: hw.physicalcpu: 4
-=========================
 
 If logical > physical, HT is enabled
-====================================
 ::
 
 
@@ -272,7 +233,6 @@ import subprocess
 logical_cores = os.cpu_count()
 
 Platform-specific physical core detection
-=========================================
 import platform
 if platform.system() == 'Darwin':  # macOS
     result = subprocess.run(['sysctl', '-n', 'hw.physicalcpu'],
@@ -298,7 +258,6 @@ print(f"Hyperthreading: {'Enabled' if logical_cores > physical_cores else 'Disab
 ---
 
 How Threading is Bounded by Physical Cores
-------------------------------------------
 
 The Fundamental Constraint
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -310,41 +269,27 @@ The Fundamental Constraint
     System: 4 physical cores (8 logical with HT)
 
     Scenario 1: 4 CPU-intensive threads
-    +---------+ +---------+ +---------+ +---------+
     |Thread 1 | |Thread 2 | |Thread 3 | |Thread 4 |
     |  100%   | |  100%   | |  100%   | |  100%   |
-    +----+----+ +----+----+ +----+----+ +----+----+
          down           down           down           down
-    +---------+ +---------+ +---------+ +---------+
     | Core 0  | | Core 1  | | Core 2  | | Core 3  |
     |  100%   | |  100%   | |  100%   | |  100%   |
-    +---------+ +---------+ +---------+ +---------+
     Result: Perfect utilization, 4x speedup [OK]
 
     Scenario 2: 8 CPU-intensive threads
-    +----++----++----++----++----++----++----++----+
     | T1 || T2 || T3 || T4 || T5 || T6 || T7 || T8 |
-    +-+--++-+--++-+--++-+--++-+--++-+--++-+--++-+--+
-      +--+---+--+---+--+---+--+---+--+---+--+---+--+-+
          down      down      down      down      down      down      down
-    +---------+ +---------+ +---------+ +---------+
     | Core 0  | | Core 1  | | Core 2  | | Core 3  |
     | T1 + T5 | | T2 + T6 | | T3 + T7 | | T4 + T8 |
     | compete | | compete | | compete | | compete |
-    +---------+ +---------+ +---------+ +---------+
     Result: ~4.5x speedup (not 8x!) [warning]
 
     Scenario 3: 16 CPU-intensive threads
-    +--++--++--++--++--++--++--++--++--++--++--++--++--++--++--++--+
     |T1||T2||T3||T4||T5||T6||T7||T8||T9||10||11||12||13||14||15||16|
-    ++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+
-     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+--+
                               down
-    +---------+ +---------+ +---------+ +---------+
     | Core 0  | | Core 1  | | Core 2  | | Core 3  |
     | 4 threads| | 4 threads| | 4 threads| | 4 threads|
     |time-slice| |time-slice| |time-slice| |time-slice|
-    +---------+ +---------+ +---------+ +---------+
     Result: ~4x speedup (same as 4 threads!) + overhead [FAIL]
 
 
@@ -356,7 +301,6 @@ Why More Threads != More Speed
 .. code-block:: python
 
 Benchmark: Computing sum of squares
-===================================
 
 import time
 from concurrent.futures import ProcessPoolExecutor
@@ -372,17 +316,11 @@ def benchmark(num_workers):
     return time.perf_counter() - start
 
 Results on 4-core CPU:
-======================
 1 worker:  10.0s  (baseline)
-============================
 2 workers:  5.1s  (1.96x speedup) [[OK]]
-===================================
 4 workers:  2.6s  (3.85x speedup) [[OK]]
-===================================
 8 workers:  2.8s  (3.57x speedup) [warning] (worse than 4!)
-====================================================
 16 workers: 3.2s  (3.13x speedup) [[FAIL]] (much worse!)
-=================================================
 ::
 
 
@@ -438,16 +376,13 @@ Optimal Worker Count
 import os
 
 Best practice:
-==============
 physical_cores = os.cpu_count() // 2  # Approximate physical cores
 optimal_workers = physical_cores
 
 Conservative (recommended for production):
-==========================================
 optimal_workers = max(1, physical_cores - 1)  # Leave one core for OS
 
 Or detect actual physical cores:
-================================
 import psutil  # pip install psutil
 optimal_workers = psutil.cpu_count(logical=False)
 ::
@@ -457,14 +392,8 @@ optimal_workers = psutil.cpu_count(logical=False)
 ::
 
 CPU-bound tasks:
-|- Optimal workers = Physical cores
-|- Max useful workers = Physical cores + 1 or 2
-+- More workers = Performance degradation
 
 I/O-bound tasks:
-|- Optimal workers = Much higher (100s-1000s with asyncio)
-|- No physical core limit (threads are mostly waiting)
-+- Limited by memory and file descriptors instead
 
 
 Real-World Example
@@ -473,7 +402,6 @@ Real-World Example
 .. code-block:: python
 
 Matrix multiplication (CPU-intensive)
-=====================================
 
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor
@@ -503,7 +431,6 @@ def benchmark(num_workers, num_tasks=12):
     return elapsed, speedup, efficiency
 
 Test on 4-core CPU:
-===================
 print("Workers | Time  | Speedup | Efficiency")
 print("--------|-------|---------|------------")
 for workers in [1, 2, 4, 6, 8]:
@@ -511,21 +438,12 @@ for workers in [1, 2, 4, 6, 8]:
     print(f"{workers:7} | {time:5.1f}s | {speedup:5.2f}x  | {eff:6.1f}%")
 
 Typical output:
-===============
 Workers | Time  | Speedup | Efficiency
-======================================
---------|-------|---------|------------
-=======================================
       1 | 12.0s |  1.00x  |  100.0%
-===================================
       2 |  6.1s |  1.97x  |   98.5%  <- Near perfect
-===================================================
       4 |  3.1s |  3.87x  |   96.8%  <- Near perfect
-===================================================
       6 |  2.8s |  4.29x  |   71.5%  <- Diminishing returns
-==========================================================
       8 |  2.9s |  4.14x  |   51.8%  <- Getting worse
-====================================================
 ::
 
 
@@ -537,7 +455,6 @@ Workers | Time  | Speedup | Efficiency
 ---
 
 Why GPUs Excel at Parallel Computing
-------------------------------------
 
 CPU vs GPU: Different Design Philosophies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -550,33 +467,20 @@ Goal: Execute single thread as fast as possible
 
 ::
 
-    +----------------------------------------+
     |  Few cores (4-64), each very powerful  |
-    |                                        |
-    |  +---------+  +---------+             |
     |  | Core 0  |  | Core 1  |             |
-    |  |         |  |         |             |
-    |  |  +---+  |  |  +---+  |             |
     |  |  |ALU|  |  |  |ALU|  |  ...        |
-    |  |  |---|  |  |  |---|  |             |
     |  |  |FPU|  |  |  |FPU|  |             |
-    |  |  |---|  |  |  |---|  |             |
     |  |  |Big|  |  |  |Big|  |             |
     |  |  |L1 |  |  |  |L1 |  |             |
-    |  |  |---|  |  |  |---|  |             |
     |  |  |L2 |  |  |  |L2 |  |             |
-    |  |  +---+  |  |  +---+  |             |
-    |  |         |  |         |             |
     |  | Complex |  | Complex |             |
     |  | Control |  | Control |             |
     |  |Out-order|  |Out-order|             |
     |  | Exec    |  | Exec    |             |
-    |  +---------+  +---------+             |
-    |                                        |
     |      Huge L3 Cache (32+ MB)            |
     |      Complex Branch Prediction         |
     |      Speculative Execution             |
-    +----------------------------------------+
 
 
 GPU (Throughput-Optimized):
@@ -585,26 +489,16 @@ Goal: Execute many threads simultaneously
 
 ::
 
-    +----------------------------------------+
     |  Thousands of tiny cores               |
-    |                                        |
-    | +-++-++-++-++-++-++-++-++-++-+        |
     | |C||C||C||C||C||C||C||C||C||C|        |
-    | +-++-++-++-++-++-++-++-++-++-+        |
-    | +-++-++-++-++-++-++-++-++-++-+        |
     | |C||C||C||C||C||C||C||C||C||C|  ...   |
-    | +-++-++-++-++-++-++-++-++-++-+        |
-    | +-++-++-++-++-++-++-++-++-++-+        |
     | |C||C||C||C||C||C||C||C||C||C|        |
-    | +-++-++-++-++-++-++-++-++-++-+        |
     |  ... (thousands more) ...              |
-    |                                        |
     |  Tiny L1 caches                        |
     |  Simple control logic                  |
     |  No branch prediction                  |
     |  No out-of-order execution             |
     |  SIMD: Same instruction, all cores     |
-    +----------------------------------------+
 
 ::
 
@@ -613,7 +507,6 @@ Key Differences
 ~~~~~~~~~~~~~~~
 
 | Aspect | CPU | GPU |
-|--------|-----|-----|
 | **Core Count** | 4-64 cores | 1,000s-10,000s of cores |
 | **Core Speed** | 3-5 GHz | 1-2 GHz |
 | **Core Complexity** | Very complex | Very simple |
@@ -650,20 +543,15 @@ Speedup: 4x for this simple case
 ::
 
 GPU (e.g., NVIDIA RTX 4090):
-+-----------------------------------------------------+
 |  Streaming Multiprocessors (SMs): 128 units         |
-|                                                     |
 |  Each SM contains:                                  |
 |  |- 128 CUDA cores (simple ALUs)                   |
 |  |- 4 Tensor cores (matrix operations)             |
 |  |- Shared memory (64-128 KB)                      |
 |  +- Warp scheduler                                 |
-|                                                     |
 |  Total: 128 SMs x 128 cores = 16,384 CUDA cores    |
-|                                                     |
 |  All cores execute in lockstep (SIMD):             |
 |  One instruction broadcast to 32 cores (1 warp)    |
-+-----------------------------------------------------+
 
 
 Why GPUs Excel at Compute-Intensive Tasks
@@ -677,11 +565,8 @@ Why GPUs Excel at Compute-Intensive Tasks
 .. code-block:: python
 
 CPU approach (4 cores):
-=======================
 Split into 4 chunks of 250,000 each
-===================================
 Each core processes 250,000 additions sequentially
-==================================================
 
 Core 1: [sum 250,000 numbers]
 Core 2: [sum 250,000 numbers]  } Parallel
@@ -695,11 +580,8 @@ Time: 250,000 additions / core_speed
 .. code-block:: python
 
 GPU approach (16,384 cores):
-============================
 Split into 16,384 chunks of ~61 each
-====================================
 Each core processes ~61 additions
-=================================
 
 Cores 1-16,384: [sum ~61 numbers each]  } All parallel
 
@@ -722,15 +604,9 @@ Image: 1920x1080 = 2,073,600 pixels
 Operation: Apply blur filter to each pixel
 
 CPU (4 cores):
-|- Core 1: Process pixels 0-518,400
-|- Core 2: Process pixels 518,401-1,036,800
-|- Core 3: Process pixels 1,036,801-1,555,200
-+- Core 4: Process pixels 1,555,201-2,073,600
 Time: 518,400 pixels per core
 
 GPU (8,192 cores):
-|- Each core: Process ~253 pixels
-+- All cores work simultaneously
 Time: ~253 pixels per core
 
 Speedup: 518,400 / 253 ~ 2,048x faster!
@@ -743,12 +619,8 @@ Speedup: 518,400 / 253 ~ 2,048x faster!
 ::
 
 CPU Memory Bandwidth:
-|- DDR4: ~50 GB/s
-+- DDR5: ~80 GB/s
 
 GPU Memory Bandwidth:
-|- GDDR6: ~600 GB/s
-+- HBM2: ~1,000 GB/s
 
 Ratio: GPU has 10-20x more memory bandwidth!
 ::
@@ -763,8 +635,6 @@ Compute-intensive task often needs:
 3. Write result to memory
 
 With 16,384 cores all reading/writing:
-|- CPU bandwidth: Saturated immediately
-+- GPU bandwidth: Designed for this workload
 
 
 What GPUs Are Good At
@@ -875,7 +745,6 @@ What GPUs Are Good At
 ---
 
 CPU vs GPU Architecture
------------------------
 
 Silicon Real Estate Comparison
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -883,23 +752,16 @@ Silicon Real Estate Comparison
 ::
 
 CPU Die Layout (approximate):
-+---------------------------------------------+
-|                                             |
 |  ############ Control Logic (40%)           |
 |  Fetch, decode, branch predict, OoO, etc.  |
-|                                             |
 |  ######## Cache (30%)                       |
 |  L1, L2, L3 caches                          |
-|                                             |
 |  ###### Compute Units (20%)                 |
 |  ALUs, FPUs, actual computation             |
-|                                             |
 |  ## Other (10%)                             |
 |  Memory controller, I/O, etc.               |
-+---------------------------------------------+
 
 GPU Die Layout (approximate):
-+---------------------------------------------+
 |  #####################################      |
 |  #####################################      |
 |  #####################################      |
@@ -911,11 +773,9 @@ GPU Die Layout (approximate):
 |  #####################################      |
 |  #####################################      |
 |  #####################################      |
-|                                             |
 |  ## Cache (5-10%)                           |
 |  ## Control (5%)                            |
 |  # Other (5%)                               |
-+---------------------------------------------+
 
 
 Performance Comparison
@@ -929,19 +789,16 @@ import numpy as np
 import time
 
 Generate random matrices
-========================
 A = np.random.rand(2048, 2048)
 B = np.random.rand(2048, 2048)
 
 CPU (NumPy with optimized BLAS)
-===============================
 start = time.time()
 C_cpu = np.dot(A, B)
 cpu_time = time.time() - start
 print(f"CPU time: {cpu_time:.3f}s")
 
 GPU (using CuPy - CUDA arrays)
-==============================
 import cupy as cp
 A_gpu = cp.array(A)
 B_gpu = cp.array(B)
@@ -955,13 +812,9 @@ print(f"GPU time: {gpu_time:.3f}s")
 print(f"Speedup: {cpu_time / gpu_time:.1f}x")
 
 Typical results:
-================
 CPU time: 0.850s (Intel i9, 8 cores)
-====================================
 GPU time: 0.012s (NVIDIA RTX 4090)
-==================================
 Speedup: 70.8x
-==============
 ::
 
 
@@ -969,7 +822,6 @@ Detailed Benchmark Results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 | Task | CPU (8-core i9) | GPU (RTX 4090) | Speedup |
-|------|----------------|----------------|---------|
 | Matrix Multiply (2048^2) | 850 ms | 12 ms | 70x |
 | Image Convolution (4K) | 1200 ms | 8 ms | 150x |
 | FFT (16M points) | 2500 ms | 15 ms | 166x |
@@ -979,7 +831,6 @@ Detailed Benchmark Results
 ---
 
 When to Use What
-----------------
 
 Decision Matrix
 ~~~~~~~~~~~~~~~
@@ -989,45 +840,10 @@ Decision Matrix
 
 ::
 
-    +-------------------------------------------------------------+
     |                     DECISION TREE                           |
-    +-------------------------------------------------------------+
 
 
 Is the problem parallelizable?
-|- No (sequential dependencies)
-|  +- Use: CPU (single core)
-|     Examples: Parsing, tree traversal, complex algorithms
-|
-+- Yes (can be split into independent tasks)
-   |
-   |- What type of parallelism?
-   |
-   |- Task Parallelism (different operations)
-   |  |- CPU-intensive tasks
-   |  |  +- Use: CPU Multiprocessing (# workers = physical cores)
-   |  |     Examples: Video encoding, data compression
-   |  |
-   |  +- I/O-intensive tasks
-   |     +- Use: Asyncio or Threading (# workers = 100s-1000s)
-   |        Examples: Web scraping, API calls
-   |
-   +- Data Parallelism (same operation on different data)
-      |
-      |- Problem size?
-      |
-      |- Small (< 10,000 elements)
-      |  +- Use: CPU Multiprocessing
-      |     Reason: GPU overhead not worth it
-      |
-      |- Medium (10,000 - 1,000,000 elements)
-      |  |- Simple operations (add, multiply)
-      |  |  +- Use: GPU
-      |  +- Complex operations (lots of branches)
-      |     +- Use: CPU Multiprocessing
-      |
-      +- Large (> 1,000,000 elements)
-         +- Use: GPU
             Reason: Massive parallelism advantage
 ::
 
@@ -1107,7 +923,6 @@ Use Hyperthreading When:
 ---
 
 Practical Examples
-------------------
 
 Example 1: Image Processing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1115,20 +930,16 @@ Example 1: Image Processing
 .. code-block:: python
 
 Task: Apply Gaussian blur to 100 images (4K resolution)
-=======================================================
 
 Approach 1: Sequential (CPU, 1 core)
-====================================
 import cv2
 for img_path in image_paths:
     img = cv2.imread(img_path)
     blurred = cv2.GaussianBlur(img, (15, 15), 0)
     cv2.imwrite(output_path, blurred)
 Time: ~300 seconds
-==================
 
 Approach 2: CPU Multiprocessing (4 physical cores)
-==================================================
 from concurrent.futures import ProcessPoolExecutor
 
 def process_image(img_path):
@@ -1139,10 +950,8 @@ def process_image(img_path):
 with ProcessPoolExecutor(max_workers=4) as executor:
     executor.map(process_image, image_paths)
 Time: ~80 seconds (3.75x speedup)
-=================================
 
 Approach 3: GPU (CUDA)
-======================
 import cupy as cp
 import cupyx.scipy.ndimage as ndimage
 
@@ -1156,7 +965,6 @@ def process_image*gpu(img_path):
 for img_path in image_paths:
     process_image*gpu(img_path)
 Time: ~4 seconds (75x speedup!)
-===============================
 ::
 
 
@@ -1166,13 +974,11 @@ Example 2: Monte Carlo Simulation
 .. code-block:: python
 
 Task: Estimate pi using Monte Carlo (1 billion points)
-=====================================================
 
 import numpy as np
 import time
 
 Sequential CPU
-==============
 def estimate_pi*cpu(n):
     inside = 0
     for * in range(n):
@@ -1185,10 +991,8 @@ start = time.time()
 pi_estimate = estimate_pi*cpu(1*000*000*000)
 print(f"CPU time: {time.time() - start:.2f}s")
 Output: CPU time: 180.00s
-=========================
 
 CPU Multiprocessing (4 cores)
-=============================
 from concurrent.futures import ProcessPoolExecutor
 
 def estimate_pi*parallel(n, num_workers=4):
@@ -1201,7 +1005,6 @@ start = time.time()
 pi_estimate = estimate_pi*parallel(1*000*000*000, 4)
 print(f"CPU parallel time: {time.time() - start:.2f}s")
 Output: CPU parallel time: 47.00s (3.8x speedup)
-================================================
 
 GPU (CUDA)
 ==========
@@ -1219,7 +1022,6 @@ pi_estimate = estimate_pi*gpu(1*000*000*000)
 cp.cuda.Stream.null.synchronize()
 print(f"GPU time: {time.time() - start:.2f}s")
 Output: GPU time: 1.50s (120x speedup!)
-=======================================
 ::
 
 
@@ -1229,14 +1031,12 @@ Example 3: Neural Network Training
 .. code-block:: python
 
 Task: Train a neural network on MNIST dataset
-=============================================
 
 import torch
 import torch.nn as nn
 import time
 
 Define simple network
-=====================
 model = nn.Sequential(
     nn.Flatten(),
     nn.Linear(784, 128),
@@ -1245,7 +1045,6 @@ model = nn.Sequential(
 )
 
 CPU Training
-============
 model_cpu = model.to('cpu')
 optimizer = torch.optim.Adam(model_cpu.parameters())
 
@@ -1264,10 +1063,8 @@ for epoch in range(10):
 cpu_time = time.time() - start
 print(f"CPU training time: {cpu_time:.2f}s")
 Output: CPU training time: 450.00s
-==================================
 
 GPU Training
-============
 model_gpu = model.to('cuda')
 optimizer = torch.optim.Adam(model_gpu.parameters())
 
@@ -1288,9 +1085,7 @@ gpu_time = time.time() - start
 print(f"GPU training time: {gpu_time:.2f}s")
 print(f"Speedup: {cpu_time / gpu_time:.1f}x")
 Output: GPU training time: 15.00s
-=================================
         Speedup: 30.0x
-======================
 ::
 
 
@@ -1332,7 +1127,6 @@ Quick Reference
 ~~~~~~~~~~~~~~~
 
 | Workload | Best Solution | Why |
-|----------|--------------|-----|
 | Web server (1000s connections) | CPU + Asyncio | I/O-bound, need async |
 | Video encoding (1 file) | CPU + multiprocessing | CPU-bound, need all cores |
 | Deep learning training | GPU | Data-parallel, matrix ops |

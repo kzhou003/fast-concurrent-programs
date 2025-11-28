@@ -1,10 +1,8 @@
 GPU Execution Model
-===================
 
 Understanding how GPUs schedule and execute work is essential for writing efficient kernels.
 
 Thread Execution
-----------------
 
 Warps and SIMD Execution
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,7 +106,6 @@ Solutions:
 * Let compiler optimize
 
 Latency Hiding
---------------
 
 Why Occupancy Matters
 ~~~~~~~~~~~~~~~~~~~~~
@@ -141,7 +138,6 @@ The Occupancy Sweet Spot
 For compute-bound operations, higher occupancy helps more.
 
 Kernel Launch Configuration
-----------------------------
 
 Grid and Block Dimensions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -188,7 +184,6 @@ Choosing Block Size
 * Use auto-tuning to find optimum
 
 Synchronization
----------------
 
 Within a Block
 ~~~~~~~~~~~~~~
@@ -224,7 +219,6 @@ If you need cross-block coordination:
 * Redesign algorithm
 
 Warp-Level Operations
----------------------
 
 Warp Shuffles
 ~~~~~~~~~~~~~
@@ -253,7 +247,6 @@ Warp-Level Reductions
 Much faster than using shared memory for small reductions.
 
 Software Pipelining
--------------------
 
 Overlap Compute and Memory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -291,7 +284,6 @@ In Triton::
 Cost: Need more registers/SRAM to hold multiple stages.
 
 Persistent Kernels
-------------------
 
 Traditional Approach
 ~~~~~~~~~~~~~~~~~~~~
@@ -326,7 +318,6 @@ Launch fewer blocks, each processes multiple tasks::
 See :doc:`../tutorials/02-fused-softmax` for example.
 
 Performance Considerations
---------------------------
 
 Key Factors
 ~~~~~~~~~~~

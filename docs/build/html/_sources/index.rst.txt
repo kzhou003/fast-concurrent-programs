@@ -1,5 +1,4 @@
 Fast Concurrent Programming Guide
-===================================
 
 A comprehensive guide to concurrent and parallel programming, covering both CPU-based concurrency
 (threading, asyncio, multiprocessing) and GPU-based parallelism (Triton, CUDA).
@@ -9,7 +8,6 @@ techniques for modern Python applications, from multi-threaded CPU code to massi
 kernels.
 
 What is Concurrent Programming?
---------------------------------
 
 Concurrent programming allows multiple tasks to make progress simultaneously, improving performance
 and responsiveness. This guide covers two main approaches:
@@ -29,7 +27,6 @@ and responsiveness. This guide covers two main approaches:
 * Triton language for accessible GPU programming
 
 Who This Guide Is For
----------------------
 
 * **Python Developers**: Learn concurrent programming patterns
 * **ML Engineers**: Optimize neural network operations on GPUs
@@ -37,7 +34,6 @@ Who This Guide Is For
 * **Students**: Learn both CPU and GPU parallel programming
 
 Prerequisites
--------------
 
 **For CPU Concurrency:**
 
@@ -52,7 +48,6 @@ Prerequisites
 * Access to NVIDIA or AMD GPU (for GPU sections)
 
 Getting Started
----------------
 
 **New to concurrent programming?** Start with :doc:`cpu-concurrency/key_concepts`.
 
@@ -61,7 +56,6 @@ Getting Started
 **Experienced with one area?** Jump directly to the section you need.
 
 Documentation Structure
------------------------
 
 .. toctree::
    :maxdepth: 2
@@ -84,7 +78,7 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
-   :caption: GPU Programming Concepts
+   :caption: GPU Concepts & Fundamentals
 
    gpu-concepts/gpu-fundamentals
    gpu-concepts/memory-hierarchy
@@ -93,21 +87,21 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
-   :caption: GPU Tutorials (Beginner)
+   :caption: GPU Tutorials - Beginner Level
 
    gpu-tutorials/01-vector-add
    gpu-tutorials/02-fused-softmax
 
 .. toctree::
    :maxdepth: 2
-   :caption: GPU Tutorials (Intermediate)
+   :caption: GPU Tutorials - Intermediate Level
 
    gpu-tutorials/03-matrix-multiplication
    gpu-tutorials/04-low-memory-dropout
 
 .. toctree::
    :maxdepth: 2
-   :caption: GPU Tutorials (Advanced)
+   :caption: GPU Tutorials - Advanced Level
 
    gpu-tutorials/05-layer-norm
    gpu-tutorials/06-fused-attention
@@ -118,7 +112,7 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
-   :caption: Triton Compiler Internals
+   :caption: Triton Compiler & Internals
 
    triton-compiler/01-overview
    triton-compiler/02-jit-decorator
@@ -128,14 +122,13 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
-   :caption: Additional Resources
+   :caption: Resources & Support
 
    learning-paths
    troubleshooting
    references
 
 Quick Navigation
-----------------
 
 **CPU Concurrency Quick Start:**
 
@@ -151,13 +144,12 @@ Quick Navigation
 
 **Common Patterns:**
 
-* **I/O-bound tasks** → Asyncio or Threading
-* **CPU-bound tasks** → Multiprocessing
-* **Massive parallelism** → GPU programming
-* **Deep learning** → GPU kernels with Triton
+* **I/O-bound tasks** -> Asyncio or Threading
+* **CPU-bound tasks** -> Multiprocessing
+* **Massive parallelism** -> GPU programming
+* **Deep learning** -> GPU kernels with Triton
 
 Indices and Tables
-==================
 
 * :ref:`genindex`
 * :ref:`search`

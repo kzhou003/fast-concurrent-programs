@@ -1,10 +1,8 @@
 Performance Optimization Strategies
-====================================
 
 A practical guide to making your GPU kernels fast.
 
 The Optimization Process
--------------------------
 
 Step 1: Profile First
 ~~~~~~~~~~~~~~~~~~~~~
@@ -42,7 +40,6 @@ Step 2: Identify Bottleneck
 * Focus on: Using Tensor Cores, increasing parallelism
 
 Memory Optimization
--------------------
 
 Strategy 1: Kernel Fusion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -121,7 +118,6 @@ Ensure adjacent threads access adjacent memory.
 Triton's built-in patterns are usually coalesced.
 
 Compute Optimization
---------------------
 
 Strategy 1: Use Tensor Cores
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -186,7 +182,6 @@ Strategy 4: Optimize Loop Structure
 Triton auto-unrolls when beneficial.
 
 Occupancy Optimization
-----------------------
 
 Strategy 1: Reduce Register Usage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -229,7 +224,6 @@ Strategy 3: Adjust Block Size
 **Find sweet spot with auto-tuning!**
 
 Auto-Tuning
------------
 
 Why Auto-Tune?
 ~~~~~~~~~~~~~~
@@ -273,7 +267,6 @@ Triton Auto-Tuning
 * ``num_warps``: Warps per block (2, 4, 8, 16)
 
 Advanced Techniques
--------------------
 
 Warp Specialization
 ~~~~~~~~~~~~~~~~~~~
@@ -324,7 +317,6 @@ Trade compute for memory::
 **Example**: Flash Attention recomputes attention scores in backward pass.
 
 Common Patterns
----------------
 
 Pattern: Reduction
 ~~~~~~~~~~~~~~~~~~
@@ -371,7 +363,6 @@ Blocked algorithm with tiling::
 **Key**: Data reuse in SRAM, Tensor Core usage.
 
 Debugging Performance Issues
------------------------------
 
 Issue: Low Bandwidth
 ~~~~~~~~~~~~~~~~~~~~
@@ -418,7 +409,6 @@ Issue: Lower Than PyTorch
 * Check if PyTorch uses vendor lib (cuBLAS, cuDNN)
 
 Performance Checklist
----------------------
 
 Before You Optimize
 ~~~~~~~~~~~~~~~~~~~

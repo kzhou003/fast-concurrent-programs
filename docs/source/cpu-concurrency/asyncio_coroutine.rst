@@ -1,16 +1,13 @@
 Asyncio Coroutine - Finite State Machine
-========================================
 
 Overview
 --------
 This script demonstrates asyncio coroutines by implementing a finite state machine (FSM) that randomly transitions between states until reaching an end state.
 
 File Location
--------------
 ``basics/08*asyncio_coroutine.py``
 
 Key Concepts
-------------
 
 Finite State Machine (FSM)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -25,7 +22,6 @@ State Transitions
 The FSM randomly chooses the next state based on a random input value (0 or 1), simulating decision-making logic.
 
 Code Breakdown
---------------
 
 State Machine Structure
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,10 +29,6 @@ State Machine Structure
 
 Start State
     down
-    |--> State 1 -+--> State 2
-    |            +--> State 3
-    +--> State 2 -+--> State 1
-                 +--> State 3
 
 State 3 -+--> State 1
          +--> End State
@@ -102,7 +94,6 @@ async def end_state(transition_value):
 Terminal state that ends the computation and returns the final result.
 
 Python 3.12 Updates
--------------------
 
 Changes Made
 ~~~~~~~~~~~~
@@ -130,7 +121,6 @@ Changes Made
    - More readable and Pythonic
 
 Execution Flow Example
-----------------------
 
 ::
 
@@ -155,7 +145,6 @@ python3 08*asyncio_coroutine.py
 
 
 Output Example
---------------
 ::
 
 Finite State Machine simulation with Asyncio Coroutine
@@ -174,7 +163,6 @@ State 3 calling End State with transition value = 1
 
 
 Key Takeaways
--------------
 
 1. **Async Recursion**: Coroutines can call other coroutines recursively using ``await``
 2. **Return Values**: Async functions can return values just like regular functions

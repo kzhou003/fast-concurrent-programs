@@ -1,8 +1,6 @@
 task_done() and Queue Explained: Counter & Condition Variables
-==============================================================
 
 Quick Answer
-------------
 
 ``task_done()`` is used to **track when you've finished processing an item**, so that ``queue.join()`` knows when ALL items have been processed.
 
@@ -14,7 +12,6 @@ Quick Answer
 ---
 
 The Problem Without task_done()
--------------------------------
 
 Without task_done() - Can't Track Completion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,9 +47,7 @@ producer_thread.join()
 consumer_thread.join()
 
 How do we know if ALL items have been processed?
-================================================
 WE DON'T! Consumer might still be working!
-==========================================
 .. code-block:: text
 
 
@@ -101,7 +96,6 @@ print("All tasks complete!")
 ---
 
 How task_done() Works
----------------------
 
 Internal Counter System
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -135,7 +129,6 @@ Visual Timeline
 ::
 
 Producer         Queue           Consumer          Main
--------------------------------------------------------
 put(1)          [1]
                 counter=1
 
@@ -156,7 +149,6 @@ put(1)          [1]
 ---
 
 What task_done() Actually Does
-------------------------------
 
 Code (Simplified)
 ~~~~~~~~~~~~~~~~~
@@ -183,25 +175,17 @@ Two Operations
 task_done() does:
 
 1. Decrement counter
-   +--------------+
    | counter: 3   |
-   +------+-------+
           | task_done()
           [v]
-   +--------------+
    | counter: 2   | <- Just decremented
-   +--------------+
 
 2. Check if counter = 0, then notify all_tasks*done
-   +--------------+
    | counter: 1   |
-   +------+-------+
           | task_done()
           [v]
-   +--------------+
    | counter: 0   | <- All tasks done!
    | Notify!      | <- Wakes join()
-   +--------------+
 .. code-block:: text
 
 
@@ -210,7 +194,6 @@ task_done() does:
 ---
 
 The Third Condition Variable: all_tasks*done
---------------------------------------------
 
 Queue has **THREE** condition variables:
 
@@ -233,27 +216,22 @@ Timeline: All Three Conditions
 ::
 
 Queue Object:
-+-------------------------------------+
 | Condition: not_empty                |
 | |- Signaled by: put()              |
 | |- Waited on by: get()             |
 | +- Purpose: "Data available"       |
-|                                     |
 | Condition: not_full                 |
 | |- Signaled by: get()              |
 | |- Waited on by: put()             |
 | +- Purpose: "Space available"      |
-|                                     |
 | Condition: all_tasks*done           |
 | |- Signaled by: task_done()        | <- YOUR QUESTION!
 | |- Waited on by: join()            |
 | +- Purpose: "All work processed"   |
-|                                     |
 | Counter: unfinished_tasks           |
 | |- Incremented by: put()           |
 | |- Decremented by: task_done()     |
 | +- Checked by: join()              |
-+-------------------------------------+
 .. code-block:: text
 
 
@@ -262,7 +240,6 @@ Queue Object:
 ---
 
 Complete Picture: All Operations
---------------------------------
 
 put()
 ~~~~~
@@ -325,7 +302,6 @@ def join(self):
 ---
 
 The Complete Flow with All Three Conditions
--------------------------------------------
 
 Scenario: 1 Producer, 1 Consumer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -333,25 +309,14 @@ Scenario: 1 Producer, 1 Consumer
 ::
 
 Time  Producer        get()           task_done()      Consumer Waits
-------------------------------------------------------------------
 
 0     put(1)
-      |- items.append(1)
-      |- unfinished=1
-      +- not_empty.notify()
-                      |
                       [v]
                    get() wakes up
-                   |
-                   |- items.pop(0)
-                   +- not_full.notify()
 
 1                                    Processing item...
 
 2                                    task_done()
-                                     |- unfinished=0
-                                     +- all_tasks*done.notify_all()
-                                                         |
                                                          [v]
                                                     join() wakes up!
                                                     Returns!
@@ -363,7 +328,6 @@ Time  Producer        get()           task_done()      Consumer Waits
 ---
 
 Detailed Breakdown: task_done() with Counter
---------------------------------------------
 
 Step 1: put() - Increment Counter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -371,25 +335,10 @@ Step 1: put() - Increment Counter
 ::
 
 Initial state:
-+----------------------+
 | unfinished_tasks: 0  |
 | items: []            |
-+----------------------+
 
 put(1) called:
-|
-|- Acquire mutex
-|- items.append(1)
-|- unfinished_tasks += 1  <- Counter incremented!
-|
-|- State now:
-|  +----------------------+
-|  | unfinished_tasks: 1  | <- Task added
-|  | items: [1]           |
-|  +----------------------+
-|
-|- not_empty.notify()
-+- Release mutex
 .. code-block:: text
 
 
@@ -401,27 +350,10 @@ Step 2: get() - Item Removed, Counter Unchanged
 ::
 
 Before get():
-+----------------------+
 | unfinished_tasks: 1  | <- Still 1!
 | items: [1]           |
-+----------------------+
 
 get() called:
-|
-|- Acquire mutex
-|- while not items:
-|   +- not_empty.wait()  (not called, has items)
-|
-|- item = items.pop(0)  <- Get the item
-|
-|- State now:
-|  +----------------------+
-|  | unfinished_tasks: 1  | <- STILL 1!
-|  | items: []            |   (not decremented by get!)
-|  +----------------------+
-|
-|- not_full.notify()
-+- Release mutex & return 1
 .. code-block:: text
 
 
@@ -433,30 +365,10 @@ Step 3: task_done() - Decrement Counter
 ::
 
 Before task_done():
-+----------------------+
 | unfinished_tasks: 1  |
 | items: []            |
-+----------------------+
 
 task_done() called:
-|
-|- Acquire mutex
-|- if unfinished_tasks <= 0:
-|   +- raise ValueError (not true here)
-|
-|- unfinished_tasks -= 1  <- Counter decremented!
-|
-|- if unfinished_tasks == 0:
-|   |- YES! (now 0)
-|   +- all_tasks*done.notify_all()  <- Signal join()!
-|
-|- State now:
-|  +----------------------+
-|  | unfinished_tasks: 0  | <- NOW 0!
-|  | items: []            |
-|  +----------------------+
-|
-+- Release mutex
 .. code-block:: text
 
 
@@ -469,24 +381,9 @@ Step 4: join() - Wait, Then Return
 
 join() called (from main thread):
 
-|- Acquire all_tasks*done condition
-|
-|- while unfinished_tasks != 0:
-|   +- all_tasks*done.wait()  (waiting...)
-|       [Paused, waiting for task_done()]
-|
 [task_done() is called from consumer thread]
 [unfinished_tasks becomes 0]
 [task_done() calls notify_all()]
-|
-|- Woken up! Check condition again
-|
-|- while unfinished_tasks != 0:
-|   +- False! (unfinished_tasks = 0)
-|
-|- Continue past the loop
-|
-+- Return from join()
    Main thread can continue!
 .. code-block:: text
 
@@ -496,7 +393,6 @@ join() called (from main thread):
 ---
 
 The Counter Lifecycle
----------------------
 
 Diagram: Tracking One Task
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -556,7 +452,6 @@ Now wakes up! <- Can continue
 ---
 
 Key Insight: Two Data Flows
----------------------------
 
 ::
 
@@ -583,7 +478,6 @@ These are INDEPENDENT:
 ---
 
 Why BOTH Counter AND Condition Variable?
-----------------------------------------
 
 Counter
 ~~~~~~~
@@ -592,11 +486,8 @@ Counter
 unfinished_tasks: int
 
 Tracks how many items haven't been marked done yet
-==================================================
 Used to know WHEN to signal
-===========================
 Checked by join()
-=================
 ::
 
 
@@ -607,11 +498,8 @@ Condition Variable
 all_tasks*done: Condition()
 
 Efficiently wakes up waiting threads
-====================================
 Avoids busy-waiting
-===================
 Used by join() to sleep instead of spinning
-===========================================
 ::
 
 
@@ -639,14 +527,12 @@ If Queue only had counter but NO condition variable:
 .. code-block:: python
 
 WRONG - Wastes CPU
-==================
 def join_without*condition(self):
     while self.unfinished_tasks > 0:
         time.sleep(0.01)  # Busy-wait, bad!
         # Keeps waking up to check, wastes CPU
 
 RIGHT - Uses condition variable
-===============================
 def join_with*condition(self):
     with self.all_tasks*done:
         while self.unfinished_tasks > 0:
@@ -660,29 +546,21 @@ def join_with*condition(self):
 ---
 
 Visual: Counter and Condition Together
---------------------------------------
 
 ::
 
 Queue internals:
 
-+----------------------------------------+
 | unfinished_tasks Counter               |
-| +-------------------------------------+|
 | | Value: 3                             ||
 | | - Incremented by put()              ||
 | | - Decremented by task_done()        ||
 | | - Checked by join()                 ||
-| +-------------------------------------+|
-|                                        |
 | all_tasks*done Condition Variable      |
-| +-------------------------------------+|
 | | Waiting threads: [join_thread]      ||
 | | - Signaled by task_done()           ||
 | | - Waited on by join()               ||
 | | - Notifies when counter = 0         ||
-| +-------------------------------------+|
-+----------------------------------------+
 .. code-block:: text
 
 
@@ -691,10 +569,8 @@ Queue internals:
 ---
 
 Complete Operation Table
-------------------------
 
 | Operation | What it touches | Effect |
-|-----------|-----------------|--------|
 | ``put(item)`` | items list | Appends item |
 | ``put(item)`` | unfinished_tasks | Increments |
 | ``put(item)`` | not_empty | Notifies consumer |
@@ -709,7 +585,6 @@ Complete Operation Table
 ---
 
 What Happens WITHOUT task_done()
---------------------------------
 
 Queue.join() Without task_done()
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -727,7 +602,6 @@ item = queue.get()
 item = queue.get()
 
 NO task_done() calls!
-=====================
 
 queue.join()  # BLOCKS FOREVER!
               # Queue still thinks 3 items are "unprocessed"
@@ -741,10 +615,8 @@ Why It Blocks Forever
 ::
 
 Queue state:
-+-----------------------------+
 | items: []                   |  <- All removed
 | task_counter: 3             |  <- Still 3! Never decremented
-+-----------------------------+
 
 join() checks: if task_counter != 0: wait()
               3 != 0, so WAIT FOREVER
@@ -756,7 +628,6 @@ join() checks: if task_counter != 0: wait()
 ---
 
 What Happens WITH task_done()
------------------------------
 
 Queue.join() With task_done()
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -789,10 +660,8 @@ Why It Works
 ::
 
 Queue state after all task_done():
-+-----------------------------+
 | items: []                   |  <- All removed
 | task_counter: 0             |  <- All decremented to 0
-+-----------------------------+
 
 join() checks: if task_counter != 0: wait()
               0 == 0, so CONTINUE (don't wait)
@@ -804,7 +673,6 @@ join() checks: if task_counter != 0: wait()
 ---
 
 The Three-Step Cycle
---------------------
 
 Step 1: Put Item
 ~~~~~~~~~~~~~~~~
@@ -812,7 +680,6 @@ Step 1: Put Item
 
 queue.put(item)
 task_counter increments
-=======================
 ::
 
 
@@ -822,9 +689,7 @@ Step 2: Get and Process
 
 item = queue.get()  # Removes from queue but...
 task_counter STAYS the same
-===========================
 (item is "in flight", being processed)
-======================================
 process(item)       # Do actual work
 ::
 
@@ -835,9 +700,7 @@ Step 3: Mark Done
 
 queue.task_done()
 task_counter decrements
-=======================
 Tells queue: "I'm done with this item"
-======================================
 ::
 
 
@@ -859,7 +722,6 @@ counter=1   counter=1   counter=0
 ---
 
 Real Example: Work Queue Pattern
---------------------------------
 
 Without task_done() - PROBLEMATIC
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -886,17 +748,14 @@ def worker():
         # NO task_done()!
 
 Start worker
-============
 t = Thread(target=worker)
 t.start()
 
 Main thread wants to know when all work is done
-===============================================
 tasks.join()  # BLOCKS FOREVER!
 print("All done!")  # Never prints!
 
 Send poison pill to stop worker
-===============================
 tasks.put(None)
 t.join()
 ::
@@ -941,17 +800,14 @@ def worker():
         tasks.task_done()  # IMPORTANT!
 
 Start worker
-============
 t = Thread(target=worker)
 t.start()
 
 Main thread waits for all work to be done
-=========================================
 tasks.join()  # Returns when all task_done() called
 print("All done!")  # Now prints!
 
 Send poison pill to stop worker
-===============================
 tasks.put(None)
 t.join()
 ::
@@ -974,7 +830,6 @@ All done!
 ---
 
 Why Is This Useful?
--------------------
 
 Use Case 1: Verify All Work Complete
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -982,16 +837,13 @@ Use Case 1: Verify All Work Complete
 .. code-block:: python
 
 Main thread
-===========
 for task in tasks:
     queue.put(task)
 
 Wait for workers to finish ALL tasks
-====================================
 queue.join()
 
 NOW we know all work is done
-============================
 print("All tasks processed successfully!")
 save_results()
 shutdown_workers()
@@ -1020,7 +872,6 @@ for w in workers:
     w.start()
 
 Wait for completion
-===================
 queue.join()
 print(f"All 100 tasks completed!")
 ::
@@ -1057,7 +908,6 @@ for i in range(50):
     add_to*batch(i)
 
 Wait until all batches processed
-================================
 batch_queue.join()
 print("All batches processed!")
 .. code-block:: text
@@ -1068,13 +918,11 @@ print("All batches processed!")
 ---
 
 Comparison: With vs Without task_done()
----------------------------------------
 
 Scenario: Main thread needs to know when workers finish
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 | Without task_done() | With task_done() |
-|-------------------|-----------------|
 | ``queue.join()`` blocks forever | ``queue.join()`` returns when done |
 | Can't track progress | Can track completion |
 | Unpredictable behavior | Predictable, reliable |
@@ -1083,7 +931,6 @@ Scenario: Main thread needs to know when workers finish
 ---
 
 The Flow in Your Code (05*queue.py)
------------------------------------
 
 Looking back at the code:
 
@@ -1108,11 +955,6 @@ Timeline
 ::
 
 Producer puts 5 items in 5 seconds
-|- 0s: put(42)   -> counter = 1
-|- 1s: put(7)    -> counter = 2
-|- 2s: put(199)  -> counter = 3
-|- 3s: put(88)   -> counter = 4
-+- 4s: put(12)   -> counter = 5
 
 Meanwhile, 3 consumers get and process:
 Consumer1: get(42) -> task_done() -> counter = 4
@@ -1132,7 +974,6 @@ Main thread: Tries to join consumers (would block forever)
 ---
 
 The Missing Piece in the Code
------------------------------
 
 The code has an issue - consumers have ``while True`` (infinite loop):
 
@@ -1168,7 +1009,6 @@ producer.join()
 queue.join()  # All items processed
 
 Stop consumers
-==============
 for * in range(3):
     queue.put(None)  # Poison pill
 
@@ -1183,7 +1023,6 @@ consumer3.join()
 ---
 
 Summary: What task_done() Does
-------------------------------
 
 **YES, task_done() is on Queue and does:**
 
@@ -1230,7 +1069,6 @@ join()         -> "All items PROCESSED?" -> Yes -> Continue
 ---
 
 Real Code Example
------------------
 
 .. code-block:: python
 
@@ -1264,7 +1102,6 @@ t2.start()
 t1.join()
 
 Now wait for consumer to finish processing ALL items
-====================================================
 print("Waiting for all tasks to be processed...")
 q.join()  # Waits here until counter reaches 0
 print("All tasks processed!")

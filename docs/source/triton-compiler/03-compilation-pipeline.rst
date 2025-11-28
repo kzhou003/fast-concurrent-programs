@@ -1,10 +1,8 @@
 Compilation Pipeline: AST to GPU Binary
-========================================
 
 This document covers the complete compilation pipeline from Python AST through MLIR transformations to GPU binary.
 
 Code Generation: Python AST -> Triton IR
-----------------------------------------
 
 The code generator (`code_generator.py <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/compiler/code_generator.py>`_) converts Python AST to Triton IR (TTIR).
 
@@ -105,9 +103,7 @@ Special handling for ``tl.*`` functions:
 
 **Mapping table:**
 
-======================  ===========================  ================
 Python                  Triton Operation             MLIR Op
-======================  ===========================  ================
 ``tl.load(ptr)``        Load from memory             ``tt.load``
 ``tl.store(ptr, val)``  Store to memory              ``tt.store``
 ``tl.program_id(0)``    Get block ID                 ``tt.get_program_id``
@@ -115,7 +111,6 @@ Python                  Triton Operation             MLIR Op
 ``tl.dot(a, b)``        Matrix multiply              ``tt.dot``
 ``a + b``               Addition                     ``arith.addi``
 ``a < b``               Comparison                   ``arith.cmpi``
-======================  ===========================  ================
 
 Type Inference
 ~~~~~~~~~~~~~~
@@ -193,7 +188,6 @@ Generated TTIR:
     }
 
 MLIR Lowering: TTIR -> TTGIR -> LLIR
------------------------------------
 
 The MLIR pipeline applies a series of transformation passes.
 
@@ -283,7 +277,6 @@ TTGIR -> LLVM IR
 - Barriers -> ``llvm.nvvm.barrier0()``
 
 Backend Compilation
--------------------
 
 LLVM IR -> PTX
 ~~~~~~~~~~~~~
@@ -355,7 +348,6 @@ Uses ``ptxas`` subprocess:
 The CUBIN file is a binary executable that can be loaded and run on the GPU.
 
 Caching Strategy
-----------------
 
 Triton caches compiled kernels to avoid recompilation:
 
@@ -374,15 +366,6 @@ Cache Directory Structure
 .. code-block:: text
 
     ~/.triton/cache/
-    |-- 7a3f2e1b.../         # Kernel hash
-    |   |-- add_kernel.json   # Metadata
-    |   |-- add_kernel.ttir   # Triton IR
-    |   |-- add_kernel.ttgir  # Triton GPU IR
-    |   |-- add_kernel.llir   # LLVM IR
-    |   |-- add_kernel.ptx    # PTX assembly
-    |   +-- add_kernel.cubin  # Compiled binary
-    +-- 9c4d6a2e.../
-        +-- ...
 
 Cache Lookup
 ~~~~~~~~~~~~
@@ -406,13 +389,10 @@ Cache Lookup
         # ...
 
 Performance Timeline
---------------------
 
 Typical compilation times:
 
-==================  ==============  ======================
 Stage               Time            Notes
-==================  ==============  ======================
 AST Parsing         < 1ms           Very fast
 Code Generation     5-20ms          Python AST -> TTIR
 MLIR Passes         50-200ms        Optimization passes
@@ -420,7 +400,6 @@ LLVM Backend        100-500ms       PTX generation
 PTX Assembly        100-300ms       ptxas invocation
 **Total (cold)**    **250-1020ms**  First compilation
 **Total (cached)**  **< 1ms**       Subsequent runs
-==================  ==============  ======================
 
 Summary
 -------

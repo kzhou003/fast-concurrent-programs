@@ -1,5 +1,4 @@
 Tutorial 09: Persistent Matmul
-==============================
 
 Overview
 --------
@@ -15,7 +14,6 @@ Overview
 This tutorial also uses **Triton Proton profiler** for detailed performance analysis.
 
 Key Concepts
-------------
 
 Persistent Kernel Pattern
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,14 +21,12 @@ Persistent Kernel Pattern
 .. code-block:: python
 
 Traditional kernel: One CTA per tile
-====================================
 for tile in tiles:
-    launch*kernel`1*CTA*per*tile <tile>`_
+    launch_kernel`1*CTA_per*tile <tile>`_
 
-Persistent kernel: NUM*SMS CTAs process all tiles
-=================================================
-launch*kernel`NUM*SMS <all*tiles>`_
-for tile in my*assigned*tiles:
+Persistent kernel: NUM_SMS CTAs process all tiles
+launch_kernel`NUM_SMS <all_tiles>`_
+for tile in my_assigned*tiles:
     process(tile)
 ::
 
@@ -48,12 +44,12 @@ On Blackwell (compute capability 10.0+), different warps can be assigned differe
 
 .. code-block:: python
 
-for ki in tl.range(k*tiles, warp*specialize=True):
+for ki in tl.range(k_tiles, warp_specialize=True):
     # Hardware scheduler can assign:
     # - Some warps to memory loads (producer)
     # - Other warps to compute (consumer)
-    a = a*desc.load([offs*am, offs*k])
-    b = b*desc.load([offs*bn, offs*k])
+    a = a_desc.load([offs_am, offs_k])
+    b = b_desc.load([offs_bn, offs_k])
     accumulator = tl.dot(a, b.T, accumulator)
 ::
 
@@ -64,7 +60,6 @@ for ki in tl.range(k*tiles, warp*specialize=True):
 - Hardware-managed producer-consumer pattern
 
 Code Walkthrough
-----------------
 
 1. Naive Matmul (Baseline)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,38 +67,38 @@ Code Walkthrough
 .. code-block:: python
 
 @triton.jit
-def matmul*kernel(a*ptr, b*ptr, c*ptr,
+def matmul_kernel(a_ptr, b_ptr, c_ptr,
                   M, N, K,
-                  stride*am, stride*ak,
-                  stride*bk, stride*bn,
-                  stride*cm, stride*cn,
-                  BLOCK*SIZE*M: tl.constexpr,
-                  BLOCK*SIZE*N: tl.constexpr,
-                  BLOCK*SIZE*K: tl.constexpr,
-                  GROUP*SIZE*M: tl.constexpr):
-    pid = tl.program*id(axis=0)
+                  stride_am, stride_ak,
+                  stride_bk, stride_bn,
+                  stride_cm, stride_cn,
+                  BLOCK_SIZE*M: tl.constexpr,
+                  BLOCK_SIZE*N: tl.constexpr,
+                  BLOCK_SIZE*K: tl.constexpr,
+                  GROUP_SIZE*M: tl.constexpr):
+    pid = tl.program_id(axis=0)
 
     # Swizzling for better L2 cache hit rate
-    num*pid*m = tl.cdiv(M, BLOCK*SIZE*M)
-    num*pid*n = tl.cdiv(N, BLOCK*SIZE*N)
-    num*pid*in*group = GROUP*SIZE*M * num*pid*n
-    group*id = pid // num*pid*in*group
-    first*pid*m = group*id * GROUP*SIZE*M
-    group*size*m = min(num*pid*m - first*pid*m, GROUP*SIZE*M)
-    pid*m = first*pid*m + (pid % group*size*m)
-    pid*n = (pid % num*pid*in*group) // group*size*m
+    num_pid*m = tl.cdiv(M, BLOCK_SIZE*M)
+    num_pid*n = tl.cdiv(N, BLOCK_SIZE*N)
+    num_pid*in_group = GROUP_SIZE*M * num_pid*n
+    group_id = pid // num_pid*in_group
+    first_pid*m = group_id * GROUP_SIZE*M
+    group_size*m = min(num_pid*m - first_pid*m, GROUP_SIZE*M)
+    pid_m = first_pid*m + (pid % group_size*m)
+    pid_n = (pid % num_pid*in_group) // group_size*m
 
     # Standard blocked matmul
-    accumulator = tl.zeros((BLOCK*SIZE*M, BLOCK*SIZE*N), dtype=tl.float32)
-    for k in range(0, tl.cdiv(K, BLOCK*SIZE*K)):
-        a = tl.load(a*ptrs, mask=...)
-        b = tl.load(b*ptrs, mask=...)
+    accumulator = tl.zeros((BLOCK_SIZE*M, BLOCK_SIZE*N), dtype=tl.float32)
+    for k in range(0, tl.cdiv(K, BLOCK_SIZE*K)):
+        a = tl.load(a_ptrs, mask=...)
+        b = tl.load(b_ptrs, mask=...)
         accumulator = tl.dot(a, b, accumulator)
-        a*ptrs += BLOCK*SIZE*K * stride*ak
-        b*ptrs += BLOCK*SIZE*K * stride*bk
+        a_ptrs += BLOCK_SIZE*K * stride_ak
+        b_ptrs += BLOCK_SIZE*K * stride_bk
 
     c = accumulator.to(tl.float16)
-    tl.store(c*ptrs, c, mask=c*mask)
+    tl.store(c_ptrs, c, mask=c_mask)
 ::
 
 
@@ -111,8 +106,8 @@ def matmul*kernel(a*ptr, b*ptr, c*ptr,
 .. code-block:: python
 
 grid = lambda META: (
-    triton.cdiv(M, META["BLOCK*SIZE*M"]) *
-    triton.cdiv(N, META["BLOCK*SIZE*N"]),
+    triton.cdiv(M, META["BLOCK_SIZE*M"]) *
+    triton.cdiv(N, META["BLOCK_SIZE*N"]),
 )
 ::
 
@@ -125,44 +120,44 @@ grid = lambda META: (
 .. code-block:: python
 
 @triton.jit
-def matmul*kernel*persistent(a*ptr, b*ptr, c*ptr, ...,
-                             NUM*SMS: tl.constexpr):
-    start*pid = tl.program*id(axis=0)
-    num*pid*m = tl.cdiv(M, BLOCK*SIZE*M)
-    num*pid*n = tl.cdiv(N, BLOCK*SIZE*N)
-    num*tiles = num*pid*m * num*pid*n
+def matmul_kernel*persistent(a_ptr, b_ptr, c_ptr, ...,
+                             NUM_SMS: tl.constexpr):
+    start_pid = tl.program_id(axis=0)
+    num_pid*m = tl.cdiv(M, BLOCK_SIZE*M)
+    num_pid*n = tl.cdiv(N, BLOCK_SIZE*N)
+    num_tiles = num_pid*m * num_pid*n
 
     # Loop over tiles assigned to this CTA
-    for tile*id in tl.range(start*pid, num*tiles, NUM*SMS, flatten=True):
+    for tile_id in tl.range(start_pid, num_tiles, NUM_SMS, flatten=True):
         # Compute which tile this is
-        pid*m, pid*n = *compute*pid(tile*id, ...)
+        pid_m, pid_n = *compute_pid(tile_id, ...)
 
         # Load and compute for this tile
-        accumulator = tl.zeros((BLOCK*SIZE*M, BLOCK*SIZE*N), dtype=tl.float32)
-        for ki in range(k*tiles):
+        accumulator = tl.zeros((BLOCK_SIZE*M, BLOCK_SIZE*N), dtype=tl.float32)
+        for ki in range(k_tiles):
             a = tl.load(...)
             b = tl.load(...)
             accumulator = tl.dot(a, b, accumulator)
 
         # Store result
-        c = accumulator.to(output*dtype)
-        tl.store(c*ptrs, c, mask=c*mask)
+        c = accumulator.to(output_dtype)
+        tl.store(c_ptrs, c, mask=c_mask)
 ::
 
 
 **Grid launch:**
 .. code-block:: python
 
-NUM*SMS = torch.cuda.get*device*properties("cuda").multi*processor*count
+NUM_SMS = torch.cuda.get_device*properties("cuda").multi_processor*count
 grid = lambda META: (
-    min(NUM*SMS, num*tiles),  # Don't launch more CTAs than tiles
+    min(NUM_SMS, num_tiles),  # Don't launch more CTAs than tiles
 )
 ::
 
 
 **Key differences:**
-- Fixed number of CTAs (NUM*SMS)
-- Each CTA processes ``ceil(num*tiles / NUM*SMS)`` tiles
+- Fixed number of CTAs (NUM_SMS)
+- Each CTA processes ``ceil(num_tiles / NUM_SMS)`` tiles
 - Single kernel launch for entire matmul
 
 3. TMA Matmul
@@ -173,41 +168,41 @@ For Hopper (compute capability 9.0+):
 .. code-block:: python
 
 @triton.jit
-def matmul*kernel*tma(a*desc, b*desc, c*desc,
+def matmul_kernel*tma(a_desc, b_desc, c_desc,
                       M, N, K,
-                      BLOCK*SIZE*M: tl.constexpr,
-                      BLOCK*SIZE*N: tl.constexpr,
-                      BLOCK*SIZE*K: tl.constexpr,
-                      FP8*OUTPUT: tl.constexpr,
-                      WARP*SPECIALIZE: tl.constexpr):
-    dtype = tl.float8e4nv if FP8*OUTPUT else tl.float16
-    pid = tl.program*id(axis=0)
-    # ... compute pid*m, pid*n ...
+                      BLOCK_SIZE*M: tl.constexpr,
+                      BLOCK_SIZE*N: tl.constexpr,
+                      BLOCK_SIZE*K: tl.constexpr,
+                      FP8_OUTPUT: tl.constexpr,
+                      WARP_SPECIALIZE: tl.constexpr):
+    dtype = tl.float8e4nv if FP8_OUTPUT else tl.float16
+    pid = tl.program_id(axis=0)
+    # ... compute pid_m, pid_n ...
 
-    k*tiles = tl.cdiv(K, BLOCK*SIZE*K)
-    accumulator = tl.zeros((BLOCK*SIZE*M, BLOCK*SIZE*N), dtype=tl.float32)
+    k_tiles = tl.cdiv(K, BLOCK_SIZE*K)
+    accumulator = tl.zeros((BLOCK_SIZE*M, BLOCK_SIZE*N), dtype=tl.float32)
 
     # Warp specialization for better overlap
-    for k in tl.range(k*tiles, warp*specialize=WARP*SPECIALIZE):
-        offs*k = k * BLOCK*SIZE*K
+    for k in tl.range(k_tiles, warp_specialize=WARP_SPECIALIZE):
+        offs_k = k * BLOCK_SIZE*K
         # TMA loads
-        a = a*desc.load([offs*am, offs*k])
-        b = b*desc.load([offs*bn, offs*k])
+        a = a_desc.load([offs_am, offs_k])
+        b = b_desc.load([offs_bn, offs_k])
         accumulator = tl.dot(a, b.T, accumulator)
 
     c = accumulator.to(dtype)
-    c*desc.store([offs*cm, offs*cn], c)
+    c_desc.store([offs_cm, offs_cn], c)
 ::
 
 
 **TMA Descriptor creation:**
 .. code-block:: python
 
-from triton.tools.tensor*descriptor import TensorDescriptor
+from triton.tools.tensor_descriptor import TensorDescriptor
 
-a*desc = TensorDescriptor.from*tensor(a, [BLOCK*M, BLOCK*K])
-b*desc = TensorDescriptor.from*tensor(b, [BLOCK*N, BLOCK*K])
-c*desc = TensorDescriptor.from*tensor(c, [BLOCK*M, BLOCK*N])
+a_desc = TensorDescriptor.from_tensor(a, [BLOCK_M, BLOCK_K])
+b_desc = TensorDescriptor.from_tensor(b, [BLOCK_N, BLOCK_K])
+c_desc = TensorDescriptor.from_tensor(c, [BLOCK_M, BLOCK_N])
 ::
 
 
@@ -219,25 +214,25 @@ Advanced optimization for memory-bound kernels:
 .. code-block:: python
 
 @triton.jit
-def matmul*kernel*tma*persistent(...,
-                                 EPILOGUE*SUBTILE: tl.constexpr):
+def matmul_kernel*tma_persistent(...,
+                                 EPILOGUE_SUBTILE: tl.constexpr):
     # ... main computation ...
 
-    if EPILOGUE*SUBTILE:
-        # Split BLOCK*M x BLOCK*N into 2 BLOCK*M x (BLOCK*N//2) chunks
-        acc = tl.reshape(accumulator, (BLOCK*M, 2, BLOCK*N // 2))
+    if EPILOGUE_SUBTILE:
+        # Split BLOCK_M x BLOCK_N into 2 BLOCK_M x (BLOCK_N//2) chunks
+        acc = tl.reshape(accumulator, (BLOCK_M, 2, BLOCK_N // 2))
         acc = tl.permute(acc, (0, 2, 1))
         acc0, acc1 = tl.split(acc)
 
         # Store in two parts
         c0 = acc0.to(dtype)
-        c*desc.store([offs*cm, offs*cn], c0)
+        c_desc.store([offs_cm, offs_cn], c0)
 
         c1 = acc1.to(dtype)
-        c*desc.store([offs*cm, offs*cn + BLOCK*N // 2], c1)
+        c_desc.store([offs_cm, offs_cn + BLOCK_N // 2], c1)
     else:
         accumulator = accumulator.to(dtype)
-        c*desc.store([offs*cm, offs*cn], accumulator)
+        c_desc.store([offs_cm, offs_cn], accumulator)
 ::
 
 
@@ -248,7 +243,6 @@ def matmul*kernel*tma*persistent(...,
 - Can increase overall throughput
 
 Proton Profiler Integration
----------------------------
 
 This tutorial demonstrates using Triton's built-in profiler:
 
@@ -257,22 +251,19 @@ This tutorial demonstrates using Triton's built-in profiler:
 import triton.profiler as proton
 
 Start profiling
-===============
 proton.start("matmul", hook="triton")
 proton.deactivate()  # Don't profile initialization
 
 Run benchmarks
-==============
-for K in range(K*min, K*max, K*step):
+for K in range(K_min, K_max, K_step):
     proton.activate(0)
     for * in range(reps):
         matmul(a, b)
     proton.deactivate(0)
 
 Finalize and show results
-=========================
 proton.finalize()
-show*profile("fp16", "matmul")
+show_profile("fp16", "matmul")
 ::
 
 
@@ -287,18 +278,18 @@ Viewing Profile Data
 
 .. code-block:: python
 
-def show*profile(precision, profile*name):
-    import triton.profiler.viewer as proton*viewer
+def show_profile(precision, profile_name):
+    import triton.profiler.viewer as proton_viewer
 
-    metric*names = ["time/ms"]
+    metric_names = ["time/ms"]
     if precision == 'fp8':
-        metric*names = ["tflop8/s"] + metric*names
+        metric_names = ["tflop8/s"] + metric_names
     elif precision == 'fp16':
-        metric*names = ["tflop16/s"] + metric*names
+        metric_names = ["tflop16/s"] + metric_names
 
-    file*name = f"{profile*name}.hatchet"
-    tree, metrics = proton*viewer.parse(metric*names, file*name)
-    proton*viewer.print*tree(tree, metrics)
+    file_name = f"{profile_name}.hatchet"
+    tree, metrics = proton_viewer.parse(metric_names, file_name)
+    proton_viewer.print_tree(tree, metrics)
 ::
 
 
@@ -306,48 +297,42 @@ Output shows hierarchical breakdown:
 ::
 
 matmul
-├─ naive [M=8192, N=8192, K=512]      1.23 ms, 220 tflop16/s
-├─ persistent [M=8192, N=8192, K=512] 1.15 ms, 235 tflop16/s
-├─ tma [M=8192, N=8192, K=512]        1.05 ms, 257 tflop16/s
-└─ tma*persistent [...]               0.98 ms, 276 tflop16/s
 ::
 
 
 Device-side vs Host-side Descriptors
-------------------------------------
 
 Host-side (TensorDescriptor)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-from triton.tools.tensor*descriptor import TensorDescriptor
+from triton.tools.tensor_descriptor import TensorDescriptor
 
 Created on CPU, passed to GPU
-=============================
-a*desc = TensorDescriptor.from*tensor(a, [BLOCK*M, BLOCK*K])
-matmul*kernel*tma`grid <a*desc, b*desc, c*desc, ...>`_
+a_desc = TensorDescriptor.from_tensor(a, [BLOCK_M, BLOCK_K])
+matmul_kernel*tma`grid <a_desc, b_desc, c_desc, ...>`_
 ::
 
 
 **Pros:** Simpler, works on Hopper
 **Cons:** Descriptor creation overhead, limited flexibility
 
-Device-side (tl.make*tensor*descriptor)
+Device-side (tl.make_tensor*descriptor)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
 @triton.jit
-def kernel(a*ptr, ...):
+def kernel(a_ptr, ...):
     # Created inside kernel
-    a*desc = tl.make*tensor*descriptor(
-        a*ptr,
+    a_desc = tl.make_tensor*descriptor(
+        a_ptr,
         shape=[M, K],
         strides=[K, 1],
-        block*shape=[BLOCK*M, BLOCK*K],
+        block_shape=[BLOCK_M, BLOCK_K],
     )
-    a = a*desc.load([offs*am, offs*k])
+    a = a_desc.load([offs_am, offs_k])
 ::
 
 
@@ -355,25 +340,24 @@ def kernel(a*ptr, ...):
 **Cons:** Only available on newer GPUs
 
 Warp Specialization Details
----------------------------
 
 How It Works
 ~~~~~~~~~~~~
 
 .. code-block:: python
 
-for ki in tl.range(k*tiles, warp*specialize=True):
+for ki in tl.range(k_tiles, warp_specialize=True):
     # Hardware may assign:
     # Warps 0-3: Producer (memory loads)
     # Warps 4-7: Consumer (compute)
-    a = a*desc.load([offs*am, offs*k])  # Producer
-    b = b*desc.load([offs*bn, offs*k])  # Producer
+    a = a_desc.load([offs_am, offs_k])  # Producer
+    b = b_desc.load([offs_bn, offs_k])  # Producer
     acc = tl.dot(a, b.T, acc)          # Consumer
 ::
 
 
 **Without warp specialization:**
-- All warps do: load A → load B → compute → repeat
+- All warps do: load A -> load B -> compute -> repeat
 - Memory and compute are serialized
 
 **With warp specialization:**
@@ -386,26 +370,23 @@ Requirements
 
 .. code-block:: python
 
-HAS*WARP*SPECIALIZE = supports*ws() and HAS*TENSOR*DESC
+HAS_WARP*SPECIALIZE = supports_ws() and HAS_TENSOR*DESC
 
-def supports*ws():
-    return is*cuda() and torch.cuda.get*device*capability()[0] >= 9
+def supports_ws():
+    return is_cuda() and torch.cuda.get_device*capability()[0] >= 9
 
 On Hopper: Software pipelining
-==============================
 On Blackwell: Hardware warp specialization
-==========================================
 ::
 
 
 Flattening in Persistent Loops
-------------------------------
 
 .. code-block:: python
 
-for tile*id in tl.range(start*pid, num*tiles, NUM*SMS,
+for tile_id in tl.range(start_pid, num_tiles, NUM_SMS,
                        flatten=True,
-                       warp*specialize=WARP*SPECIALIZE):
+                       warp_specialize=WARP_SPECIALIZE):
 ::
 
 
@@ -422,29 +403,26 @@ for tile*id in tl.range(start*pid, num*tiles, NUM*SMS,
 .. code-block:: python
 
 Choose based on GPU generation
-==============================
-flatten = False if (warp*specialize and is*hopper()) else True
+flatten = False if (warp_specialize and is_hopper()) else True
 ::
 
 
 Performance Comparison
-----------------------
 
 Expected speedups (relative to naive):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 | Variant | FP16 Speedup | FP8 Speedup | Notes |
-|---------|--------------|-------------|-------|
-| Persistent | 1.05-1.15× | 1.05-1.1× | Saves launch overhead |
-| TMA | 1.15-1.25× | 1.2-1.3× | Better memory access |
-| TMA Persistent | 1.2-1.35× | 1.25-1.4× | Combined benefits |
-| + Warp Spec (Blackwell) | 1.3-1.5× | 1.4-1.6× | Hardware overlap |
+| Persistent | 1.05-1.15x | 1.05-1.1x | Saves launch overhead |
+| TMA | 1.15-1.25x | 1.2-1.3x | Better memory access |
+| TMA Persistent | 1.2-1.35x | 1.25-1.4x | Combined benefits |
+| + Warp Spec (Blackwell) | 1.3-1.5x | 1.4-1.6x | Hardware overlap |
 
 When Each Variant Wins
 ~~~~~~~~~~~~~~~~~~~~~~
 
 **Naive:**
-- Small matrices (< 1024×1024)
+- Small matrices (< 1024x1024)
 - Single matmul
 - Minimal kernel launch overhead needed
 
@@ -459,12 +437,11 @@ When Each Variant Wins
 - Complex memory access patterns
 
 **TMA Persistent + Warp Spec:**
-- Large matrices (≥ 4096×4096)
+- Large matrices (>= 4096x4096)
 - Blackwell GPUs
 - Maximum performance needed
 
 Precision Support
------------------
 
 FP16 (Float16)
 ~~~~~~~~~~~~~~
@@ -482,27 +459,26 @@ FP8 (Float8)
 ~~~~~~~~~~~~
 .. code-block:: python
 
-dtype = torch.float8*e4m3fn  # E4M3 format
+dtype = torch.float8_e4m3fn  # E4M3 format
 a = torch.randn((M, K), dtype=torch.float16).to(dtype)
 b = torch.randn((K, N), dtype=torch.float16).to(dtype)
 ::
 
-- Requires compute capability ≥ 9.0
-- 2× speedup potential
+- Requires compute capability >= 9.0
+- 2x speedup potential
 - Lower precision, faster compute
 - Ideal for inference
 
 Auto-tuning Configuration
--------------------------
 
 .. code-block:: python
 
-def matmul*get*configs():
+def matmul_get*configs():
     return [
         triton.Config(
-            {'BLOCK*SIZE*M': BM, 'BLOCK*SIZE*N': BN,
-             'BLOCK*SIZE*K': BK, 'GROUP*SIZE*M': 8},
-            num*stages=s, num*warps=w
+            {'BLOCK_SIZE*M': BM, 'BLOCK_SIZE*N': BN,
+             'BLOCK_SIZE*K': BK, 'GROUP_SIZE*M': 8},
+            num_stages=s, num_warps=w
         )
         for BM in [128]
         for BN in [128, 256]
@@ -514,34 +490,29 @@ def matmul*get*configs():
 
 
 **Parameters:**
-- ``BLOCK*SIZE*M/N/K``: Tile dimensions
-- ``num*stages``: Pipeline depth (2-4 typical)
-- ``num*warps``: Threads per CTA (4 or 8)
-- ``GROUP*SIZE*M``: Swizzling factor for L2 locality
+- ``BLOCK_SIZE*M/N/K``: Tile dimensions
+- ``num_stages``: Pipeline depth (2-4 typical)
+- ``num_warps``: Threads per CTA (4 or 8)
+- ``GROUP_SIZE*M``: Swizzling factor for L2 locality
 
 Command-line Usage
-------------------
 
 .. code-block:: bash
 
 FP16 matmul
-===========
-python 09-persistent-matmul.py --prec fp16 --K*range 128 1024 --K*step 128
+python 09-persistent-matmul.py --prec fp16 --K_range 128 1024 --K_step 128
 
 FP8 matmul (requires Hopper+)
-=============================
 python 09-persistent-matmul.py --prec fp8 --K 512
 
 Profile specific K dimension
-============================
 python 09-persistent-matmul.py --prec fp16 -K 2048
 ::
 
 
-**Note:** May fail on GPUs with small shared memory (e.g., RTX 4090). Reduce ``num*stages`` if needed.
+**Note:** May fail on GPUs with small shared memory (e.g., RTX 4090). Reduce ``num_stages`` if needed.
 
 Common Pitfalls
----------------
 
 1. Wrong B Matrix Layout for TMA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -549,10 +520,9 @@ Common Pitfalls
 .. code-block:: python
 
 TMA expects B to be transposed
-==============================
 b = b.T.contiguous()  # Make sure it's contiguous!
 
-matmul*tma(a, b, warp*specialize=False)
+matmul_tma(a, b, warp_specialize=False)
 ::
 
 
@@ -562,16 +532,14 @@ matmul*tma(a, b, warp*specialize=False)
 .. code-block:: python
 
 Bad: Using both in same kernel
-==============================
-a*desc = TensorDescriptor.from*tensor(a, ...)  # Host-side
-tl.make*tensor*descriptor(...)  # Device-side
+a_desc = TensorDescriptor.from_tensor(a, ...)  # Host-side
+tl.make_tensor*descriptor(...)  # Device-side
 
 Good: Pick one approach
-=======================
-if HAS*HOST*TENSOR*DESC:
-    use*host*descriptors()
+if HAS_HOST*TENSOR_DESC:
+    use_host*descriptors()
 else:
-    use*device*descriptors()
+    use_device*descriptors()
 ::
 
 
@@ -581,7 +549,7 @@ else:
 .. code-block:: python
 
 if args.prec == 'fp8':
-    if not hasattr(torch, 'float8*e4m3fn') or not is_cuda():
+    if not hasattr(torch, 'float8_e4m3fn') or not is_cuda():
         print("This example requires CUDA with fp8 support.")
         exit(1)
 ::

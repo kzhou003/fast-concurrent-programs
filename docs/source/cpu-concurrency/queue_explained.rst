@@ -1,8 +1,6 @@
 Queue Explained: Thread-Safe Data Structure & Locking
-=====================================================
 
 What is a Queue?
-----------------
 
 A **queue** is a **First-In-First-Out (FIFO)** data structure with **built-in thread safety**. It handles synchronization automatically, so you don't have to manage locks yourself.
 
@@ -11,9 +9,7 @@ Key Concept
 ::
 
 put(item)      get()
-   |             |
    [v]             [v]
-+-------------------------+
 |  [1] [2] [3] [4] [5]    |
 |   [^]                      |
 |  Item added here    Item removed here
@@ -27,7 +23,6 @@ put(item)      get()
 ---
 
 How Queue Works Internally
---------------------------
 
 Internal Structure
 ~~~~~~~~~~~~~~~~~~
@@ -45,13 +40,11 @@ Queue internally looks like this:
 ::
 
 Queue object:
-+-------------------------------------+
 | items: [1, 2, 3, 4, 5]             | <- Internal list
 | mutex: Lock()                       | <- Built-in lock!
 | not_empty: Condition()              | <- Signals when items available
 | not_full: Condition()               | <- Signals when space available
 | maxsize: 0 (unlimited)              |
-+-------------------------------------+
 ::
 
 
@@ -67,7 +60,6 @@ When you call ``put()`` or ``get()``, the Queue **automatically**:
 ---
 
 Queue Operations
-----------------
 
 ``put(item)``
 ~~~~~~~~~~~
@@ -119,7 +111,6 @@ item = q.get()  # BLOCKS! Queue is empty
 q.put(1)
 item = q.get()      # Remove item from queue
 Process item...
-===============
 q.task_done()       # Tell queue you're done with this item
 ::
 
@@ -149,7 +140,6 @@ q.join()  # Now returns (all items processed)
 ---
 
 Why Queue is Best Practice
---------------------------
 
 Problem with Manual Locks
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -178,13 +168,9 @@ def consumer():
 Problems:
 =========
 1. Easy to forget lock somewhere
-================================
 2. Busy-waiting wastes CPU
-==========================
 3. No synchronization between threads
-=====================================
 4. Race conditions possible
-===========================
 ::
 
 
@@ -206,20 +192,15 @@ def consumer():
 Benefits:
 =========
 1. Synchronization automatic
-============================
 2. No busy-waiting
-==================
 3. Blocks correctly when empty/full
-===================================
 4. Task tracking with task_done()
-=================================
 ::
 
 
 ---
 
 Queue as Locking Mechanism
---------------------------
 
 Queue provides **implicit locking** without you having to manage locks directly.
 
@@ -267,7 +248,6 @@ Locking Benefits
 ---
 
 The Code Explained: Producer-Consumer
--------------------------------------
 
 .. code-block:: python
 
@@ -298,11 +278,9 @@ class Consumer(Thread):
             self.queue.task_done()      # Mark as processed
 
 Create queue
-============
 queue = Queue()
 
 Create threads
-==============
 producer = Producer(queue)   # 1 producer
 consumer1 = Consumer(queue)  # 3 consumers
 consumer2 = Consumer(queue)
@@ -328,7 +306,6 @@ Execution Flow
 ::
 
 Time  Producer               Queue              Consumer1/2/3
-------------------------------------------------------------
 0     produces item 42      []                 waiting...
       put(42)               [42]               get() wakes up!
 
@@ -354,10 +331,8 @@ Time  Producer               Queue              Consumer1/2/3
 ---
 
 Queue vs Lock vs Semaphore vs RLock
------------------------------------
 
 | Feature | Lock | RLock | Semaphore | Queue |
-|---------|------|-------|-----------|-------|
 | **Purpose** | Mutual exclusion | Reentrant locking | Signaling/Resource pool | Data passing |
 | **Thread-safe data** | [FAIL] | [FAIL] | [FAIL] | [OK] (built-in) |
 | **Built-in blocking** | [FAIL] | [FAIL] | [OK] | [OK] |
@@ -369,21 +344,18 @@ Queue vs Lock vs Semaphore vs RLock
 ---
 
 Queue Benefits Summary
-----------------------
 
 1. **Thread-Safe Data Structure**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
 Without Queue - Need to manage locking
-======================================
 data = []
 lock = Lock()
 with lock:
     data.append(item)  # Manual lock
 
 With Queue - Automatic
-======================
 q = Queue()
 q.put(item)  # No lock needed
 ::
@@ -394,14 +366,12 @@ q.put(item)  # No lock needed
 .. code-block:: python
 
 Without Queue - Need condition variables
-========================================
 if not data:
     # How do we block here? Spin? Sleep?
     while not data:
         time.sleep(0.01)  # Busy-wait, wastes CPU
 
 With Queue - Blocks automatically
-=================================
 item = q.get()  # Blocks if empty, efficient
 ::
 
@@ -411,13 +381,11 @@ item = q.get()  # Blocks if empty, efficient
 .. code-block:: python
 
 Bad - Busy-wait (wastes CPU)
-============================
 while queue_is*empty:
     time.sleep(0.01)
 item = get_item()
 
 Good - Queue blocks efficiently
-===============================
 item = q.get()  # No CPU waste, thread sleeps
 ::
 
@@ -431,7 +399,6 @@ q.put(item2)
 q.put(item3)
 
 Process items
-=============
 for * in range(3):
     item = q.get()
     process(item)
@@ -448,26 +415,22 @@ q.join()  # Wait until all items processed
 q = Queue()
 
 Multiple producers
-==================
 producer1 = Producer(q)
 producer2 = Producer(q)
 producer3 = Producer(q)
 
 Multiple consumers
-==================
 consumer1 = Consumer(q)
 consumer2 = Consumer(q)
 consumer3 = Consumer(q)
 
 All safe! Queue handles synchronization
-=======================================
 ::
 
 
 ---
 
 Internal Queue Locking Mechanism
---------------------------------
 
 Step-by-Step: What Happens in ``put()``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -477,37 +440,25 @@ Step-by-Step: What Happens in ``put()``
 q.put(42)
 
 Internally in Queue:
-====================
 1. Acquire mutex (lock)
-=======================
    with self.mutex:
-===================
        down
 ========
 2. Check if full
-================
    if queue is full:
-====================
        wait(not_full)  # Sleep here until there's space
-=======================================================
        down
 ========
 3. Add item
-===========
    self.items.append(42)
-========================
        down
 ========
 4. Notify consumers
-===================
    not_empty.notify()  # Wake one sleeping consumer
-===================================================
        down
 ========
 5. Release mutex
-================
    (with block ends)
-====================
 ::
 
 
@@ -519,44 +470,31 @@ Step-by-Step: What Happens in ``get()``
 item = q.get()
 
 Internally in Queue:
-====================
 1. Acquire mutex (lock)
-=======================
    with self.mutex:
-===================
        down
 ========
 2. Check if empty
-=================
    while not self.items:
-========================
        wait(not_empty)  # Sleep here until items available
-==========================================================
        down
 ========
 3. Remove item
-==============
    item = self.items.pop(0)
-===========================
        down
 ========
 4. Notify producers
-===================
    not_full.notify()  # Wake one sleeping producer
-==================================================
        down
 ========
 5. Release mutex
-================
    return item
-==============
 ::
 
 
 ---
 
 Why Queue is Safer Than Manual Locking
---------------------------------------
 
 Mistake 1: Forgetting Lock
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -564,7 +502,6 @@ Mistake 1: Forgetting Lock
 .. code-block:: python
 
 [[FAIL]] WRONG - No lock on append
-===========================
 data = []
 
 def producer():
@@ -574,7 +511,6 @@ def consumer():
     item = data.pop(0)  # Not synchronized!
 
 [[OK]] CORRECT - Queue is always locked
-==================================
 q = Queue()
 
 def producer():
@@ -591,13 +527,11 @@ Mistake 2: Busy-Waiting
 .. code-block:: python
 
 [[FAIL]] WRONG - Wastes CPU
-====================
 while not data:
     time.sleep(0.01)  # Spin loop, bad!
 item = data.pop(0)
 
 [[OK]] CORRECT - Queue blocks efficiently
-====================================
 item = q.get()  # Sleeps without spinning
 ::
 
@@ -608,14 +542,12 @@ Mistake 3: Race Condition
 .. code-block:: python
 
 [[FAIL]] WRONG - Check and pop not atomic
-==================================
 with lock:
     if len(data) > 0:  # Check
         # Lock released here!
         item = data.pop(0)  # Another thread might have removed it!
 
 [[OK]] CORRECT - Queue makes check and pop atomic
-============================================
 item = q.get()  # Entire operation is atomic
 ::
 
@@ -623,7 +555,6 @@ item = q.get()  # Entire operation is atomic
 ---
 
 Practical Example: Work Queue
------------------------------
 
 .. code-block:: python
 
@@ -649,7 +580,6 @@ def worker(worker_id):
         task_queue.task_done()
 
 Create workers
-==============
 workers = [Thread(target=worker, args=(i,)) for i in range(3)]
 for w in workers:
     w.start()
@@ -660,11 +590,9 @@ for i in range(10):
     task_queue.put(f"Task {i}")
 
 Wait for all tasks to be processed
-==================================
 task_queue.join()
 
 Stop workers
-============
 for * in range(3):
     task_queue.put(None)  # Poison pill
 
@@ -678,7 +606,6 @@ print(f"All done! Results: {results}")
 ---
 
 Key Takeaways
--------------
 
 1. **Queue = Thread-Safe Data Structure**
    - Built-in locks and condition variables

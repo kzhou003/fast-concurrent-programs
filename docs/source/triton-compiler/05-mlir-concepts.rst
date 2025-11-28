@@ -1,10 +1,8 @@
 MLIR: Core Concepts and Triton Usage
-=====================================
 
 This document explains MLIR (Multi-Level Intermediate Representation), the compiler infrastructure that powers Triton's compilation pipeline.
 
 What is MLIR?
--------------
 
 **MLIR (Multi-Level Intermediate Representation)** is a compiler infrastructure project that provides a flexible framework for building optimizing compilers.
 
@@ -15,7 +13,6 @@ What is MLIR?
 **Key idea:** Instead of one "universal" IR, support multiple IRs (dialects) that can coexist and transform between each other.
 
 The Problem MLIR Solves
-------------------------
 
 Traditional Compiler Limitations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,13 +80,11 @@ MLIR Philosophy
 .. code-block:: text
 
     Traditional Compiler:
-    ---------------------
     Source -> [BIG STEP] -> LLVM IR -> Binary
                     up
             Loss of information!
 
     MLIR Compiler:
-    --------------
     Source -> Dialect1 -> Dialect2 -> ... -> DialectN -> Binary
              down         down         down         down
           Small, incremental lowering steps
@@ -103,7 +98,6 @@ MLIR Philosophy
 - [[OK]] Domain-specific dialects
 
 Core MLIR Concepts
-------------------
 
 1. Dialects
 ~~~~~~~~~~~
@@ -115,9 +109,7 @@ A **dialect** is a namespace for operations, types, and attributes.
 Common Dialects
 ^^^^^^^^^^^^^^^
 
-==================  ==============================================  ====================
 Dialect             Purpose                                         Abstraction Level
-==================  ==============================================  ====================
 ``linalg``          Linear algebra operations                       High-level
 ``tensor``          Tensor operations                               High-level
 ``scf``             Structured control flow (for, while, if)        Mid-level
@@ -126,20 +118,16 @@ Dialect             Purpose                                         Abstraction 
 ``llvm``            LLVM IR operations                              Very low-level
 ``gpu``             Generic GPU operations                          GPU-specific
 ``nvgpu``           NVIDIA GPU-specific operations                  NVIDIA-specific
-==================  ==============================================  ====================
 
 Triton's Custom Dialects
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Triton defines its own dialects:
 
-==================  ==============================================  ====================
 Dialect             Purpose                                         File Location
-==================  ==============================================  ====================
 ``tt``              Triton dialect (TTIR)                           ``lib/Dialect/Triton/``
 ``ttg``             Triton GPU dialect (TTGIR)                      ``lib/Dialect/TritonGPU/``
 ``ttng``            Triton NVIDIA GPU dialect                       ``lib/Dialect/TritonNvidiaGPU/``
-==================  ==============================================  ====================
 
 **Example:** Mixing dialects in one function
 
@@ -467,7 +455,6 @@ Triton-Specific Passes
 - ``TritonGPURemoveLayoutConversions`` - Eliminate redundant layout changes
 
 MLIR in Triton
---------------
 
 Why Triton Uses MLIR
 ~~~~~~~~~~~~~~~~~~~~
@@ -586,7 +573,6 @@ TritonNvidiaGPU Dialect (ttng)
     %smem = ttng.alloc_dsmem : tensor<128x128xf32, #ttng.dsmem>
 
 Example: Lowering Through Dialects
------------------------------------
 
 Let's trace a simple operation through all dialects.
 
@@ -802,7 +788,6 @@ Stage 4: LLVM IR (Actual)
 **This is standard LLVM IR** that the NVPTX backend can compile to PTX.
 
 MLIR Tools and Ecosystem
--------------------------
 
 Command-Line Tools
 ~~~~~~~~~~~~~~~~~~
@@ -905,7 +890,6 @@ Debugging MLIR
     kernel[grid](..., debug=True)
 
 MLIR Resources
---------------
 
 Official Documentation
 ~~~~~~~~~~~~~~~~~~~~~~

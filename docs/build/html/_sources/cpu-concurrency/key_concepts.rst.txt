@@ -1,10 +1,8 @@
 Key Concepts in Concurrent Programming
-======================================
 
 This document explains the fundamental concepts used across the concurrent programming examples (scripts 06-10).
 
 Table of Contents
------------------
 1. `Concurrency vs Parallelism <#concurrency-vs-parallelism>`_
 2. `Threading vs Multiprocessing <#threading-vs-multiprocessing>`_
 3. `The Global Interpreter Lock (GIL) <#the-global-interpreter-lock-gil>`_
@@ -17,7 +15,6 @@ Table of Contents
 ---
 
 Concurrency vs Parallelism
---------------------------
 
 Concurrency
 ~~~~~~~~~~~
@@ -65,20 +62,19 @@ Visual Comparison
 
 Concurrency (Threading/Asyncio):
 Core 1: [Task A][Task B][Task A][Task C][Task B][Task A]
-Time:   ────────────────────────────────────────────────→
+Time:   ------------------------------------------------->
 
 Parallelism (Multiprocessing):
-Core 1: [Task A──────────────────────────────]
-Core 2: [Task B──────────────────────────────]
-Core 3: [Task C──────────────────────────────]
-Time:   ────────────────────────────────────────────────→
+Core 1: [Task A------------------------------]
+Core 2: [Task B------------------------------]
+Core 3: [Task C------------------------------]
+Time:   ------------------------------------------------->
 ::
 
 
 ---
 
 Threading vs Multiprocessing
-----------------------------
 
 Threading (concurrent.futures.ThreadPoolExecutor)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,8 +98,8 @@ Threading (concurrent.futures.ThreadPoolExecutor)
 **Example** (from script 06):
 .. code-block:: python
 
-with concurrent.futures.ThreadPoolExecutor(max*workers=5) as executor:
-    for item in number*list:
+with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    for item in number_list:
         executor.submit(evaluate, item)
 ::
 
@@ -132,8 +128,8 @@ Multiprocessing (concurrent.futures.ProcessPoolExecutor)
 **Example** (from script 06):
 .. code-block:: python
 
-with concurrent.futures.ProcessPoolExecutor(max*workers=5) as executor:
-    for item in number*list:
+with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
+    for item in number_list:
         executor.submit(evaluate, item)
 ::
 
@@ -142,17 +138,15 @@ When to Use What
 ~~~~~~~~~~~~~~~~
 
 | Scenario | Use Threading | Use Multiprocessing |
-|----------|--------------|---------------------|
-| I/O-bound tasks (network, files) | ✅ Yes | ❌ Overkill |
-| CPU-bound tasks | ❌ No (GIL) | ✅ Yes |
-| Need shared memory | ✅ Yes | ❌ Complex |
-| Need true parallelism | ❌ No | ✅ Yes |
-| Low memory available | ✅ Yes | ❌ No |
+| I/O-bound tasks (network, files) | [[OK]] Yes | [[FAIL]] Overkill |
+| CPU-bound tasks | [[FAIL]] No (GIL) | [[OK]] Yes |
+| Need shared memory | [[OK]] Yes | [[FAIL]] Complex |
+| Need true parallelism | [[FAIL]] No | [[OK]] Yes |
+| Low memory available | [[OK]] Yes | [[FAIL]] No |
 
 ---
 
 The Global Interpreter Lock (GIL)
----------------------------------
 
 What is the GIL?
 ~~~~~~~~~~~~~~~~
@@ -174,10 +168,9 @@ Impact on Performance:
 .. code-block:: python
 
 With GIL, threads don't help CPU-bound tasks:
-=============================================
-Sequential:        ████████████ (10 seconds)
-Threading (4):     ████████████ (10 seconds) ← No improvement!
-Multiprocessing:   ███ (2.5 seconds) ← True speedup!
+Sequential:        ############ (10 seconds)
+Threading (4):     ############ (10 seconds) <- No improvement!
+Multiprocessing:   ### (2.5 seconds) <- True speedup!
 ::
 
 
@@ -185,10 +178,9 @@ Multiprocessing:   ███ (2.5 seconds) ← True speedup!
 .. code-block:: python
 
 GIL is released during I/O, so threading helps:
-===============================================
-Sequential:        ████████████ (10 seconds)
-Threading (4):     ███ (2.5 seconds) ← Good improvement!
-Asyncio:           ██ (2 seconds) ← Even better!
+Sequential:        ############ (10 seconds)
+Threading (4):     ### (2.5 seconds) <- Good improvement!
+Asyncio:           ## (2 seconds) <- Even better!
 ::
 
 
@@ -207,7 +199,6 @@ The thread pool shows minimal improvement because the CPU-bound task is limited 
 ---
 
 Asyncio and Event Loops
------------------------
 
 Event Loop
 ~~~~~~~~~~
@@ -222,13 +213,11 @@ The event loop is the core of asyncio. It:
 ::
 
 Event Loop:
-  ┌────────────────────────────────┐
-  │  1. Check for ready tasks      │
-  │  2. Execute task until await   │
-  │  3. Switch to next ready task  │
-  │  4. Handle I/O operations      │
-  │  5. Repeat                     │
-  └────────────────────────────────┘
+  |  1. Check for ready tasks      |
+  |  2. Execute task until await   |
+  |  3. Switch to next ready task  |
+  |  4. Handle I/O operations      |
+  |  5. Repeat                     |
 ::
 
 
@@ -237,9 +226,9 @@ How It Works (from script 07):
 .. code-block:: python
 
 async def main():
-    loop = asyncio.get*event*loop()
-    end*loop = loop.time() + 60
-    await task*A(end*loop)
+    loop = asyncio.get_event*loop()
+    end_loop = loop.time() + 60
+    await task_A(end_loop)
 
 if **name** == '**main**':
     asyncio.run(main())  # Creates and runs event loop
@@ -259,8 +248,8 @@ Modern vs Old Patterns:
 **Old (Deprecated)**:
 .. code-block:: python
 
-loop = asyncio.get*event*loop()
-loop.run*until*complete(coro())
+loop = asyncio.get_event*loop()
+loop.run_until*complete(coro())
 loop.close()
 ::
 
@@ -289,8 +278,8 @@ Defining Coroutines:
 .. code-block:: python
 
 @asyncio.coroutine
-def my*coroutine():
-    result = yield from other*coroutine()
+def my_coroutine():
+    result = yield from other_coroutine()
     return result
 ::
 
@@ -298,8 +287,8 @@ def my*coroutine():
 **Modern Syntax (Python 3.5+)**:
 .. code-block:: python
 
-async def my*coroutine():
-    result = await other*coroutine()
+async def my_coroutine():
+    result = await other_coroutine()
     return result
 ::
 
@@ -315,14 +304,14 @@ Example from Script 08:
 ~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def state1(transition*value):
-    output*value = f'State 1 with transition value = {transition*value}\n'
+async def state1(transition_value):
+    output_value = f'State 1 with transition value = {transition_value}\n'
     await asyncio.sleep(1)  # Yields control
 
-    if input*value == 0:
-        result = await state3(input*value)  # Calls another coroutine
+    if input_value == 0:
+        result = await state3(input_value)  # Calls another coroutine
 
-    return output*value + f'State 1 calling {result}'  # Returns value
+    return output_value + f'State 1 calling {result}'  # Returns value
 ::
 
 
@@ -331,15 +320,15 @@ Execution Flow:
 ::
 
 state1() starts
-  ↓
+  down
 Executes synchronous code
-  ↓
-await asyncio.sleep(1)  ← Yields control to event loop
-  ↓                       ← Other tasks can run here
+  down
+await asyncio.sleep(1)  <- Yields control to event loop
+  down                       <- Other tasks can run here
 Resumes after sleep
-  ↓
-await state3()          ← Calls another coroutine
-  ↓
+  down
+await state3()          <- Calls another coroutine
+  down
 Returns result
 ::
 
@@ -354,7 +343,6 @@ Important Rules:
 ---
 
 Tasks and Futures
------------------
 
 Tasks
 ~~~~~
@@ -366,14 +354,14 @@ Tasks are wrappers around coroutines that schedule them for execution.
 **Old (Deprecated)**:
 .. code-block:: python
 
-task = asyncio.Task(my*coroutine())
+task = asyncio.Task(my_coroutine())
 ::
 
 
 **Modern**:
 .. code-block:: python
 
-task = asyncio.create*task(my*coroutine())
+task = asyncio.create_task(my_coroutine())
 ::
 
 
@@ -390,9 +378,9 @@ Example from Script 09:
 
 async def main():
     tasks = [
-        asyncio.create*task(factorial(10)),
-        asyncio.create*task(fibonacci(10)),
-        asyncio.create*task(binomial*coefficient(20, 10))
+        asyncio.create_task(factorial(10)),
+        asyncio.create_task(fibonacci(10)),
+        asyncio.create_task(binomial_coefficient(20, 10))
     ]
     await asyncio.gather(*tasks)  # Wait for all tasks
 ::
@@ -412,8 +400,8 @@ Futures represent the eventual result of an asynchronous operation.
 .. code-block:: python
 
 future = asyncio.Future()
-future.add*done*callback(callback*function)
-future.set*result(value)
+future.add_done*callback(callback_function)
+future.set_result(value)
 result = future.result()
 ::
 
@@ -421,7 +409,7 @@ result = future.result()
 **Modern Pattern**:
 .. code-block:: python
 
-result = await my*coroutine()  # Direct return value
+result = await my_coroutine()  # Direct return value
 ::
 
 
@@ -433,9 +421,7 @@ Waiting for Multiple Tasks:
 
 results = await asyncio.gather(task1, task2, task3)
 Returns results in order
-========================
 Raises exception if any task fails
-==================================
 ::
 
 
@@ -444,16 +430,13 @@ Raises exception if any task fails
 
 done, pending = await asyncio.wait([task1, task2, task3])
 Returns sets of done and pending tasks
-======================================
 More complex to use
-===================
 ::
 
 
 ---
 
 CPU-bound vs I/O-bound Operations
----------------------------------
 
 CPU-bound Operations
 ~~~~~~~~~~~~~~~~~~~~
@@ -487,9 +470,8 @@ def count(number):
     return i * number
 
 Use ProcessPoolExecutor for CPU-bound tasks
-===========================================
-with concurrent.futures.ProcessPoolExecutor(max*workers=5) as executor:
-    for item in number*list:
+with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
+    for item in number_list:
         executor.submit(evaluate, item)
 ::
 
@@ -519,7 +501,7 @@ Operations limited by input/output speed (waiting for data).
 **Example** (from scripts 07-10):
 .. code-block:: python
 
-async def fetch*data():
+async def fetch_data():
     await asyncio.sleep(2)  # Simulates I/O wait
     # During this wait, other tasks can run
     return data
@@ -530,7 +512,6 @@ Comparison Table:
 ~~~~~~~~~~~~~~~~~
 
 | Aspect | CPU-bound | I/O-bound |
-|--------|-----------|-----------|
 | **Bottleneck** | CPU processing | Waiting for I/O |
 | **CPU Usage** | High (100%) | Low (often idle) |
 | **Best Solution** | Multiprocessing | Asyncio / Threading |
@@ -545,15 +526,14 @@ Some applications have both:
 .. code-block:: python
 
 Combine approaches:
-===================
-async def process*data():
+async def process_data():
     # I/O: Fetch data asynchronously
-    data = await fetch*from*api()
+    data = await fetch_from*api()
 
     # CPU: Process in separate process
     with ProcessPoolExecutor() as executor:
-        loop = asyncio.get*event*loop()
-        result = await loop.run*in*executor(executor, cpu*intensive*func, data)
+        loop = asyncio.get_event*loop()
+        result = await loop.run_in*executor(executor, cpu_intensive*func, data)
 
     return result
 ::
@@ -562,11 +542,10 @@ async def process*data():
 ---
 
 Python 3.12 Migration Changes
------------------------------
 
 This section summarizes all deprecated features replaced during migration.
 
-1. Time Measurement (``time.clock()`` → ``time.perf*counter()``)
+1. Time Measurement (``time.clock()`` -> ``time.perf_counter()``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: ``time.clock()`` was deprecated in Python 3.3 and removed in Python 3.8.
@@ -576,7 +555,6 @@ This section summarizes all deprecated features replaced during migration.
 
 start = time.clock()
 ... work ...
-============
 elapsed = time.clock() - start
 ::
 
@@ -584,19 +562,18 @@ elapsed = time.clock() - start
 **After**:
 .. code-block:: python
 
-start = time.perf*counter()
+start = time.perf_counter()
 ... work ...
-============
-elapsed = time.perf*counter() - start
+elapsed = time.perf_counter() - start
 ::
 
 
-**Why**: ``perf*counter()`` provides:
+**Why**: ``perf_counter()`` provides:
 - Higher resolution timing
 - System-wide consistency
 - Better precision for benchmarking
 
-2. Coroutine Syntax (``@asyncio.coroutine`` → ``async def``)
+2. Coroutine Syntax (``@asyncio.coroutine`` -> ``async def``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: ``@asyncio.coroutine`` decorator deprecated in Python 3.8.
@@ -605,8 +582,8 @@ elapsed = time.perf*counter() - start
 .. code-block:: python
 
 @asyncio.coroutine
-def my*coroutine():
-    result = yield from other*coroutine()
+def my_coroutine():
+    result = yield from other_coroutine()
     return result
 ::
 
@@ -614,8 +591,8 @@ def my*coroutine():
 **After**:
 .. code-block:: python
 
-async def my*coroutine():
-    result = await other*coroutine()
+async def my_coroutine():
+    result = await other_coroutine()
     return result
 ::
 
@@ -626,7 +603,7 @@ async def my*coroutine():
 - Better error messages
 - Type checker friendly
 
-3. Task Creation (``asyncio.Task()`` → ``asyncio.create*task()``)
+3. Task Creation (``asyncio.Task()`` -> ``asyncio.create_task()``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: Direct ``asyncio.Task()`` constructor deprecated.
@@ -634,18 +611,18 @@ async def my*coroutine():
 **Before**:
 .. code-block:: python
 
-task = asyncio.Task(my*coroutine())
+task = asyncio.Task(my_coroutine())
 ::
 
 
 **After**:
 .. code-block:: python
 
-task = asyncio.create*task(my*coroutine())
+task = asyncio.create_task(my_coroutine())
 ::
 
 
-**Why**: ``create*task()`` is:
+**Why**: ``create_task()`` is:
 - The official API
 - Handles edge cases better
 - Works with custom event loops
@@ -659,8 +636,8 @@ task = asyncio.create*task(my*coroutine())
 **Before**:
 .. code-block:: python
 
-loop = asyncio.get*event*loop()
-loop.run*until*complete(my*coroutine())
+loop = asyncio.get_event*loop()
+loop.run_until*complete(my_coroutine())
 loop.close()
 ::
 
@@ -668,7 +645,7 @@ loop.close()
 **After**:
 .. code-block:: python
 
-asyncio.run(my*coroutine())
+asyncio.run(my_coroutine())
 ::
 
 
@@ -678,7 +655,7 @@ asyncio.run(my*coroutine())
 - Cleaner and safer
 - Recommended since Python 3.7
 
-5. Future Callbacks (Callbacks → ``await``)
+5. Future Callbacks (Callbacks -> ``await``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: Callback-based code is harder to read and maintain.
@@ -691,16 +668,16 @@ future = asyncio.Future()
 def callback(future):
     print(future.result())
 
-future.add*done*callback(callback)
-await some*coroutine(future)
-future.set*result(value)
+future.add_done*callback(callback)
+await some_coroutine(future)
+future.set_result(value)
 ::
 
 
 **After**:
 .. code-block:: python
 
-result = await some*coroutine()
+result = await some_coroutine()
 print(result)
 ::
 
@@ -719,16 +696,16 @@ print(result)
 **Before**:
 .. code-block:: python
 
-async def bad*function():
-    time.sleep(5)  # ❌ Blocks entire event loop!
+async def bad_function():
+    time.sleep(5)  # [[FAIL]] Blocks entire event loop!
 ::
 
 
 **After**:
 .. code-block:: python
 
-async def good*function():
-    await asyncio.sleep(5)  # ✅ Yields control
+async def good_function():
+    await asyncio.sleep(5)  # [[OK]] Yields control
 ::
 
 
@@ -737,7 +714,7 @@ async def good*function():
 - Allows other tasks to run
 - Proper async behavior
 
-7. String Formatting (``%`` → f-strings)
+7. String Formatting (``%`` -> f-strings)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: Old-style formatting is less readable.
@@ -767,10 +744,10 @@ print(f'X: {x}, Y: {y}')
 Migration Checklist
 ~~~~~~~~~~~~~~~~~~~
 
-- [x] Replace ``time.clock()`` with ``time.perf*counter()``
+- [x] Replace ``time.clock()`` with ``time.perf_counter()``
 - [x] Replace ``@asyncio.coroutine`` with ``async def``
 - [x] Replace ``yield from`` with ``await``
-- [x] Replace ``asyncio.Task()`` with ``asyncio.create*task()``
+- [x] Replace ``asyncio.Task()`` with ``asyncio.create_task()``
 - [x] Replace manual loop management with ``asyncio.run()``
 - [x] Replace Future callbacks with direct ``await``
 - [x] Replace ``time.sleep()`` with ``asyncio.sleep()`` in async code
@@ -781,12 +758,12 @@ Compatibility
 ~~~~~~~~~~~~~
 
 All migrated scripts are compatible with:
-- ✅ Python 3.12 (tested)
-- ✅ Python 3.11
-- ✅ Python 3.10
-- ✅ Python 3.9
-- ✅ Python 3.8
-- ✅ Python 3.7 (minimum for ``asyncio.run()``)
+- [[OK]] Python 3.12 (tested)
+- [[OK]] Python 3.11
+- [[OK]] Python 3.10
+- [[OK]] Python 3.9
+- [[OK]] Python 3.8
+- [[OK]] Python 3.7 (minimum for ``asyncio.run()``)
 
 ---
 
@@ -797,7 +774,6 @@ Quick Reference Guide
 ~~~~~~~~~~~~~~~~~~~~~
 
 | Task Type | Best Solution | Example Script |
-|-----------|--------------|----------------|
 | CPU-intensive | ProcessPoolExecutor | Script 06 |
 | I/O-intensive | Asyncio | Scripts 07-10 |
 | Mixed workload | Asyncio + ProcessPool | - |
@@ -815,7 +791,7 @@ Key Takeaways
 3. **Use modern syntax**: async/await is clearer than callbacks
 4. **Never block the loop**: Use asyncio.sleep(), not time.sleep()
 5. **Leverage asyncio.run()**: Simplest way to run async code
-6. **Create tasks properly**: Use asyncio.create*task()
+6. **Create tasks properly**: Use asyncio.create_task()
 7. **Gather results**: Use asyncio.gather() for multiple tasks
 8. **Profile first**: Measure before optimizing
 

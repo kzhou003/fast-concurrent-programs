@@ -1,5 +1,4 @@
 Tutorial 08: Grouped GEMM
-=========================
 
 Overview
 --------
@@ -14,14 +13,13 @@ Overview
 Instead of launching separate kernels for each GEMM, grouped GEMM uses a **fixed number of CTAs (Cooperative Thread Arrays)** that statically schedule work across all problems.
 
 Key Concepts
-------------
 
 Static On-Device Scheduling
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-NUM*SM: tl.constexpr  # Fixed number of streaming multiprocessors
+NUM_SM: tl.constexpr  # Fixed number of streaming multiprocessors
 ::
 
 
@@ -35,11 +33,11 @@ Group Problem Representation
 
 .. code-block:: python
 
-group*a*ptrs  # Device tensor of pointers to A matrices
-group*b*ptrs  # Device tensor of pointers to B matrices
-group*c*ptrs  # Device tensor of pointers to C matrices
-group*gemm*sizes  # Shape [group*size, 3] storing [M, N, K] for each GEMM
-g*lds  # Leading dimensions [lda, ldb, ldc] for each GEMM
+group_a*ptrs  # Device tensor of pointers to A matrices
+group_b*ptrs  # Device tensor of pointers to B matrices
+group_c*ptrs  # Device tensor of pointers to C matrices
+group_gemm*sizes  # Shape [group_size, 3] storing [M, N, K] for each GEMM
+g_lds  # Leading dimensions [lda, ldb, ldc] for each GEMM
 ::
 
 
@@ -49,7 +47,6 @@ g*lds  # Leading dimensions [lda, ldb, ldc] for each GEMM
 - Allows dynamic problem lookup during execution
 
 Code Walkthrough
-----------------
 
 1. Grouped GEMM Kernel (Basic Version)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,77 +54,77 @@ Code Walkthrough
 .. code-block:: python
 
 @triton.jit
-def grouped*matmul*kernel(
-    group*a*ptrs, group*b*ptrs, group*c*ptrs,
-    group*gemm*sizes, g*lds, group*size,
-    NUM*SM: tl.constexpr,
-    BLOCK*SIZE*M: tl.constexpr,
-    BLOCK*SIZE*N: tl.constexpr,
-    BLOCK*SIZE*K: tl.constexpr,
+def grouped_matmul*kernel(
+    group_a*ptrs, group_b*ptrs, group_c*ptrs,
+    group_gemm*sizes, g_lds, group_size,
+    NUM_SM: tl.constexpr,
+    BLOCK_SIZE*M: tl.constexpr,
+    BLOCK_SIZE*N: tl.constexpr,
+    BLOCK_SIZE*K: tl.constexpr,
 ):
-    tile*idx = tl.program*id(0)
-    last*problem*end = 0
+    tile_idx = tl.program_id(0)
+    last_problem*end = 0
 
     # Iterate through all problems
-    for g in range(group*size):
+    for g in range(group_size):
         # Load problem dimensions
-        gm = tl.load(group*gemm*sizes + g * 3)      # M dimension
-        gn = tl.load(group*gemm*sizes + g * 3 + 1)  # N dimension
-        gk = tl.load(group*gemm*sizes + g * 3 + 2)  # K dimension
+        gm = tl.load(group_gemm*sizes + g * 3)      # M dimension
+        gn = tl.load(group_gemm*sizes + g * 3 + 1)  # N dimension
+        gk = tl.load(group_gemm*sizes + g * 3 + 2)  # K dimension
 
-        num*m*tiles = tl.cdiv(gm, BLOCK*SIZE*M)
-        num*n*tiles = tl.cdiv(gn, BLOCK*SIZE*N)
-        num*tiles = num*m*tiles * num*n*tiles
+        num_m*tiles = tl.cdiv(gm, BLOCK_SIZE*M)
+        num_n*tiles = tl.cdiv(gn, BLOCK_SIZE*N)
+        num_tiles = num_m*tiles * num_n*tiles
 
         # Process tiles belonging to current problem
-        while (tile*idx >= last*problem*end and
-               tile*idx < last*problem*end + num*tiles):
+        while (tile_idx >= last_problem*end and
+               tile_idx < last_problem*end + num_tiles):
             # Get matrix pointers for this problem
-            a*ptr = tl.load(group*a*ptrs + g).to(tl.pointer*type(tl.float16))
-            b*ptr = tl.load(group*b*ptrs + g).to(tl.pointer*type(tl.float16))
-            c*ptr = tl.load(group*c*ptrs + g).to(tl.pointer*type(tl.float16))
+            a_ptr = tl.load(group_a*ptrs + g).to(tl.pointer_type(tl.float16))
+            b_ptr = tl.load(group_b*ptrs + g).to(tl.pointer_type(tl.float16))
+            c_ptr = tl.load(group_c*ptrs + g).to(tl.pointer_type(tl.float16))
 
             # Figure out tile coordinates within this problem
-            tile*idx*in*gemm = tile*idx - last*problem*end
-            tile*m*idx = tile*idx*in*gemm // num*n*tiles
-            tile*n*idx = tile*idx*in*gemm % num*n*tiles
+            tile_idx*in_gemm = tile_idx - last_problem*end
+            tile_m*idx = tile_idx*in_gemm // num_n*tiles
+            tile_n*idx = tile_idx*in_gemm % num_n*tiles
 
             # Standard matmul computation for this tile
             # ... (compute accumulator) ...
 
             # Jump to next tile assigned to this CTA
-            tile*idx += NUM*SM
+            tile_idx += NUM_SM
 
         # Move to next problem
-        last*problem*end = last*problem*end + num*tiles
+        last_problem*end = last_problem*end + num_tiles
 ::
 
 
 **Scheduling Logic:**
-1. Each CTA starts with ``tile*idx = program*id(0)`` (0, 1, 2, ..., NUM*SM-1)
-2. Process tiles at indices: ``tile*idx``, ``tile*idx + NUM*SM``, ``tile*idx + 2*NUM*SM``, ...
+1. Each CTA starts with ``tile_idx = program_id(0)`` (0, 1, 2, ..., NUM_SM-1)
+2. Process tiles at indices: ``tile_idx``, ``tile_idx + NUM_SM``, ``tile_idx + 2*NUM_SM``, ...
 3. This distributes work evenly across all SMs
 
 2. TMA (Tensor Memory Accelerator) Version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For GPUs with compute capability ≥ 9.0 (Hopper and beyond):
+For GPUs with compute capability >= 9.0 (Hopper and beyond):
 
 .. code-block:: python
 
 @triton.jit
-def grouped*matmul*tma*kernel(...):
+def grouped_matmul*tma_kernel(...):
     # Create TMA descriptors for each problem
-    a*desc = tl.make*tensor*descriptor(
-        a*ptr,
+    a_desc = tl.make_tensor*descriptor(
+        a_ptr,
         shape=[gm, gk],
         strides=[lda, 1],
-        block*shape=[BLOCK*SIZE*M, BLOCK*SIZE*K],
+        block_shape=[BLOCK_SIZE*M, BLOCK_SIZE*K],
     )
 
     # Load using TMA
-    a = a*desc.load([offs*am, offs*k])
-    b = b*desc.load([offs*bn, offs*k])
+    a = a_desc.load([offs_am, offs_k])
+    b = b_desc.load([offs_bn, offs_k])
     accumulator = tl.dot(a, b.T, accumulator)
 ::
 
@@ -143,88 +140,86 @@ def grouped*matmul*tma*kernel(...):
 
 .. code-block:: python
 
-def group*gemm*fn(group*A, group*B):
-    group*size = len(group*A)
+def group_gemm*fn(group_A, group_B):
+    group_size = len(group_A)
 
     # Collect matrix metadata
-    A*addrs = []
-    B*addrs = []
-    C*addrs = []
-    g*sizes = []
-    g*lds = []
+    A_addrs = []
+    B_addrs = []
+    C_addrs = []
+    g_sizes = []
+    g_lds = []
 
-    for i in range(group*size):
-        A = group*A[i]
-        B = group*B[i]
+    for i in range(group_size):
+        A = group_A[i]
+        B = group_B[i]
         M, K = A.shape
         K, N = B.shape
         C = torch.empty((M, N), device=device, dtype=A.dtype)
 
         # Store pointers as Python integers
-        A*addrs.append(A.data*ptr())
-        B*addrs.append(B.data*ptr())
-        C*addrs.append(C.data*ptr())
+        A_addrs.append(A.data_ptr())
+        B_addrs.append(B.data_ptr())
+        C_addrs.append(C.data_ptr())
 
         # Store dimensions and strides
-        g*sizes += [M, N, K]
-        g*lds += [A.stride(0), B.stride(0), C.stride(0)]
+        g_sizes += [M, N, K]
+        g_lds += [A.stride(0), B.stride(0), C.stride(0)]
 
     # Convert to device tensors
-    d*a*ptrs = torch.tensor(A*addrs, device=device)
-    d*b*ptrs = torch.tensor(B*addrs, device=device)
-    d*c*ptrs = torch.tensor(C*addrs, device=device)
-    d*g*sizes = torch.tensor(g*sizes, dtype=torch.int32, device=device)
-    d*g*lds = torch.tensor(g*lds, dtype=torch.int32, device=device)
+    d_a*ptrs = torch.tensor(A_addrs, device=device)
+    d_b*ptrs = torch.tensor(B_addrs, device=device)
+    d_c*ptrs = torch.tensor(C_addrs, device=device)
+    d_g*sizes = torch.tensor(g_sizes, dtype=torch.int32, device=device)
+    d_g*lds = torch.tensor(g_lds, dtype=torch.int32, device=device)
 
     # Fixed grid size
-    grid = lambda META: (META['NUM*SM'], )
-    grouped*matmul*kernel`grid <
-        d*a*ptrs, d*b*ptrs, d*c*ptrs,
-        d*g*sizes, d*g*lds, group*size,
+    grid = lambda META: (META['NUM_SM'], )
+    grouped_matmul*kernel`grid <
+        d_a*ptrs, d_b*ptrs, d_c*ptrs,
+        d_g*sizes, d_g*lds, group_size,
     >`_
 
-    return group*C
+    return group_C
 ::
 
 
 **Key Points:**
-- Grid size is **fixed** (NUM*SM CTAs), not dependent on problem size
+- Grid size is **fixed** (NUM_SM CTAs), not dependent on problem size
 - All metadata lives in GPU memory
 - Python list of output matrices returned
 
 Auto-tuning Configurations
---------------------------
 
 .. code-block:: python
 
 @triton.autotune(
     configs=[
-        triton.Config({'BLOCK*SIZE*M': 128, 'BLOCK*SIZE*N': 128,
-                       'BLOCK*SIZE*K': 32, 'NUM*SM': 84}),
-        triton.Config({'BLOCK*SIZE*M': 64, 'BLOCK*SIZE*N': 64,
-                       'BLOCK*SIZE*K': 32, 'NUM*SM': 128}),
-        triton.Config({'BLOCK*SIZE*M': 128, 'BLOCK*SIZE*N': 128,
-                       'BLOCK*SIZE*K': 64, 'NUM*SM': num*sms()}),
+        triton.Config({'BLOCK_SIZE*M': 128, 'BLOCK_SIZE*N': 128,
+                       'BLOCK_SIZE*K': 32, 'NUM_SM': 84}),
+        triton.Config({'BLOCK_SIZE*M': 64, 'BLOCK_SIZE*N': 64,
+                       'BLOCK_SIZE*K': 32, 'NUM_SM': 128}),
+        triton.Config({'BLOCK_SIZE*M': 128, 'BLOCK_SIZE*N': 128,
+                       'BLOCK_SIZE*K': 64, 'NUM_SM': num_sms()}),
     ],
-    key=['group*size'],
+    key=['group_size'],
 )
 ::
 
 
 **Configuration Choices:**
-- ``NUM*SM``: Number of CTAs to launch (84, 128, or actual SM count)
+- ``NUM_SM``: Number of CTAs to launch (84, 128, or actual SM count)
 - Block sizes: Smaller blocks = better load balancing, larger = better throughput
 - Auto-tuning finds optimal configuration for your GPU
 
 Memory Layout Considerations
-----------------------------
 
 Pointer Indirection
 ~~~~~~~~~~~~~~~~~~~
 ::
 
-group*a*ptrs (on GPU) → [ptr0, ptr1, ptr2, ...] → A matrices (on GPU)
-                         ↓     ↓     ↓
+group_a*ptrs (on GPU) -> [ptr0, ptr1, ptr2, ...] -> A matrices (on GPU)
+                         down     down     down
                         A0    A1    A2
 ::
 
@@ -239,21 +234,18 @@ Leading Dimension (Stride)
 .. code-block:: python
 
 For row-major matrix A[M, K]:
-=============================
 lda = A.stride(0)  # Usually equals K for contiguous tensors
 
-Element at (i, j) is at: base*ptr + i * lda + j
-===============================================
+Element at (i, j) is at: base_ptr + i * lda + j
 ::
 
 
 Performance Characteristics
----------------------------
 
 When Grouped GEMM Wins
 ~~~~~~~~~~~~~~~~~~~~~~
 
-✅ **Good cases:**
+[[OK]] **Good cases:**
 - Multiple small-to-medium GEMMs (hundreds to thousands of elements)
 - Variable problem sizes (not batched)
 - GPU utilization is low with separate launches
@@ -262,10 +254,10 @@ When Grouped GEMM Wins
 When to Use Separate Kernels
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-❌ **Bad cases:**
+[[FAIL]] **Bad cases:**
 - Very few problems (< 10) with large matrices
 - All matrices are the same size (use batched GEMM instead)
-- Problems are too small (< 64×64)
+- Problems are too small (< 64x64)
 
 Benchmarking Results
 ~~~~~~~~~~~~~~~~~~~~
@@ -273,10 +265,10 @@ Benchmarking Results
 From the script:
 .. code-block:: python
 
-@triton.testing.perf*report(
-    x*names=['N'],
-    x*vals=[2**i for i in range(7, 11)],  # 128 to 1024
-    line*vals=['cublas', 'triton', 'triton-tma'],
+@triton.testing.perf_report(
+    x_names=['N'],
+    x_vals=[2**i for i in range(7, 11)],  # 128 to 1024
+    line_vals=['cublas', 'triton', 'triton-tma'],
 )
 ::
 
@@ -284,10 +276,9 @@ From the script:
 **Typical results:**
 - Grouped GEMM competitive with cuBLAS for moderate sizes
 - TMA version faster on Hopper (compute capability 9.0+)
-- Overhead becomes negligible for N ≥ 256
+- Overhead becomes negligible for N >= 256
 
 GPU Architecture Insights
--------------------------
 
 Why Fixed Number of CTAs?
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -295,11 +286,11 @@ Why Fixed Number of CTAs?
 ::
 
 Traditional approach: Launch one CTA per tile
-- Problem 1: 10 tiles → 10 CTAs
-- Problem 2: 20 tiles → 20 CTAs
+- Problem 1: 10 tiles -> 10 CTAs
+- Problem 2: 20 tiles -> 20 CTAs
 - Total: 30 kernel launches or 30 CTAs
 
-Grouped GEMM: Launch NUM*SM CTAs total
+Grouped GEMM: Launch NUM_SM CTAs total
 - 84 CTAs process all 30 tiles
 - Single kernel launch
 - Better SM utilization
@@ -324,21 +315,19 @@ SM 83: Tiles 83, 167, ...
 - Handles variable problem sizes gracefully
 
 Advanced: TMA Descriptor Creation
----------------------------------
 
 For TMA version:
 .. code-block:: python
 
-a*desc = tl.make*tensor*descriptor(
-    a*ptr,                    # Base pointer
+a_desc = tl.make_tensor*descriptor(
+    a_ptr,                    # Base pointer
     shape=[gm, gk],          # Logical tensor shape
     strides=[lda, 1],        # Row-major stride
-    block*shape=[BM, BK],    # Block to load
+    block_shape=[BM, BK],    # Block to load
 )
 
-Load a block starting at (offs*am, offs*k)
-==========================================
-a = a*desc.load([offs*am, offs*k])
+Load a block starting at (offs_am, offs_k)
+a = a_desc.load([offs_am, offs_k])
 ::
 
 
@@ -349,7 +338,6 @@ a = a*desc.load([offs*am, offs*k])
 - Simplified kernel code
 
 Common Pitfalls
----------------
 
 1. Forgetting Contiguity
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -357,13 +345,11 @@ Common Pitfalls
 .. code-block:: python
 
 Bad: B might not be contiguous after transpose
-==============================================
 B = B.T
-grouped*matmul*kernel`grid <...>`_
+grouped_matmul*kernel`grid <...>`_
 
 Good: Ensure contiguity
-=======================
-B*T = B.T.contiguous()
+B_T = B.T.contiguous()
 ::
 
 
@@ -373,11 +359,9 @@ B*T = B.T.contiguous()
 .. code-block:: python
 
 Wrong: Assuming contiguous
-==========================
 lda = K
 
 Correct: Use actual stride
-==========================
 lda = A.stride(0)
 ::
 
@@ -388,43 +372,37 @@ lda = A.stride(0)
 .. code-block:: python
 
 FP8 requires compute capability >= 9.0
-======================================
-if dtype == torch.float8*e4m3fn:
-    assert torch.cuda.get*device*capability()[0] >= 9
+if dtype == torch.float8_e4m3fn:
+    assert torch.cuda.get_device*capability()[0] >= 9
 ::
 
 
 Practical Example
------------------
 
 .. code-block:: python
 
 Define different problem sizes
-==============================
-group*m = [1024, 512, 256, 128]
-group*n = [1024, 512, 256, 128]
-group*k = [1024, 512, 256, 128]
+group_m = [1024, 512, 256, 128]
+group_n = [1024, 512, 256, 128]
+group_k = [1024, 512, 256, 128]
 
 Create random matrices
-======================
-group*A = []
-group*B = []
-for i in range(len(group*m)):
-    M, N, K = group*m[i], group*n[i], group*k[i]
+group_A = []
+group_B = []
+for i in range(len(group_m)):
+    M, N, K = group_m[i], group_n[i], group_k[i]
     A = torch.rand((M, K), device='cuda', dtype=torch.float16)
     B = torch.rand((K, N), device='cuda', dtype=torch.float16)
-    group*A.append(A)
-    group*B.append(B)
+    group_A.append(A)
+    group_B.append(B)
 
 Compute all GEMMs in one kernel launch
-======================================
-tri*out = group*gemm*fn(group*A, group*B)
+tri_out = group_gemm*fn(group_A, group_B)
 
 Verify against PyTorch
-======================
-ref*out = [torch.matmul(a, b) for a, b in zip(group*A, group*B)]
-for i in range(len(group*m)):
-    assert torch.allclose(ref*out[i], tri_out[i], atol=1e-2)
+ref_out = [torch.matmul(a, b) for a, b in zip(group_A, group_B)]
+for i in range(len(group_m)):
+    assert torch.allclose(ref_out[i], tri_out[i], atol=1e-2)
 ::
 
 

@@ -1,16 +1,13 @@
 Asyncio Event Loop
-==================
 
 Overview
 --------
 This script demonstrates asyncio's event loop by implementing a simple task scheduling system where three tasks (A, B, C) call each other in rotation for 60 seconds.
 
 File Location
--------------
-``basics/07*asyncio*event*loop.py``
+``basics/07*asyncio_event*loop.py``
 
 Key Concepts
-------------
 
 Asyncio Event Loop
 ~~~~~~~~~~~~~~~~~~
@@ -21,36 +18,35 @@ Async/Await Pattern
 Modern Python uses ``async def`` to define coroutines and ``await`` to yield control back to the event loop while waiting for operations to complete.
 
 Code Breakdown
---------------
 
 Task Functions
 ~~~~~~~~~~~~~~
 .. code-block:: python
 
-async def task*A(end*time):
-    print("task*A called")
+async def task_A(end_time):
+    print("task_A called")
     await asyncio.sleep(random.randint(0, 5))
-    if (asyncio.get*event*loop().time() + 1.0) < end*time:
+    if (asyncio.get_event*loop().time() + 1.0) < end_time:
         await asyncio.sleep(1)
-        await task*B(end*time)
+        await task_B(end_time)
 ::
 
 
 Each task:
 1. Prints its name
 2. Sleeps for a random duration (0-5 seconds)
-3. Checks if there's time remaining before end*time
+3. Checks if there's time remaining before end_time
 4. If time remains, sleeps for 1 more second and calls the next task
-5. Creates a chain: A → B → C → A (repeating)
+5. Creates a chain: A -> B -> C -> A (repeating)
 
 Main Function
 ~~~~~~~~~~~~~
 .. code-block:: python
 
 async def main():
-    loop = asyncio.get*event*loop()
-    end*loop = loop.time() + 60
-    await task*A(end*loop)
+    loop = asyncio.get_event*loop()
+    end_loop = loop.time() + 60
+    await task_A(end_loop)
 ::
 
 
@@ -68,7 +64,6 @@ if **name** == '**main**':
 ``asyncio.run()`` is the modern way to execute the top-level async function, handling event loop creation and cleanup automatically.
 
 Python 3.12 Updates
--------------------
 
 Changes Made
 ~~~~~~~~~~~~
@@ -77,11 +72,11 @@ Changes Made
    - ``asyncio.sleep()`` yields control, allowing other tasks to run
 
 2. **Converted to async/await syntax**
-   - Replaced callback-based event loop manipulation (``loop.call*later``, ``loop.call*soon``)
+   - Replaced callback-based event loop manipulation (``loop.call_later``, ``loop.call_soon``)
    - Used modern async function chaining instead
 
 3. **Updated to ``asyncio.run()``**
-   - Replaced manual event loop management (``get*event*loop()``, ``run*forever()``, ``close()``)
+   - Replaced manual event loop management (``get_event*loop()``, ``run_forever()``, ``close()``)
    - ``asyncio.run()`` is simpler and handles cleanup automatically
 
 4. **Removed ``loop.stop()``**
@@ -89,28 +84,27 @@ Changes Made
    - Function naturally completes when time expires
 
 Execution Flow
---------------
 
 ::
 
 main() starts
-  ↓
-task*A() executes
-  ↓ (sleeps 0-5 seconds)
-  ↓ (sleeps 1 second)
-  ↓
-task*B() executes
-  ↓ (sleeps 0-5 seconds)
-  ↓ (sleeps 1 second)
-  ↓
-task*C() executes
-  ↓ (sleeps 0-5 seconds)
-  ↓ (sleeps 1 second)
-  ↓
-task*A() executes again
-  ↓
+  down
+task_A() executes
+  down (sleeps 0-5 seconds)
+  down (sleeps 1 second)
+  down
+task_B() executes
+  down (sleeps 0-5 seconds)
+  down (sleeps 1 second)
+  down
+task_C() executes
+  down (sleeps 0-5 seconds)
+  down (sleeps 1 second)
+  down
+task_A() executes again
+  down
 ... (repeats for ~60 seconds)
-  ↓
+  down
 Time expires, chain stops
 ::
 
@@ -119,28 +113,26 @@ Usage
 -----
 .. code-block:: bash
 
-python3 07*asyncio*event*loop.py
+python3 07*asyncio_event*loop.py
 ::
 
 
 The script will run for approximately 60 seconds, printing task names as they execute.
 
 Output Example
---------------
 ::
 
-task*A called
-task*B called
-task*C called
-task*A called
-task*B called
+task_A called
+task_B called
+task_C called
+task_A called
+task_B called
 task_C called
 ...
 ::
 
 
 Key Takeaways
--------------
 
 1. **Non-blocking Sleep**: Always use ``asyncio.sleep()`` in async code, never ``time.sleep()``
 2. **Event Loop Time**: Use ``loop.time()`` for precise timing within the event loop

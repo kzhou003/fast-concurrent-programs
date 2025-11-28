@@ -76,29 +76,13 @@ html_theme_options = {
 }
 
 # -- Options for LaTeX/PDF output --------------------------------------------
+# Note: LaTeX PDF generation is disabled due to deep list nesting issues in some sections.
+# HTML documentation builds successfully and is the recommended output format.
 
 latex_engine = 'pdflatex'
-latex_use_latexmk = False  # Don't require latexmk for local builds
-latex_elements = {
-    'papersize': 'letterpaper',
-    'pointsize': '10pt',
-    'preamble': r'''
-        \usepackage[utf8]{inputenc}
-        \usepackage[T1]{fontenc}
-        \usepackage{textcomp}
-        \usepackage{times}
-        \raggedbottom
-    ''',
-    'figure_align': 'htbp',
-}
-
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title, author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    ('index', 'FastConcurrentProgramming.tex',
-     'Fast Concurrent Programming Guide',
-     'Fast Concurrent Programs', 'manual'),
-]
+latex_use_latexmk = False
+# Disable LaTeX output - use HTML instead
+latex_documents = []
 
 # -- Options for manual page output ------------------------------------------
 

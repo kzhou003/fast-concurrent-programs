@@ -1,5 +1,4 @@
 Fast Concurrent Programming Guide
-===================================
 
 A comprehensive guide to concurrent and parallel programming, covering both CPU-based concurrency
 (threading, asyncio, multiprocessing) and GPU-based parallelism (Triton, CUDA).
@@ -9,7 +8,6 @@ techniques for modern Python applications, from multi-threaded CPU code to massi
 kernels.
 
 What is Concurrent Programming?
---------------------------------
 
 Concurrent programming allows multiple tasks to make progress simultaneously, improving performance
 and responsiveness. This guide covers two main approaches:
@@ -29,7 +27,6 @@ and responsiveness. This guide covers two main approaches:
 * Triton language for accessible GPU programming
 
 Who This Guide Is For
----------------------
 
 * **Python Developers**: Learn concurrent programming patterns
 * **ML Engineers**: Optimize neural network operations on GPUs
@@ -37,7 +34,6 @@ Who This Guide Is For
 * **Students**: Learn both CPU and GPU parallel programming
 
 Prerequisites
--------------
 
 **For CPU Concurrency:**
 
@@ -52,7 +48,6 @@ Prerequisites
 * Access to NVIDIA or AMD GPU (for GPU sections)
 
 Getting Started
----------------
 
 **New to concurrent programming?** Start with :doc:`cpu-concurrency/key_concepts`.
 
@@ -61,7 +56,6 @@ Getting Started
 **Experienced with one area?** Jump directly to the section you need.
 
 Documentation Structure
------------------------
 
 .. toctree::
    :maxdepth: 2
@@ -135,7 +129,6 @@ Documentation Structure
    references
 
 Quick Navigation
-----------------
 
 **CPU Concurrency Quick Start:**
 
@@ -157,7 +150,6 @@ Quick Navigation
 * **Deep learning** -> GPU kernels with Triton
 
 Indices and Tables
-==================
 
 * :ref:`genindex`
 * :ref:`search`

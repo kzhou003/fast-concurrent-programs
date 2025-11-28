@@ -1,12 +1,10 @@
 Layer Normalization in Triton
-=============================
 
 Overview
 --------
 Layer normalization is a critical component of Transformers and modern neural networks. This tutorial shows how to implement both **forward** and **backward** passes with advanced techniques like **parallel reduction** and **gradient accumulation**.
 
 What You'll Learn
------------------
 - The mathematics of Layer Normalization
 - Implementing **forward and backward passes**
 - **Parallel reduction** strategies for mean and variance
@@ -15,7 +13,6 @@ What You'll Learn
 - Why Layer Norm is important for Transformers
 
 What is Layer Normalization?
-----------------------------
 
 The Formula
 ~~~~~~~~~~~
@@ -104,7 +101,6 @@ For each sample i:
 
 
 The Forward Pass
-----------------
 
 Kernel Structure
 ~~~~~~~~~~~~~~~~
@@ -214,7 +210,6 @@ for off in range(0, N, BLOCK_SIZE):
 - Store result
 
 The Backward Pass
------------------
 
 Gradient Mathematics
 ~~~~~~~~~~~~~~~~~~~~
@@ -287,7 +282,6 @@ sigma = sqrt(Var[x] + eps)                 # Standard deviation
 5. Chain rule gives the formula above
 
 Parallel Reduction Strategy
----------------------------
 
 The Challenge
 ~~~~~~~~~~~~~
@@ -367,12 +361,10 @@ In kernel:
 group_id = row // GROUP_SIZE*M
 
 Acquire lock
-============
 while tl.atomic_cas(Lock + group_id, 0, 1) == 1:
     pass  # Spin until lock acquired
 
 Critical section: Update DW and DB
-==================================
 dw_ptrs = DW + group_id * N + cols
 db_ptrs = DB + group_id * N + cols
 current_dw = tl.load(dw_ptrs, mask=mask)
@@ -381,7 +373,6 @@ tl.store(dw_ptrs, current_dw + dw, mask=mask)
 tl.store(db_ptrs, current_db + db, mask=mask)
 
 Release lock
-============
 tl.atomic_xchg(Lock + group_id, 0)
 ::
 
@@ -391,9 +382,7 @@ tl.atomic_xchg(Lock + group_id, 0)
 
 old_value = atomic_cas(ptr, compare, new)
 If *ptr == compare: *ptr = new
-==============================
 Return old value of *ptr
-========================
 ::
 
 
@@ -404,7 +393,6 @@ while atomic_cas(Lock, 0, 1) == 1:  # Try to set lock from 0 to 1
     pass  # If already 1, keep trying
 
 Lock acquired (we set it to 1)
-==============================
 Do work...
 ==========
 atomic_xchg(Lock, 0)  # Release lock
@@ -434,7 +422,6 @@ Simple sum across all group buffers.
 - In practice, often done with a separate GPU kernel
 
 Triton Implementation Details
------------------------------
 
 Memory Layout
 ~~~~~~~~~~~~~
@@ -487,7 +474,6 @@ Variance computation: Very sensitive to precision
 - Store result as fp16/bf16 if needed
 
 Performance Characteristics
----------------------------
 
 Computational Complexity
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -525,7 +511,6 @@ Optimization Opportunities
 3. **Adjust GROUP_SIZE*M**: Balance parallelism vs lock contention
 
 Common Pitfalls
----------------
 
 1. Numerical Stability
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -547,7 +532,6 @@ Layer norm normalizes **across features** (last dimension):
 
 x = torch.randn(32, 128)  # (batch, features)
 Normalize each of 32 samples across 128 features
-================================================
 ::
 
 
@@ -567,7 +551,6 @@ dw[j] += local_dw  # Multiple threads writing simultaneously!
 .. code-block:: python
 
 Use locks or separate buffers
-=============================
 with lock:
     dw[j] += local_dw
 ::
@@ -591,7 +574,6 @@ dw = dy[0] * x_hat[0]  # Wrong! Only uses first sample
 
 
 Advanced Concepts
------------------
 
 RMSNorm (Simpler Variant)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -631,7 +613,6 @@ FP8 and Mixed Precision
 - Can use fp8/fp16 for input/output
 
 Comparison to PyTorch
----------------------
 
 PyTorch Implementation
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -666,7 +647,6 @@ Performance
 Triton achieves near-native performance with much more flexibility!
 
 Key Takeaways
--------------
 
 1. **Layer norm is essential for Transformers**: Enables training deep networks
 2. **Two-pass algorithm**: First mean, then variance (numerically stable)

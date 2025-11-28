@@ -1,5 +1,4 @@
 GPU Memory Hierarchy
-====================
 
 Understanding the GPU memory hierarchy is crucial for writing high-performance kernels.
 Memory access patterns often determine whether your kernel is fast or slow.
@@ -54,7 +53,6 @@ The Performance Pyramid
      - Whole GPU
 
 Global Memory (HBM/DRAM)
--------------------------
 
 **Characteristics**
 
@@ -118,7 +116,6 @@ Example in matrix multiplication:
 See :doc:`../tutorials/03-matrix-multiplication` for details.
 
 L1 Cache / Shared Memory (SRAM)
---------------------------------
 
 **Characteristics**
 
@@ -190,7 +187,6 @@ Example::
     # Solution: Divide work among multiple threads in block
 
 Memory Access Patterns
------------------------
 
 Pattern 1: Streaming (Bandwidth-Bound)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -247,7 +243,6 @@ Load data, reduce to smaller output::
 * Goal: Minimize memory traffic, maximize SRAM use
 
 Optimizing for Memory Hierarchy
---------------------------------
 
 The Golden Rules
 ~~~~~~~~~~~~~~~~
@@ -310,7 +305,6 @@ Example: Naive vs Optimized Softmax
     # 4x reduction in memory traffic = 4x speedup!
 
 Measuring Memory Performance
------------------------------
 
 Key Metrics
 ~~~~~~~~~~~

@@ -1,16 +1,13 @@
 Asyncio Event Loop
-==================
 
 Overview
 --------
 This script demonstrates asyncio's event loop by implementing a simple task scheduling system where three tasks (A, B, C) call each other in rotation for 60 seconds.
 
 File Location
--------------
 ``basics/07*asyncio_event*loop.py``
 
 Key Concepts
-------------
 
 Asyncio Event Loop
 ~~~~~~~~~~~~~~~~~~
@@ -21,7 +18,6 @@ Async/Await Pattern
 Modern Python uses ``async def`` to define coroutines and ``await`` to yield control back to the event loop while waiting for operations to complete.
 
 Code Breakdown
---------------
 
 Task Functions
 ~~~~~~~~~~~~~~
@@ -68,7 +64,6 @@ if **name** == '**main**':
 ``asyncio.run()`` is the modern way to execute the top-level async function, handling event loop creation and cleanup automatically.
 
 Python 3.12 Updates
--------------------
 
 Changes Made
 ~~~~~~~~~~~~
@@ -89,7 +84,6 @@ Changes Made
    - Function naturally completes when time expires
 
 Execution Flow
---------------
 
 ::
 
@@ -126,7 +120,6 @@ python3 07*asyncio_event*loop.py
 The script will run for approximately 60 seconds, printing task names as they execute.
 
 Output Example
---------------
 ::
 
 task_A called
@@ -140,7 +133,6 @@ task_C called
 
 
 Key Takeaways
--------------
 
 1. **Non-blocking Sleep**: Always use ``asyncio.sleep()`` in async code, never ``time.sleep()``
 2. **Event Loop Time**: Use ``loop.time()`` for precise timing within the event loop
