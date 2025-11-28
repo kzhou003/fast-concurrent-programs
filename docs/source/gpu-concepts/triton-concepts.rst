@@ -1,6 +1,4 @@
-==================================
 Triton GPU Programming Concepts
-==================================
 
 This document explains the core concepts of Triton GPU programming, including kernel launching, grid specifications, program indexing, and how parallel execution works on GPUs.
 
@@ -9,7 +7,7 @@ This document explains the core concepts of Triton GPU programming, including ke
    :depth: 3
 
 Introduction to Triton
-======================
+~~~~~~~~~~~~~~~~~~~~~~
 
 Triton is a Python-based GPU programming language that allows you to write high-performance GPU kernels without needing to learn CUDA or other low-level languages. It provides a SPMD (Single Program, Multiple Data) execution model where the same kernel code runs on multiple GPU cores in parallel.
 
@@ -20,7 +18,7 @@ Key advantages:
 - Abstract away hardware-specific details
 
 Vector Addition Example
------------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 Throughout this document, we'll use a simple vector addition kernel as an example:
 
@@ -37,7 +35,7 @@ Throughout this document, we'll use a simple vector addition kernel as an exampl
         output = x + y
         tl.store(output_ptr + offsets, output, mask=mask)
 
-=============================
+~~~~~~~~~~~~~~~~~~~~~~
 
 When you launch a Triton kernel, you use this syntax:
 
@@ -53,7 +51,7 @@ When you launch a Triton kernel, you use this syntax:
 4. **Synchronization**: Optional explicit synchronization with `torch.cuda.synchronize()`
 
 The `[grid]` Syntax Sugar: Python's `__getitem__`
-==================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 How It Works
 ------------
@@ -113,7 +111,7 @@ The Complete Flow
        - Extracts grid dimensions
        - Launches GPU kernel
 
-=================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Purpose
 -------
@@ -162,7 +160,7 @@ If you used regular division:
     mask = offsets < n_elements
     x = tl.load(x_ptr + offsets, mask=mask)  # Masked load prevents out-of-bounds access
 
-=======================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The SPMD Model
 --------------
@@ -233,7 +231,7 @@ Each program loads and processes different tensor slices:
     ...
     Program 96: x[98304:99328] + y[98304:99328] -> output[98304:99328]
 
-===========================
+~~~~~~~~~~~~~~~~~~~~~~
 
 Implementation Stack
 --------------------
@@ -317,7 +315,7 @@ Flow Diagram
         ...
         Program 96: blockIdx.x = 96
 
-===========================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Is Kernel Launch Synchronous or Asynchronous?
 -----------------------------------------------
@@ -377,7 +375,7 @@ This design allows:
 3. **Higher throughput**: Multiple kernels can run concurrently on different GPU streams
 
 Advanced Topics
-===============
+~~~~~~~~~~~~~~~~~~~~~~
 
 Multi-Dimensional Grids
 -----------------------
@@ -425,7 +423,7 @@ Triton caches compiled kernels:
 - Compilation options
 
 Performance Considerations
-==========================
+~~~~~~~~~~~~~~~~~~~~~~
 
 Grid Size Selection
 -------------------
@@ -470,7 +468,7 @@ Triton optimizes memory access patterns automatically, but contiguous access is 
     offsets = (block_start + tl.arange(0, BLOCK_SIZE)) * stride
     x = tl.load(x_ptr + offsets, mask=mask)
 
-===================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When optimizing kernels for specific GPU architectures, you often need to:
 1. Compile the kernel ahead of time
@@ -833,7 +831,7 @@ Here's how all these functions work together in the fused softmax kernel:
     warmup()        | Compile | Pre-compile + extract metadata | Kernel object with n_regs, shared
     _init_handles() | Init    | Load binary on GPU + validate  | (Initializes internal state)
 
-===========================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When writing high-performance GPU kernels, you often know certain conditions will always be true at runtime. Rather than letting the compiler generate defensive code to handle all cases, you can use `tl.assume()` to tell the compiler these guarantees, enabling aggressive optimizations.
 
@@ -1099,7 +1097,7 @@ Comparison with Other Optimization Techniques
     Constexpr params    | Specialization         | Compile-time constants
     Unrolling hints     | Loop optimization      | Control loop unrolling
 
-=======
+~~~~~~~~~~~~~~~~~~~~~~
 
 Key Concepts Recap:
 
@@ -1114,7 +1112,7 @@ Key Concepts Recap:
 The beauty of Triton is that it handles all the low-level details (LLVM IR generation, memory optimization, GPU-specific code generation) automatically, letting you write high-performance GPU code in Python.
 
 References
-==========
+~~~~~~~~~~~~~~~~~~~~~~
 
 - Triton Documentation: https://triton-lang.org/
 - NVIDIA CUDA Programming Guide: https://docs.nvidia.com/cuda/cuda-c-programming-guide/
