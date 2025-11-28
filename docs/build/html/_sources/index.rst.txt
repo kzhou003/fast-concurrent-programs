@@ -58,7 +58,7 @@ Getting Started
 Documentation Structure
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: CPU Concurrency
 
    cpu-concurrency/key_concepts
@@ -77,8 +77,8 @@ Documentation Structure
    cpu-concurrency/patterns_problems_mapping
 
 .. toctree::
-   :maxdepth: 2
-   :caption: GPU Concepts & Fundamentals
+   :maxdepth: 1
+   :caption: GPU Concepts
 
    gpu-concepts/gpu-fundamentals
    gpu-concepts/memory-hierarchy
@@ -87,23 +87,13 @@ Documentation Structure
    gpu-concepts/triton-concepts
 
 .. toctree::
-   :maxdepth: 2
-   :caption: GPU Tutorials - Beginner Level
+   :maxdepth: 1
+   :caption: GPU Tutorials
 
    gpu-tutorials/01-vector-add
    gpu-tutorials/02-fused-softmax
-
-.. toctree::
-   :maxdepth: 2
-   :caption: GPU Tutorials - Intermediate Level
-
    gpu-tutorials/03-matrix-multiplication
    gpu-tutorials/04-low-memory-dropout
-
-.. toctree::
-   :maxdepth: 2
-   :caption: GPU Tutorials - Advanced Level
-
    gpu-tutorials/05-layer-norm
    gpu-tutorials/06-fused-attention
    gpu-tutorials/07-extern-functions
@@ -112,8 +102,8 @@ Documentation Structure
    gpu-tutorials/10-block-scaled-matmul
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Triton Compiler & Internals
+   :maxdepth: 1
+   :caption: Triton Compiler
 
    triton-compiler/01-overview
    triton-compiler/02-jit-decorator
@@ -122,8 +112,8 @@ Documentation Structure
    triton-compiler/05-mlir-concepts
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Resources & Support
+   :maxdepth: 1
+   :caption: Resources
 
    learning-paths
    troubleshooting
