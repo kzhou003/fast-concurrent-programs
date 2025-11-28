@@ -25,12 +25,12 @@ Controls access to a **pool of resources**. Example: 3 parking spots.
 
 semaphore = threading.Semaphore(3)  # 3 "permits"
 
-semaphore.acquire()  # Counter: 3 → 2 (one car parks)
-semaphore.acquire()  # Counter: 2 → 1 (another parks)
-semaphore.acquire()  # Counter: 1 → 0 (another parks)
+semaphore.acquire()  # Counter: 3 -> 2 (one car parks)
+semaphore.acquire()  # Counter: 2 -> 1 (another parks)
+semaphore.acquire()  # Counter: 1 -> 0 (another parks)
 semaphore.acquire()  # Counter: 0 - WAIT! (parking full, blocked)
 
-semaphore.release()  # Counter: 0 → 1 (one car leaves, waiting car parks)
+semaphore.release()  # Counter: 0 -> 1 (one car leaves, waiting car parks)
 ::
 
 
@@ -45,8 +45,10 @@ semaphore = threading.Semaphore(0)  # Counter starts at 0
 semaphore.acquire()  # Counter: 0 - WAIT! (blocked, waiting for signal)
 ... thread blocks until...
 ==========================
-semaphore.release()  # Counter: 0 → 1 (signal sent! waiting thread wakes up)
-::
+semaphore.release()  # Counter: 0 -> 1 (signal sent! waiting thread wakes up)
+.. code-block:: text
+
+
 
 
 ---
@@ -81,7 +83,7 @@ Execution Timeline
 ::
 
 Time  Consumer                 Semaphore Counter    Producer
-──────────────────────────────────────────────────────────────
+--------------------------------------------------------------
 0     waiting...              0
 
 0     acquire()               BLOCKED!             (sleeping 3s)
@@ -91,9 +93,11 @@ Time  Consumer                 Semaphore Counter    Producer
                               0                    item = 123
                               0                    release()
 
-      UNBLOCKED!             1 → 0                acquired from 0
+      UNBLOCKED!             1 -> 0                acquired from 0
       prints item 123        0
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -111,8 +115,8 @@ Semaphore Operations
 
 semaphore = threading.Semaphore(2)
 
-semaphore.acquire()  # Counter: 2 → 1 (continues)
-semaphore.acquire()  # Counter: 1 → 0 (continues)
+semaphore.acquire()  # Counter: 2 -> 1 (continues)
+semaphore.acquire()  # Counter: 1 -> 0 (continues)
 semaphore.acquire()  # Counter: 0 - BLOCKS HERE (waits for release)
 ::
 
@@ -128,9 +132,11 @@ semaphore.acquire()  # Counter: 0 - BLOCKS HERE (waits for release)
 semaphore.acquire()  # Counter: 0 - BLOCKED
 ... from another thread ...
 ===========================
-semaphore.release()  # Counter: 0 → 1 (wakes up blocked thread)
+semaphore.release()  # Counter: 0 -> 1 (wakes up blocked thread)
                      # Blocked thread can now continue
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -144,49 +150,51 @@ Counting Semaphore (3 spots available)
 ::
 
 Initial: Semaphore(3)
-┌─────────────────────────────────┐
-│ Available Spots: 3              │
-└─────────────────────────────────┘
++---------------------------------+
+| Available Spots: 3              |
++---------------------------------+
 
 Thread A calls acquire():
-┌─────────────────────────────────┐
-│ Available Spots: 2              │
-│ Thread A: ACQUIRED ✓            │
-└─────────────────────────────────┘
++---------------------------------+
+| Available Spots: 2              |
+| Thread A: ACQUIRED [OK]            |
++---------------------------------+
 
 Thread B calls acquire():
-┌─────────────────────────────────┐
-│ Available Spots: 1              │
-│ Thread A: ACQUIRED              │
-│ Thread B: ACQUIRED ✓            │
-└─────────────────────────────────┘
++---------------------------------+
+| Available Spots: 1              |
+| Thread A: ACQUIRED              |
+| Thread B: ACQUIRED [OK]            |
++---------------------------------+
 
 Thread C calls acquire():
-┌─────────────────────────────────┐
-│ Available Spots: 0              │
-│ Thread A: ACQUIRED              │
-│ Thread B: ACQUIRED              │
-│ Thread C: ACQUIRED ✓            │
-└─────────────────────────────────┘
++---------------------------------+
+| Available Spots: 0              |
+| Thread A: ACQUIRED              |
+| Thread B: ACQUIRED              |
+| Thread C: ACQUIRED [OK]            |
++---------------------------------+
 
 Thread D calls acquire():
-┌─────────────────────────────────┐
-│ Available Spots: 0              │
-│ Thread A: ACQUIRED              │
-│ Thread B: ACQUIRED              │
-│ Thread C: ACQUIRED              │
-│ Thread D: WAITING (blocked)     │ ← Can't proceed
-└─────────────────────────────────┘
++---------------------------------+
+| Available Spots: 0              |
+| Thread A: ACQUIRED              |
+| Thread B: ACQUIRED              |
+| Thread C: ACQUIRED              |
+| Thread D: WAITING (blocked)     | <- Can't proceed
++---------------------------------+
 
 Thread A calls release():
-┌─────────────────────────────────┐
-│ Available Spots: 1              │
-│ Thread A: RELEASED              │
-│ Thread B: ACQUIRED              │
-│ Thread C: ACQUIRED              │
-│ Thread D: ACQUIRED (now!) ✓     │ ← Unblocked!
-└─────────────────────────────────┘
-::
++---------------------------------+
+| Available Spots: 1              |
+| Thread A: RELEASED              |
+| Thread B: ACQUIRED              |
+| Thread C: ACQUIRED              |
+| Thread D: ACQUIRED (now!) [OK]     | <- Unblocked!
++---------------------------------+
+.. code-block:: text
+
+
 
 
 Binary Semaphore (Producer-Consumer)
@@ -195,25 +203,27 @@ Binary Semaphore (Producer-Consumer)
 ::
 
 Initial: Semaphore(0)
-┌──────────────────────┐
-│ Counter: 0           │
-│ Signal: NOT SET      │
-└──────────────────────┘
++----------------------+
+| Counter: 0           |
+| Signal: NOT SET      |
++----------------------+
 
 Consumer calls acquire():
-┌──────────────────────┐
-│ Counter: 0           │
-│ Consumer: WAITING    │ ← BLOCKED here
-│ Signal: NOT SET      │
-└──────────────────────┘
++----------------------+
+| Counter: 0           |
+| Consumer: WAITING    | <- BLOCKED here
+| Signal: NOT SET      |
++----------------------+
 
 Producer (after work) calls release():
-┌──────────────────────┐
-│ Counter: 1           │
-│ Consumer: PROCEED ✓  │ ← UNBLOCKED!
-│ Signal: SET          │
-└──────────────────────┘
-::
++----------------------+
+| Counter: 1           |
+| Consumer: PROCEED [OK]  | <- UNBLOCKED!
+| Signal: SET          |
++----------------------+
+.. code-block:: text
+
+
 
 
 ---
@@ -285,7 +295,9 @@ Swimmer 3: SWIMMING! (now can enter)
 Swimmer 1: LEFT the pool
 Swimmer 4: SWIMMING! (now can enter)
 ...
-::
+.. code-block:: text
+
+
 
 
 Example 2: Producer-Consumer (Like the Code)
@@ -330,7 +342,9 @@ Consumer: waiting for item...
 [2 seconds pass]
 Producer: created item 42
 Consumer: received item 42
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -360,7 +374,7 @@ def producer():
     time.sleep(3)                    # Simulate work for 3 seconds
     item = random.randint(0, 1000)   # Generate item
     logging.info(f"Producer notify: item number {item}")
-    semaphore.release()              # Counter: 0 → 1
+    semaphore.release()              # Counter: 0 -> 1
                                      # This WAKES UP the consumer
 
 Execution timeline:
@@ -382,7 +396,9 @@ Time 3:   both threads finish (join completes)
 #
 Loop repeats 10 times
 =====================
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -390,33 +406,37 @@ Loop repeats 10 times
 Semaphore States and Transitions
 --------------------------------
 
-::
+.. code-block:: text
+
+
 
 Binary Semaphore (0 or 1) - Producer-Consumer
 
 INITIAL STATE:
-┌─────────────┐
-│ Counter: 0  │
-│ No signal   │
-└──────┬──────┘
-       │
-       │ Consumer acquire()
-       │ (counter = 0, so block)
-       ▼
-┌──────────────────┐
-│ Counter: 0       │
-│ Consumer WAITING │
-└──────┬───────────┘
-       │
-       │ Producer release()
-       │ (counter 0 → 1, wake consumer)
-       ▼
-┌──────────────────────┐
-│ Counter: 1           │
-│ Consumer UNBLOCKED   │
-│ Can now acquire() → 0│
-└──────────────────────┘
-::
++-------------+
+| Counter: 0  |
+| No signal   |
++------+------+
+       |
+       | Consumer acquire()
+       | (counter = 0, so block)
+       [v]
++------------------+
+| Counter: 0       |
+| Consumer WAITING |
++------+-----------+
+       |
+       | Producer release()
+       | (counter 0 -> 1, wake consumer)
+       [v]
++----------------------+
+| Counter: 1           |
+| Consumer UNBLOCKED   |
+| Can now acquire() -> 0|
++----------------------+
+.. code-block:: text
+
+
 
 
 ---
@@ -424,52 +444,56 @@ INITIAL STATE:
 Counting Semaphore States
 -------------------------
 
-::
+.. code-block:: text
+
+
 
 Counting Semaphore(3) - Resource Pool
 
 INITIAL:
-┌─────────────┐
-│ Counter: 3  │
-│ 3 available │
-└──────┬──────┘
-       │
-       │ Thread A acquire()
-       ▼
-┌──────────────────┐
-│ Counter: 2       │
-│ A acquired       │
-└──────┬───────────┘
-       │
-       │ Thread B acquire()
-       ▼
-┌──────────────────┐
-│ Counter: 1       │
-│ B acquired       │
-└──────┬───────────┘
-       │
-       │ Thread C acquire()
-       ▼
-┌──────────────────┐
-│ Counter: 0       │
-│ C acquired       │
-└──────┬───────────┘
-       │
-       │ Thread D acquire() - BLOCKS!
-       ▼
-┌──────────────────┐
-│ Counter: 0       │
-│ D WAITING        │
-└──────┬───────────┘
-       │
-       │ Thread A release()
-       │ (counter 0 → 1, wake D)
-       ▼
-┌──────────────────┐
-│ Counter: 0       │
-│ D acquired!      │
-└──────────────────┘
-::
++-------------+
+| Counter: 3  |
+| 3 available |
++------+------+
+       |
+       | Thread A acquire()
+       [v]
++------------------+
+| Counter: 2       |
+| A acquired       |
++------+-----------+
+       |
+       | Thread B acquire()
+       [v]
++------------------+
+| Counter: 1       |
+| B acquired       |
++------+-----------+
+       |
+       | Thread C acquire()
+       [v]
++------------------+
+| Counter: 0       |
+| C acquired       |
++------+-----------+
+       |
+       | Thread D acquire() - BLOCKS!
+       [v]
++------------------+
+| Counter: 0       |
+| D WAITING        |
++------+-----------+
+       |
+       | Thread A release()
+       | (counter 0 -> 1, wake D)
+       [v]
++------------------+
+| Counter: 0       |
+| D acquired!      |
++------------------+
+.. code-block:: text
+
+
 
 
 ---
@@ -489,7 +513,9 @@ def query_database(query):
     with db_access:  # Use like a lock
         # Access database
         pass
-::
+.. code-block:: text
+
+
 
 
 2. **Producer-Consumer Communication**
@@ -528,7 +554,9 @@ Main waits for all
 for * in range(num_workers):
     workers_done.acquire()
 print("All workers done!")
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -555,7 +583,9 @@ semaphore = threading.Semaphore(3)
 
 with semaphore:  # Up to 3 threads can be here at a time
     access_resource()
-::
+.. code-block:: text
+
+
 
 
 Semaphore (Binary - Used as Signal)
@@ -572,7 +602,9 @@ print("I've been signaled!")
 Thread B sends signal
 =====================
 signal.release()
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -584,8 +616,8 @@ Summary Table
 |-----------|--------|------|
 | ``acquire()`` | Counter - 1, blocks if 0 | When entering critical section |
 | ``release()`` | Counter + 1, wakes 1 thread | When leaving critical section |
-| Multiple resources | ✓ Semaphore(n) | Manage pool |
-| Signaling | ✓ Semaphore(0) | Event notification |
+| Multiple resources | [OK] Semaphore(n) | Manage pool |
+| Signaling | [OK] Semaphore(0) | Event notification |
 
 ---
 

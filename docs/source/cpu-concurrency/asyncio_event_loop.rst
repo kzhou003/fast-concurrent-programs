@@ -41,7 +41,7 @@ Each task:
 2. Sleeps for a random duration (0-5 seconds)
 3. Checks if there's time remaining before end_time
 4. If time remains, sleeps for 1 more second and calls the next task
-5. Creates a chain: A → B → C → A (repeating)
+5. Creates a chain: A -> B -> C -> A (repeating)
 
 Main Function
 ~~~~~~~~~~~~~
@@ -94,23 +94,23 @@ Execution Flow
 ::
 
 main() starts
-  ↓
+  down
 task_A() executes
-  ↓ (sleeps 0-5 seconds)
-  ↓ (sleeps 1 second)
-  ↓
+  down (sleeps 0-5 seconds)
+  down (sleeps 1 second)
+  down
 task_B() executes
-  ↓ (sleeps 0-5 seconds)
-  ↓ (sleeps 1 second)
-  ↓
+  down (sleeps 0-5 seconds)
+  down (sleeps 1 second)
+  down
 task_C() executes
-  ↓ (sleeps 0-5 seconds)
-  ↓ (sleeps 1 second)
-  ↓
+  down (sleeps 0-5 seconds)
+  down (sleeps 1 second)
+  down
 task_A() executes again
-  ↓
+  down
 ... (repeats for ~60 seconds)
-  ↓
+  down
 Time expires, chain stops
 ::
 

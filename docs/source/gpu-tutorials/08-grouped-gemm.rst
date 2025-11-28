@@ -111,7 +111,7 @@ def grouped_matmul*kernel(
 2. TMA (Tensor Memory Accelerator) Version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For GPUs with compute capability ≥ 9.0 (Hopper and beyond):
+For GPUs with compute capability >= 9.0 (Hopper and beyond):
 
 .. code-block:: python
 
@@ -223,8 +223,8 @@ Pointer Indirection
 ~~~~~~~~~~~~~~~~~~~
 ::
 
-group_a*ptrs (on GPU) → [ptr0, ptr1, ptr2, ...] → A matrices (on GPU)
-                         ↓     ↓     ↓
+group_a*ptrs (on GPU) -> [ptr0, ptr1, ptr2, ...] -> A matrices (on GPU)
+                         down     down     down
                         A0    A1    A2
 ::
 
@@ -253,7 +253,7 @@ Performance Characteristics
 When Grouped GEMM Wins
 ~~~~~~~~~~~~~~~~~~~~~~
 
-✅ **Good cases:**
+[[OK]] **Good cases:**
 - Multiple small-to-medium GEMMs (hundreds to thousands of elements)
 - Variable problem sizes (not batched)
 - GPU utilization is low with separate launches
@@ -262,10 +262,10 @@ When Grouped GEMM Wins
 When to Use Separate Kernels
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-❌ **Bad cases:**
+[[FAIL]] **Bad cases:**
 - Very few problems (< 10) with large matrices
 - All matrices are the same size (use batched GEMM instead)
-- Problems are too small (< 64×64)
+- Problems are too small (< 64x64)
 
 Benchmarking Results
 ~~~~~~~~~~~~~~~~~~~~
@@ -284,7 +284,7 @@ From the script:
 **Typical results:**
 - Grouped GEMM competitive with cuBLAS for moderate sizes
 - TMA version faster on Hopper (compute capability 9.0+)
-- Overhead becomes negligible for N ≥ 256
+- Overhead becomes negligible for N >= 256
 
 GPU Architecture Insights
 -------------------------
@@ -295,8 +295,8 @@ Why Fixed Number of CTAs?
 ::
 
 Traditional approach: Launch one CTA per tile
-- Problem 1: 10 tiles → 10 CTAs
-- Problem 2: 20 tiles → 20 CTAs
+- Problem 1: 10 tiles -> 10 CTAs
+- Problem 2: 20 tiles -> 20 CTAs
 - Total: 30 kernel launches or 30 CTAs
 
 Grouped GEMM: Launch NUM_SM CTAs total

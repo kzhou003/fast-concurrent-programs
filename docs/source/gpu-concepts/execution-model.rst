@@ -116,7 +116,7 @@ Why Occupancy Matters
 Memory access takes ~400 cycles. If only one warp is active::
 
     Warp 0: Load data ... (wait 400 cycles) ... continue
-    → GPU idle for 400 cycles!
+    -> GPU idle for 400 cycles!
 
 With 16 active warps::
 
@@ -125,7 +125,7 @@ With 16 active warps::
     ...
     Warp 15: Load ... (switch to warp 0)
     Warp 0:  Data ready! Continue...
-    → No idle time!
+    -> No idle time!
 
 **Latency Hiding**: While one warp waits, others compute.
 
@@ -203,7 +203,7 @@ Threads in a block can synchronize::
 
 Use cases:
 
-* All threads load data → sync → all threads use data
+* All threads load data -> sync -> all threads use data
 * Producer-consumer patterns within block
 
 Between Blocks
@@ -298,7 +298,7 @@ Traditional Approach
 
 Launch one block per task::
 
-    # 1000 tasks → launch 1000 blocks
+    # 1000 tasks -> launch 1000 blocks
     kernel[1000](...)
 
 **Problem**: Launch overhead, poor load balancing for variable-size tasks.
@@ -332,7 +332,7 @@ Key Factors
 ~~~~~~~~~~~
 
 1. **Occupancy**: Enough warps to hide latency?
-2. **Memory coalescing**: Adjacent threads → adjacent addresses?
+2. **Memory coalescing**: Adjacent threads -> adjacent addresses?
 3. **Thread divergence**: Minimize branching
 4. **Register pressure**: Don't use too many per thread
 5. **Shared memory usage**: Maximize reuse, don't overflow

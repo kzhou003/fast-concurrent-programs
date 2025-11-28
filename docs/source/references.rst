@@ -442,4 +442,4 @@ Quick Reference
 1. NVIDIA: ``nsys`` and ``ncu``
 2. AMD: ``rocprof``
 
-Stay curious and keep optimizing! 🚀
+Stay curious and keep optimizing! [rocket]

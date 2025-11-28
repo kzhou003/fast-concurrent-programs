@@ -164,7 +164,7 @@ For a GPU with 1 TB/s memory bandwidth::
 
     Max GB/s = Memory Bandwidth = 1000 GB/s
     For vector add: Need to move 3 * 4 bytes per element = 12 bytes
-    Max elements/s = 1000 GB/s / 12 bytes ≈ 83 billion elements/s
+    Max elements/s = 1000 GB/s / 12 bytes ~ 83 billion elements/s
 
 
 Triton-Specific Features

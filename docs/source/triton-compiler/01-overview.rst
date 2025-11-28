@@ -26,17 +26,17 @@ The Triton compiler transforms Python code through several stages:
 .. code-block:: text
 
     Python Function (@triton.jit)
-           ↓
+           down
     Python AST (Abstract Syntax Tree)
-           ↓
+           down
     Triton IR (TTIR) - High-level intermediate representation
-           ↓
+           down
     Triton GPU IR (TTGIR) - GPU-specific intermediate representation
-           ↓
+           down
     LLVM IR (LLIR) - Low-level intermediate representation
-           ↓
+           down
     PTX / AMDGCN - GPU assembly
-           ↓
+           down
     CUBIN / HSACO - GPU binary
 
 Each stage performs specific transformations and optimizations.
@@ -65,7 +65,7 @@ The Triton compiler consists of several key components:
 
 3. **MLIR Pipeline**
 
-   - TTIR → TTGIR lowering
+   - TTIR -> TTGIR lowering
    - GPU-specific optimizations
    - Memory coalescing
    - Shared memory allocation
@@ -345,7 +345,7 @@ Python Components
 
 - ``runtime/jit.py`` - ``@triton.jit`` decorator, JITFunction class
 - ``compiler/compiler.py`` - Main compilation orchestration
-- ``compiler/code_generator.py`` - AST → TTIR conversion
+- ``compiler/code_generator.py`` - AST -> TTIR conversion
 - ``backends/compiler.py`` - Backend abstraction
 - ``language/`` - Triton language primitives (tl.load, tl.store, etc.)
 

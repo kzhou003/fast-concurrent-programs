@@ -32,14 +32,14 @@ State Machine Structure
 ::
 
 Start State
-    ↓
-    ├─→ State 1 ─┬─→ State 2
-    │            └─→ State 3
-    └─→ State 2 ─┬─→ State 1
-                 └─→ State 3
+    down
+    |--> State 1 -+--> State 2
+    |            +--> State 3
+    +--> State 2 -+--> State 1
+                 +--> State 3
 
-State 3 ─┬─→ State 1
-         └─→ End State
+State 3 -+--> State 1
+         +--> End State
 ::
 
 
@@ -134,14 +134,14 @@ Execution Flow Example
 
 ::
 
-start_state() → (random: 1)
-  ↓
-state1(1) → (random: 0)
-  ↓
-state3(0) → (random: 1)
-  ↓
+start_state() -> (random: 1)
+  down
+state1(1) -> (random: 0)
+  down
+state3(0) -> (random: 1)
+  down
 end_state(1)
-  ↓
+  down
 Returns complete transition path
 ::
 

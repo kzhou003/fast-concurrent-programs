@@ -3,7 +3,7 @@ Compilation Pipeline: AST to GPU Binary
 
 This document covers the complete compilation pipeline from Python AST through MLIR transformations to GPU binary.
 
-Code Generation: Python AST → Triton IR
+Code Generation: Python AST -> Triton IR
 ----------------------------------------
 
 The code generator (`code_generator.py <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/compiler/code_generator.py>`_) converts Python AST to Triton IR (TTIR).
@@ -132,7 +132,7 @@ Triton infers types automatically:
         lhs_ty = lhs.type
         rhs_ty = rhs.type
 
-        # Promote types if needed (e.g., int32 + float32 → float32)
+        # Promote types if needed (e.g., int32 + float32 -> float32)
         result_ty = self.promote_types(lhs_ty, rhs_ty)
 
         # Cast operands if necessary
@@ -192,7 +192,7 @@ Generated TTIR:
       }
     }
 
-MLIR Lowering: TTIR → TTGIR → LLIR
+MLIR Lowering: TTIR -> TTGIR -> LLIR
 -----------------------------------
 
 The MLIR pipeline applies a series of transformation passes.
@@ -231,7 +231,7 @@ Main compilation function (`compiler.py:226 <https://github.com/triton-lang/trit
         "cubin": ptx_to_cubin,      # Binary
     }
 
-TTIR → TTGIR Transformation
+TTIR -> TTGIR Transformation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *Location:* `third_party/nvidia/backend/compiler.py <https://github.com/triton-lang/triton/tree/v3.5.1/third_party/nvidia/backend/compiler.py>`_
@@ -262,7 +262,7 @@ TTIR → TTGIR Transformation
 - ``TritonGPUPipeline`` - Software pipelining for memory/compute overlap
 - ``TritonGPUPrefetch`` - Insert prefetch instructions
 
-TTGIR → LLVM IR
+TTGIR -> LLVM IR
 ~~~~~~~~~~~~~~~
 
 .. code-block:: python
@@ -276,16 +276,16 @@ TTGIR → LLVM IR
 
 **Transformations:**
 
-- ``tt.load`` → LLVM load instructions
-- ``tt.store`` → LLVM store instructions
-- ``tt.dot`` → NVVM intrinsics for tensor cores
-- Thread indexing → ``llvm.nvvm.read.ptx.sreg.*`` calls
-- Barriers → ``llvm.nvvm.barrier0()``
+- ``tt.load`` -> LLVM load instructions
+- ``tt.store`` -> LLVM store instructions
+- ``tt.dot`` -> NVVM intrinsics for tensor cores
+- Thread indexing -> ``llvm.nvvm.read.ptx.sreg.*`` calls
+- Barriers -> ``llvm.nvvm.barrier0()``
 
 Backend Compilation
 -------------------
 
-LLVM IR → PTX
+LLVM IR -> PTX
 ~~~~~~~~~~~~~
 
 .. code-block:: python
@@ -332,7 +332,7 @@ LLVM IR → PTX
         // ... more PTX ...
     }
 
-PTX → CUBIN
+PTX -> CUBIN
 ~~~~~~~~~~~
 
 .. code-block:: python
@@ -374,15 +374,15 @@ Cache Directory Structure
 .. code-block:: text
 
     ~/.triton/cache/
-    ├── 7a3f2e1b.../         # Kernel hash
-    │   ├── add_kernel.json   # Metadata
-    │   ├── add_kernel.ttir   # Triton IR
-    │   ├── add_kernel.ttgir  # Triton GPU IR
-    │   ├── add_kernel.llir   # LLVM IR
-    │   ├── add_kernel.ptx    # PTX assembly
-    │   └── add_kernel.cubin  # Compiled binary
-    └── 9c4d6a2e.../
-        └── ...
+    |-- 7a3f2e1b.../         # Kernel hash
+    |   |-- add_kernel.json   # Metadata
+    |   |-- add_kernel.ttir   # Triton IR
+    |   |-- add_kernel.ttgir  # Triton GPU IR
+    |   |-- add_kernel.llir   # LLVM IR
+    |   |-- add_kernel.ptx    # PTX assembly
+    |   +-- add_kernel.cubin  # Compiled binary
+    +-- 9c4d6a2e.../
+        +-- ...
 
 Cache Lookup
 ~~~~~~~~~~~~
@@ -414,7 +414,7 @@ Typical compilation times:
 Stage               Time            Notes
 ==================  ==============  ======================
 AST Parsing         < 1ms           Very fast
-Code Generation     5-20ms          Python AST → TTIR
+Code Generation     5-20ms          Python AST -> TTIR
 MLIR Passes         50-200ms        Optimization passes
 LLVM Backend        100-500ms       PTX generation
 PTX Assembly        100-300ms       ptxas invocation
@@ -427,16 +427,16 @@ Summary
 
 The compilation pipeline:
 
-1. **Python AST → TTIR** - Code generator visits AST nodes
-2. **TTIR → TTGIR** - Add GPU layout and memory hierarchy
-3. **TTGIR → LLIR** - Lower to LLVM IR with GPU intrinsics
-4. **LLIR → PTX** - LLVM backend generates assembly
-5. **PTX → CUBIN** - ptxas assembles binary
+1. **Python AST -> TTIR** - Code generator visits AST nodes
+2. **TTIR -> TTGIR** - Add GPU layout and memory hierarchy
+3. **TTGIR -> LLIR** - Lower to LLVM IR with GPU intrinsics
+4. **LLIR -> PTX** - LLVM backend generates assembly
+5. **PTX -> CUBIN** - ptxas assembles binary
 6. **Caching** - Store all intermediate representations
 
 **Key files:**
 
-- `code_generator.py <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/compiler/code_generator.py>`_ - AST → TTIR
+- `code_generator.py <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/compiler/code_generator.py>`_ - AST -> TTIR
 - `compiler.py <https://github.com/triton-lang/triton/tree/v3.5.1/python/triton/compiler/compiler.py>`_ - Pipeline orchestration
 - `third_party/nvidia/backend/compiler.py <https://github.com/triton-lang/triton/tree/v3.5.1/third_party/nvidia/backend/compiler.py>`_ - NVIDIA backend
 - `lib/Dialect/TritonGPU/ <https://github.com/triton-lang/triton/tree/v3.5.1/lib/Dialect/TritonGPU>`_ - MLIR passes (C++)

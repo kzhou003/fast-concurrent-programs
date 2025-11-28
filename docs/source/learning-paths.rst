@@ -281,33 +281,33 @@ After Path 1 (Fast Track)
 
 You should be able to:
 
-☐ Explain SPMD execution model
-☐ Write a simple element-wise kernel
-☐ Understand memory coalescing
-☐ Implement basic kernel fusion
-☐ Use auto-tuning
+[ ] Explain SPMD execution model
+[ ] Write a simple element-wise kernel
+[ ] Understand memory coalescing
+[ ] Implement basic kernel fusion
+[ ] Use auto-tuning
 
 After Path 2 (Comprehensive)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You should be able to:
 
-☐ Implement forward and backward passes
-☐ Optimize for both memory and compute
-☐ Use Tensor Cores effectively
-☐ Write persistent kernels
-☐ Achieve 80%+ of PyTorch performance
+[ ] Implement forward and backward passes
+[ ] Optimize for both memory and compute
+[ ] Use Tensor Cores effectively
+[ ] Write persistent kernels
+[ ] Achieve 80%+ of PyTorch performance
 
 After Path 3 (Transformer)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You should be able to:
 
-☐ Implement efficient attention mechanisms
-☐ Handle long sequences (16K+ tokens)
-☐ Optimize layer normalization
-☐ Fuse operations in Transformers
-☐ Understand Flash Attention algorithm
+[ ] Implement efficient attention mechanisms
+[ ] Handle long sequences (16K+ tokens)
+[ ] Optimize layer normalization
+[ ] Fuse operations in Transformers
+[ ] Understand Flash Attention algorithm
 
 Next Steps After Completing a Path
 -----------------------------------
@@ -344,9 +344,9 @@ Choose Your Path
 
 Ready to start? Pick the path that matches your goals:
 
-* **Quick start?** → :doc:`gpu-tutorials/01-vector-add`
-* **Deep learning?** → Path 2 (Comprehensive)
-* **Transformers?** → Path 3 (Transformer Focus)
-* **Performance?** → Path 5 (Performance Engineering)
+* **Quick start?** -> :doc:`gpu-tutorials/01-vector-add`
+* **Deep learning?** -> Path 2 (Comprehensive)
+* **Transformers?** -> Path 3 (Transformer Focus)
+* **Performance?** -> Path 5 (Performance Engineering)
 
-Happy learning! 🚀
+Happy learning! [rocket]

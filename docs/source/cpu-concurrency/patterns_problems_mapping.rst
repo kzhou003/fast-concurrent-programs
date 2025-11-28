@@ -30,16 +30,16 @@ Why Does Python Have a GIL?
 ::
 
 Historical Context:
-┌─────────────────────────────────────────────┐
-│ Python was designed in the late 1980s       │
-│ when single-core CPUs were the norm        │
-│                                             │
-│ Design Decision:                            │
-│ • Simple memory management (ref counting)   │
-│ • Easy C extension integration              │
-│ • Thread-safe by default                    │
-│ • Trade-off: One GIL = Simple design       │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+| Python was designed in the late 1980s       |
+| when single-core CPUs were the norm        |
+|                                             |
+| Design Decision:                            |
+| * Simple memory management (ref counting)   |
+| * Easy C extension integration              |
+| * Thread-safe by default                    |
+| * Trade-off: One GIL = Simple design       |
++---------------------------------------------+
 ::
 
 
@@ -51,10 +51,12 @@ How the GIL Works
 Conceptual representation of GIL behavior
 =========================================
 
-Thread 1: [Acquire GIL] → Execute Python Code → [Release GIL]
-                                                      ↓
-Thread 2:                    [Waiting...]  → [Acquire GIL] → Execute
-::
+Thread 1: [Acquire GIL] -> Execute Python Code -> [Release GIL]
+                                                      down
+Thread 2:                    [Waiting...]  -> [Acquire GIL] -> Execute
+.. code-block:: text
+
+
 
 
 **Key Point**: Only ONE thread can execute Python bytecode at a time, even on a multi-core CPU.
@@ -72,13 +74,15 @@ def cpu_intensive():
         total += i
     return total
 
-Thread 1 acquires GIL → executes → releases after ~100 bytecodes → repeat
+Thread 1 acquires GIL -> executes -> releases after ~100 bytecodes -> repeat
 =========================================================================
-Thread 2 waits → acquires GIL → executes → releases → repeat
+Thread 2 waits -> acquires GIL -> executes -> releases -> repeat
 ============================================================
 Result: Threads take TURNS, no parallel execution
 =================================================
-::
+.. code-block:: text
+
+
 
 
 .. code-block:: python
@@ -89,7 +93,7 @@ def io_intensive():
     response = requests.get('https://api.example.com/data')
     return response.json()
 
-Thread 1 acquires GIL → starts I/O → RELEASES GIL during I/O wait
+Thread 1 acquires GIL -> starts I/O -> RELEASES GIL during I/O wait
 =================================================================
 Thread 2 can now acquire GIL and execute while Thread 1 waits
 =============================================================
@@ -103,9 +107,9 @@ The Critical Difference
 
 | Operation Type | GIL Released During Operation? | Result |
 |----------------|-------------------------------|--------|
-| CPU-bound (pure Python) | ❌ No | Threads execute sequentially |
-| I/O-bound (network, disk) | ✅ Yes | Threads can work concurrently |
-| C extensions (NumPy, etc.) | ✅ Often yes | Can achieve parallelism |
+| CPU-bound (pure Python) | [[FAIL]] No | Threads execute sequentially |
+| I/O-bound (network, disk) | [[OK]] Yes | Threads can work concurrently |
+| C extensions (NumPy, etc.) | [[OK]] Often yes | Can achieve parallelism |
 
 ---
 
@@ -120,12 +124,12 @@ CPU-bound Operations
 **Characteristics**:
 ::
 
-CPU Usage:  ████████████████████████ (100%)
+CPU Usage:  ######################## (100%)
 I/O Wait:   (minimal or none)
 Bottleneck: CPU cycles
 
 Example Timeline:
-0ms   ──► Processing ──► Processing ──► Processing ──► Done
+0ms   --[>] Processing --[>] Processing --[>] Processing --[>] Done
          (CPU busy)      (CPU busy)      (CPU busy)
 ::
 
@@ -146,14 +150,14 @@ I/O-bound Operations
 **Characteristics**:
 ::
 
-CPU Usage:  █▁▁▁▁▁▁▁█▁▁▁▁▁▁▁█ (sporadic, mostly idle)
-I/O Wait:   ▁████████▁████████ (most of the time)
+CPU Usage:  #_______#_______# (sporadic, mostly idle)
+I/O Wait:   _########_######## (most of the time)
 Bottleneck: Waiting for external resources
 
 Example Timeline:
-0ms   ──► Request ──► Waiting... ──► Waiting... ──► Response ──► Process
+0ms   --[>] Request --[>] Waiting... --[>] Waiting... --[>] Response --[>] Process
          (CPU)        (I/O device)   (I/O device)   (network)   (CPU)
-          100μs           50ms           50ms         100ms      1ms
+          100mus           50ms           50ms         100ms      1ms
 ::
 
 
@@ -173,21 +177,27 @@ Real-World Analogy
 ::
 
 You: Calculate 1000! in your head
-     └─► You must think continuously
-     └─► Cannot do anything else while thinking
-     └─► Limited by your brain's processing speed
-::
+     +-[>] You must think continuously
+     +-[>] Cannot do anything else while thinking
+     +-[>] Limited by your brain's processing speed
+.. code-block:: text
+
+
 
 
 **I/O-bound** (Ordering pizza):
-::
+.. code-block:: text
 
-You: Call pizza place → Wait 30 min → Receive pizza
-     └─► Phone call: 1 minute (active)
-     └─► Waiting: 29 minutes (idle - can do other things!)
-     └─► Receive: 1 minute (active)
-     └─► Limited by pizza shop's speed, not yours
-::
+
+
+You: Call pizza place -> Wait 30 min -> Receive pizza
+     +-[>] Phone call: 1 minute (active)
+     +-[>] Waiting: 29 minutes (idle - can do other things!)
+     +-[>] Receive: 1 minute (active)
+     +-[>] Limited by pizza shop's speed, not yours
+.. code-block:: text
+
+
 
 
 ---
@@ -240,7 +250,7 @@ Core 1: [Thread 1][Thread 2][Thread 1][Thread 2][Thread 1][Thread 2]
 Core 2: [idle....................................................]
 Core 3: [idle....................................................]
 Core 4: [idle....................................................]
-Time:   ═══════════════════════════════════════════════════════►
+Time:   ==============================================================================================================[>]
 
 Result: Only using 1 core, taking turns due to GIL
 ::
@@ -276,11 +286,11 @@ Output: Multiprocessing: 1.30s (nearly 2x speedup!)
 ::
 
 Without GIL (Multiprocessing):
-Process 1 on Core 1: [████████████████████████] Complete
-Process 2 on Core 2: [████████████████████████] Complete
+Process 1 on Core 1: [########################] Complete
+Process 2 on Core 2: [########################] Complete
 Process 3 on Core 3: [idle]
 Process 4 on Core 4: [idle]
-Time:                ═════════════════════════►
+Time:                ==================================================[>]
 
 Result: Using 2 cores in TRUE parallel execution
 ::
@@ -295,56 +305,64 @@ Each process has:
 - **Its own memory space**
 - **Its own process ID**
 
-::
+.. code-block:: text
 
-┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
-│   Process 1      │  │   Process 2      │  │   Process 3      │
-│                  │  │                  │  │                  │
-│  ┌────────────┐  │  │  ┌────────────┐  │  │  ┌────────────┐  │
-│  │ GIL #1     │  │  │  │ GIL #2     │  │  │  │ GIL #3     │  │
-│  └────────────┘  │  │  └────────────┘  │  │  └────────────┘  │
-│  ┌────────────┐  │  │  ┌────────────┐  │  │  ┌────────────┐  │
-│  │ Interpreter│  │  │  │ Interpreter│  │  │  │ Interpreter│  │
-│  └────────────┘  │  │  └────────────┘  │  │  └────────────┘  │
-│  ┌────────────┐  │  │  ┌────────────┐  │  │  ┌────────────┐  │
-│  │   Memory   │  │  │  │   Memory   │  │  │  │   Memory   │  │
-│  └────────────┘  │  │  └────────────┘  │  │  └────────────┘  │
-└──────────────────┘  └──────────────────┘  └──────────────────┘
-      CPU Core 1           CPU Core 2           CPU Core 3
-::
+
+    +------------------+  +------------------+  +------------------+
+    |   Process 1      |  |   Process 2      |  |   Process 3      |
+    |                  |  |                  |  |                  |
+    |  +------------+  |  |  +------------+  |  |  +------------+  |
+    |  | GIL #1     |  |  |  | GIL #2     |  |  |  | GIL #3     |  |
+    |  +------------+  |  |  +------------+  |  |  +------------+  |
+    |  +------------+  |  |  +------------+  |  |  +------------+  |
+    |  | Interpreter|  |  |  | Interpreter|  |  |  | Interpreter|  |
+    |  +------------+  |  |  +------------+  |  |  +------------+  |
+    |  +------------+  |  |  +------------+  |  |  +------------+  |
+    |  |   Memory   |  |  |  |   Memory   |  |  |  |   Memory   |  |
+    |  +------------+  |  |  +------------+  |  |  +------------+  |
+    +------------------+  +------------------+  +------------------+
+    CPU Core 1           CPU Core 2           CPU Core 3
+
+.. code-block:: text
+
+
 
 
 Trade-offs of Multiprocessing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Advantages**:
-- ✅ True parallelism - uses multiple CPU cores
-- ✅ No GIL interference between processes
-- ✅ Process isolation (crash in one doesn't affect others)
-- ✅ Can achieve near-linear speedup for CPU-bound tasks
+- [[OK]] True parallelism - uses multiple CPU cores
+- [[OK]] No GIL interference between processes
+- [[OK]] Process isolation (crash in one doesn't affect others)
+- [[OK]] Can achieve near-linear speedup for CPU-bound tasks
 
 **Disadvantages**:
-- ❌ Higher memory usage (each process has full Python interpreter)
-- ❌ Slower startup time (creating processes is expensive)
-- ❌ Inter-process communication is complex and slow
-- ❌ Cannot share memory directly (must pickle/unpickle data)
+- [[FAIL]] Higher memory usage (each process has full Python interpreter)
+- [[FAIL]] Slower startup time (creating processes is expensive)
+- [[FAIL]] Inter-process communication is complex and slow
+- [[FAIL]] Cannot share memory directly (must pickle/unpickle data)
 
 When the Trade-off is Worth It
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: text
+
+
 
 Memory cost per process: ~10-50 MB
 Speedup for CPU-bound tasks: 2-8x (depending on cores)
 
 Example:
 Task: Process 1000 images (CPU-intensive)
-├─ Sequential: 100 seconds
-├─ Threading: 100 seconds (no improvement due to GIL)
-└─ Multiprocessing (4 cores): 27 seconds
-   └─ Memory cost: 150 MB vs 50 MB
-   └─ Worth it? YES! (3.7x speedup for 100MB extra)
-::
+|- Sequential: 100 seconds
+|- Threading: 100 seconds (no improvement due to GIL)
++- Multiprocessing (4 cores): 27 seconds
+   +- Memory cost: 150 MB vs 50 MB
+   +- Worth it? YES! (3.7x speedup for 100MB extra)
+.. code-block:: text
+
+
 
 
 ---
@@ -374,8 +392,8 @@ Output: Sequential: 6.00s (2s + 2s + 2s)
 
 Timeline:
 0s    2s    4s    6s
-├─────┼─────┼─────┤
-│Wait1│Wait2│Wait3│  ← CPU is IDLE during all this time!
+|-----+-----+-----|
+|Wait1|Wait2|Wait3|  <- CPU is IDLE during all this time!
 ::
 
 
@@ -406,10 +424,10 @@ Output: Threading: 2.05s (all wait in parallel!)
 
 Timeline:
 0s    2s
-├─────┤
-│Wait1│  ← Thread 1
-│Wait2│  ← Thread 2
-│Wait3│  ← Thread 3 (all waiting simultaneously)
+|-----|
+|Wait1|  <- Thread 1
+|Wait2|  <- Thread 2
+|Wait3|  <- Thread 3 (all waiting simultaneously)
 ::
 
 
@@ -423,11 +441,11 @@ Why Threading Works for I/O
 What happens under the hood:
 ============================
 
-Thread 1: [Acquire GIL] → Start network request → [Release GIL] → Wait...
-                                                        ↓
-Thread 2:                    [Acquire GIL] → Start disk read → [Release GIL]
-                                                                      ↓
-Thread 3:                                      [Acquire GIL] → Start DB query
+Thread 1: [Acquire GIL] -> Start network request -> [Release GIL] -> Wait...
+                                                        down
+Thread 2:                    [Acquire GIL] -> Start disk read -> [Release GIL]
+                                                                      down
+Thread 3:                                      [Acquire GIL] -> Start DB query
 ::
 
 
@@ -441,16 +459,16 @@ When Python releases the GIL during I/O:
 ::
 
 Python Thread          Operating System           I/O Device
-    │                        │                        │
-    │─── Read file ─────────→│                        │
-    │ [Release GIL]          │─── Send request ──────→│
-    │                        │                        │
-    │ (Thread sleeps)        │                     (Working)
-    │                        │                        │
-    │                        │←── Data ready ─────────│
-    │←── Data ready ─────────│                        │
-    │ [Acquire GIL]          │                        │
-    │─── Process data        │                        │
+    |                        |                        |
+    |--- Read file ---------->|                        |
+    | [Release GIL]          |--- Send request ------->|
+    |                        |                        |
+    | (Thread sleeps)        |                     (Working)
+    |                        |                        |
+    |                        |<--- Data ready ---------|
+    |<--- Data ready ---------|                        |
+    | [Acquire GIL]          |                        |
+    |--- Process data        |                        |
 ::
 
 
@@ -465,15 +483,15 @@ Real example: Downloading 10 web pages
 ======================================
 
 Sequential (1 thread):
-├─ Page 1: 0.5s
-├─ Page 2: 0.5s
-├─ ...
-└─ Page 10: 0.5s
+|- Page 1: 0.5s
+|- Page 2: 0.5s
+|- ...
++- Page 10: 0.5s
 Total: 5.0 seconds
 
 Threading (10 threads):
-├─ All pages: 0.5s (in parallel)
-└─ Total: 0.5 seconds
+|- All pages: 0.5s (in parallel)
++- Total: 0.5 seconds
 
 Speedup: 10x! (near-perfect for I/O-bound)
 ::
@@ -485,35 +503,37 @@ Why Not Multiprocessing for I/O?
 ::
 
 Threading for I/O:
-├─ Memory: 50 MB (one process, 10 threads)
-├─ Startup: Instant (threads are lightweight)
-├─ Communication: Shared memory (easy)
-└─ Performance: 10x speedup
+|- Memory: 50 MB (one process, 10 threads)
+|- Startup: Instant (threads are lightweight)
+|- Communication: Shared memory (easy)
++- Performance: 10x speedup
 
 Multiprocessing for I/O:
-├─ Memory: 500 MB (10 processes × 50 MB each)
-├─ Startup: Slow (creating 10 processes)
-├─ Communication: IPC (complex, slow)
-└─ Performance: 10x speedup (same as threading!)
+|- Memory: 500 MB (10 processes x 50 MB each)
+|- Startup: Slow (creating 10 processes)
+|- Communication: IPC (complex, slow)
++- Performance: 10x speedup (same as threading!)
 
 Verdict: Threading is MORE EFFICIENT for I/O
-::
+.. code-block:: text
+
+
 
 
 Threading Trade-offs
 ~~~~~~~~~~~~~~~~~~~~
 
 **Advantages**:
-- ✅ Lightweight (minimal memory overhead)
-- ✅ Fast to create/destroy
-- ✅ Easy data sharing (shared memory)
-- ✅ Perfect for I/O-bound tasks
+- [[OK]] Lightweight (minimal memory overhead)
+- [[OK]] Fast to create/destroy
+- [[OK]] Easy data sharing (shared memory)
+- [[OK]] Perfect for I/O-bound tasks
 
 **Disadvantages**:
-- ❌ No speedup for CPU-bound tasks (GIL)
-- ❌ Race conditions possible with shared state
-- ❌ More complex debugging
-- ❌ Limited by GIL for Python code execution
+- [[FAIL]] No speedup for CPU-bound tasks (GIL)
+- [[FAIL]] Race conditions possible with shared state
+- [[FAIL]] More complex debugging
+- [[FAIL]] Limited by GIL for Python code execution
 
 ---
 
@@ -526,16 +546,16 @@ The Problem with Threading: Overhead
 ::
 
 Creating 10,000 threads:
-├─ Memory: 10,000 threads × 8 MB stack = 80 GB! (impossible)
-├─ Context switching: OS must switch between 10,000 threads
-├─ Overhead: Significant CPU time spent on thread management
-└─ Result: System becomes unresponsive
+|- Memory: 10,000 threads x 8 MB stack = 80 GB! (impossible)
+|- Context switching: OS must switch between 10,000 threads
+|- Overhead: Significant CPU time spent on thread management
++- Result: System becomes unresponsive
 
 Creating 10,000 asyncio tasks:
-├─ Memory: ~10-100 MB total (tasks are lightweight)
-├─ Context switching: Controlled by Python (no OS involvement)
-├─ Overhead: Minimal
-└─ Result: Efficient and responsive
+|- Memory: ~10-100 MB total (tasks are lightweight)
+|- Context switching: Controlled by Python (no OS involvement)
+|- Overhead: Minimal
++- Result: Efficient and responsive
 ::
 
 
@@ -548,7 +568,9 @@ Asyncio: Cooperative Multitasking
 OS: "Thread 1, you've used enough CPU, I'm switching to Thread 2"
 Thread 1: "But I'm not done!"
 OS: "Too bad, Thread 2's turn now"
-::
+.. code-block:: text
+
+
 
 
 **Asyncio** (Cooperative - code decides when to yield):
@@ -593,22 +615,22 @@ Event Loop Visualization
 ::
 
 Event Loop (Single Thread):
-┌─────────────────────────────────────────────────────────┐
-│                                                         │
-│  Ready Queue: [Task 1, Task 5, Task 12, ...]          │
-│                                                         │
-│  Waiting for I/O: {Task 2: socket 1,                   │
-│                    Task 3: socket 2,                   │
-│                    Task 4: socket 3, ...}              │
-│                                                         │
-│  Flow:                                                  │
-│  1. Get next ready task                                │
-│  2. Run until it awaits something                      │
-│  3. Check which I/O operations completed               │
-│  4. Move completed tasks to ready queue                │
-│  5. Repeat                                             │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|                                                         |
+|  Ready Queue: [Task 1, Task 5, Task 12, ...]          |
+|                                                         |
+|  Waiting for I/O: {Task 2: socket 1,                   |
+|                    Task 3: socket 2,                   |
+|                    Task 4: socket 3, ...}              |
+|                                                         |
+|  Flow:                                                  |
+|  1. Get next ready task                                |
+|  2. Run until it awaits something                      |
+|  3. Check which I/O operations completed               |
+|  4. Move completed tasks to ready queue                |
+|  5. Repeat                                             |
+|                                                         |
++---------------------------------------------------------+
 ::
 
 
@@ -631,11 +653,13 @@ threads = [threading.Thread(target=fetch_url, args=(url,)) for url in urls]
 
 Problem: Creating 1000 threads!
 ===============================
-Memory: ~8 GB (1000 × 8 MB stack per thread)
+Memory: ~8 GB (1000 x 8 MB stack per thread)
 ============================================
 OS overhead: Managing 1000 threads
 ==================================
-::
+.. code-block:: text
+
+
 
 
 .. code-block:: python
@@ -683,40 +707,44 @@ When Asyncio Shines
 **Perfect for**:
 ::
 
-✅ Web servers (handle many simultaneous connections)
-✅ Web scraping (thousands of HTTP requests)
-✅ Database queries (many concurrent queries)
-✅ Microservices (coordinating many API calls)
-✅ Chat applications (many idle connections)
-✅ IoT systems (many devices sending data)
+[[OK]] Web servers (handle many simultaneous connections)
+[[OK]] Web scraping (thousands of HTTP requests)
+[[OK]] Database queries (many concurrent queries)
+[[OK]] Microservices (coordinating many API calls)
+[[OK]] Chat applications (many idle connections)
+[[OK]] IoT systems (many devices sending data)
 ::
 
 
 **Not ideal for**:
-::
+.. code-block:: text
 
-❌ CPU-intensive tasks (use multiprocessing)
-❌ Blocking libraries (must use async-compatible libraries)
-❌ Simple scripts with few I/O operations (threading is simpler)
-::
+
+
+[[FAIL]] CPU-intensive tasks (use multiprocessing)
+[[FAIL]] Blocking libraries (must use async-compatible libraries)
+[[FAIL]] Simple scripts with few I/O operations (threading is simpler)
+.. code-block:: text
+
+
 
 
 Asyncio Trade-offs
 ~~~~~~~~~~~~~~~~~~
 
 **Advantages**:
-- ✅ Extremely lightweight (handle 100,000+ concurrent operations)
-- ✅ Low memory overhead
-- ✅ Fast context switching (Python-level)
-- ✅ Single-threaded (no race conditions)
-- ✅ Explicit concurrency (clear control flow with ``await``)
+- [[OK]] Extremely lightweight (handle 100,000+ concurrent operations)
+- [[OK]] Low memory overhead
+- [[OK]] Fast context switching (Python-level)
+- [[OK]] Single-threaded (no race conditions)
+- [[OK]] Explicit concurrency (clear control flow with ``await``)
 
 **Disadvantages**:
-- ❌ Requires async-compatible libraries (can't use standard ``requests``, etc.)
-- ❌ Learning curve (async/await paradigm)
-- ❌ Viral nature (once you go async, everything must be async)
-- ❌ No speedup for CPU-bound tasks
-- ❌ One blocking operation blocks everything
+- [[FAIL]] Requires async-compatible libraries (can't use standard ``requests``, etc.)
+- [[FAIL]] Learning curve (async/await paradigm)
+- [[FAIL]] Viral nature (once you go async, everything must be async)
+- [[FAIL]] No speedup for CPU-bound tasks
+- [[FAIL]] One blocking operation blocks everything
 
 ---
 
@@ -745,9 +773,11 @@ t2 = threading.Thread(target=compute_sum, args=(10*000*000,))
 
 **What actually happens**:
 
-::
+.. code-block:: text
 
-Time →
+
+
+Time ->
 0ms    Thread 1: [Acquire GIL]
 1ms              : Execute: total = 0
 2ms              : Execute: total += 1
@@ -765,7 +795,9 @@ Time →
 
 Result: Threads take turns executing Python bytecode
 No parallelism for CPU work!
-::
+.. code-block:: text
+
+
 
 
 CPU-bound with Multiprocessing: True Parallel
@@ -789,9 +821,11 @@ with ProcessPoolExecutor(max_workers=2) as executor:
 
 **What actually happens**:
 
-::
+.. code-block:: text
 
-Time →
+
+
+Time ->
 0ms    Process 1 (Core 1): [Start] Create interpreter, load code
 10ms                       : Execute: total = 0
 11ms                       : Execute: total += 1
@@ -808,7 +842,9 @@ Time →
 
 Result: Both processes execute SIMULTANEOUSLY on different cores
 True parallelism!
-::
+.. code-block:: text
+
+
 
 
 I/O-bound with Threading: GIL Released
@@ -830,18 +866,20 @@ t2 = threading.Thread(target=fetch_url, args=('https://api2.com',))
 
 **What actually happens**:
 
-::
+.. code-block:: text
 
-Time →
+
+
+Time ->
 0ms    Thread 1: [Acquire GIL]
 1ms             : Prepare HTTP request
-2ms             : [Release GIL] ← Call to C library (requests)
+2ms             : [Release GIL] <- Call to C library (requests)
 2ms             : [OS: Send network packet]
 3ms             : [OS: Waiting for response...]
 
-2ms    Thread 2:                [Acquire GIL] ← Can run while T1 waits!
+2ms    Thread 2:                [Acquire GIL] <- Can run while T1 waits!
 3ms             :                Prepare HTTP request
-4ms             :                [Release GIL] ← Call to C library
+4ms             :                [Release GIL] <- Call to C library
 4ms             :                [OS: Send network packet]
 5ms             :                [OS: Waiting for response...]
 
@@ -857,7 +895,9 @@ Time →
 
 Result: Both threads waited concurrently (overlapped I/O)
 Total time: ~210ms instead of 400ms sequential
-::
+.. code-block:: text
+
+
 
 
 I/O-bound with Asyncio: Event Loop Magic
@@ -882,17 +922,19 @@ async def main():
 
 **What actually happens**:
 
-::
+.. code-block:: text
 
-Time → (Single Thread)
+
+
+Time -> (Single Thread)
 0ms    Event Loop: Create task1
 1ms              : Create task2
 2ms              : Run task1 until await
 3ms    Task 1   : Send HTTP request
-4ms              : await response.get() ← Yields control
+4ms              : await response.get() <- Yields control
 4ms    Event Loop: task1 waiting for I/O, switch to task2
 5ms    Task 2   : Send HTTP request
-6ms              : await response.get() ← Yields control
+6ms              : await response.get() <- Yields control
 6ms    Event Loop: Both tasks waiting, check I/O status
 ...
 200ms  Event Loop: task1's I/O completed
@@ -906,7 +948,9 @@ Time → (Single Thread)
 
 Result: Single thread efficiently managing multiple I/O operations
 No thread overhead, same concurrency benefit
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -914,13 +958,13 @@ No thread overhead, same concurrency benefit
 Performance Analysis
 --------------------
 
-Benchmark: CPU-bound Task (Computing π)
+Benchmark: CPU-bound Task (Computing pi)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
 def compute_pi(iterations):
-    """CPU-intensive: Monte Carlo π approximation"""
+    """CPU-intensive: Monte Carlo pi approximation"""
     inside = 0
     for * in range(iterations):
         x, y = random.random(), random.random()
@@ -930,7 +974,9 @@ def compute_pi(iterations):
 
 ITERATIONS = 10*000*000
 TASKS = 4
-::
+.. code-block:: text
+
+
 
 
 **Results on 4-core CPU**:
@@ -938,9 +984,9 @@ TASKS = 4
 | Approach | Time | Speedup | Memory |
 |----------|------|---------|---------|
 | Sequential | 10.0s | 1.0x | 50 MB |
-| Threading (4 threads) | 10.2s | 0.98x ❌ | 55 MB |
-| Asyncio (4 tasks) | 10.1s | 0.99x ❌ | 52 MB |
-| Multiprocessing (4 proc) | 2.7s | 3.7x ✅ | 200 MB |
+| Threading (4 threads) | 10.2s | 0.98x [[FAIL]] | 55 MB |
+| Asyncio (4 tasks) | 10.1s | 0.99x [[FAIL]] | 52 MB |
+| Multiprocessing (4 proc) | 2.7s | 3.7x [[OK]] | 200 MB |
 
 **Analysis**:
 - Threading/Asyncio: No improvement (GIL limitation)
@@ -966,10 +1012,10 @@ URLS = 100 (each takes ~0.5s to fetch)
 | Approach | Time | Speedup | Memory | Max Concurrent |
 |----------|------|---------|---------|----------------|
 | Sequential | 50.0s | 1.0x | 50 MB | 1 |
-| Threading (10 threads) | 5.2s | 9.6x ✅ | 130 MB | 10 |
-| Threading (100 threads) | 1.8s | 27.8x ✅ | 850 MB | 100 |
-| Asyncio (100 tasks) | 1.5s | 33.3x ✅ | 65 MB | 100 |
-| Multiprocessing (4 proc) | 13.0s | 3.8x ❌ | 200 MB | 4 |
+| Threading (10 threads) | 5.2s | 9.6x [[OK]] | 130 MB | 10 |
+| Threading (100 threads) | 1.8s | 27.8x [[OK]] | 850 MB | 100 |
+| Asyncio (100 tasks) | 1.5s | 33.3x [[OK]] | 65 MB | 100 |
+| Multiprocessing (4 proc) | 13.0s | 3.8x [[FAIL]] | 200 MB | 4 |
 
 **Analysis**:
 - Threading: Good speedup, but memory grows with threads
@@ -999,10 +1045,10 @@ TASKS = 10
 
 | Approach | Time | Analysis |
 |----------|------|----------|
-| Sequential | 30.0s | (2s I/O + 1s CPU) × 10 |
+| Sequential | 30.0s | (2s I/O + 1s CPU) x 10 |
 | Threading | 15.5s | I/O concurrent, CPU sequential |
 | Asyncio | 15.2s | I/O concurrent, CPU sequential |
-| Asyncio + ProcessPool | 5.8s | I/O concurrent, CPU parallel ✅ |
+| Asyncio + ProcessPool | 5.8s | I/O concurrent, CPU parallel [[OK]] |
 
 **Best approach for mixed workload**:
 .. code-block:: python
@@ -1025,7 +1071,9 @@ async def main():
         async with aiohttp.ClientSession() as session:
             tasks = [process_data(session, url, executor) for url in urls]
             results = await asyncio.gather(*tasks)
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -1038,34 +1086,34 @@ Use this decision tree to choose the right approach:
 ::
 
 Start: What type of operation?
-│
-├─ CPU-bound (math, data processing, compression)
-│  │
-│  ├─ How many tasks?
-│  │  ├─ Single task → Sequential (simplest)
-│  │  └─ Multiple tasks → Multiprocessing
-│  │
-│  └─ How many CPU cores available?
-│     ├─ 1 core → Sequential (multiprocessing won't help)
-│     └─ 2+ cores → Multiprocessing (use max_workers = CPU cores)
-│
-└─ I/O-bound (network, disk, database)
-   │
-   ├─ How many concurrent operations?
-   │  │
-   │  ├─ Few (< 50)
-   │  │  ├─ Using blocking libraries? → Threading
-   │  │  └─ Can use async libraries? → Asyncio (preferred)
-   │  │
-   │  ├─ Many (50-1000)
-   │  │  └─ Asyncio (threading becomes expensive)
-   │  │
-   │  └─ Very many (> 1000)
-   │     └─ Asyncio (threading impossible)
-   │
-   └─ Do you need simplicity or scalability?
-      ├─ Simplicity → Threading (easier to understand)
-      └─ Scalability → Asyncio (better performance)
+|
+|- CPU-bound (math, data processing, compression)
+|  |
+|  |- How many tasks?
+|  |  |- Single task -> Sequential (simplest)
+|  |  +- Multiple tasks -> Multiprocessing
+|  |
+|  +- How many CPU cores available?
+|     |- 1 core -> Sequential (multiprocessing won't help)
+|     +- 2+ cores -> Multiprocessing (use max_workers = CPU cores)
+|
++- I/O-bound (network, disk, database)
+   |
+   |- How many concurrent operations?
+   |  |
+   |  |- Few (< 50)
+   |  |  |- Using blocking libraries? -> Threading
+   |  |  +- Can use async libraries? -> Asyncio (preferred)
+   |  |
+   |  |- Many (50-1000)
+   |  |  +- Asyncio (threading becomes expensive)
+   |  |
+   |  +- Very many (> 1000)
+   |     +- Asyncio (threading impossible)
+   |
+   +- Do you need simplicity or scalability?
+      |- Simplicity -> Threading (easier to understand)
+      +- Scalability -> Asyncio (better performance)
 ::
 
 
@@ -1109,7 +1157,9 @@ def main():
         results = executor.map(cpu_intensive*task, data_items)
 
     return list(results)
-::
+.. code-block:: text
+
+
 
 
 **I/O-bound Template (Few operations, blocking library)**:
@@ -1129,7 +1179,9 @@ def main():
         results = executor.map(io_intensive*task, urls)
 
     return list(results)
-::
+.. code-block:: text
+
+
 
 
 **I/O-bound Template (Many operations, async library)**:
@@ -1191,7 +1243,9 @@ async def main():
 
 if **name** == '**main**':
     asyncio.run(main())
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -1205,33 +1259,37 @@ Summary: The Core Principles
 ::
 
 Python's GIL:
-├─ Allows only ONE thread to execute Python bytecode at a time
-├─ Released during I/O operations (C library calls)
-└─ Not present in separate processes (each has own GIL)
+|- Allows only ONE thread to execute Python bytecode at a time
+|- Released during I/O operations (C library calls)
++- Not present in separate processes (each has own GIL)
 
 Therefore:
-├─ CPU-bound + Threading = No parallelism (GIL bottleneck)
-├─ I/O-bound + Threading = Concurrency (GIL released during I/O)
-└─ CPU-bound + Multiprocessing = Parallelism (separate GILs)
+|- CPU-bound + Threading = No parallelism (GIL bottleneck)
+|- I/O-bound + Threading = Concurrency (GIL released during I/O)
++- CPU-bound + Multiprocessing = Parallelism (separate GILs)
 ::
 
 
 2. Resource Usage Matters
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: text
 
-Operation Type  │  Resource Bottleneck  │  Solution  │  Why?
-────────────────┼──────────────────────┼────────────┼──────────────────
-CPU-bound       │  CPU cycles          │  Multi-    │  Bypass GIL,
-                │  (computation)       │  processing│  use all cores
-────────────────┼──────────────────────┼────────────┼──────────────────
-I/O-bound       │  Waiting for I/O     │  Asyncio/  │  GIL released,
-(few ops)       │  (network, disk)     │  Threading │  work during wait
-────────────────┼──────────────────────┼────────────┼──────────────────
-I/O-bound       │  Waiting for I/O     │  Asyncio   │  Lightweight,
-(many ops)      │  + scalability       │            │  handles 1000s
-::
+
+
+Operation Type  |  Resource Bottleneck  |  Solution  |  Why?
+----------------+----------------------+------------+------------------
+CPU-bound       |  CPU cycles          |  Multi-    |  Bypass GIL,
+                |  (computation)       |  processing|  use all cores
+----------------+----------------------+------------+------------------
+I/O-bound       |  Waiting for I/O     |  Asyncio/  |  GIL released,
+(few ops)       |  (network, disk)     |  Threading |  work during wait
+----------------+----------------------+------------+------------------
+I/O-bound       |  Waiting for I/O     |  Asyncio   |  Lightweight,
+(many ops)      |  + scalability       |            |  handles 1000s
+.. code-block:: text
+
+
 
 
 3. Trade-offs are Real
@@ -1273,12 +1331,14 @@ def profile_task(task_func):
     wall_time = time.perf_counter() - wall_start
 
     if cpu_time / wall_time > 0.8:
-        print("CPU-bound → Use multiprocessing")
+        print("CPU-bound -> Use multiprocessing")
     else:
-        print("I/O-bound → Use asyncio/threading")
+        print("I/O-bound -> Use asyncio/threading")
 
     return result
-::
+.. code-block:: text
+
+
 
 
 ---

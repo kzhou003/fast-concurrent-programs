@@ -90,7 +90,9 @@ Worker starting
 Main: waiting for worker...
 Worker done
 Main: worker finished, I can continue
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -172,31 +174,35 @@ Now the download completes before the program exits.
 Thread Lifecycle Diagram
 ------------------------
 
-::
+.. code-block:: text
 
-┌─────────────────────────────────────────────────────────┐
-│ Thread Object Created                                   │
-│ thread = Thread(target=worker_func)                     │
-│ (Thread exists but doesn't run)                         │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   │ thread.start()
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│ Thread Running (in parallel with main)                  │
-│ - Main thread continues immediately                     │
-│ - Worker thread executes target function               │
-│ - Both run concurrently                                │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   │ Worker thread finishes
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│ Thread Finished                                         │
-│ (if no join(), main might exit before here)            │
-│ (with join(), main waits here)                         │
-└─────────────────────────────────────────────────────────┘
-::
+
+    +---------------------------------------------------------+
+    | Thread Object Created                                   |
+    | thread = Thread(target=worker_func)                     |
+    | (Thread exists but doesn't run)                         |
+    +------------------+--------------------------------------+
+    |
+    | thread.start()
+    [v]
+    +---------------------------------------------------------+
+    | Thread Running (in parallel with main)                  |
+    | - Main thread continues immediately                     |
+    | - Worker thread executes target function               |
+    | - Both run concurrently                                |
+    +------------------+--------------------------------------+
+    |
+    | Worker thread finishes
+    [v]
+    +---------------------------------------------------------+
+    | Thread Finished                                         |
+    | (if no join(), main might exit before here)            |
+    | (with join(), main waits here)                         |
+    +---------------------------------------------------------+
+
+.. code-block:: text
+
+
 
 
 ---
@@ -242,12 +248,12 @@ Mistake 1: Calling the function directly instead of start()
 
 .. code-block:: python
 
-❌ WRONG - runs worker in MAIN thread
+[[FAIL]] WRONG - runs worker in MAIN thread
 ====================================
 thread = threading.Thread(target=worker)
 worker()  # This blocks main! Not parallel!
 
-✅ CORRECT - runs worker in NEW thread
+[[OK]] CORRECT - runs worker in NEW thread
 =====================================
 thread = threading.Thread(target=worker)
 thread.start()  # Non-blocking, parallel execution
@@ -259,13 +265,13 @@ Mistake 2: Forgetting join()
 
 .. code-block:: python
 
-❌ WRONG - main exits before worker finishes
+[[FAIL]] WRONG - main exits before worker finishes
 ===========================================
 thread = threading.Thread(target=save_to*database)
 thread.start()
 print("Saved!")  # Exits immediately, database never saves
 
-✅ CORRECT - wait for worker to finish
+[[OK]] CORRECT - wait for worker to finish
 =====================================
 thread = threading.Thread(target=save_to*database)
 thread.start()
@@ -279,7 +285,7 @@ Mistake 3: Thinking threads share data automatically
 
 .. code-block:: python
 
-❌ NOT SAFE - race condition
+[[FAIL]] NOT SAFE - race condition
 ===========================
 counter = 0
 def increment():
@@ -293,7 +299,7 @@ for t in threads:
     t.join()
 print(counter)  # Might not be 100!
 
-✅ SAFE - use lock
+[[OK]] SAFE - use lock
 =================
 counter = 0
 lock = threading.Lock()
@@ -309,7 +315,9 @@ for t in threads:
 for t in threads:
     t.join()
 print(counter)  # Guaranteed to be 100
-::
+.. code-block:: text
+
+
 
 
 ---

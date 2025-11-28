@@ -25,11 +25,11 @@ Traditional Compiler Limitations
 .. code-block:: text
 
     High-level code (Python, TensorFlow, etc.)
-            ↓
-    [MASSIVE LOWERING GAP] ← Information loss!
-            ↓
+            down
+    [MASSIVE LOWERING GAP] <- Information loss!
+            down
     LLVM IR (very low-level)
-            ↓
+            down
     Machine code
 
 **Problems:**
@@ -83,24 +83,24 @@ MLIR Philosophy
 .. code-block:: text
 
     Traditional Compiler:
-    ─────────────────────
-    Source → [BIG STEP] → LLVM IR → Binary
-                    ↑
+    ---------------------
+    Source -> [BIG STEP] -> LLVM IR -> Binary
+                    up
             Loss of information!
 
     MLIR Compiler:
-    ──────────────
-    Source → Dialect1 → Dialect2 → ... → DialectN → Binary
-             ↓         ↓         ↓         ↓
+    --------------
+    Source -> Dialect1 -> Dialect2 -> ... -> DialectN -> Binary
+             down         down         down         down
           Small, incremental lowering steps
           (Preserve information as long as possible)
 
 **Key benefits:**
 
-- ✅ Gradual lowering preserves semantics
-- ✅ Multiple abstraction levels coexist
-- ✅ Reusable optimization passes
-- ✅ Domain-specific dialects
+- [[OK]] Gradual lowering preserves semantics
+- [[OK]] Multiple abstraction levels coexist
+- [[OK]] Reusable optimization passes
+- [[OK]] Domain-specific dialects
 
 Core MLIR Concepts
 ------------------
@@ -172,7 +172,7 @@ Operation Anatomy
 
     // Example:
     %sum = arith.addi %a, %b : i32
-    //  ↑       ↑      ↑   ↑    ↑
+    //  up       up      up   up    up
     // result  op   operands  type
 
 **Components:**
@@ -251,7 +251,7 @@ A **region** is a container for code, similar to a scope.
 .. code-block:: mlir
 
     scf.if %cond {
-        // ← This is a region
+        // <- This is a region
         %x = arith.constant 1 : i32
     }
 
@@ -294,7 +294,7 @@ Example with Regions and Blocks
 
         %result = scf.for %i = %c0 to %n step %c1
             iter_args(%acc = %c0) -> i32 {
-            // ← For loop body is a region
+            // <- For loop body is a region
 
             %new_acc = arith.addi %acc, %i : i32
             scf.yield %new_acc : i32  // Yield to next iteration
@@ -373,12 +373,12 @@ Types change as you lower between dialects:
 
     // Integer attribute
     %c = arith.constant 42 : i32
-    //                   ↑↑
+    //                   upup
     //              attribute value
 
     // Dictionary attribute
     tt.make_range {start = 0 : i32, end = 128 : i32}
-    //            ↑                                  ↑
+    //            up                                  up
     //            dictionary with start/end fields
 
     // Array attribute
@@ -440,15 +440,15 @@ Example Pass Pipeline
     pm.add_pass("triton-combine")              # Combine operations
     pm.add_pass("canonicalize")                # Simplify
 
-    # Lower to GPU IR (TTIR → TTGIR)
+    # Lower to GPU IR (TTIR -> TTGIR)
     pm.add_pass("triton-gpu-coalesce")         # Coalesce memory accesses
     pm.add_pass("triton-gpu-pipeline")         # Software pipelining
     pm.add_pass("triton-gpu-prefetch")         # Insert prefetch
     pm.add_pass("triton-gpu-optimize-dot")     # Optimize matmul
 
-    # Lower to LLVM (TTGIR → LLVM)
+    # Lower to LLVM (TTGIR -> LLVM)
     pm.add_pass("convert-triton-gpu-to-llvm")
-    pm.add_pass("convert-scf-to-cf")           # Structured → unstructured control flow
+    pm.add_pass("convert-scf-to-cf")           # Structured -> unstructured control flow
     pm.add_pass("convert-arith-to-llvm")
 
     pm.run(module)
@@ -824,10 +824,10 @@ Command-Line Tools
 
 .. code-block:: bash
 
-    # MLIR → LLVM IR
+    # MLIR -> LLVM IR
     mlir-translate --mlir-to-llvmir input.mlir -o output.ll
 
-    # LLVM IR → MLIR
+    # LLVM IR -> MLIR
     mlir-translate --import-llvm input.ll -o output.mlir
 
 **mlir-cpu-runner** - JIT execute MLIR on CPU
@@ -966,18 +966,18 @@ Why MLIR Matters for Triton
 
 **Without MLIR:**
 
-- ❌ Would need to build entire compiler infrastructure
-- ❌ Hard to support multiple GPU vendors
-- ❌ Difficult to add new optimizations
-- ❌ Can't reuse existing tools and passes
+- [[FAIL]] Would need to build entire compiler infrastructure
+- [[FAIL]] Hard to support multiple GPU vendors
+- [[FAIL]] Difficult to add new optimizations
+- [[FAIL]] Can't reuse existing tools and passes
 
 **With MLIR:**
 
-- ✅ Reuse robust infrastructure (parsing, printing, pass management)
-- ✅ Easy multi-backend support (NVIDIA, AMD, Intel)
-- ✅ Modular, extensible design
-- ✅ Benefit from MLIR ecosystem improvements
-- ✅ Gradual lowering preserves optimization opportunities
+- [[OK]] Reuse robust infrastructure (parsing, printing, pass management)
+- [[OK]] Easy multi-backend support (NVIDIA, AMD, Intel)
+- [[OK]] Modular, extensible design
+- [[OK]] Benefit from MLIR ecosystem improvements
+- [[OK]] Gradual lowering preserves optimization opportunities
 
 The Big Picture
 ~~~~~~~~~~~~~~~
@@ -987,25 +987,25 @@ The Big Picture
     Triton Compiler Pipeline:
 
     Python AST
-         ↓
-    [Code Generator] ← Converts AST to MLIR
-         ↓
-    TTIR (tt dialect) ← High-level block operations
-         ↓
-    [MLIR Passes] ← Optimization, coalescing
-         ↓
-    TTGIR (ttg dialect) ← Add GPU layouts
-         ↓
-    [MLIR Passes] ← Pipelining, prefetch, tensor cores
-         ↓
-    LLVM Dialect ← Still MLIR, but LLVM operations
-         ↓
-    [mlir-translate] ← Convert MLIR → LLVM IR
-         ↓
-    LLVM IR ← Standard LLVM
-         ↓
-    [NVPTX Backend] ← LLVM's PTX generator
-         ↓
+         down
+    [Code Generator] <- Converts AST to MLIR
+         down
+    TTIR (tt dialect) <- High-level block operations
+         down
+    [MLIR Passes] <- Optimization, coalescing
+         down
+    TTGIR (ttg dialect) <- Add GPU layouts
+         down
+    [MLIR Passes] <- Pipelining, prefetch, tensor cores
+         down
+    LLVM Dialect <- Still MLIR, but LLVM operations
+         down
+    [mlir-translate] <- Convert MLIR -> LLVM IR
+         down
+    LLVM IR <- Standard LLVM
+         down
+    [NVPTX Backend] <- LLVM's PTX generator
+         down
     PTX Assembly
 
 **MLIR enables this multi-stage, optimizing pipeline** with reusable, modular components.

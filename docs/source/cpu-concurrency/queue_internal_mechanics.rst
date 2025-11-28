@@ -23,45 +23,45 @@ q = Queue()
 
 Inside the Queue object:
 ========================
-┌─────────────────────────────────────────┐
++-----------------------------------------+
 ===========================================
-│ Queue Internal State                    │
+| Queue Internal State                    |
 ===========================================
-├─────────────────────────────────────────┤
+|-----------------------------------------|
 ===========================================
-│ mutex: Lock()                           │
+| mutex: Lock()                           |
 ===========================================
-│   - Protects all modifications          │
+|   - Protects all modifications          |
 ===========================================
-│                                         │
+|                                         |
 ===========================================
-│ not_empty: Condition()                  │
+| not_empty: Condition()                  |
 ===========================================
-│   - Signals when items added            │
+|   - Signals when items added            |
 ===========================================
-│   - Consumers wait on this              │
+|   - Consumers wait on this              |
 ===========================================
-│                                         │
+|                                         |
 ===========================================
-│ not_full: Condition()                   │
+| not_full: Condition()                   |
 ===========================================
-│   - Signals when items removed          │
+|   - Signals when items removed          |
 ===========================================
-│   - Producers wait on this              │
+|   - Producers wait on this              |
 ===========================================
-│                                         │
+|                                         |
 ===========================================
-│ items: []                               │
+| items: []                               |
 ===========================================
-│   - Actual items (without conditions)   │
+|   - Actual items (without conditions)   |
 ===========================================
-│                                         │
+|                                         |
 ===========================================
-│ task_counter: 0                         │
+| task_counter: 0                         |
 ===========================================
-│   - Tracks unfinished tasks             │
+|   - Tracks unfinished tasks             |
 ===========================================
-└─────────────────────────────────────────┘
++-----------------------------------------+
 ===========================================
 ::
 
@@ -77,7 +77,7 @@ q.put(42)
 
 Inside queue:
 =============
-items = [42]  ← Just the number, no condition attached
+items = [42]  <- Just the number, no condition attached
 ======================================================
 not_empty condition wakes up consumers
 ======================================
@@ -103,16 +103,18 @@ A **Condition variable** is like a **notification system**:
 ::
 
 Condition Variable (not_empty):
-┌────────────────────────────────┐
-│ Waiting Threads Queue:         │
-│ [Consumer1] [Consumer2] [C3]   │ ← Sleeping, waiting for items
-└────────────────────────────────┘
-         │
-         │ when put() is called
-         │ notify() is called
-         ▼
++--------------------------------+
+| Waiting Threads Queue:         |
+| [Consumer1] [Consumer2] [C3]   | <- Sleeping, waiting for items
++--------------------------------+
+         |
+         | when put() is called
+         | notify() is called
+         [v]
 One waiting thread wakes up!
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -145,7 +147,7 @@ def put(self, item):
 
         # 3. Queue has space now, add item
         self.items.append(item)
-        # items = [42]  ← Item added (no condition on item)
+        # items = [42]  <- Item added (no condition on item)
 
         # 4. Notify ONE consumer that item is available
         self.not_empty.notify()
@@ -161,7 +163,7 @@ Timeline: put() with Condition Variable
 ::
 
 Time  Queue                    Condition Variables    Consumers
-────────────────────────────────────────────────────────────────
+----------------------------------------------------------------
 0     put(42)                                         waiting...
       acquire mutex
 
@@ -174,7 +176,9 @@ Time  Queue                    Condition Variables    Consumers
       release mutex
 
 4     (done)
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -227,12 +231,12 @@ Timeline: get() with Condition Variable
 ::
 
 Time  Queue                    Condition Variables    Producers
-────────────────────────────────────────────────────────────────
+----------------------------------------------------------------
 0     get()                                           put() blocked
       acquire mutex                                   (queue full)
 
 1     items = [1,2,3]
-      items.pop(0) → returns 1  not_full signal       WAKE UP!
+      items.pop(0) -> returns 1  not_full signal       WAKE UP!
 
 2     notify()
 
@@ -240,7 +244,9 @@ Time  Queue                    Condition Variables    Producers
       return 1
 
 4     (done)
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -252,33 +258,35 @@ Visual: No Condition On Items
 
 Queue Structure:
 
-┌──────────────────────────────────────────────────┐
-│ Queue                                            │
-│                                                  │
-│  not_empty Condition Variable                   │
-│  ┌─────────────────────────────────────────┐   │
-│  │ Waiting Consumers: [C1] [C2] [C3]       │   │
-│  │ (sleeping, blocked on not_empty.wait()) │   │
-│  └─────────────────────────────────────────┘   │
-│                                                  │
-│  Items List (just data, no conditions):         │
-│  ┌─────────────────────────────────────────┐   │
-│  │ [42]  [7]  [199]  [88]                  │   │
-│  │  ↑                                       │   │
-│  │  └─ Just numbers, no events attached    │   │
-│  └─────────────────────────────────────────┘   │
-│                                                  │
-│  not_full Condition Variable                    │
-│  ┌─────────────────────────────────────────┐   │
-│  │ Waiting Producers: [P1]                 │   │
-│  │ (sleeping, blocked on not_full.wait())  │   │
-│  └─────────────────────────────────────────┘   │
-│                                                  │
-└──────────────────────────────────────────────────┘
++--------------------------------------------------+
+| Queue                                            |
+|                                                  |
+|  not_empty Condition Variable                   |
+|  +-----------------------------------------+   |
+|  | Waiting Consumers: [C1] [C2] [C3]       |   |
+|  | (sleeping, blocked on not_empty.wait()) |   |
+|  +-----------------------------------------+   |
+|                                                  |
+|  Items List (just data, no conditions):         |
+|  +-----------------------------------------+   |
+|  | [42]  [7]  [199]  [88]                  |   |
+|  |  up                                       |   |
+|  |  +- Just numbers, no events attached    |   |
+|  +-----------------------------------------+   |
+|                                                  |
+|  not_full Condition Variable                    |
+|  +-----------------------------------------+   |
+|  | Waiting Producers: [P1]                 |   |
+|  | (sleeping, blocked on not_full.wait())  |   |
+|  +-----------------------------------------+   |
+|                                                  |
++--------------------------------------------------+
 
 KEY: The conditions are properties of the QUEUE,
      not attached to individual items!
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -293,70 +301,72 @@ Scenario: Queue with maxsize=2, multiple producers/consumers
 
 Initial:
 Queue: []
-not_empty: [Consumer1, Consumer2]  ← Waiting for items
-not_full: []                       ← No one waiting
+not_empty: [Consumer1, Consumer2]  <- Waiting for items
+not_full: []                       <- No one waiting
 
 Time 0: Producer1.put(42)
-├─ Acquire mutex
-├─ Queue not full, add item
-├─ items = [42]
-├─ Call not_empty.notify()
-│  └─ Consumer1 wakes up!
-├─ Release mutex
-└─ (put done)
+|- Acquire mutex
+|- Queue not full, add item
+|- items = [42]
+|- Call not_empty.notify()
+|  +- Consumer1 wakes up!
+|- Release mutex
++- (put done)
 
 Queue: [42]
-not_empty: [Consumer2]  ← Consumer1 woke up
+not_empty: [Consumer2]  <- Consumer1 woke up
 not_full: []
 
 Time 1: Producer2.put(7)
-├─ Acquire mutex
-├─ Queue not full, add item
-├─ items = [42, 7]
-├─ Call not_empty.notify()
-│  └─ Consumer2 wakes up!
-├─ Release mutex
-└─ (put done)
+|- Acquire mutex
+|- Queue not full, add item
+|- items = [42, 7]
+|- Call not_empty.notify()
+|  +- Consumer2 wakes up!
+|- Release mutex
++- (put done)
 
-Queue: [42, 7]  ← FULL (maxsize=2)
-not_empty: []   ← All consumers woke
+Queue: [42, 7]  <- FULL (maxsize=2)
+not_empty: []   <- All consumers woke
 not_full: []
 
 Time 2: Producer3.put(199)
-├─ Acquire mutex
-├─ Queue IS FULL! len(items)=2 >= maxsize=2
-├─ Call not_full.wait(mutex)
-│  └─ Producer3 BLOCKS here
-│  └─ Releases mutex
-└─ (waiting for space)
+|- Acquire mutex
+|- Queue IS FULL! len(items)=2 >= maxsize=2
+|- Call not_full.wait(mutex)
+|  +- Producer3 BLOCKS here
+|  +- Releases mutex
++- (waiting for space)
 
 Queue: [42, 7]
 not_empty: []
-not_full: [Producer3]  ← Waiting for space
+not_full: [Producer3]  <- Waiting for space
 
 Time 3: Consumer1.get()
-├─ Acquire mutex
-├─ items = [42, 7], not empty
-├─ item = items.pop(0) = 42  ← Returns just 42, no condition
-├─ Call not_full.notify()
-│  └─ Producer3 wakes up!
-├─ Release mutex
-└─ Return 42
+|- Acquire mutex
+|- items = [42, 7], not empty
+|- item = items.pop(0) = 42  <- Returns just 42, no condition
+|- Call not_full.notify()
+|  +- Producer3 wakes up!
+|- Release mutex
++- Return 42
 
 Queue: [7]
 not_empty: []
-not_full: []  ← Producer3 woke up
+not_full: []  <- Producer3 woke up
 
 Time 4: Producer3 continues from where it blocked
-├─ Acquire mutex (had released it, now reacquires)
-├─ Queue not full anymore, add item
-├─ items = [7, 199]
-├─ Call not_empty.notify() (no one waiting)
-├─ Release mutex
-└─ (put done)
+|- Acquire mutex (had released it, now reacquires)
+|- Queue not full anymore, add item
+|- items = [7, 199]
+|- Call not_empty.notify() (no one waiting)
+|- Release mutex
++- (put done)
 
-Queue: [7, 199]  ← FULL again
-::
+Queue: [7, 199]  <- FULL again
+.. code-block:: text
+
+
 
 
 ---
@@ -369,7 +379,7 @@ What People Might Think (WRONG):
 
 .. code-block:: python
 
-❌ WRONG MENTAL MODEL
+[[FAIL]] WRONG MENTAL MODEL
 ====================
 q.put(42)  # Does the item 42 carry an event/condition with it?
 item = q.get()  # Does the returned item have a condition?
@@ -381,7 +391,7 @@ The Actual Truth:
 
 .. code-block:: python
 
-✓ CORRECT MENTAL MODEL
+[OK] CORRECT MENTAL MODEL
 ======================
 q.put(42)  # 42 goes into queue
            # Queue's not_empty condition is signaled
@@ -390,7 +400,9 @@ q.put(42)  # 42 goes into queue
 item = q.get()  # 42 is returned as plain data
                 # Queue's not_full condition is signaled
                 # The number 42 returned has NO condition
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -403,7 +415,7 @@ Instead of Per-Item Events
 
 .. code-block:: python
 
-❌ This would be inefficient (if items had events)
+[[FAIL]] This would be inefficient (if items had events)
 =================================================
 class BadQueue:
     def put(self, item):
@@ -417,7 +429,7 @@ class BadQueue:
         # Consumer doesn't care about one item's event
         return item
 
-✓ This is efficient (what Queue actually does)
+[OK] This is efficient (what Queue actually does)
 ==============================================
 class GoodQueue:
     def **init**(self):
@@ -431,7 +443,9 @@ class GoodQueue:
     def get(self):
         item = self.items.pop(0)  # Item is just data
         return item
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -477,40 +491,42 @@ Diagram: Condition Variable Notification
 ::
 
 BEFORE put():
-┌─────────────────────────┐
-│ not_empty Condition     │
-│ Waiting threads:        │
-│ [Consumer1]             │ ← Sleeping, waiting for items
-│ [Consumer2]             │
-│ [Consumer3]             │
-│ Items: []               │
-└─────────────────────────┘
++-------------------------+
+| not_empty Condition     |
+| Waiting threads:        |
+| [Consumer1]             | <- Sleeping, waiting for items
+| [Consumer2]             |
+| [Consumer3]             |
+| Items: []               |
++-------------------------+
 
 put(42) called:
-│
-├─ items.append(42)
-│
-├─ not_empty.notify()
-│  └─ Sends signal!
-│
-└─ (mutex released)
+|
+|- items.append(42)
+|
+|- not_empty.notify()
+|  +- Sends signal!
+|
++- (mutex released)
 
 AFTER notify():
-┌─────────────────────────┐
-│ not_empty Condition     │
-│ Waiting threads:        │
-│ [Consumer1] ← WOKEN UP! │
-│ [Consumer2]             │
-│ [Consumer3]             │
-│ Items: [42]             │
-└─────────────────────────┘
++-------------------------+
+| not_empty Condition     |
+| Waiting threads:        |
+| [Consumer1] <- WOKEN UP! |
+| [Consumer2]             |
+| [Consumer3]             |
+| Items: [42]             |
++-------------------------+
 
 Consumer1 wakes up:
-├─ Reacquires mutex
-├─ Checks: is items not empty? YES!
-├─ Proceeds to pop item
-└─ (gets the 42)
-::
+|- Reacquires mutex
+|- Checks: is items not empty? YES!
+|- Proceeds to pop item
++- (gets the 42)
+.. code-block:: text
+
+
 
 
 ---
@@ -535,19 +551,21 @@ The Flow
 ::
 
 put(42)
-  │
-  └─ Add 42 to items list
-  └─ Signal not_empty
-     └─ Wakes one consumer
+  |
+  +- Add 42 to items list
+  +- Signal not_empty
+     +- Wakes one consumer
 
 get()
-  │
-  └─ Wait on not_empty (if empty)
-  └─ Remove 42 from items
-  └─ Return 42 (just the value, no condition)
-  └─ Signal not_full
-     └─ Wakes one producer
-::
+  |
+  +- Wait on not_empty (if empty)
+  +- Remove 42 from items
+  +- Return 42 (just the value, no condition)
+  +- Signal not_full
+     +- Wakes one producer
+.. code-block:: text
+
+
 
 
 ---
@@ -604,7 +622,9 @@ class MyQueue:
             if self.unfinished_tasks == 0:
                 # All tasks done, could notify here
                 pass
-::
+.. code-block:: text
+
+
 
 
 ---

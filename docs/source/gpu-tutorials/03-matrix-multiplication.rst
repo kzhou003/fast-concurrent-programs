@@ -19,7 +19,7 @@ The Matrix Multiplication Problem
 
 Basic Algorithm
 ~~~~~~~~~~~~~~~
-Compute C = A × B where:
+Compute C = A x B where:
 - A has shape (M, K)
 - B has shape (K, N)
 - C has shape (M, N)
@@ -32,8 +32,8 @@ for i in range(M):
 ::
 
 
-Time complexity: **O(M × N × K)**
-For 1024×1024 matrices: ~1 billion operations!
+Time complexity: **O(M x N x K)**
+For 1024x1024 matrices: ~1 billion operations!
 
 Why It's Hard to Optimize
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -77,11 +77,11 @@ Why Tiling Works
 ::
 
 Registers (fastest, ~1 cycle)
-    ↓
+    down
 L1/Shared Memory (~10 cycles, 192 KB)
-    ↓
+    down
 L2 Cache (~100 cycles, 40 MB)
-    ↓
+    down
 HBM/Global Memory (slowest, ~400 cycles, 40-80 GB)
 ::
 
@@ -115,7 +115,7 @@ Example for A[4, 3]:
 ::
 
 Elements in memory: [a00, a01, a02, a10, a11, a12, a20, a21, a22, a30, a31, a32]
-A[2, 1] = A_ptr + 2*3 + 1*1 = A_ptr[7] = a21 ✓
+A[2, 1] = A_ptr + 2*3 + 1*1 = A_ptr[7] = a21 [OK]
 ::
 
 
@@ -156,7 +156,7 @@ offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak
 ::
 
 
-This gives pointers to a 2×2 block!
+This gives pointers to a 2x2 block!
 
 Advancing Pointers
 ~~~~~~~~~~~~~~~~~~
@@ -180,10 +180,10 @@ The Problem with Row-Major Ordering
 If we process blocks in simple row-major order:
 ::
 
-Program 0 → Block C[0, 0]  (needs A[0, :] and B[:, 0])
-Program 1 → Block C[0, 1]  (needs A[0, :] and B[:, 1])
+Program 0 -> Block C[0, 0]  (needs A[0, :] and B[:, 0])
+Program 1 -> Block C[0, 1]  (needs A[0, :] and B[:, 1])
 ...
-Program 9 → Block C[1, 0]  (needs A[1, :] and B[:, 0])
+Program 9 -> Block C[1, 0]  (needs A[1, :] and B[:, 0])
 ::
 
 
@@ -204,13 +204,13 @@ pid_n = (pid % num_pid*in_group) // group_size*m
 ::
 
 
-**Visual Example** (GROUP_SIZE*M=3, 9×9 blocks):
+**Visual Example** (GROUP_SIZE*M=3, 9x9 blocks):
 
 Row-major order:
 ::
 
-0→ 1→ 2→ 3→ 4→ 5→ 6→ 7→ 8→
-9→ 10→ ...
+0-> 1-> 2-> 3-> 4-> 5-> 6-> 7-> 8->
+9-> 10-> ...
 ::
 
 Needs to load: 90 unique blocks into SRAM
@@ -218,8 +218,8 @@ Needs to load: 90 unique blocks into SRAM
 Grouped order:
 ::
 
-0↓ 3↓ 6↓ 1↓ 4↓ 7↓ 2↓ 5↓ 8↓
-9↓ 12↓ 15↓ 10↓ 13↓ 16↓ 11↓ 14↓ 17↓
+0down 3down 6down 1down 4down 7down 2down 5down 8down
+9down 12down 15down 10down 13down 16down 11down 14down 17down
 ...
 ::
 
@@ -286,17 +286,17 @@ Good Configurations
 ~~~~~~~~~~~~~~~~~~~
 
 **For NVIDIA (CUDA)**:
-- Large blocks (128×256) for large matrices
+- Large blocks (128x256) for large matrices
 - More stages (3-4) to hide latency
 - 8 warps for good occupancy
 
 **For AMD (HIP)**:
-- Medium blocks (64×64, 128×128)
+- Medium blocks (64x64, 128x128)
 - Fewer stages (2) due to different architecture
 - Different thread group sizes
 
 **FP8 (8-bit floating point)**:
-- Even larger blocks (256×256)
+- Even larger blocks (256x256)
 - Can fit more data in SRAM
 - Tensor Cores process 4x more data per cycle
 
@@ -406,13 +406,13 @@ Special hardware units on modern GPUs for matrix multiplication:
 How Tensor Cores Work
 ~~~~~~~~~~~~~~~~~~~~~
 
-Operate on small matrices (e.g., 16×16):
+Operate on small matrices (e.g., 16x16):
 ::
 
-D = A × B + C
+D = A x B + C
 ::
 
-Where A, B, C, D are 16×16 matrices.
+Where A, B, C, D are 16x16 matrices.
 
 **Single instruction**, massive computation!
 
@@ -440,7 +440,7 @@ Performance Analysis
 Arithmetic Intensity
 ~~~~~~~~~~~~~~~~~~~~
 
-For matmul C = A × B:
+For matmul C = A x B:
 - **FLOPs**: 2MNK (each output element: K multiplies + K adds)
 - **Memory**: 2(MK + KN + MN) bytes (read A, B, write C)
 
@@ -449,7 +449,7 @@ Arithmetic Intensity = 2MNK / (2(MK + KN + MN))
 For square matrices (M=N=K):
 ::
 
-AI = 2N³ / (4N²) = N/2
+AI = 2N^3 / (4N^2) = N/2
 ::
 
 
@@ -512,17 +512,17 @@ num_stages = 3
 Without pipelining:
 ::
 
-Load A, B → Wait → Compute → Load A, B → Wait → Compute
+Load A, B -> Wait -> Compute -> Load A, B -> Wait -> Compute
 ::
 
 
 With 3-stage pipelining:
 ::
 
-Stage 0: Load A₀, B₀
-Stage 1: Load A₁, B₁ | Compute with A₀, B₀
-Stage 2: Load A₂, B₂ | Compute with A₁, B₁
-Stage 3: Load A₃, B₃ | Compute with A₂, B₂
+Stage 0: Load A_0, B_0
+Stage 1: Load A_1, B_1 | Compute with A_0, B_0
+Stage 2: Load A_2, B_2 | Compute with A_1, B_1
+Stage 3: Load A_3, B_3 | Compute with A_2, B_2
 ...
 ::
 
@@ -573,7 +573,7 @@ Each thread needs registers for:
 
 **Limited supply**: 65536 registers per SM on A100
 
-If too many registers → fewer blocks per SM → lower occupancy → lower performance.
+If too many registers -> fewer blocks per SM -> lower occupancy -> lower performance.
 
 **Balance**: Larger blocks = more reuse but more register pressure.
 
@@ -588,7 +588,7 @@ assert a.is_contiguous(), "Matrix A must be contiguous"
 ::
 
 
-Non-contiguous tensors have unexpected strides → wrong pointer arithmetic → incorrect results.
+Non-contiguous tensors have unexpected strides -> wrong pointer arithmetic -> incorrect results.
 
 **Solution**: Call ``.contiguous()`` or handle arbitrary strides.
 
@@ -611,7 +611,7 @@ c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)  # Mask stores
 ::
 
 
-Forgetting these → out-of-bounds accesses → crashes or wrong results.
+Forgetting these -> out-of-bounds accesses -> crashes or wrong results.
 
 4. Numerical Precision
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -621,7 +621,7 @@ accumulator = tl.zeros((BLOCK_SIZE*M, BLOCK_SIZE*N), dtype=tl.float32)
 ::
 
 
-Using FP16 for accumulation → loss of precision → degraded accuracy.
+Using FP16 for accumulation -> loss of precision -> degraded accuracy.
 
 **Best practice**: Accumulate in FP32, cast to FP16 for storage.
 

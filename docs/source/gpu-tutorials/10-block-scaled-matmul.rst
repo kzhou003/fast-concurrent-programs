@@ -15,7 +15,7 @@ This tutorial supports **four quantization formats**:
 1. **nvfp4** - NVIDIA's FP4 format (16 elements per scale, NVIDIA-only)
 2. **mxfp4** - Microscaling FP4 (32 elements per scale, OCP standard)
 3. **mxfp8** - Microscaling FP8 (32 elements per scale)
-4. **mixed** - FP8 × FP4 mixed precision
+4. **mixed** - FP8 x FP4 mixed precision
 
 **Hardware requirements:**
 - **NVIDIA**: Blackwell (compute capability 10.0+) with 5th-gen Tensor Cores
@@ -61,7 +61,7 @@ Quantization Formats
 | nvfp4 | 4 | 16 | NVIDIA Blackwell | Proprietary, optimized for NVIDIA |
 | mxfp4 | 4 | 32 | NVIDIA/AMD | OCP standard, better portability |
 | mxfp8 | 8 | 32 | NVIDIA/AMD | Higher precision, still efficient |
-| mixed | 4×8 | varies | NVIDIA Blackwell | A in fp8, B in fp4 |
+| mixed | 4x8 | varies | NVIDIA Blackwell | A in fp8, B in fp4 |
 
 **Vec Size** = number of elements sharing one scale factor
 
@@ -71,8 +71,8 @@ Memory Savings
 ::
 
 FP16: 2 bytes per element
-FP8:  1 byte per element  → 2× memory reduction
-FP4:  0.5 bytes per element → 4× memory reduction
+FP8:  1 byte per element  -> 2x memory reduction
+FP4:  0.5 bytes per element -> 4x memory reduction
 
 Plus scale factors:
   - 1 scale per 16-32 elements
@@ -81,7 +81,7 @@ Plus scale factors:
 ::
 
 
-**Example for 8192×8192 matrix:**
+**Example for 8192x8192 matrix:**
 - FP16: 128 MB
 - FP8 + scales: 64 MB + 2 MB = 66 MB (48% reduction)
 - FP4 + scales: 32 MB + 2 MB = 34 MB (73% reduction)
@@ -126,8 +126,8 @@ Dimension breakdown:
 .. code-block:: python
 
 for each BLOCK_M x BLOCK_K tile:
-    Load 128 rows × (BLOCK_K // VEC_SIZE) scales contiguously
-    No strided access → better memory bandwidth
+    Load 128 rows x (BLOCK_K // VEC_SIZE) scales contiguously
+    No strided access -> better memory bandwidth
 ::
 
 
@@ -490,8 +490,8 @@ Compute-bound workload:
 ::
 
 FP16 throughput: 312 TFLOPS (H100)
-FP8 throughput:  989 TFLOPS (H100) → 3.17× faster
-FP4 throughput:  1978 TFLOPS (theoretical) → 6.3× faster
+FP8 throughput:  989 TFLOPS (H100) -> 3.17x faster
+FP4 throughput:  1978 TFLOPS (theoretical) -> 6.3x faster
 ::
 
 
@@ -499,8 +499,8 @@ Memory bandwidth reduction:
 ::
 
 FP16: 2 bytes/elem
-FP8:  1 byte/elem + scales → ~45% savings
-FP4:  0.5 bytes/elem + scales → ~70% savings
+FP8:  1 byte/elem + scales -> ~45% savings
+FP4:  0.5 bytes/elem + scales -> ~70% savings
 ::
 
 
@@ -508,10 +508,10 @@ Real-world Performance
 ~~~~~~~~~~~~~~~~~~~~~~
 
 From benchmarking on H100:
-- **mxfp8**: 1.8-2.2× speedup over FP16
-- **mxfp4**: 2.5-3.5× speedup over FP16
-- **nvfp4**: 3.0-4.0× speedup over FP16 (NVIDIA-specific optimizations)
-- **mixed (fp8×fp4)**: 2.2-3.0× speedup
+- **mxfp8**: 1.8-2.2x speedup over FP16
+- **mxfp4**: 2.5-3.5x speedup over FP16
+- **nvfp4**: 3.0-4.0x speedup over FP16 (NVIDIA-specific optimizations)
+- **mixed (fp8xfp4)**: 2.2-3.0x speedup
 
 **Factors affecting performance:**
 - Matrix size (larger = better amortization)
@@ -526,11 +526,11 @@ Quantization Error
 
 .. code-block:: python
 
-FP16 range: ±65504, ~3 decimal digits
+FP16 range: +/-65504, ~3 decimal digits
 =====================================
-FP8 (E4M3) range: ±448, ~2 decimal digits
+FP8 (E4M3) range: +/-448, ~2 decimal digits
 =========================================
-FP4 (E2M1) range: ±6, ~1 decimal digit
+FP4 (E2M1) range: +/-6, ~1 decimal digit
 ======================================
 ::
 
@@ -545,8 +545,8 @@ fp4_val = quantize_fp16*to_fp4(1234.5)  # Overflow!
 With scaling:
 =============
 scale = 1234.5 / 6.0  # ~205
-fp4_val = quantize_fp16*to_fp4(1234.5 / scale)  # ≈ 6
-reconstructed = fp4_val * scale  # ≈ 1234.5
+fp4_val = quantize_fp16*to_fp4(1234.5 / scale)  # ~ 6
+reconstructed = fp4_val * scale  # ~ 1234.5
 ::
 
 
@@ -563,11 +563,11 @@ def e8m0_to*f32(x):
 
 Example:
 ========
-x = 135 → 2^(135-127) = 2^8 = 256
+x = 135 -> 2^(135-127) = 2^8 = 256
 =================================
-x = 127 → 2^0 = 1
+x = 127 -> 2^0 = 1
 =================
-x = 119 → 2^(-8) = 0.00390625
+x = 119 -> 2^(-8) = 0.00390625
 =============================
 ::
 
@@ -612,17 +612,17 @@ Validation
 NVIDIA
 ======
 validate_block*scaled(8192, 8192, 8192, block_scale*type="nvfp4")
-✅ (pass nvfp4)
+[[OK]] (pass nvfp4)
 ==============
 
 AMD with both MFMA shapes
 =========================
 validate_block*scaled_amd(8192, 8192, 8192, block_scale*type="mxfp4", mfma_nonkdim=16)
-✅ (pass mxfp4, mfma_nonk*dim 16)
+[[OK]] (pass mxfp4, mfma_nonk*dim 16)
 ================================
 
 validate_block*scaled_amd(8192, 8192, 8192, block_scale*type="mxfp4", mfma_nonkdim=32)
-✅ (pass mxfp4, mfma_nonk*dim 32)
+[[OK]] (pass mxfp4, mfma_nonk*dim 32)
 ================================
 ::
 
@@ -636,7 +636,7 @@ Common Pitfalls
 .. code-block:: python
 
 if not supports_block*scaling():
-    print("⛔ This example requires GPU support for block scaled matmul")
+    print("[blocked] This example requires GPU support for block scaled matmul")
     exit(1)
 
 def supports_block*scaling():
@@ -691,8 +691,8 @@ Summary
 
 **Block scaled matmul** enables efficient low-precision matrix multiplication:
 
-- **4-8× memory reduction** compared to FP16
-- **2-4× compute speedup** on specialized hardware
+- **4-8x memory reduction** compared to FP16
+- **2-4x compute speedup** on specialized hardware
 - **Per-block scaling** maintains numerical accuracy
 - **Hardware acceleration** via 5th-gen Tensor Cores (NVIDIA) and CDNA4 (AMD)
 
@@ -700,7 +700,7 @@ Summary
 - ``nvfp4``: NVIDIA-optimized FP4 (16 elem/scale)
 - ``mxfp4``: OCP standard FP4 (32 elem/scale)
 - ``mxfp8``: OCP standard FP8 (32 elem/scale)
-- ``mixed``: FP8×FP4 mixed precision
+- ``mixed``: FP8xFP4 mixed precision
 
 **Key techniques:**
 - **Scale preshuffling** for contiguous memory access

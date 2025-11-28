@@ -31,14 +31,14 @@ Step 2: Identify Bottleneck
 
 **Memory-Bound**: Low arithmetic intensity
 
-* Achieved bandwidth > 60% of peak → Good!
-* Achieved bandwidth < 30% → Optimization needed
+* Achieved bandwidth > 60% of peak -> Good!
+* Achieved bandwidth < 30% -> Optimization needed
 * Focus on: Reducing memory traffic, coalescing
 
 **Compute-Bound**: High arithmetic intensity
 
-* Compute utilization > 80% → Good!
-* Compute utilization < 50% → Optimization needed
+* Compute utilization > 80% -> Good!
+* Compute utilization < 50% -> Optimization needed
 * Focus on: Using Tensor Cores, increasing parallelism
 
 Memory Optimization
@@ -216,7 +216,7 @@ Strategy 2: Tune Shared Memory
     @triton.jit
     def kernel(...):
         shared = tl.zeros([BLOCK_SIZE, BLOCK_SIZE])
-        # BLOCK_SIZE=128 → 64KB, allows 4 blocks per SM
+        # BLOCK_SIZE=128 -> 64KB, allows 4 blocks per SM
 
 Strategy 3: Adjust Block Size
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -423,41 +423,41 @@ Performance Checklist
 Before You Optimize
 ~~~~~~~~~~~~~~~~~~~
 
-☐ Profile to identify bottleneck
-☐ Measure baseline performance
-☐ Set performance target (realistic!)
+[ ] Profile to identify bottleneck
+[ ] Measure baseline performance
+[ ] Set performance target (realistic!)
 
 Memory Optimizations
 ~~~~~~~~~~~~~~~~~~~~
 
-☐ Fuse operations to reduce memory traffic
-☐ Use tiling to maximize SRAM reuse
-☐ Ensure coalesced memory accesses
-☐ Minimize global memory accesses
+[ ] Fuse operations to reduce memory traffic
+[ ] Use tiling to maximize SRAM reuse
+[ ] Ensure coalesced memory accesses
+[ ] Minimize global memory accesses
 
 Compute Optimizations
 ~~~~~~~~~~~~~~~~~~~~~
 
-☐ Use Tensor Cores for matmul
-☐ Minimize thread divergence
-☐ Maximize arithmetic intensity
-☐ Use appropriate data types (FP16, BF16)
+[ ] Use Tensor Cores for matmul
+[ ] Minimize thread divergence
+[ ] Maximize arithmetic intensity
+[ ] Use appropriate data types (FP16, BF16)
 
 Occupancy Optimization
 ~~~~~~~~~~~~~~~~~~~~~~
 
-☐ Check register usage
-☐ Check shared memory usage
-☐ Tune block size
-☐ Measure actual occupancy
+[ ] Check register usage
+[ ] Check shared memory usage
+[ ] Tune block size
+[ ] Measure actual occupancy
 
 Advanced
 ~~~~~~~~
 
-☐ Auto-tune configurations
-☐ Use software pipelining
-☐ Consider persistent kernels
-☐ Profile with vendor tools
+[ ] Auto-tune configurations
+[ ] Use software pipelining
+[ ] Consider persistent kernels
+[ ] Profile with vendor tools
 
 Summary
 -------
@@ -470,7 +470,7 @@ Summary
 4. **Parallelism**: Balance resources for good occupancy
 5. **Tuning**: Auto-tune for specific hardware and problem sizes
 
-**Remember**: Profile → Optimize → Measure → Repeat
+**Remember**: Profile -> Optimize -> Measure -> Repeat
 
 Next Steps
 ----------

@@ -16,39 +16,39 @@ However, they take **completely different paths** to get there:
 .. code-block:: text
 
     CUDA C++ Path:
-    ──────────────
+    --------------
     .cu file (C++ with CUDA extensions)
-           ↓
+           down
     [nvcc frontend] - Parse C++ and CUDA syntax
-           ↓
+           down
     CUDA C++ IR (NVIDIA proprietary)
-           ↓
+           down
     [cicc compiler] - NVIDIA's internal compiler
-           ↓
+           down
     PTX assembly
-           ↓
+           down
     [ptxas assembler]
-           ↓
+           down
     CUBIN binary
 
     Triton Path:
-    ────────────
+    ------------
     Python function (@triton.jit)
-           ↓
+           down
     Python AST (standard Python parser)
-           ↓
+           down
     Triton IR (TTIR) - MLIR-based
-           ↓
+           down
     Triton GPU IR (TTGIR) - MLIR-based
-           ↓
+           down
     LLVM IR - Standard LLVM
-           ↓
+           down
     [LLVM NVPTX backend]
-           ↓
+           down
     PTX assembly
-           ↓
-    [ptxas assembler] ← Same tool as CUDA!
-           ↓
+           down
+    [ptxas assembler] <- Same tool as CUDA!
+           down
     CUBIN binary
 
 **Key insight:** Triton and CUDA C++ converge at PTX. From PTX onward, they use the **same NVIDIA tools** (ptxas).
@@ -116,22 +116,22 @@ NVCC Compilation Stages
 .. code-block:: text
 
     add.cu
-      ↓
+      down
     [nvcc driver]
-      ├─→ [cudafe++] Device code extraction
-      │     ↓
-      │   [cicc] CUDA C++ → PTX
-      │     ↓
-      │   [ptxas] PTX → CUBIN
-      │     ↓
-      │   device.cubin
-      │
-      └─→ [g++/cl] Host code compilation
-            ↓
+      |--> [cudafe++] Device code extraction
+      |     down
+      |   [cicc] CUDA C++ -> PTX
+      |     down
+      |   [ptxas] PTX -> CUBIN
+      |     down
+      |   device.cubin
+      |
+      +--> [g++/cl] Host code compilation
+            down
           host.o
-            ↓
+            down
     [linker] Combine host + device
-            ↓
+            down
         add.exe/add.out
 
 PTX Assembly Output
@@ -219,11 +219,11 @@ Triton uses **open-source LLVM** instead of NVIDIA's proprietary compiler.
 **Compilation stages:**
 
 1. **Python AST parsing** - Standard Python ``ast.parse()``
-2. **Code generation** - Python AST → Triton IR (MLIR)
-3. **GPU lowering** - TTIR → TTGIR (add layouts, shared memory)
-4. **LLVM lowering** - TTGIR → LLVM IR
-5. **LLVM backend** - LLVM IR → PTX (using NVPTX backend)
-6. **PTX assembler** - PTX → CUBIN (using **same ptxas** as CUDA!)
+2. **Code generation** - Python AST -> Triton IR (MLIR)
+3. **GPU lowering** - TTIR -> TTGIR (add layouts, shared memory)
+4. **LLVM lowering** - TTGIR -> LLVM IR
+5. **LLVM backend** - LLVM IR -> PTX (using NVPTX backend)
+6. **PTX assembler** - PTX -> CUBIN (using **same ptxas** as CUDA!)
 
 LLVM IR Stage
 ~~~~~~~~~~~~~
@@ -395,13 +395,13 @@ Compilation Time
 .. code-block:: text
 
     CUDA C++ (nvcc):
-    ────────────────
+    ----------------
     - First compile: 1-5 seconds (C++ parsing overhead)
     - Incremental: Fast with proper build system
     - JIT (NVRTC): 100-500ms runtime compilation
 
     Triton:
-    ───────
+    -------
     - First compile: 250-1000ms (MLIR + LLVM overhead)
     - Cached: < 1ms (hash-based cache)
     - Always JIT: No separate compilation step
@@ -512,18 +512,18 @@ Trade-offs
 
 **Advantages of Triton's approach:**
 
-✅ Full control over compilation pipeline
-✅ Easy to add new optimizations (MLIR passes)
-✅ Multi-vendor GPU support (NVIDIA, AMD)
-✅ Python-friendly (no C++ build complexity)
-✅ Reproducible builds (open toolchain)
+[[OK]] Full control over compilation pipeline
+[[OK]] Easy to add new optimizations (MLIR passes)
+[[OK]] Multi-vendor GPU support (NVIDIA, AMD)
+[[OK]] Python-friendly (no C++ build complexity)
+[[OK]] Reproducible builds (open toolchain)
 
 **Disadvantages:**
 
-❌ Dependency on LLVM version
-❌ Can't use some NVIDIA-specific optimizations (in cicc)
-❌ Still depends on proprietary ptxas
-❌ Compilation overhead from LLVM
+[[FAIL]] Dependency on LLVM version
+[[FAIL]] Can't use some NVIDIA-specific optimizations (in cicc)
+[[FAIL]] Still depends on proprietary ptxas
+[[FAIL]] Compilation overhead from LLVM
 
 Compilation Artifacts Comparison
 ---------------------------------
@@ -552,25 +552,25 @@ Example Directory Structures
 .. code-block:: text
 
     cuda_project/
-    ├── add.cu                    # Source code
-    ├── add.o                     # Compiled object
-    ├── add.ptx                   # PTX assembly (if -ptx flag)
-    ├── add.cubin                 # GPU binary (if -cubin flag)
-    └── add.out                   # Final executable
+    |-- add.cu                    # Source code
+    |-- add.o                     # Compiled object
+    |-- add.ptx                   # PTX assembly (if -ptx flag)
+    |-- add.cubin                 # GPU binary (if -cubin flag)
+    +-- add.out                   # Final executable
 
 **Triton project:**
 
 .. code-block:: text
 
     triton_project/
-    ├── add_kernel.py             # Source code
-    └── ~/.triton/cache/
-        └── 7a3f2e1b.../          # Cache directory (hash-based)
-            ├── add_kernel.ttir   # Triton IR
-            ├── add_kernel.ttgir  # Triton GPU IR
-            ├── add_kernel.llir   # LLVM IR
-            ├── add_kernel.ptx    # PTX assembly
-            └── add_kernel.cubin  # GPU binary
+    |-- add_kernel.py             # Source code
+    +-- ~/.triton/cache/
+        +-- 7a3f2e1b.../          # Cache directory (hash-based)
+            |-- add_kernel.ttir   # Triton IR
+            |-- add_kernel.ttgir  # Triton GPU IR
+            |-- add_kernel.llir   # LLVM IR
+            |-- add_kernel.ptx    # PTX assembly
+            +-- add_kernel.cubin  # GPU binary
 
 **Notice:** Triton caches **all intermediate representations**, while CUDA C++ only keeps final artifacts by default.
 
@@ -637,12 +637,12 @@ Compilation Paths Compared
 
 .. code-block:: text
 
-    CUDA C++:  .cu → [nvcc] → CUDA IR → [cicc] → PTX → [ptxas] → CUBIN
-                                ↑                         ↑           ↑
+    CUDA C++:  .cu -> [nvcc] -> CUDA IR -> [cicc] -> PTX -> [ptxas] -> CUBIN
+                                up                         up           up
                            Proprietary              Proprietary   Shared
 
-    Triton:    .py → [AST] → TTIR → TTGIR → LLVM IR → [NVPTX] → PTX → [ptxas] → CUBIN
-                      ↑       ↑       ↑        ↑         ↑        ↑       ↑        ↑
+    Triton:    .py -> [AST] -> TTIR -> TTGIR -> LLVM IR -> [NVPTX] -> PTX -> [ptxas] -> CUBIN
+                      up       up       up        up         up        up       up        up
                     Open    Open    Open     Open      Open    Shared  Propr.   Shared
 
 **Convergence:** Both paths produce **identical PTX and CUBIN formats**.

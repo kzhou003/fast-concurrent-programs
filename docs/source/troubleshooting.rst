@@ -481,23 +481,23 @@ Prevention Checklist
 
 Before deploying:
 
-☐ Tested with various input sizes
-☐ Compared output with PyTorch
-☐ Profiled performance
-☐ Checked for NaN/Inf
-☐ Verified memory usage is reasonable
-☐ Tested edge cases (size=1, size=prime number, etc.)
-☐ Added assertions for debug builds
-☐ Documented any limitations
+[ ] Tested with various input sizes
+[ ] Compared output with PyTorch
+[ ] Profiled performance
+[ ] Checked for NaN/Inf
+[ ] Verified memory usage is reasonable
+[ ] Tested edge cases (size=1, size=prime number, etc.)
+[ ] Added assertions for debug builds
+[ ] Documented any limitations
 
 Summary
 -------
 
 Most issues fall into three categories:
 
-1. **Memory**: OOM, shared memory limits → Reduce sizes
-2. **Correctness**: Wrong results, NaN → Check masking, precision, stability
-3. **Performance**: Slow → Profile, auto-tune, optimize memory access
+1. **Memory**: OOM, shared memory limits -> Reduce sizes
+2. **Correctness**: Wrong results, NaN -> Check masking, precision, stability
+3. **Performance**: Slow -> Profile, auto-tune, optimize memory access
 
 When in doubt:
 

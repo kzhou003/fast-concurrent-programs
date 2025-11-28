@@ -83,9 +83,11 @@ latex_elements = {
     'papersize': 'letterpaper',
     'pointsize': '10pt',
     'preamble': r'''
-        \usepackage{charter}
-        \usepackage[defaultsans]{lato}
-        \usepackage{inconsolata}
+        \usepackage[utf8]{inputenc}
+        \usepackage[T1]{fontenc}
+        \usepackage{textcomp}
+        \usepackage{times}
+        \raggedbottom
     ''',
     'figure_align': 'htbp',
 }

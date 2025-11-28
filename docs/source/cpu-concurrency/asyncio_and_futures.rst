@@ -147,19 +147,19 @@ Execution Flow
 ::
 
 main() starts
-  ↓
+  down
 Reads command-line arguments
-  ↓
+  down
 Creates 2 tasks:
-  ├─→ first_coroutine(num1)
-  └─→ second_coroutine(num2)
+  |--> first_coroutine(num1)
+  +--> second_coroutine(num2)
 
 Both tasks execute concurrently:
-  ├─→ first: computes sum, sleeps 4s, prints/returns result
-  └─→ second: computes factorial, sleeps 4s, prints/returns result
+  |--> first: computes sum, sleeps 4s, prints/returns result
+  +--> second: computes factorial, sleeps 4s, prints/returns result
 
 gather() waits for both
-  ↓
+  down
 main() completes
 ::
 

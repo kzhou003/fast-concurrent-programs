@@ -30,30 +30,29 @@ Physical Cores
 ::
 
 Physical CPU Chip:
-┌─────────────────────────────────────────────────────┐
-│                                                     │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐         │
-│  │  Core 0  │  │  Core 1  │  │  Core 2  │   ...   │
-│  │          │  │          │  │          │         │
-│  │ ┌──────┐ │  │ ┌──────┐ │  │ ┌──────┐ │         │
-│  │ │ ALU  │ │  │ │ ALU  │ │  │ │ ALU  │ │         │
-│  │ ├──────┤ │  │ ├──────┤ │  │ ├──────┤ │         │
-│  │ │ FPU  │ │  │ │ FPU  │ │  │ │ FPU  │ │         │
-│  │ ├──────┤ │  │ ├──────┤ │  │ ├──────┤ │         │
-│  │ │ L1/L2│ │  │ │ L1/L2│ │  │ │ L1/L2│ │         │
-│  │ └──────┘ │  │ └──────┘ │  │ └──────┘ │         │
-│  └──────────┘  └──────────┘  └──────────┘         │
-│                                                     │
-│              Shared L3 Cache                        │
-└─────────────────────────────────────────────────────┘
-::
++-----------------------------------------------------+
+|                                                     |
+|  +----------+  +----------+  +----------+         |
+|  |  Core 0  |  |  Core 1  |  |  Core 2  |   ...   |
+|  |          |  |          |  |          |         |
+|  | +------+ |  | +------+ |  | +------+ |         |
+|  | | ALU  | |  | | ALU  | |  | | ALU  | |         |
+|  | |------| |  | |------| |  | |------| |         |
+|  | | FPU  | |  | | FPU  | |  | | FPU  | |         |
+|  | |------| |  | |------| |  | |------| |         |
+|  | | L1/L2| |  | | L1/L2| |  | | L1/L2| |         |
+|  | +------+ |  | +------+ |  | +------+ |         |
+|  +----------+  +----------+  +----------+         |
+|                                                     |
+|              Shared L3 Cache                        |
++-----------------------------------------------------+
 
 
 **Characteristics**:
-- ✅ True parallel execution
-- ✅ Independent computation streams
-- ✅ Each can execute different instructions simultaneously
-- ✅ Maximum performance for CPU-bound tasks
+- [[OK]] True parallel execution
+- [[OK]] Independent computation streams
+- [[OK]] Each can execute different instructions simultaneously
+- [[OK]] Maximum performance for CPU-bound tasks
 
 Logical Cores
 ~~~~~~~~~~~~~
@@ -101,11 +100,11 @@ A CPU core has multiple execution units but they're not always all in use:
 ::
 
 Without Hyperthreading (one thread per core):
-Time →
+Time ->
 Core execution units: [ALU][FPU][Load][Store][Branch]
-                       ↓    ↓     ↓     ↓      ↓
-Thread A:             [■]  [ ]   [■]   [ ]    [■]   ← Only 60% utilized
-                       ↑         ↑            ↑
+                       down    down     down     down      down
+Thread A:             [[#]]  [ ]   [[#]]   [ ]    [[#]]   <- Only 60% utilized
+                       up         up            up
                     Used units  (unused)   Used units
 
 Wasted capacity: 40%
@@ -115,13 +114,13 @@ Wasted capacity: 40%
 ::
 
 With Hyperthreading (two threads per core):
-Time →
+Time ->
 Core execution units: [ALU][FPU][Load][Store][Branch]
-                       ↓    ↓     ↓     ↓      ↓
-Thread A:             [■]  [ ]   [■]   [ ]    [■]
-Thread B:             [ ]  [■]   [ ]   [■]    [ ]   ← Fills the gaps!
-                       ↑    ↑     ↑     ↑      ↑
-Combined utilization: [■]  [■]   [■]   [■]    [■]   ← ~85% utilized
+                       down    down     down     down      down
+Thread A:             [[#]]  [ ]   [[#]]   [ ]    [[#]]
+Thread B:             [ ]  [[#]]   [ ]   [[#]]    [ ]   <- Fills the gaps!
+                       up    up     up     up      up
+Combined utilization: [[#]]  [[#]]   [[#]]   [[#]]    [[#]]   <- ~85% utilized
 
 Better resource usage!
 ::
@@ -135,26 +134,25 @@ Each physical core with HT has:
 ::
 
 Physical Core with Hyperthreading:
-┌────────────────────────────────────────┐
-│  Duplicated (per thread):              │
-│  ┌──────────┐      ┌──────────┐        │
-│  │ Thread 1 │      │ Thread 2 │        │
-│  │          │      │          │        │
-│  │ • PC     │      │ • PC     │        │  PC = Program Counter
-│  │ • Regs   │      │ • Regs   │        │  Regs = Registers
-│  │ • State  │      │ • State  │        │
-│  └──────────┘      └──────────┘        │
-│                                        │
-│  Shared (between both threads):        │
-│  ┌──────────────────────────────────┐  │
-│  │ • ALU (Arithmetic Logic Unit)    │  │
-│  │ • FPU (Floating Point Unit)      │  │
-│  │ • L1/L2 Cache                    │  │
-│  │ • Execution Units                │  │
-│  │ • Load/Store Units               │  │
-│  └──────────────────────────────────┘  │
-└────────────────────────────────────────┘
-::
++----------------------------------------+
+|  Duplicated (per thread):              |
+|  +----------+      +----------+        |
+|  | Thread 1 |      | Thread 2 |        |
+|  |          |      |          |        |
+|  | * PC     |      | * PC     |        |  PC = Program Counter
+|  | * Regs   |      | * Regs   |        |  Regs = Registers
+|  | * State  |      | * State  |        |
+|  +----------+      +----------+        |
+|                                        |
+|  Shared (between both threads):        |
+|  +----------------------------------+  |
+|  | * ALU (Arithmetic Logic Unit)    |  |
+|  | * FPU (Floating Point Unit)      |  |
+|  | * L1/L2 Cache                    |  |
+|  | * Execution Units                |  |
+|  | * Load/Store Units               |  |
+|  +----------------------------------+  |
++----------------------------------------+
 
 
 **Key Insight**: Two threads share the same execution hardware but have separate architectural state (registers, program counter).
@@ -202,9 +200,9 @@ Hyperthreading Limitations
 2. **Shared Resources Create Contention**
    ::
 
-   Both threads need cache → cache thrashing
-   Both threads need FPU → one waits
-   Both threads need memory → bandwidth split
+   Both threads need cache -> cache thrashing
+   Both threads need FPU -> one waits
+   Both threads need memory -> bandwidth split
    ::
 
 
@@ -214,8 +212,8 @@ Hyperthreading Limitations
    # CPU-intensive Python code with GIL
    # 4 physical cores, 8 logical cores
 
-   # Using 4 workers (physical cores): 3.8x speedup ✅
-   # Using 8 workers (logical cores): 3.2x speedup ❌ (worse!)
+   # Using 4 workers (physical cores): 3.8x speedup [[OK]]
+   # Using 8 workers (logical cores): 3.2x speedup [[FAIL]] (worse!)
 
    # Why? OS scheduling overhead + resource contention
    ::
@@ -230,9 +228,9 @@ Checking Hyperthreading Status
 Check if HT is enabled
 ======================
 lscpu | grep "Thread(s) per core"
-Output: Thread(s) per core: 2  ← HT enabled
+Output: Thread(s) per core: 2  <- HT enabled
 ===========================================
-Output: Thread(s) per core: 1  ← HT disabled
+Output: Thread(s) per core: 1  <- HT disabled
 ============================================
 
 Or check CPU info
@@ -307,51 +305,50 @@ The Fundamental Constraint
 
 **No matter how many threads you create, true parallel execution is limited by physical cores.**
 
-::
+.. code-block:: text
 
-System: 4 physical cores (8 logical with HT)
+    System: 4 physical cores (8 logical with HT)
 
-Scenario 1: 4 CPU-intensive threads
-┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-│Thread 1 │ │Thread 2 │ │Thread 3 │ │Thread 4 │
-│  100%   │ │  100%   │ │  100%   │ │  100%   │
-└────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘
-     ↓           ↓           ↓           ↓
-┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-│ Core 0  │ │ Core 1  │ │ Core 2  │ │ Core 3  │
-│  100%   │ │  100%   │ │  100%   │ │  100%   │
-└─────────┘ └─────────┘ └─────────┘ └─────────┘
-Result: Perfect utilization, 4x speedup ✅
+    Scenario 1: 4 CPU-intensive threads
+    +---------+ +---------+ +---------+ +---------+
+    |Thread 1 | |Thread 2 | |Thread 3 | |Thread 4 |
+    |  100%   | |  100%   | |  100%   | |  100%   |
+    +----+----+ +----+----+ +----+----+ +----+----+
+         down           down           down           down
+    +---------+ +---------+ +---------+ +---------+
+    | Core 0  | | Core 1  | | Core 2  | | Core 3  |
+    |  100%   | |  100%   | |  100%   | |  100%   |
+    +---------+ +---------+ +---------+ +---------+
+    Result: Perfect utilization, 4x speedup [OK]
 
-Scenario 2: 8 CPU-intensive threads
-┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐
-│ T1 ││ T2 ││ T3 ││ T4 ││ T5 ││ T6 ││ T7 ││ T8 │
-└─┬──┘└─┬──┘└─┬──┘└─┬──┘└─┬──┘└─┬──┘└─┬──┘└─┬──┘
-  └──┬───┴──┬───┴──┬───┴──┬───┴──┬───┴──┬───┴──┬─┘
-     ↓      ↓      ↓      ↓      ↓      ↓      ↓
-┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-│ Core 0  │ │ Core 1  │ │ Core 2  │ │ Core 3  │
-│ T1 + T5 │ │ T2 + T6 │ │ T3 + T7 │ │ T4 + T8 │
-│ compete │ │ compete │ │ compete │ │ compete │
-└─────────┘ └─────────┘ └─────────┘ └─────────┘
-Result: ~4.5x speedup (not 8x!) ⚠️
+    Scenario 2: 8 CPU-intensive threads
+    +----++----++----++----++----++----++----++----+
+    | T1 || T2 || T3 || T4 || T5 || T6 || T7 || T8 |
+    +-+--++-+--++-+--++-+--++-+--++-+--++-+--++-+--+
+      +--+---+--+---+--+---+--+---+--+---+--+---+--+-+
+         down      down      down      down      down      down      down
+    +---------+ +---------+ +---------+ +---------+
+    | Core 0  | | Core 1  | | Core 2  | | Core 3  |
+    | T1 + T5 | | T2 + T6 | | T3 + T7 | | T4 + T8 |
+    | compete | | compete | | compete | | compete |
+    +---------+ +---------+ +---------+ +---------+
+    Result: ~4.5x speedup (not 8x!) [warning]
 
-Scenario 3: 16 CPU-intensive threads
-┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐
-│T1││T2││T3││T4││T5││T6││T7││T8││T9││10││11││12││13││14││15││16│
-└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘└┬─┘
- └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴──┘
-                          ↓
-┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-│ Core 0  │ │ Core 1  │ │ Core 2  │ │ Core 3  │
-│ 4 threads│ │ 4 threads│ │ 4 threads│ │ 4 threads│
-│time-slice│ │time-slice│ │time-slice│ │time-slice│
-└─────────┘ └─────────┘ └─────────┘ └─────────┘
-Result: ~4x speedup (same as 4 threads!) + overhead ❌
-::
+    Scenario 3: 16 CPU-intensive threads
+    +--++--++--++--++--++--++--++--++--++--++--++--++--++--++--++--+
+    |T1||T2||T3||T4||T5||T6||T7||T8||T9||10||11||12||13||14||15||16|
+    ++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+++-+
+     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+--+
+                              down
+    +---------+ +---------+ +---------+ +---------+
+    | Core 0  | | Core 1  | | Core 2  | | Core 3  |
+    | 4 threads| | 4 threads| | 4 threads| | 4 threads|
+    |time-slice| |time-slice| |time-slice| |time-slice|
+    +---------+ +---------+ +---------+ +---------+
+    Result: ~4x speedup (same as 4 threads!) + overhead [FAIL]
 
 
-Why More Threads ≠ More Speed
+Why More Threads != More Speed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **CPU-bound tasks** are limited by actual computation capacity:
@@ -378,13 +375,13 @@ Results on 4-core CPU:
 ======================
 1 worker:  10.0s  (baseline)
 ============================
-2 workers:  5.1s  (1.96x speedup) ✅
+2 workers:  5.1s  (1.96x speedup) [[OK]]
 ===================================
-4 workers:  2.6s  (3.85x speedup) ✅
+4 workers:  2.6s  (3.85x speedup) [[OK]]
 ===================================
-8 workers:  2.8s  (3.57x speedup) ⚠️ (worse than 4!)
+8 workers:  2.8s  (3.57x speedup) [warning] (worse than 4!)
 ====================================================
-16 workers: 3.2s  (3.13x speedup) ❌ (much worse!)
+16 workers: 3.2s  (3.13x speedup) [[FAIL]] (much worse!)
 =================================================
 ::
 
@@ -409,10 +406,10 @@ Results on 4-core CPU:
    ::
 
    Each thread loads its data into cache:
-   Thread A: Loads data → Evicts Thread B's cache
-   Thread B: Loads data → Evicts Thread C's cache
-   Thread C: Loads data → Evicts Thread A's cache
-   Thread A: Needs data again → Cache miss! (must reload)
+   Thread A: Loads data -> Evicts Thread B's cache
+   Thread B: Loads data -> Evicts Thread C's cache
+   Thread C: Loads data -> Evicts Thread A's cache
+   Thread A: Needs data again -> Cache miss! (must reload)
 
    Result: More memory access, slower execution
    ::
@@ -460,15 +457,14 @@ optimal_workers = psutil.cpu_count(logical=False)
 ::
 
 CPU-bound tasks:
-├─ Optimal workers = Physical cores
-├─ Max useful workers = Physical cores + 1 or 2
-└─ More workers = Performance degradation
+|- Optimal workers = Physical cores
+|- Max useful workers = Physical cores + 1 or 2
++- More workers = Performance degradation
 
 I/O-bound tasks:
-├─ Optimal workers = Much higher (100s-1000s with asyncio)
-├─ No physical core limit (threads are mostly waiting)
-└─ Limited by memory and file descriptors instead
-::
+|- Optimal workers = Much higher (100s-1000s with asyncio)
+|- No physical core limit (threads are mostly waiting)
++- Limited by memory and file descriptors instead
 
 
 Real-World Example
@@ -522,13 +518,13 @@ Workers | Time  | Speedup | Efficiency
 =======================================
       1 | 12.0s |  1.00x  |  100.0%
 ===================================
-      2 |  6.1s |  1.97x  |   98.5%  ← Near perfect
+      2 |  6.1s |  1.97x  |   98.5%  <- Near perfect
 ===================================================
-      4 |  3.1s |  3.87x  |   96.8%  ← Near perfect
+      4 |  3.1s |  3.87x  |   96.8%  <- Near perfect
 ===================================================
-      6 |  2.8s |  4.29x  |   71.5%  ← Diminishing returns
+      6 |  2.8s |  4.29x  |   71.5%  <- Diminishing returns
 ==========================================================
-      8 |  2.9s |  4.14x  |   51.8%  ← Getting worse
+      8 |  2.9s |  4.14x  |   51.8%  <- Getting worse
 ====================================================
 ::
 
@@ -551,57 +547,65 @@ CPU vs GPU: Different Design Philosophies
 CPU (Latency-Optimized):
 Goal: Execute single thread as fast as possible
 
-┌────────────────────────────────────────┐
-│  Few cores (4-64), each very powerful  │
-│                                        │
-│  ┌─────────┐  ┌─────────┐             │
-│  │ Core 0  │  │ Core 1  │             │
-│  │         │  │         │             │
-│  │  ┌───┐  │  │  ┌───┐  │             │
-│  │  │ALU│  │  │  │ALU│  │  ...        │
-│  │  ├───┤  │  │  ├───┤  │             │
-│  │  │FPU│  │  │  │FPU│  │             │
-│  │  ├───┤  │  │  ├───┤  │             │
-│  │  │Big│  │  │  │Big│  │             │
-│  │  │L1 │  │  │  │L1 │  │             │
-│  │  ├───┤  │  │  ├───┤  │             │
-│  │  │L2 │  │  │  │L2 │  │             │
-│  │  └───┘  │  │  └───┘  │             │
-│  │         │  │         │             │
-│  │ Complex │  │ Complex │             │
-│  │ Control │  │ Control │             │
-│  │Out-order│  │Out-order│             │
-│  │ Exec    │  │ Exec    │             │
-│  └─────────┘  └─────────┘             │
-│                                        │
-│      Huge L3 Cache (32+ MB)            │
-│      Complex Branch Prediction         │
-│      Speculative Execution             │
-└────────────────────────────────────────┘
+
+::
+
+    +----------------------------------------+
+    |  Few cores (4-64), each very powerful  |
+    |                                        |
+    |  +---------+  +---------+             |
+    |  | Core 0  |  | Core 1  |             |
+    |  |         |  |         |             |
+    |  |  +---+  |  |  +---+  |             |
+    |  |  |ALU|  |  |  |ALU|  |  ...        |
+    |  |  |---|  |  |  |---|  |             |
+    |  |  |FPU|  |  |  |FPU|  |             |
+    |  |  |---|  |  |  |---|  |             |
+    |  |  |Big|  |  |  |Big|  |             |
+    |  |  |L1 |  |  |  |L1 |  |             |
+    |  |  |---|  |  |  |---|  |             |
+    |  |  |L2 |  |  |  |L2 |  |             |
+    |  |  +---+  |  |  +---+  |             |
+    |  |         |  |         |             |
+    |  | Complex |  | Complex |             |
+    |  | Control |  | Control |             |
+    |  |Out-order|  |Out-order|             |
+    |  | Exec    |  | Exec    |             |
+    |  +---------+  +---------+             |
+    |                                        |
+    |      Huge L3 Cache (32+ MB)            |
+    |      Complex Branch Prediction         |
+    |      Speculative Execution             |
+    +----------------------------------------+
+
 
 GPU (Throughput-Optimized):
 Goal: Execute many threads simultaneously
 
-┌────────────────────────────────────────┐
-│  Thousands of tiny cores               │
-│                                        │
-│ ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐        │
-│ │C││C││C││C││C││C││C││C││C││C│        │
-│ └─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘        │
-│ ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐        │
-│ │C││C││C││C││C││C││C││C││C││C│  ...   │
-│ └─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘        │
-│ ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐        │
-│ │C││C││C││C││C││C││C││C││C││C│        │
-│ └─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘        │
-│  ... (thousands more) ...              │
-│                                        │
-│  Tiny L1 caches                        │
-│  Simple control logic                  │
-│  No branch prediction                  │
-│  No out-of-order execution             │
-│  SIMD: Same instruction, all cores     │
-└────────────────────────────────────────┘
+
+::
+
+    +----------------------------------------+
+    |  Thousands of tiny cores               |
+    |                                        |
+    | +-++-++-++-++-++-++-++-++-++-+        |
+    | |C||C||C||C||C||C||C||C||C||C|        |
+    | +-++-++-++-++-++-++-++-++-++-+        |
+    | +-++-++-++-++-++-++-++-++-++-+        |
+    | |C||C||C||C||C||C||C||C||C||C|  ...   |
+    | +-++-++-++-++-++-++-++-++-++-+        |
+    | +-++-++-++-++-++-++-++-++-++-+        |
+    | |C||C||C||C||C||C||C||C||C||C|        |
+    | +-++-++-++-++-++-++-++-++-++-+        |
+    |  ... (thousands more) ...              |
+    |                                        |
+    |  Tiny L1 caches                        |
+    |  Simple control logic                  |
+    |  No branch prediction                  |
+    |  No out-of-order execution             |
+    |  SIMD: Same instruction, all cores     |
+    +----------------------------------------+
+
 ::
 
 
@@ -627,11 +631,11 @@ SIMD and GPU Architecture
 ::
 
 CPU executing 4 additions sequentially:
-Time →
-Core 1: [A+B] → [C+D] → [E+F] → [G+H]  (4 time units)
+Time ->
+Core 1: [A+B] -> [C+D] -> [E+F] -> [G+H]  (4 time units)
 
 GPU executing 4 additions in parallel (SIMD):
-Time →
+Time ->
 Core 1: [A+B]
 Core 2: [C+D]  } All execute simultaneously
 Core 3: [E+F]    (1 time unit)
@@ -646,21 +650,20 @@ Speedup: 4x for this simple case
 ::
 
 GPU (e.g., NVIDIA RTX 4090):
-┌─────────────────────────────────────────────────────┐
-│  Streaming Multiprocessors (SMs): 128 units         │
-│                                                     │
-│  Each SM contains:                                  │
-│  ├─ 128 CUDA cores (simple ALUs)                   │
-│  ├─ 4 Tensor cores (matrix operations)             │
-│  ├─ Shared memory (64-128 KB)                      │
-│  └─ Warp scheduler                                 │
-│                                                     │
-│  Total: 128 SMs × 128 cores = 16,384 CUDA cores    │
-│                                                     │
-│  All cores execute in lockstep (SIMD):             │
-│  One instruction broadcast to 32 cores (1 warp)    │
-└─────────────────────────────────────────────────────┘
-::
++-----------------------------------------------------+
+|  Streaming Multiprocessors (SMs): 128 units         |
+|                                                     |
+|  Each SM contains:                                  |
+|  |- 128 CUDA cores (simple ALUs)                   |
+|  |- 4 Tensor cores (matrix operations)             |
+|  |- Shared memory (64-128 KB)                      |
+|  +- Warp scheduler                                 |
+|                                                     |
+|  Total: 128 SMs x 128 cores = 16,384 CUDA cores    |
+|                                                     |
+|  All cores execute in lockstep (SIMD):             |
+|  One instruction broadcast to 32 cores (1 warp)    |
++-----------------------------------------------------+
 
 
 Why GPUs Excel at Compute-Intensive Tasks
@@ -685,7 +688,7 @@ Core 2: [sum 250,000 numbers]  } Parallel
 Core 3: [sum 250,000 numbers]
 Core 4: [sum 250,000 numbers]
 
-Time: 250,000 additions ÷ core_speed
+Time: 250,000 additions / core_speed
 ::
 
 
@@ -700,9 +703,9 @@ Each core processes ~61 additions
 
 Cores 1-16,384: [sum ~61 numbers each]  } All parallel
 
-Time: 61 additions ÷ core_speed
+Time: 61 additions / core_speed
 
-Speedup: 250,000 / 61 ≈ 4,000x faster!
+Speedup: 250,000 / 61 ~ 4,000x faster!
 ::
 
 
@@ -715,22 +718,22 @@ Speedup: 250,000 / 61 ≈ 4,000x faster!
 
 Example: Image processing - apply filter to each pixel
 
-Image: 1920×1080 = 2,073,600 pixels
+Image: 1920x1080 = 2,073,600 pixels
 Operation: Apply blur filter to each pixel
 
 CPU (4 cores):
-├─ Core 1: Process pixels 0-518,400
-├─ Core 2: Process pixels 518,401-1,036,800
-├─ Core 3: Process pixels 1,036,801-1,555,200
-└─ Core 4: Process pixels 1,555,201-2,073,600
+|- Core 1: Process pixels 0-518,400
+|- Core 2: Process pixels 518,401-1,036,800
+|- Core 3: Process pixels 1,036,801-1,555,200
++- Core 4: Process pixels 1,555,201-2,073,600
 Time: 518,400 pixels per core
 
 GPU (8,192 cores):
-├─ Each core: Process ~253 pixels
-└─ All cores work simultaneously
+|- Each core: Process ~253 pixels
++- All cores work simultaneously
 Time: ~253 pixels per core
 
-Speedup: 518,400 / 253 ≈ 2,048x faster!
+Speedup: 518,400 / 253 ~ 2,048x faster!
 ::
 
 
@@ -740,12 +743,12 @@ Speedup: 518,400 / 253 ≈ 2,048x faster!
 ::
 
 CPU Memory Bandwidth:
-├─ DDR4: ~50 GB/s
-└─ DDR5: ~80 GB/s
+|- DDR4: ~50 GB/s
++- DDR5: ~80 GB/s
 
 GPU Memory Bandwidth:
-├─ GDDR6: ~600 GB/s
-└─ HBM2: ~1,000 GB/s
+|- GDDR6: ~600 GB/s
++- HBM2: ~1,000 GB/s
 
 Ratio: GPU has 10-20x more memory bandwidth!
 ::
@@ -760,9 +763,8 @@ Compute-intensive task often needs:
 3. Write result to memory
 
 With 16,384 cores all reading/writing:
-├─ CPU bandwidth: Saturated immediately
-└─ GPU bandwidth: Designed for this workload
-::
+|- CPU bandwidth: Saturated immediately
++- GPU bandwidth: Designed for this workload
 
 
 What GPUs Are Good At
@@ -773,12 +775,12 @@ What GPUs Are Good At
 1. **Matrix Operations**
    .. code-block:: python
 
-   # Matrix multiplication: C = A × B
+   # Matrix multiplication: C = A x B
    # Each element of C can be computed independently
 
    C[i,j] = sum(A[i,k] * B[k,j] for k in range(n))
 
-   # For 1000×1000 matrices:
+   # For 1000x1000 matrices:
    # 1,000,000 independent calculations
    # Perfect for 16,384 GPU cores!
    ::
@@ -881,46 +883,45 @@ Silicon Real Estate Comparison
 ::
 
 CPU Die Layout (approximate):
-┌─────────────────────────────────────────────┐
-│                                             │
-│  ████████████ Control Logic (40%)           │
-│  Fetch, decode, branch predict, OoO, etc.  │
-│                                             │
-│  ████████ Cache (30%)                       │
-│  L1, L2, L3 caches                          │
-│                                             │
-│  ██████ Compute Units (20%)                 │
-│  ALUs, FPUs, actual computation             │
-│                                             │
-│  ██ Other (10%)                             │
-│  Memory controller, I/O, etc.               │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|                                             |
+|  ############ Control Logic (40%)           |
+|  Fetch, decode, branch predict, OoO, etc.  |
+|                                             |
+|  ######## Cache (30%)                       |
+|  L1, L2, L3 caches                          |
+|                                             |
+|  ###### Compute Units (20%)                 |
+|  ALUs, FPUs, actual computation             |
+|                                             |
+|  ## Other (10%)                             |
+|  Memory controller, I/O, etc.               |
++---------------------------------------------+
 
 GPU Die Layout (approximate):
-┌─────────────────────────────────────────────┐
-│  █████████████████████████████████████      │
-│  █████████████████████████████████████      │
-│  █████████████████████████████████████      │
-│  █████████████████████████████████████      │
-│  █████████████████████████████████████      │
-│  Compute Units (80-85%)                     │
-│  Thousands of simple ALUs                   │
-│  █████████████████████████████████████      │
-│  █████████████████████████████████████      │
-│  █████████████████████████████████████      │
-│  █████████████████████████████████████      │
-│                                             │
-│  ██ Cache (5-10%)                           │
-│  ██ Control (5%)                            │
-│  █ Other (5%)                               │
-└─────────────────────────────────────────────┘
-::
++---------------------------------------------+
+|  #####################################      |
+|  #####################################      |
+|  #####################################      |
+|  #####################################      |
+|  #####################################      |
+|  Compute Units (80-85%)                     |
+|  Thousands of simple ALUs                   |
+|  #####################################      |
+|  #####################################      |
+|  #####################################      |
+|  #####################################      |
+|                                             |
+|  ## Cache (5-10%)                           |
+|  ## Control (5%)                            |
+|  # Other (5%)                               |
++---------------------------------------------+
 
 
 Performance Comparison
 ~~~~~~~~~~~~~~~~~~~~~~
 
-**Example: Matrix Multiplication (2048×2048)**
+**Example: Matrix Multiplication (2048x2048)**
 
 .. code-block:: python
 
@@ -969,7 +970,7 @@ Detailed Benchmark Results
 
 | Task | CPU (8-core i9) | GPU (RTX 4090) | Speedup |
 |------|----------------|----------------|---------|
-| Matrix Multiply (2048²) | 850 ms | 12 ms | 70x |
+| Matrix Multiply (2048^2) | 850 ms | 12 ms | 70x |
 | Image Convolution (4K) | 1200 ms | 8 ms | 150x |
 | FFT (16M points) | 2500 ms | 15 ms | 166x |
 | Neural Net Forward Pass | 5000 ms | 25 ms | 200x |
@@ -985,44 +986,48 @@ Decision Matrix
 
 ::
 
-┌─────────────────────────────────────────────────────────────┐
-│                     DECISION TREE                           │
-└─────────────────────────────────────────────────────────────┘
+
+::
+
+    +-------------------------------------------------------------+
+    |                     DECISION TREE                           |
+    +-------------------------------------------------------------+
+
 
 Is the problem parallelizable?
-├─ No (sequential dependencies)
-│  └─ Use: CPU (single core)
-│     Examples: Parsing, tree traversal, complex algorithms
-│
-└─ Yes (can be split into independent tasks)
-   │
-   ├─ What type of parallelism?
-   │
-   ├─ Task Parallelism (different operations)
-   │  ├─ CPU-intensive tasks
-   │  │  └─ Use: CPU Multiprocessing (# workers = physical cores)
-   │  │     Examples: Video encoding, data compression
-   │  │
-   │  └─ I/O-intensive tasks
-   │     └─ Use: Asyncio or Threading (# workers = 100s-1000s)
-   │        Examples: Web scraping, API calls
-   │
-   └─ Data Parallelism (same operation on different data)
-      │
-      ├─ Problem size?
-      │
-      ├─ Small (< 10,000 elements)
-      │  └─ Use: CPU Multiprocessing
-      │     Reason: GPU overhead not worth it
-      │
-      ├─ Medium (10,000 - 1,000,000 elements)
-      │  ├─ Simple operations (add, multiply)
-      │  │  └─ Use: GPU
-      │  └─ Complex operations (lots of branches)
-      │     └─ Use: CPU Multiprocessing
-      │
-      └─ Large (> 1,000,000 elements)
-         └─ Use: GPU
+|- No (sequential dependencies)
+|  +- Use: CPU (single core)
+|     Examples: Parsing, tree traversal, complex algorithms
+|
++- Yes (can be split into independent tasks)
+   |
+   |- What type of parallelism?
+   |
+   |- Task Parallelism (different operations)
+   |  |- CPU-intensive tasks
+   |  |  +- Use: CPU Multiprocessing (# workers = physical cores)
+   |  |     Examples: Video encoding, data compression
+   |  |
+   |  +- I/O-intensive tasks
+   |     +- Use: Asyncio or Threading (# workers = 100s-1000s)
+   |        Examples: Web scraping, API calls
+   |
+   +- Data Parallelism (same operation on different data)
+      |
+      |- Problem size?
+      |
+      |- Small (< 10,000 elements)
+      |  +- Use: CPU Multiprocessing
+      |     Reason: GPU overhead not worth it
+      |
+      |- Medium (10,000 - 1,000,000 elements)
+      |  |- Simple operations (add, multiply)
+      |  |  +- Use: GPU
+      |  +- Complex operations (lots of branches)
+      |     +- Use: CPU Multiprocessing
+      |
+      +- Large (> 1,000,000 elements)
+         +- Use: GPU
             Reason: Massive parallelism advantage
 ::
 
@@ -1035,22 +1040,22 @@ Use CPU When:
 
 ::
 
-✅ Complex branching logic
+[[OK]] Complex branching logic
    if/else trees, switch statements, dynamic dispatch
 
-✅ Irregular memory access patterns
+[[OK]] Irregular memory access patterns
    Hash tables, tree structures, linked lists
 
-✅ Small datasets (< 10K elements)
+[[OK]] Small datasets (< 10K elements)
    GPU transfer overhead > computation time
 
-✅ Frequent host-device communication
+[[OK]] Frequent host-device communication
    Need to move data between CPU/GPU often
 
-✅ Sequential dependencies
+[[OK]] Sequential dependencies
    Each step depends on previous result
 
-✅ Debugging and development
+[[OK]] Debugging and development
    CPU tools more mature, easier to debug
 ::
 
@@ -1060,23 +1065,23 @@ Use GPU When:
 
 ::
 
-✅ Massive data parallelism
+[[OK]] Massive data parallelism
    Same operation on millions of data points
 
-✅ Matrix operations
+[[OK]] Matrix operations
    Linear algebra, transformations
 
-✅ Regular memory access patterns
+[[OK]] Regular memory access patterns
    Arrays, grids, uniform data structures
 
-✅ Minimal branching
+[[OK]] Minimal branching
    Straight-line code, vectorizable operations
 
-✅ Large datasets (> 100K elements)
+[[OK]] Large datasets (> 100K elements)
    Enough work to saturate GPU cores
 
-✅ Can keep data on GPU
-   Minimize CPU↔GPU transfers
+[[OK]] Can keep data on GPU
+   Minimize CPU<->GPU transfers
 ::
 
 
@@ -1085,16 +1090,16 @@ Use Hyperthreading When:
 
 ::
 
-✅ Workload has varied resource usage
+[[OK]] Workload has varied resource usage
    Some threads use ALU, others use FPU
 
-✅ Latency hiding
+[[OK]] Latency hiding
    Memory-bound code with cache misses
 
-✅ Server workloads
+[[OK]] Server workloads
    Many small tasks with idle time
 
-❌ DON'T use for CPU-intensive Python
+[[FAIL]] DON'T use for CPU-intensive Python
    GIL + context switching = slower
 ::
 
@@ -1160,7 +1165,7 @@ Example 2: Monte Carlo Simulation
 
 .. code-block:: python
 
-Task: Estimate π using Monte Carlo (1 billion points)
+Task: Estimate pi using Monte Carlo (1 billion points)
 =====================================================
 
 import numpy as np
@@ -1344,4 +1349,4 @@ Key Takeaways
 - **Match tool to task**: CPU for complex, GPU for simple-but-massive
 - **Hyperthreading helps** when threads use different resources
 - **Profile first**: Measure before choosing architecture
-- **Consider transfer costs**: CPU↔GPU data movement is expensive
+- **Consider transfer costs**: CPU<->GPU data movement is expensive

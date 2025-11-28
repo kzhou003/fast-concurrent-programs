@@ -20,14 +20,14 @@ Standard Softmax Formula
 ~~~~~~~~~~~~~~~~~~~~~~~~
 ::
 
-softmax(x_i) = exp(x_i) / Σ exp(x_j)
+softmax(x_i) = exp(x_i) / SIGMA exp(x_j)
 ::
 
 
 For numerical stability, we subtract the max:
 ::
 
-softmax(x_i) = exp(x_i - max(x)) / Σ exp(x_i - max(x))
+softmax(x_i) = exp(x_i - max(x)) / SIGMA exp(x_i - max(x))
 ::
 
 
@@ -48,7 +48,7 @@ ret = numerator / denominator      # Read MN+M, write MN
 - **Writes**: 3MN + 2M elements
 - **Total**: 8MN + 4M elements
 
-For a matrix of size 4096×1024 (float32):
+For a matrix of size 4096x1024 (float32):
 - Total data movement: ~134 MB
 - But the actual result is only: ~16 MB
 
@@ -74,7 +74,7 @@ SRAM (Shared Memory / L1 Cache)
 The Key Insight
 ~~~~~~~~~~~~~~~
 If a row fits in SRAM, we can:
-1. Load the row once from DRAM → SRAM
+1. Load the row once from DRAM -> SRAM
 2. Do all computations in SRAM
 3. Write result once back to DRAM
 
@@ -189,9 +189,9 @@ BLOCK_SIZE = triton.next_power*of_2(n_cols)
 
 
 For example:
-- n_cols = 1000 → BLOCK_SIZE = 1024
-- n_cols = 513 → BLOCK_SIZE = 1024
-- n_cols = 512 → BLOCK_SIZE = 512
+- n_cols = 1000 -> BLOCK_SIZE = 1024
+- n_cols = 513 -> BLOCK_SIZE = 1024
+- n_cols = 512 -> BLOCK_SIZE = 512
 
 Occupancy and Performance Tuning
 --------------------------------
@@ -210,7 +210,7 @@ num_warps = 8
 - GPU schedules at warp granularity
 
 **Why 8 warps?**
-- Total threads = 8 × 32 = 256 threads per block
+- Total threads = 8 x 32 = 256 threads per block
 - Enough to hide memory latency
 - Not so many that we run out of registers
 
@@ -257,7 +257,7 @@ num_programs = NUM_SM * occupancy
 Register occupancy:
 ::
 
-occupancy = 65536 / (64 * 32 * 8) = 65536 / 16384 ≈ 4 blocks per SM
+occupancy = 65536 / (64 * 32 * 8) = 65536 / 16384 ~ 4 blocks per SM
 ::
 
 
@@ -271,7 +271,7 @@ num_programs = 108 * 4 = 432 blocks
 If you have 4096 rows, many waves needed:
 ::
 
-waves = ceil(4096 / 432) ≈ 10 waves
+waves = ceil(4096 / 432) ~ 10 waves
 ::
 
 
@@ -316,7 +316,7 @@ Without this, for large values:
 .. code-block:: python
 
 exp(1000) = overflow! (inf in float32)
-softmax([1000, 1001, 1002]) → [nan, nan, nan]
+softmax([1000, 1001, 1002]) -> [nan, nan, nan]
 ::
 
 
@@ -327,7 +327,7 @@ x = [1000, 1001, 1002]
 max_x = 1002
 x - max_x = [-2, -1, 0]
 exp([-2, -1, 0]) = [0.135, 0.368, 1.0]  # no overflow!
-softmax ≈ [0.09, 0.24, 0.67]  # correct!
+softmax ~ [0.09, 0.24, 0.67]  # correct!
 ::
 
 
@@ -361,7 +361,7 @@ Theoretical Speedup
 Naive: 8MN + 4M bytes
 Fused: 2MN bytes
 
-For large N: speedup ≈ (8MN) / (2MN) = **4x**
+For large N: speedup ~ (8MN) / (2MN) = **4x**
 
 Actual Performance
 ~~~~~~~~~~~~~~~~~~
@@ -443,8 +443,8 @@ numerator = tl.exp(row_minus*max)
 mask = col_offsets < n_cols
 ::
 
-- Forgetting mask → out-of-bounds access → crash
-- Wrong mask value → incorrect results
+- Forgetting mask -> out-of-bounds access -> crash
+- Wrong mask value -> incorrect results
 - ``-inf`` is usually the right padding value for softmax
 
 Performance Tips

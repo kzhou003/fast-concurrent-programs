@@ -65,13 +65,13 @@ Visual Comparison
 
 Concurrency (Threading/Asyncio):
 Core 1: [Task A][Task B][Task A][Task C][Task B][Task A]
-Time:   ────────────────────────────────────────────────→
+Time:   ------------------------------------------------->
 
 Parallelism (Multiprocessing):
-Core 1: [Task A──────────────────────────────]
-Core 2: [Task B──────────────────────────────]
-Core 3: [Task C──────────────────────────────]
-Time:   ────────────────────────────────────────────────→
+Core 1: [Task A------------------------------]
+Core 2: [Task B------------------------------]
+Core 3: [Task C------------------------------]
+Time:   ------------------------------------------------->
 ::
 
 
@@ -143,11 +143,11 @@ When to Use What
 
 | Scenario | Use Threading | Use Multiprocessing |
 |----------|--------------|---------------------|
-| I/O-bound tasks (network, files) | ✅ Yes | ❌ Overkill |
-| CPU-bound tasks | ❌ No (GIL) | ✅ Yes |
-| Need shared memory | ✅ Yes | ❌ Complex |
-| Need true parallelism | ❌ No | ✅ Yes |
-| Low memory available | ✅ Yes | ❌ No |
+| I/O-bound tasks (network, files) | [[OK]] Yes | [[FAIL]] Overkill |
+| CPU-bound tasks | [[FAIL]] No (GIL) | [[OK]] Yes |
+| Need shared memory | [[OK]] Yes | [[FAIL]] Complex |
+| Need true parallelism | [[FAIL]] No | [[OK]] Yes |
+| Low memory available | [[OK]] Yes | [[FAIL]] No |
 
 ---
 
@@ -175,9 +175,9 @@ Impact on Performance:
 
 With GIL, threads don't help CPU-bound tasks:
 =============================================
-Sequential:        ████████████ (10 seconds)
-Threading (4):     ████████████ (10 seconds) ← No improvement!
-Multiprocessing:   ███ (2.5 seconds) ← True speedup!
+Sequential:        ############ (10 seconds)
+Threading (4):     ############ (10 seconds) <- No improvement!
+Multiprocessing:   ### (2.5 seconds) <- True speedup!
 ::
 
 
@@ -186,9 +186,9 @@ Multiprocessing:   ███ (2.5 seconds) ← True speedup!
 
 GIL is released during I/O, so threading helps:
 ===============================================
-Sequential:        ████████████ (10 seconds)
-Threading (4):     ███ (2.5 seconds) ← Good improvement!
-Asyncio:           ██ (2 seconds) ← Even better!
+Sequential:        ############ (10 seconds)
+Threading (4):     ### (2.5 seconds) <- Good improvement!
+Asyncio:           ## (2 seconds) <- Even better!
 ::
 
 
@@ -222,13 +222,13 @@ The event loop is the core of asyncio. It:
 ::
 
 Event Loop:
-  ┌────────────────────────────────┐
-  │  1. Check for ready tasks      │
-  │  2. Execute task until await   │
-  │  3. Switch to next ready task  │
-  │  4. Handle I/O operations      │
-  │  5. Repeat                     │
-  └────────────────────────────────┘
+  +--------------------------------+
+  |  1. Check for ready tasks      |
+  |  2. Execute task until await   |
+  |  3. Switch to next ready task  |
+  |  4. Handle I/O operations      |
+  |  5. Repeat                     |
+  +--------------------------------+
 ::
 
 
@@ -331,15 +331,15 @@ Execution Flow:
 ::
 
 state1() starts
-  ↓
+  down
 Executes synchronous code
-  ↓
-await asyncio.sleep(1)  ← Yields control to event loop
-  ↓                       ← Other tasks can run here
+  down
+await asyncio.sleep(1)  <- Yields control to event loop
+  down                       <- Other tasks can run here
 Resumes after sleep
-  ↓
-await state3()          ← Calls another coroutine
-  ↓
+  down
+await state3()          <- Calls another coroutine
+  down
 Returns result
 ::
 
@@ -566,7 +566,7 @@ Python 3.12 Migration Changes
 
 This section summarizes all deprecated features replaced during migration.
 
-1. Time Measurement (``time.clock()`` → ``time.perf_counter()``)
+1. Time Measurement (``time.clock()`` -> ``time.perf_counter()``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: ``time.clock()`` was deprecated in Python 3.3 and removed in Python 3.8.
@@ -596,7 +596,7 @@ elapsed = time.perf_counter() - start
 - System-wide consistency
 - Better precision for benchmarking
 
-2. Coroutine Syntax (``@asyncio.coroutine`` → ``async def``)
+2. Coroutine Syntax (``@asyncio.coroutine`` -> ``async def``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: ``@asyncio.coroutine`` decorator deprecated in Python 3.8.
@@ -626,7 +626,7 @@ async def my_coroutine():
 - Better error messages
 - Type checker friendly
 
-3. Task Creation (``asyncio.Task()`` → ``asyncio.create_task()``)
+3. Task Creation (``asyncio.Task()`` -> ``asyncio.create_task()``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: Direct ``asyncio.Task()`` constructor deprecated.
@@ -678,7 +678,7 @@ asyncio.run(my_coroutine())
 - Cleaner and safer
 - Recommended since Python 3.7
 
-5. Future Callbacks (Callbacks → ``await``)
+5. Future Callbacks (Callbacks -> ``await``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: Callback-based code is harder to read and maintain.
@@ -720,7 +720,7 @@ print(result)
 .. code-block:: python
 
 async def bad_function():
-    time.sleep(5)  # ❌ Blocks entire event loop!
+    time.sleep(5)  # [[FAIL]] Blocks entire event loop!
 ::
 
 
@@ -728,7 +728,7 @@ async def bad_function():
 .. code-block:: python
 
 async def good_function():
-    await asyncio.sleep(5)  # ✅ Yields control
+    await asyncio.sleep(5)  # [[OK]] Yields control
 ::
 
 
@@ -737,7 +737,7 @@ async def good_function():
 - Allows other tasks to run
 - Proper async behavior
 
-7. String Formatting (``%`` → f-strings)
+7. String Formatting (``%`` -> f-strings)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: Old-style formatting is less readable.
@@ -781,12 +781,12 @@ Compatibility
 ~~~~~~~~~~~~~
 
 All migrated scripts are compatible with:
-- ✅ Python 3.12 (tested)
-- ✅ Python 3.11
-- ✅ Python 3.10
-- ✅ Python 3.9
-- ✅ Python 3.8
-- ✅ Python 3.7 (minimum for ``asyncio.run()``)
+- [[OK]] Python 3.12 (tested)
+- [[OK]] Python 3.11
+- [[OK]] Python 3.10
+- [[OK]] Python 3.9
+- [[OK]] Python 3.8
+- [[OK]] Python 3.7 (minimum for ``asyncio.run()``)
 
 ---
 

@@ -29,7 +29,9 @@ with rlock:          # Thread acquires lock (count = 1)
     with rlock:      # Same thread acquires again (count = 2)
         pass         # No deadlock! Just increments counter
                      # Releases when count goes back to 0
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -48,15 +50,17 @@ RLock uses a **counter system**:
 
 ::
 
-Thread A acquires:    Counter = 1 ✓
-Thread A acquires:    Counter = 2 ✓
-Thread A acquires:    Counter = 3 ✓
+Thread A acquires:    Counter = 1 [OK]
+Thread A acquires:    Counter = 2 [OK]
+Thread A acquires:    Counter = 3 [OK]
 (other threads blocked)
 Thread A releases:    Counter = 2 (still locked)
 Thread A releases:    Counter = 1 (still locked)
 Thread A releases:    Counter = 0 (NOW unlocked)
 Thread B can now acquire
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -130,7 +134,9 @@ def add(self):
                          # No deadlock! Just increments counter
                          # After execute() returns, counter = 1
                          # After add() ends, counter = 0
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -178,7 +184,9 @@ class Box:
     def execute(self, value):
         with self.lock:      # Same lock needed here too
             self.items += value
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -215,7 +223,7 @@ Reentrant Lock Counter Animation
 ::
 
 Time  Thread A              RLock Counter    Thread B Status
-────────────────────────────────────────────────────────────
+------------------------------------------------------------
 1     acquire()            1                blocked (waiting)
 2     acquire()            2                blocked
 3     release()            1                blocked
@@ -239,28 +247,30 @@ class Box:
         self.total_items = 0
 
     def execute(self, value):
-        with self.lock:                # Counter: 0→1
+        with self.lock:                # Counter: 0->1
             self.total_items += value
-        # Counter: 1→0 (lock released)
+        # Counter: 1->0 (lock released)
 
     def add(self):
-        with self.lock:                # Counter: 0→1
+        with self.lock:                # Counter: 0->1
             self.execute(1)
             # Inside execute():
-            # Counter: 1→2 (REENTRANT - same thread!)
+            # Counter: 1->2 (REENTRANT - same thread!)
             # Modify items
-            # Counter: 2→1
-        # Counter: 1→0 (lock fully released)
+            # Counter: 2->1
+        # Counter: 1->0 (lock fully released)
 
     def remove(self):
-        with self.lock:                # Counter: 0→1
+        with self.lock:                # Counter: 0->1
             self.execute(-1)
             # Inside execute():
-            # Counter: 1→2 (REENTRANT)
+            # Counter: 1->2 (REENTRANT)
             # Modify items
-            # Counter: 2→1
-        # Counter: 1→0
-::
+            # Counter: 2->1
+        # Counter: 1->0
+.. code-block:: text
+
+
 
 
 ---
@@ -271,52 +281,60 @@ Visual Comparison
 Regular Lock - Would Deadlock
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: text
+
+
 
 Thread trying to re-acquire the same lock:
 
-         ┌─────────────────────────┐
-         │   Thread A acquires     │
-         │   Lock acquired ✓       │
-         └────────────┬────────────┘
-                      │
-         ┌────────────▼─────────────┐
-         │ Thread A tries to        │
-         │ acquire again            │
-         │ WAITING... (deadlock!)   │ ← Blocked forever
-         │ (waiting for itself)     │
-         └─────────────────────────┘
-::
+         +-------------------------+
+         |   Thread A acquires     |
+         |   Lock acquired [OK]       |
+         +------------+------------+
+                      |
+         +------------[v]-------------+
+         | Thread A tries to        |
+         | acquire again            |
+         | WAITING... (deadlock!)   | <- Blocked forever
+         | (waiting for itself)     |
+         +-------------------------+
+.. code-block:: text
+
+
 
 
 RLock - No Deadlock
 ~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: text
+
+
 
 Thread re-acquiring the same lock:
 
-    ┌──────────────────────────┐
-    │ Thread A acquires (1)    │
-    │ Lock count = 1 ✓         │
-    └─────────────┬────────────┘
-                  │
-    ┌─────────────▼─────────────┐
-    │ Thread A acquires again   │
-    │ Lock count = 2 ✓          │ ← Allowed!
-    │ (same thread, no block)   │
-    └─────────────┬─────────────┘
-                  │
-    ┌─────────────▼─────────────┐
-    │ Thread A releases (2→1)   │
-    │ Lock still held ✓         │
-    └─────────────┬─────────────┘
-                  │
-    ┌─────────────▼─────────────┐
-    │ Thread A releases (1→0)   │
-    │ Lock released ✓           │ ← Now others can acquire
-    └──────────────────────────┘
-::
+    +--------------------------+
+    | Thread A acquires (1)    |
+    | Lock count = 1 [OK]         |
+    +-------------+------------+
+                  |
+    +-------------[v]-------------+
+    | Thread A acquires again   |
+    | Lock count = 2 [OK]          | <- Allowed!
+    | (same thread, no block)   |
+    +-------------+-------------+
+                  |
+    +-------------[v]-------------+
+    | Thread A releases (2->1)   |
+    | Lock still held [OK]         |
+    +-------------+-------------+
+                  |
+    +-------------[v]-------------+
+    | Thread A releases (1->0)   |
+    | Lock released [OK]           | <- Now others can acquire
+    +--------------------------+
+.. code-block:: text
+
+
 
 
 ---
@@ -366,7 +384,9 @@ withdraw() acquires self.lock (count=2) - allowed!
 ==================================================
 No deadlock!
 ============
-::
+.. code-block:: text
+
+
 
 
 ---
@@ -376,7 +396,7 @@ Summary Table
 
 | Aspect | Regular Lock | RLock |
 |--------|-------------|-------|
-| **Same thread re-acquire** | ❌ Deadlock | ✓ Allowed |
+| **Same thread re-acquire** | [[FAIL]] Deadlock | [OK] Allowed |
 | **Counter system** | No | Yes (0, 1, 2, ...) |
 | **Nested calls** | Dangerous | Safe |
 | **Performance** | Faster | Slightly slower |

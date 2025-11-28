@@ -11,12 +11,12 @@ Key Concept
 ::
 
 put(item)      get()
-   │             │
-   ▼             ▼
-┌─────────────────────────┐
-│  [1] [2] [3] [4] [5]    │
-│   ▲                      │
-│  Item added here    Item removed here
+   |             |
+   [v]             [v]
++-------------------------+
+|  [1] [2] [3] [4] [5]    |
+|   [^]                      |
+|  Item added here    Item removed here
 ::
 
 
@@ -45,13 +45,13 @@ Queue internally looks like this:
 ::
 
 Queue object:
-┌─────────────────────────────────────┐
-│ items: [1, 2, 3, 4, 5]             │ ← Internal list
-│ mutex: Lock()                       │ ← Built-in lock!
-│ not_empty: Condition()              │ ← Signals when items available
-│ not_full: Condition()               │ ← Signals when space available
-│ maxsize: 0 (unlimited)              │
-└─────────────────────────────────────┘
++-------------------------------------+
+| items: [1, 2, 3, 4, 5]             | <- Internal list
+| mutex: Lock()                       | <- Built-in lock!
+| not_empty: Condition()              | <- Signals when items available
+| not_full: Condition()               | <- Signals when space available
+| maxsize: 0 (unlimited)              |
++-------------------------------------+
 ::
 
 
@@ -328,7 +328,7 @@ Execution Flow
 ::
 
 Time  Producer               Queue              Consumer1/2/3
-────────────────────────────────────────────────────────────
+------------------------------------------------------------
 0     produces item 42      []                 waiting...
       put(42)               [42]               get() wakes up!
 
@@ -359,11 +359,11 @@ Queue vs Lock vs Semaphore vs RLock
 | Feature | Lock | RLock | Semaphore | Queue |
 |---------|------|-------|-----------|-------|
 | **Purpose** | Mutual exclusion | Reentrant locking | Signaling/Resource pool | Data passing |
-| **Thread-safe data** | ✗ | ✗ | ✗ | ✓ (built-in) |
-| **Built-in blocking** | ✗ | ✗ | ✓ | ✓ |
-| **FIFO ordering** | ✗ | ✗ | ✗ | ✓ |
-| **Task tracking** | ✗ | ✗ | ✗ | ✓ (task_done) |
-| **Condition vars** | ✗ | ✗ | ✓ | ✓ (internal) |
+| **Thread-safe data** | [FAIL] | [FAIL] | [FAIL] | [OK] (built-in) |
+| **Built-in blocking** | [FAIL] | [FAIL] | [OK] | [OK] |
+| **FIFO ordering** | [FAIL] | [FAIL] | [FAIL] | [OK] |
+| **Task tracking** | [FAIL] | [FAIL] | [FAIL] | [OK] (task_done) |
+| **Condition vars** | [FAIL] | [FAIL] | [OK] | [OK] (internal) |
 | **Best for** | Critical sections | Nested locks | Signaling | Producer-consumer |
 
 ---
@@ -482,7 +482,7 @@ Internally in Queue:
 =======================
    with self.mutex:
 ===================
-       ↓
+       down
 ========
 2. Check if full
 ================
@@ -490,19 +490,19 @@ Internally in Queue:
 ====================
        wait(not_full)  # Sleep here until there's space
 =======================================================
-       ↓
+       down
 ========
 3. Add item
 ===========
    self.items.append(42)
 ========================
-       ↓
+       down
 ========
 4. Notify consumers
 ===================
    not_empty.notify()  # Wake one sleeping consumer
 ===================================================
-       ↓
+       down
 ========
 5. Release mutex
 ================
@@ -524,7 +524,7 @@ Internally in Queue:
 =======================
    with self.mutex:
 ===================
-       ↓
+       down
 ========
 2. Check if empty
 =================
@@ -532,19 +532,19 @@ Internally in Queue:
 ========================
        wait(not_empty)  # Sleep here until items available
 ==========================================================
-       ↓
+       down
 ========
 3. Remove item
 ==============
    item = self.items.pop(0)
 ===========================
-       ↓
+       down
 ========
 4. Notify producers
 ===================
    not_full.notify()  # Wake one sleeping producer
 ==================================================
-       ↓
+       down
 ========
 5. Release mutex
 ================
@@ -563,7 +563,7 @@ Mistake 1: Forgetting Lock
 
 .. code-block:: python
 
-❌ WRONG - No lock on append
+[[FAIL]] WRONG - No lock on append
 ===========================
 data = []
 
@@ -573,7 +573,7 @@ def producer():
 def consumer():
     item = data.pop(0)  # Not synchronized!
 
-✅ CORRECT - Queue is always locked
+[[OK]] CORRECT - Queue is always locked
 ==================================
 q = Queue()
 
@@ -590,13 +590,13 @@ Mistake 2: Busy-Waiting
 
 .. code-block:: python
 
-❌ WRONG - Wastes CPU
+[[FAIL]] WRONG - Wastes CPU
 ====================
 while not data:
     time.sleep(0.01)  # Spin loop, bad!
 item = data.pop(0)
 
-✅ CORRECT - Queue blocks efficiently
+[[OK]] CORRECT - Queue blocks efficiently
 ====================================
 item = q.get()  # Sleeps without spinning
 ::
@@ -607,14 +607,14 @@ Mistake 3: Race Condition
 
 .. code-block:: python
 
-❌ WRONG - Check and pop not atomic
+[[FAIL]] WRONG - Check and pop not atomic
 ==================================
 with lock:
     if len(data) > 0:  # Check
         # Lock released here!
         item = data.pop(0)  # Another thread might have removed it!
 
-✅ CORRECT - Queue makes check and pop atomic
+[[OK]] CORRECT - Queue makes check and pop atomic
 ============================================
 item = q.get()  # Entire operation is atomic
 ::

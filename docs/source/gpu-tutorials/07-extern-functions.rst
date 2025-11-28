@@ -150,7 +150,7 @@ How It Works Under the Hood
 Compilation Process
 ~~~~~~~~~~~~~~~~~~~
 
-1. **Triton → LLVM IR**: Your kernel is compiled to LLVM intermediate representation
+1. **Triton -> LLVM IR**: Your kernel is compiled to LLVM intermediate representation
 
 2. **Link external libraries**: LLVM linker merges your code with libdevice.bc
 
@@ -245,7 +245,7 @@ Arc sine is the inverse of sine:
 
 If sin(y) = x, then asin(x) = y
 Domain: [-1, 1]
-Range: [-π/2, π/2]
+Range: [-pi/2, pi/2]
 ::
 
 
@@ -257,7 +257,7 @@ Why Use libdevice?
 
 def asin_approx(x):
     # Use Taylor series or other approximation
-    # Need to handle edge cases (x near ±1)
+    # Need to handle edge cases (x near +/-1)
     # Accuracy vs performance trade-off
     # Lots of potential bugs!
 ::

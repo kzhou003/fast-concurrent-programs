@@ -95,10 +95,10 @@ Example Visualization
 For a vector of 1024 elements with block size 256::
 
     Grid: 4 blocks
-    ├─ Block 0: threads 0-255   → process elements 0-255
-    ├─ Block 1: threads 256-511 → process elements 256-511
-    ├─ Block 2: threads 512-767 → process elements 512-767
-    └─ Block 3: threads 768-1023 → process elements 768-1023
+    |- Block 0: threads 0-255   -> process elements 0-255
+    |- Block 1: threads 256-511 -> process elements 256-511
+    |- Block 2: threads 512-767 -> process elements 512-767
+    +- Block 3: threads 768-1023 -> process elements 768-1023
 
 In Triton::
 

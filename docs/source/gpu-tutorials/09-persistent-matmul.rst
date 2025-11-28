@@ -306,10 +306,10 @@ Output shows hierarchical breakdown:
 ::
 
 matmul
-├─ naive [M=8192, N=8192, K=512]      1.23 ms, 220 tflop16/s
-├─ persistent [M=8192, N=8192, K=512] 1.15 ms, 235 tflop16/s
-├─ tma [M=8192, N=8192, K=512]        1.05 ms, 257 tflop16/s
-└─ tma_persistent [...]               0.98 ms, 276 tflop16/s
+|- naive [M=8192, N=8192, K=512]      1.23 ms, 220 tflop16/s
+|- persistent [M=8192, N=8192, K=512] 1.15 ms, 235 tflop16/s
+|- tma [M=8192, N=8192, K=512]        1.05 ms, 257 tflop16/s
++- tma_persistent [...]               0.98 ms, 276 tflop16/s
 ::
 
 
@@ -373,7 +373,7 @@ for ki in tl.range(k_tiles, warp_specialize=True):
 
 
 **Without warp specialization:**
-- All warps do: load A → load B → compute → repeat
+- All warps do: load A -> load B -> compute -> repeat
 - Memory and compute are serialized
 
 **With warp specialization:**
@@ -435,16 +435,16 @@ Expected speedups (relative to naive):
 
 | Variant | FP16 Speedup | FP8 Speedup | Notes |
 |---------|--------------|-------------|-------|
-| Persistent | 1.05-1.15× | 1.05-1.1× | Saves launch overhead |
-| TMA | 1.15-1.25× | 1.2-1.3× | Better memory access |
-| TMA Persistent | 1.2-1.35× | 1.25-1.4× | Combined benefits |
-| + Warp Spec (Blackwell) | 1.3-1.5× | 1.4-1.6× | Hardware overlap |
+| Persistent | 1.05-1.15x | 1.05-1.1x | Saves launch overhead |
+| TMA | 1.15-1.25x | 1.2-1.3x | Better memory access |
+| TMA Persistent | 1.2-1.35x | 1.25-1.4x | Combined benefits |
+| + Warp Spec (Blackwell) | 1.3-1.5x | 1.4-1.6x | Hardware overlap |
 
 When Each Variant Wins
 ~~~~~~~~~~~~~~~~~~~~~~
 
 **Naive:**
-- Small matrices (< 1024×1024)
+- Small matrices (< 1024x1024)
 - Single matmul
 - Minimal kernel launch overhead needed
 
@@ -459,7 +459,7 @@ When Each Variant Wins
 - Complex memory access patterns
 
 **TMA Persistent + Warp Spec:**
-- Large matrices (≥ 4096×4096)
+- Large matrices (>= 4096x4096)
 - Blackwell GPUs
 - Maximum performance needed
 
@@ -487,8 +487,8 @@ a = torch.randn((M, K), dtype=torch.float16).to(dtype)
 b = torch.randn((K, N), dtype=torch.float16).to(dtype)
 ::
 
-- Requires compute capability ≥ 9.0
-- 2× speedup potential
+- Requires compute capability >= 9.0
+- 2x speedup potential
 - Lower precision, faster compute
 - Ideal for inference
 

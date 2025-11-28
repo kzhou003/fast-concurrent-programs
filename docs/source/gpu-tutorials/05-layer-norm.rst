@@ -24,14 +24,14 @@ Given input vector x of length N:
 
 ::
 
-y = (x - E[x]) / sqrt(Var[x] + ε) * w + b
+y = (x - E[x]) / sqrt(Var[x] + eps) * w + b
 ::
 
 
 Where:
 - ``E[x]``: Mean of x
 - ``Var[x]``: Variance of x
-- ``ε``: Small constant for numerical stability (e.g., 1e-5)
+- ``eps``: Small constant for numerical stability (e.g., 1e-5)
 - ``w``: Learnable weight (scaling)
 - ``b``: Learnable bias (shifting)
 
@@ -41,21 +41,21 @@ Step-by-Step Math
 1. **Compute mean**:
    ::
 
-   μ = (1/N) * Σ x[i]
+   mu = (1/N) * SIGMA x[i]
    ::
 
 
 2. **Compute variance**:
    ::
 
-   σ² = (1/N) * Σ (x[i] - μ)²
+   sigma^2 = (1/N) * SIGMA (x[i] - mu)^2
    ::
 
 
 3. **Normalize**:
    ::
 
-   x_hat[i] = (x[i] - μ) / sqrt(σ² + ε)
+   x_hat[i] = (x[i] - mu) / sqrt(sigma^2 + eps)
    ::
 
 
@@ -89,8 +89,8 @@ For input shape (Batch, Features):
 ::
 
 For each feature j:
-    μ[j] = mean(x[:, j])  # Mean across batch
-    σ²[j] = var(x[:, j])  # Variance across batch
+    mu[j] = mean(x[:, j])  # Mean across batch
+    sigma^2[j] = var(x[:, j])  # Variance across batch
 ::
 
 
@@ -98,8 +98,8 @@ For each feature j:
 ::
 
 For each sample i:
-    μ[i] = mean(x[i, :])  # Mean across features
-    σ²[i] = var(x[i, :])  # Variance across features
+    mu[i] = mean(x[i, :])  # Mean across features
+    sigma^2[i] = var(x[i, :])  # Variance across features
 ::
 
 
@@ -219,10 +219,10 @@ The Backward Pass
 Gradient Mathematics
 ~~~~~~~~~~~~~~~~~~~~
 
-Given upstream gradient ∂L/∂y, compute:
-1. **∂L/∂x** (gradient w.r.t. input)
-2. **∂L/∂w** (gradient w.r.t. weights)
-3. **∂L/∂b** (gradient w.r.t. biases)
+Given upstream gradient d/dL/d/dy, compute:
+1. **d/dL/d/dx** (gradient w.r.t. input)
+2. **d/dL/d/dw** (gradient w.r.t. weights)
+3. **d/dL/d/db** (gradient w.r.t. biases)
 
 Gradient for Biases
 ~~~~~~~~~~~~~~~~~~~
@@ -230,7 +230,7 @@ Gradient for Biases
 Simplest:
 ::
 
-∂L/∂b = ∂L/∂y
+d/dL/d/db = d/dL/d/dy
 ::
 
 
@@ -241,16 +241,16 @@ Gradient for Weights
 
 ::
 
-∂L/∂w = ∂L/∂y ⊙ x_hat
+d/dL/d/dw = d/dL/d/dy (o) x_hat
 ::
 
 
-Where ``⊙`` is element-wise multiplication.
+Where ``(o)`` is element-wise multiplication.
 
 **But**: Same w and b are used for all samples in batch!
 ::
 
-∂L/∂w = Σ (∂L/∂y[i] ⊙ x_hat[i]) for all i in batch
+d/dL/d/dw = SIGMA (d/dL/d/dy[i] (o) x_hat[i]) for all i in batch
 ::
 
 
@@ -261,29 +261,29 @@ Gradient for Input (Complex!)
 
 ::
 
-∂L/∂x = (1/σ) * (∂L/∂y ⊙ w - c₁ ⊙ x_hat - c₂)
+d/dL/d/dx = (1/sigma) * (d/dL/d/dy (o) w - c_1 (o) x_hat - c_2)
 ::
 
 
 Where:
 ::
 
-c₁ = (1/N) * (x_hat · (∂L/∂y ⊙ w))  # Scalar dot product
-c₂ = (1/N) * (∂L/∂y · w)            # Scalar dot product
-σ = sqrt(Var[x] + ε)                 # Standard deviation
+c_1 = (1/N) * (x_hat * (d/dL/d/dy (o) w))  # Scalar dot product
+c_2 = (1/N) * (d/dL/d/dy * w)            # Scalar dot product
+sigma = sqrt(Var[x] + eps)                 # Standard deviation
 ::
 
 
 **Intuition**:
 - First term: Direct gradient through normalization
-- c₁ term: Gradient from variance
-- c₂ term: Gradient from mean
+- c_1 term: Gradient from variance
+- c_2 term: Gradient from mean
 
 **Derivation** (brief sketch):
-1. ∂y/∂x_hat = w (affine transform gradient)
-2. ∂x_hat/∂x involves ∂(x-μ)/∂x and ∂σ/∂x
-3. ∂μ/∂x = 1/N (each x affects mean)
-4. ∂σ²/∂x involves all x values
+1. d/dy/d/dx_hat = w (affine transform gradient)
+2. d/dx_hat/d/dx involves d/d(x-mu)/d/dx and d/dsigma/d/dx
+3. d/dmu/d/dx = 1/N (each x affects mean)
+4. d/dsigma^2/d/dx involves all x values
 5. Chain rule gives the formula above
 
 Parallel Reduction Strategy
@@ -295,11 +295,11 @@ The Challenge
 For weight gradients:
 .. code-block:: python
 
-dw = Σ (dy[i] ⊙ x_hat[i]) for i in batch
+dw = SIGMA (dy[i] (o) x_hat[i]) for i in batch
 ::
 
 
-**Problem**: Multiple threads updating same dw simultaneously → **race condition**!
+**Problem**: Multiple threads updating same dw simultaneously -> **race condition**!
 
 **Naive solution**: Atomic adds
 .. code-block:: python
@@ -346,10 +346,10 @@ group_id = row // GROUP_SIZE*M
 Example (M=256 rows, GROUP_SIZE*M=64):
 ::
 
-Rows 0-63   → Group 0 → Buffer 0
-Rows 64-127 → Group 1 → Buffer 1
-Rows 128-191 → Group 2 → Buffer 2
-Rows 192-255 → Group 3 → Buffer 3
+Rows 0-63   -> Group 0 -> Buffer 0
+Rows 64-127 -> Group 1 -> Buffer 1
+Rows 128-191 -> Group 2 -> Buffer 2
+Rows 192-255 -> Group 3 -> Buffer 3
 ::
 
 
@@ -513,7 +513,7 @@ Writes:
 - Mean: M
 - Rstd: M
 
-Total: ~2MN + 2N + 2M ≈ 2MN for large N.
+Total: ~2MN + 2N + 2M ~ 2MN for large N.
 
 **Bandwidth-bound**: Similar to softmax, most time spent on memory.
 
@@ -530,7 +530,7 @@ Common Pitfalls
 1. Numerical Stability
 ~~~~~~~~~~~~~~~~~~~~~~
 
-**Problem**: ``sqrt(var)`` when var ≈ 0
+**Problem**: ``sqrt(var)`` when var ~ 0
 .. code-block:: python
 
 rstd = 1 / tl.sqrt(var + eps)
@@ -599,7 +599,7 @@ RMSNorm (Simpler Variant)
 Layer norm without mean subtraction:
 ::
 
-y = x / sqrt(mean(x²) + eps) * w
+y = x / sqrt(mean(x^2) + eps) * w
 ::
 
 

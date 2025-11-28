@@ -3,7 +3,7 @@ Fused Attention (Flash Attention) in Triton
 
 Overview
 --------
-This implements **Flash Attention v2**, a revolutionary algorithm for computing attention in Transformers. It reduces memory usage from O(N²) to O(N) and achieves 2-4x speedup by using **tiling**, **online softmax**, and **recomputation** strategies. This is one of the most advanced GPU kernels you'll encounter.
+This implements **Flash Attention v2**, a revolutionary algorithm for computing attention in Transformers. It reduces memory usage from O(N^2) to O(N) and achieves 2-4x speedup by using **tiling**, **online softmax**, and **recomputation** strategies. This is one of the most advanced GPU kernels you'll encounter.
 
 What You'll Learn
 -----------------
@@ -23,7 +23,7 @@ Standard Attention Formula
 
 ::
 
-Attention(Q, K, V) = softmax(QK^T / √d) V
+Attention(Q, K, V) = softmax(QK^T / sqrtd) V
 ::
 
 
@@ -39,8 +39,8 @@ Step-by-Step Computation
 1. **Compute similarity scores**:
    ::
 
-   S = QK^T / √d_k
-   S shape: (seq_len, seq_len)  # N×N matrix!
+   S = QK^T / sqrtd_k
+   S shape: (seq_len, seq_len)  # NxN matrix!
    ::
 
 
@@ -48,7 +48,7 @@ Step-by-Step Computation
    ::
 
    P = softmax(S)
-   P shape: (seq_len, seq_len)  # Still N×N!
+   P shape: (seq_len, seq_len)  # Still NxN!
    ::
 
 
@@ -66,18 +66,18 @@ The Memory Problem
 For sequence length N=2048, head_dim=64, fp16:
 
 **Intermediate matrices**:
-- S (scores): 2048 × 2048 × 2 bytes = 8 MB
-- P (attention weights): 2048 × 2048 × 2 bytes = 8 MB
+- S (scores): 2048 x 2048 x 2 bytes = 8 MB
+- P (attention weights): 2048 x 2048 x 2 bytes = 8 MB
 - Total per head: 16 MB
 
 **For a Transformer**:
 - Batch size: 32
 - Heads: 16
-- Total: 32 × 16 × 16 MB = **8 GB** just for attention matrices!
+- Total: 32 x 16 x 16 MB = **8 GB** just for attention matrices!
 
 **For N=16384** (long sequences):
-- Per head: 16384² × 2 bytes = 512 MB
-- Total: 32 × 16 × 512 MB = **256 GB** 😱
+- Per head: 16384^2 x 2 bytes = 512 MB
+- Total: 32 x 16 x 512 MB = **256 GB** [wow]
 
 **Clearly unsustainable!**
 
@@ -100,7 +100,7 @@ Insight 1: We Don't Need to Store S and P
 3. Never materialize full S or P in HBM
 4. Only store final output O
 
-**Memory**: O(N²) → O(N) 🎉
+**Memory**: O(N^2) -> O(N) [celebrate]
 
 Insight 2: Online Softmax
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,12 +144,12 @@ The Online Softmax Algorithm
 Standard Softmax
 ~~~~~~~~~~~~~~~~
 
-For a row S_i = [s₁, s₂, ..., sₙ]:
+For a row S_i = [s_1, s_2, ..., s_n]:
 
 .. code-block:: python
 
-m = max(s₁, s₂, ..., sₙ)
-numerator = [exp(s₁-m), exp(s₂-m), ..., exp(sₙ-m)]
+m = max(s_1, s_2, ..., s_n)
+numerator = [exp(s_1-m), exp(s_2-m), ..., exp(s_n-m)]
 l = sum(numerator)
 P_i = numerator / l
 ::
@@ -158,20 +158,20 @@ P_i = numerator / l
 Block-wise Computation
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Suppose we process in two blocks: [s₁, s₂] and [s₃, s₄]:
+Suppose we process in two blocks: [s_1, s_2] and [s_3, s_4]:
 
 **After block 1**:
 ::
 
-m_old = max(s₁, s₂)
-l_old = exp(s₁ - m_old) + exp(s₂ - m_old)
+m_old = max(s_1, s_2)
+l_old = exp(s_1 - m_old) + exp(s_2 - m_old)
 ::
 
 
 **After block 2**:
 ::
 
-m_new = max(m_old, max(s₃, s₄))
+m_new = max(m_old, max(s_3, s_4))
 ::
 
 
@@ -180,19 +180,19 @@ m_new = max(m_old, max(s₃, s₄))
 **Solution**: Correction factor!
 ::
 
-α = exp(m_old - m_new)
-l_new = α * l_old + exp(s₃ - m_new) + exp(s₄ - m_new)
+alpha = exp(m_old - m_new)
+l_new = alpha * l_old + exp(s_3 - m_new) + exp(s_4 - m_new)
 ::
 
 
-**Why α?**
+**Why alpha?**
 ::
 
-Old contribution: exp(s₁ - m_old) + exp(s₂ - m_old)
-With new max:      exp(s₁ - m_new) + exp(s₂ - m_new)
-                 = exp(s₁ - m_old - (m_new - m_old)) + exp(s₂ - m_old - (m_new - m_old))
-                 = [exp(s₁ - m_old) + exp(s₂ - m_old)] * exp(m_old - m_new)
-                 = l_old * α
+Old contribution: exp(s_1 - m_old) + exp(s_2 - m_old)
+With new max:      exp(s_1 - m_new) + exp(s_2 - m_new)
+                 = exp(s_1 - m_old - (m_new - m_old)) + exp(s_2 - m_old - (m_new - m_old))
+                 = [exp(s_1 - m_old) + exp(s_2 - m_old)] * exp(m_old - m_new)
+                 = l_old * alpha
 ::
 
 
@@ -202,14 +202,14 @@ Updating the Output
 Similarly, the accumulated output needs correction:
 ::
 
-output_old = (1/l_old) * [exp(s₁-m_old)*v₁ + exp(s₂-m_old)*v₂]
+output_old = (1/l_old) * [exp(s_1-m_old)*v_1 + exp(s_2-m_old)*v_2]
 ::
 
 
 When we update max:
 ::
 
-output_new = α * output_old + (1/l_new) * [exp(s₃-m_new)*v₃ + exp(s₄-m_new)*v₄]
+output_new = alpha * output_old + (1/l_new) * [exp(s_3-m_new)*v_3 + exp(s_4-m_new)*v_4]
 ::
 
 
@@ -297,7 +297,7 @@ Mask (1 = allowed, 0 = masked):
 ::
 
 
-Setting masked positions to ``-1e6`` → ``exp(-1e6) ≈ 0`` → effectively ignored.
+Setting masked positions to ``-1e6`` -> ``exp(-1e6) ~ 0`` -> effectively ignored.
 
 Stages for Causal Attention
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -472,7 +472,7 @@ Why Recomputation?
 ~~~~~~~~~~~~~~~~~~
 
 **Traditional approach**:
-- Forward: Compute and store P (N² memory)
+- Forward: Compute and store P (N^2 memory)
 - Backward: Load P, compute gradients
 
 **Flash Attention**:
@@ -490,18 +490,18 @@ Memory Complexity
 ~~~~~~~~~~~~~~~~~
 
 **Standard attention**:
-- O(N²) for S and P matrices
+- O(N^2) for S and P matrices
 - Becomes prohibitive for long sequences
 
 **Flash Attention**:
 - O(N) for Q, K, V, O
-- No intermediate N² matrices
+- No intermediate N^2 matrices
 - Enables sequences of 16K, 32K, even 100K+ tokens
 
 Compute Complexity
 ~~~~~~~~~~~~~~~~~~
 
-Still O(N²) FLOPs (can't change the math), but:
+Still O(N^2) FLOPs (can't change the math), but:
 - Better memory access patterns
 - Higher arithmetic intensity
 - Better cache utilization
@@ -512,19 +512,19 @@ Arithmetic Intensity
 ~~~~~~~~~~~~~~~~~~~~
 
 With tiling (BLOCK_M=128, BLOCK_N=64):
-- Load Q block: 128 × 64 elements
-- Load K block: 64 × 64 elements
-- Load V block: 64 × 64 elements
-- Compute QK: 128 × 64 × 64 = 512K FLOPs
-- Compute PV: 128 × 64 × 64 = 512K FLOPs
+- Load Q block: 128 x 64 elements
+- Load K block: 64 x 64 elements
+- Load V block: 64 x 64 elements
+- Compute QK: 128 x 64 x 64 = 512K FLOPs
+- Compute PV: 128 x 64 x 64 = 512K FLOPs
 - Total: ~1M FLOPs per ~20K bytes loaded
 
-Arithmetic Intensity: 1M / 20K ≈ 50 FLOPs/byte
+Arithmetic Intensity: 1M / 20K ~ 50 FLOPs/byte
 
 **Compare to naive** (no tiling):
 - Each element of S: 1 load Q row, 1 load K row
 - Each element of P: 1 load/store
-- AI ≈ 2 FLOPs/byte
+- AI ~ 2 FLOPs/byte
 
 Flash Attention is **25x more compute-efficient** in memory access!
 
@@ -622,7 +622,7 @@ acc = acc * alpha[:, None]
 ::
 
 
-Forgetting any of these → wrong results.
+Forgetting any of these -> wrong results.
 
 Extensions and Variants
 -----------------------
@@ -633,7 +633,7 @@ Multi-Query Attention (MQA)
 Use same K, V for all heads:
 - K, V shape: (batch, 1, seq_len, head_dim)
 - Q shape: (batch, num_heads, seq_len, head_dim)
-- Memory savings: num_heads× less for K, V
+- Memory savings: num_headsx less for K, V
 
 Grouped Query Attention (GQA)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -652,7 +652,7 @@ mask = abs(offs_m[:, None] - offs_n[None, :]) <= window_size
 ::
 
 
-Reduces complexity to O(N × window_size).
+Reduces complexity to O(N x window_size).
 
 Flash Attention 3
 ~~~~~~~~~~~~~~~~~
@@ -668,7 +668,7 @@ Comparison to Standard Attention
 
 | Aspect | Standard | Flash Attention |
 |--------|----------|-----------------|
-| Memory | O(N²) | O(N) |
+| Memory | O(N^2) | O(N) |
 | Speed (2K seq) | 1x | 2-3x faster |
 | Speed (16K seq) | OOM | 10x+ faster |
 | Max sequence | ~2048 | 100K+ |
@@ -677,7 +677,7 @@ Comparison to Standard Attention
 Key Takeaways
 -------------
 
-1. **Flash Attention solves the O(N²) memory problem**: Enables long sequences
+1. **Flash Attention solves the O(N^2) memory problem**: Enables long sequences
 2. **Online softmax is the key innovation**: Compute softmax without full materialization
 3. **Tiling + correction factors**: Update statistics as we process blocks
 4. **Recomputation in backward pass**: Trade compute for memory

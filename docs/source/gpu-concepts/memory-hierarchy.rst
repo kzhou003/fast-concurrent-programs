@@ -12,13 +12,13 @@ GPUs have a multi-level memory hierarchy, similar to CPUs but with different cha
 .. code-block:: text
 
     Registers (fastest, smallest)
-        ↓ ~1 cycle latency
+        down ~1 cycle latency
     L1 Cache / Shared Memory (SRAM)
-        ↓ ~10 cycles latency
+        down ~10 cycles latency
     L2 Cache
-        ↓ ~100 cycles latency
+        down ~100 cycles latency
     Global Memory / HBM (slowest, largest)
-        ↓ ~400 cycles latency
+        down ~400 cycles latency
 
 The Performance Pyramid
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -78,7 +78,7 @@ Memory Coalescing
     Thread 1: Read address 1000
     Thread 2: Read address 2000
     Thread 3: Read address 3000
-    → 4 separate memory transactions
+    -> 4 separate memory transactions
 
 **Coalesced Access** (Fast)::
 
@@ -86,13 +86,13 @@ Memory Coalescing
     Thread 1: Read address 4
     Thread 2: Read address 8
     Thread 3: Read address 12
-    → 1 combined memory transaction (128 bytes)
+    -> 1 combined memory transaction (128 bytes)
 
 In Triton::
 
     # This automatically coalesces!
     offsets = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
-    data = tl.load(ptr + offsets)  # Adjacent threads → adjacent addresses
+    data = tl.load(ptr + offsets)  # Adjacent threads -> adjacent addresses
 
 L2 Cache
 --------
@@ -139,7 +139,7 @@ Explicitly allocated memory shared by threads in a block::
 
 **Key Uses**
 
-1. **Staging area**: Load from global → SRAM → process → write back
+1. **Staging area**: Load from global -> SRAM -> process -> write back
 2. **Data reuse**: Multiple threads access same data from SRAM
 3. **Communication**: Threads in block share results via SRAM
 
@@ -177,14 +177,14 @@ Each thread needs registers for:
 * Intermediate computations
 * Accumulation
 
-**Too many registers** → fewer threads per SM → lower occupancy → lower performance
+**Too many registers** -> fewer threads per SM -> lower occupancy -> lower performance
 
 Example::
 
     # Each thread needs registers for:
     accumulator = tl.zeros([BLOCK_M, BLOCK_N], dtype=float32)
-    # BLOCK_M=128, BLOCK_N=128 → 16K elements per thread!
-    # Each element needs 1 register → 16K registers
+    # BLOCK_M=128, BLOCK_N=128 -> 16K elements per thread!
+    # Each element needs 1 register -> 16K registers
     # But only 255 registers available per thread!
 
     # Solution: Divide work among multiple threads in block
@@ -236,8 +236,8 @@ Pattern 3: Reduction (Mixed)
 Load data, reduce to smaller output::
 
     row = tl.load(input_ptrs + offsets, mask=mask)
-    max_val = tl.max(row, axis=0)  # Many inputs → one output
-    sum_val = tl.sum(row, axis=0)  # Many inputs → one output
+    max_val = tl.max(row, axis=0)  # Many inputs -> one output
+    sum_val = tl.sum(row, axis=0)  # Many inputs -> one output
 
 **Characteristics**
 
@@ -332,12 +332,12 @@ Key Metrics
 **Example**::
 
     Vector Add: 1 FLOP, 12 bytes (read x, read y, write z)
-    AI = 1/12 ≈ 0.08 FLOPs/byte
-    → Heavily memory-bound!
+    AI = 1/12 ~ 0.08 FLOPs/byte
+    -> Heavily memory-bound!
 
     Matrix Multiply: 2MNK FLOPs, 2(MK + KN + MN) bytes
     For N=1024: AI = 512 FLOPs/byte
-    → Compute-bound!
+    -> Compute-bound!
 
 Tools for Profiling
 ~~~~~~~~~~~~~~~~~~~
@@ -368,6 +368,6 @@ The memory hierarchy is the key to GPU performance:
 * **L2 Cache**: Automatic, but can optimize access patterns
 * **Global Memory**: Slow, minimize accesses
 
-**Core Strategy**: Load data from slow memory → process in fast memory → write result
+**Core Strategy**: Load data from slow memory -> process in fast memory -> write result
 
 Next: Learn about :doc:`execution-model` to understand how GPUs schedule work.

@@ -129,11 +129,11 @@ Execution Flow
 ::
 
 main() starts
-  ↓
+  down
 Creates 3 tasks simultaneously:
-  ├─→ factorial(10) task
-  ├─→ fibonacci(10) task
-  └─→ binomial_coefficient(20, 10) task
+  |--> factorial(10) task
+  |--> fibonacci(10) task
+  +--> binomial_coefficient(20, 10) task
 
 All tasks run concurrently:
   Each task:
@@ -143,7 +143,7 @@ All tasks run concurrently:
     - Repeats until done
 
 gather() waits for all tasks to complete
-  ↓
+  down
 main() completes
 ::
 

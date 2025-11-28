@@ -88,7 +88,7 @@ def dropout(x, p):
 - Input ``x``: N bytes
 - Output: N bytes
 - Mask tensor: N bytes (or N/8 if packed as bits)
-- Total: **2-3× input size**
+- Total: **2-3x input size**
 
 For a large tensor (e.g., 1GB):
 - Need 2-3 GB total
@@ -127,12 +127,12 @@ Additional Complexity
 
 with torch.no_grad():
     output = dropout(x, p)  # Different random numbers!
-Backward pass uses different mask → wrong gradients!
+Backward pass uses different mask -> wrong gradients!
 ====================================================
 ::
 
 
-Need ``preserve_rng*state=True`` → more complexity and overhead.
+Need ``preserve_rng*state=True`` -> more complexity and overhead.
 
 Seeded Dropout Solution
 -----------------------
@@ -182,7 +182,7 @@ random = tl.rand(seed, offsets)
 
 - ``seed``: Determines the random sequence
 - ``offsets``: Unique ID for each element (position in tensor)
-- Same ``seed`` + same ``offsets`` → **same random numbers**!
+- Same ``seed`` + same ``offsets`` -> **same random numbers**!
 
 Parallel Random Number Generation
 ---------------------------------
@@ -215,7 +215,7 @@ Where ``hash`` is a deterministic, pseudo-random function.
 
 **Benefits**:
 1. **Parallel-friendly**: Each thread computes independently
-2. **Reproducible**: Same inputs → same outputs
+2. **Reproducible**: Same inputs -> same outputs
 3. **No state**: Just compute when needed
 
 The Philox Algorithm
@@ -225,7 +225,7 @@ Triton uses **Philox** (Parallel Random Number Generator):
 
 ::
 
-Philox(seed, counter) → pseudo-random uint64
+Philox(seed, counter) -> pseudo-random uint64
 ::
 
 
@@ -233,7 +233,7 @@ Philox(seed, counter) → pseudo-random uint64
 - **Fast**: A few multiply-add operations
 - **High quality**: Passes statistical randomness tests
 - **Parallel**: No inter-thread communication
-- **Deterministic**: Same seed + counter → same result
+- **Deterministic**: Same seed + counter -> same result
 
 **How it works** (simplified):
 .. code-block:: python
@@ -264,7 +264,7 @@ random = tl.rand(seed, offsets)
 Under the hood:
 1. ``offsets`` are element indices (counters)
 2. Applies Philox: ``hash(seed, offsets[i])`` for each i
-3. Converts uint64 → float32 in [0, 1)
+3. Converts uint64 -> float32 in [0, 1)
 4. Returns vector of random numbers
 
 **Example**:
@@ -306,7 +306,7 @@ For a tensor with N elements:
 
 **Example** (1B parameters, fp32):
 - Naive: 4 GB + 4 GB = 8 GB
-- Seeded: 4 GB + 4 bytes ≈ 4 GB
+- Seeded: 4 GB + 4 bytes ~ 4 GB
 - **Savings: 4 GB** (50%)
 
 Computational Cost
@@ -402,7 +402,7 @@ out2 = seeded_dropout(x, p=0.5, seed=123)
 assert torch.equal(out1, out2)  # Exactly the same!
 
 out3 = seeded_dropout(x, p=0.5, seed=456)
-assert not torch.equal(out1, out3)  # Different seed → different output
+assert not torch.equal(out1, out3)  # Different seed -> different output
 ::
 
 
@@ -465,7 +465,7 @@ x_keep = random > p               # Bernoulli with probability (1-p)
 
 If p=0.3 (drop 30%):
 - ``random > 0.3`` is True 70% of the time
-- So 70% of elements are kept ✓
+- So 70% of elements are kept [OK]
 
 Advanced Considerations
 -----------------------
@@ -615,7 +615,7 @@ Key Takeaways
 
 1. **Seeded dropout trades computation for memory**: Tiny compute cost, huge memory savings
 2. **Philox enables parallel PRNG**: No state, deterministic, high quality
-3. **Reproducibility is crucial**: Same seed → same mask → correct gradients
+3. **Reproducibility is crucial**: Same seed -> same mask -> correct gradients
 4. **Memory efficiency matters**: Enables larger models and batches
 5. **Counter-based PRNGs are perfect for GPUs**: Parallel-friendly, no communication
 6. **Small overhead, big benefit**: ~50% memory reduction with negligible slowdown

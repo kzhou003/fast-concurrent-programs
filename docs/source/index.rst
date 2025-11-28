@@ -151,10 +151,10 @@ Quick Navigation
 
 **Common Patterns:**
 
-* **I/O-bound tasks** → Asyncio or Threading
-* **CPU-bound tasks** → Multiprocessing
-* **Massive parallelism** → GPU programming
-* **Deep learning** → GPU kernels with Triton
+* **I/O-bound tasks** -> Asyncio or Threading
+* **CPU-bound tasks** -> Multiprocessing
+* **Massive parallelism** -> GPU programming
+* **Deep learning** -> GPU kernels with Triton
 
 Indices and Tables
 ==================
