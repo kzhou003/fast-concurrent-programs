@@ -52,7 +52,7 @@ Structure
     │   ├── learning-paths.rst      # Curated learning sequences
     │   ├── troubleshooting.rst     # Common issues and solutions
     │   └── references.rst          # Papers, tools, resources
-    ├── triton/                     # Original markdown files
+    ├── markdown/                     # Original markdown files
     ├── requirements.txt            # Python dependencies
     ├── Makefile                    # Build commands
     └── README.rst                  # This file
