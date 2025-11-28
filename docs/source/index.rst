@@ -78,7 +78,7 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
-   :caption: GPU Concepts & Fundamentals
+   :caption: GPU Concepts
 
    gpu-concepts/gpu-fundamentals
    gpu-concepts/memory-hierarchy
@@ -88,22 +88,12 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
-   :caption: GPU Tutorials - Beginner Level
+   :caption: GPU Tutorials
 
    gpu-tutorials/01-vector-add
    gpu-tutorials/02-fused-softmax
-
-.. toctree::
-   :maxdepth: 2
-   :caption: GPU Tutorials - Intermediate Level
-
    gpu-tutorials/03-matrix-multiplication
    gpu-tutorials/04-low-memory-dropout
-
-.. toctree::
-   :maxdepth: 2
-   :caption: GPU Tutorials - Advanced Level
-
    gpu-tutorials/05-layer-norm
    gpu-tutorials/06-fused-attention
    gpu-tutorials/07-extern-functions
@@ -113,7 +103,7 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
-   :caption: Triton Compiler & Internals
+   :caption: Triton Compiler
 
    triton-compiler/01-overview
    triton-compiler/02-jit-decorator
@@ -123,7 +113,7 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
-   :caption: Resources & Support
+   :caption: Resources
 
    learning-paths
    troubleshooting
