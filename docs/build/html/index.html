@@ -297,7 +297,19 @@
 <li class="toctree-l1"><a class="reference internal" href="gpu-concepts/performance-optimization.html#compute-optimizations">Compute Optimizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gpu-concepts/performance-optimization.html#occupancy-optimization">Occupancy Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gpu-concepts/performance-optimization.html#advanced">Advanced</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html">Triton Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html">Introduction to Triton</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#vector-addition-example">Vector Addition Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-grid-syntax-sugar-python-s-getitem">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#implementation-details">Implementation Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-complete-flow">The Complete Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#example-with-vector-addition">Example with Vector Addition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#why-ceiling-division">Why Ceiling Division?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#flow-diagram">Flow Diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#manual-synchronization">Manual Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#comparison-with-other-optimization-techniques">Comparison with Other Optimization Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#references">References</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Tutorials</span></p>
 <ul>
@@ -885,56 +897,47 @@ and responsiveness. This guide covers two main approaches:</p>
 <li class="toctree-l2"><a class="reference internal" href="gpu-concepts/performance-optimization.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html">Triton Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#introduction-to-triton">Introduction to Triton</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#vector-addition-example">Vector Addition Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html">Introduction to Triton</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#vector-addition-example">Vector Addition Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-grid-syntax-sugar-python-s-getitem">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#how-it-works">How It Works</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-grid-syntax-sugar-python-s-getitem">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#how-it-works">How It Works</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#implementation-details">Implementation Details</a></li>
-<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-complete-flow">The Complete Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#implementation-details">Implementation Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-complete-flow">The Complete Flow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#purpose">Purpose</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#purpose">Purpose</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#example-with-vector-addition">Example with Vector Addition</a></li>
-<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#why-ceiling-division">Why Ceiling Division?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#example-with-vector-addition">Example with Vector Addition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#why-ceiling-division">Why Ceiling Division?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-spmd-model">The SPMD Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#program-id-assignment">Program ID Assignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#implementation-stack">Implementation Stack</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#the-spmd-model">The SPMD Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#program-id-assignment">Program ID Assignment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#implementation-stack">Implementation Stack</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#flow-diagram">Flow Diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#flow-diagram">Flow Diagram</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#is-kernel-launch-synchronous-or-asynchronous">Is Kernel Launch Synchronous or Asynchronous?</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#is-kernel-launch-synchronous-or-asynchronous">Is Kernel Launch Synchronous or Asynchronous?</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#manual-synchronization">Manual Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#manual-synchronization">Manual Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#advanced-topics">Advanced Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#multi-dimensional-grids">Multi-Dimensional Grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#kernel-caching">Kernel Caching</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#performance-considerations">Performance Considerations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#grid-size-selection">Grid Size Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#memory-coalescing">Memory Coalescing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#is-hip-detect-amd-gpu-backend">is_hip() - Detect AMD GPU Backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#what-is-tl-assume">What is tl.assume()?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#why-assumptions-help-optimization">Why Assumptions Help Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#matrix-multiplication-example">Matrix Multiplication Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#when-to-use-tl-assume">When to Use <cite>tl.assume()</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#how-compiler-uses-assumptions">How Compiler Uses Assumptions</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#advanced-topics">Advanced Topics</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#multi-dimensional-grids">Multi-Dimensional Grids</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#kernel-caching">Kernel Caching</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#performance-considerations">Performance Considerations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#grid-size-selection">Grid Size Selection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#memory-coalescing">Memory Coalescing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#is-hip-detect-amd-gpu-backend">is_hip() - Detect AMD GPU Backend</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#what-is-tl-assume">What is tl.assume()?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#why-assumptions-help-optimization">Why Assumptions Help Optimization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#matrix-multiplication-example">Matrix Multiplication Example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#when-to-use-tl-assume">When to Use <cite>tl.assume()</cite></a></li>
-<li class="toctree-l3"><a class="reference internal" href="gpu-concepts/triton-concepts.html#how-compiler-uses-assumptions">How Compiler Uses Assumptions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="gpu-concepts/triton-concepts.html#comparison-with-other-optimization-techniques">Comparison with Other Optimization Techniques</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="gpu-concepts/triton-concepts.html#references">References</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#comparison-with-other-optimization-techniques">Comparison with Other Optimization Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-concepts/triton-concepts.html#references">References</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">

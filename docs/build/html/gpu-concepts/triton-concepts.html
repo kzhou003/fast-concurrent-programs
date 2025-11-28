@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Triton GPU Programming Concepts &mdash; Fast Concurrent Programming Guide 1.0 documentation</title>
+  <title>Introduction to Triton &mdash; Fast Concurrent Programming Guide 1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1aac1d93" />
@@ -298,7 +298,19 @@
 <li class="toctree-l1"><a class="reference internal" href="performance-optimization.html#compute-optimizations">Compute Optimizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance-optimization.html#occupancy-optimization">Occupancy Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance-optimization.html#advanced">Advanced</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Triton Concepts</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to Triton</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#vector-addition-example">Vector Addition Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#the-grid-syntax-sugar-python-s-getitem">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#implementation-details">Implementation Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#the-complete-flow">The Complete Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#example-with-vector-addition">Example with Vector Addition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#why-ceiling-division">Why Ceiling Division?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#flow-diagram">Flow Diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#manual-synchronization">Manual Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#comparison-with-other-optimization-techniques">Comparison with Other Optimization Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#references">References</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Tutorials</span></p>
 <ul>
@@ -435,7 +447,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Triton GPU Programming Concepts</li>
+      <li class="breadcrumb-item active">Introduction to Triton</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/gpu-concepts/triton-concepts.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -445,45 +457,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="triton-gpu-programming-concepts">
-<h1>Triton GPU Programming Concepts<a class="headerlink" href="#triton-gpu-programming-concepts" title="Link to this heading"></a></h1>
+  <p>Triton GPU Programming Concepts</p>
 <p>This document explains the core concepts of Triton GPU programming, including kernel launching, grid specifications, program indexing, and how parallel execution works on GPUs.</p>
-<nav class="contents local" id="table-of-contents">
+<nav class="contents local" id="table-of-contents" role="doc-toc">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#introduction-to-triton" id="id1">Introduction to Triton</a></p>
-<ul>
+<li><p><a class="reference internal" href="#introduction-to-triton" id="id1">Introduction to Triton</a></p></li>
 <li><p><a class="reference internal" href="#vector-addition-example" id="id2">Vector Addition Example</a></p></li>
-</ul>
-</li>
 <li><p><a class="reference internal" href="#the-grid-syntax-sugar-python-s-getitem" id="id3">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a></p>
 <ul>
-<li><p><a class="reference internal" href="#how-it-works" id="id4">How It Works</a></p>
-<ul>
+<li><p><a class="reference internal" href="#how-it-works" id="id4">How It Works</a></p></li>
+</ul>
+</li>
 <li><p><a class="reference internal" href="#implementation-details" id="id5">Implementation Details</a></p></li>
-<li><p><a class="reference internal" href="#the-complete-flow" id="id6">The Complete Flow</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#purpose" id="id7">Purpose</a></p>
+<li><p><a class="reference internal" href="#the-complete-flow" id="id6">The Complete Flow</a></p>
 <ul>
-<li><p><a class="reference internal" href="#example-with-vector-addition" id="id8">Example with Vector Addition</a></p></li>
-<li><p><a class="reference internal" href="#why-ceiling-division" id="id9">Why Ceiling Division?</a></p></li>
+<li><p><a class="reference internal" href="#purpose" id="id7">Purpose</a></p></li>
 </ul>
 </li>
+<li><p><a class="reference internal" href="#example-with-vector-addition" id="id8">Example with Vector Addition</a></p></li>
+<li><p><a class="reference internal" href="#why-ceiling-division" id="id9">Why Ceiling Division?</a></p>
+<ul>
 <li><p><a class="reference internal" href="#the-spmd-model" id="id10">The SPMD Model</a></p></li>
 <li><p><a class="reference internal" href="#program-id-assignment" id="id11">Program ID Assignment</a></p></li>
-<li><p><a class="reference internal" href="#implementation-stack" id="id12">Implementation Stack</a></p>
-<ul>
-<li><p><a class="reference internal" href="#flow-diagram" id="id13">Flow Diagram</a></p></li>
+<li><p><a class="reference internal" href="#implementation-stack" id="id12">Implementation Stack</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#is-kernel-launch-synchronous-or-asynchronous" id="id14">Is Kernel Launch Synchronous or Asynchronous?</a></p>
+<li><p><a class="reference internal" href="#flow-diagram" id="id13">Flow Diagram</a></p>
 <ul>
+<li><p><a class="reference internal" href="#is-kernel-launch-synchronous-or-asynchronous" id="id14">Is Kernel Launch Synchronous or Asynchronous?</a></p></li>
+</ul>
+</li>
 <li><p><a class="reference internal" href="#manual-synchronization" id="id15">Manual Synchronization</a></p></li>
-</ul>
-</li>
-</ul>
-</li>
 <li><p><a class="reference internal" href="#advanced-topics" id="id16">Advanced Topics</a></p>
 <ul>
 <li><p><a class="reference internal" href="#multi-dimensional-grids" id="id17">Multi-Dimensional Grids</a></p></li>
@@ -499,26 +504,24 @@
 <li><p><a class="reference internal" href="#why-assumptions-help-optimization" id="id24">Why Assumptions Help Optimization</a></p></li>
 <li><p><a class="reference internal" href="#matrix-multiplication-example" id="id25">Matrix Multiplication Example</a></p></li>
 <li><p><a class="reference internal" href="#when-to-use-tl-assume" id="id26">When to Use <cite>tl.assume()</cite></a></p></li>
-<li><p><a class="reference internal" href="#how-compiler-uses-assumptions" id="id27">How Compiler Uses Assumptions</a></p>
-<ul>
+<li><p><a class="reference internal" href="#how-compiler-uses-assumptions" id="id27">How Compiler Uses Assumptions</a></p></li>
+</ul>
+</li>
 <li><p><a class="reference internal" href="#comparison-with-other-optimization-techniques" id="id28">Comparison with Other Optimization Techniques</a></p></li>
-</ul>
-</li>
-</ul>
-</li>
 <li><p><a class="reference internal" href="#references" id="id29">References</a></p></li>
 </ul>
 </nav>
 <section id="introduction-to-triton">
-<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction to Triton</a><a class="headerlink" href="#introduction-to-triton" title="Link to this heading"></a></h2>
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Introduction to Triton</a><a class="headerlink" href="#introduction-to-triton" title="Link to this heading"></a></h1>
 <p>Triton is a Python-based GPU programming language that allows you to write high-performance GPU kernels without needing to learn CUDA or other low-level languages. It provides a SPMD (Single Program, Multiple Data) execution model where the same kernel code runs on multiple GPU cores in parallel.</p>
 <p>Key advantages:
 - Write GPU code in Python
 - Automatic performance optimization
 - No manual memory management
 - Abstract away hardware-specific details</p>
+</section>
 <section id="vector-addition-example">
-<h3><a class="toc-backref" href="#id2" role="doc-backlink">Vector Addition Example</a><a class="headerlink" href="#vector-addition-example" title="Link to this heading"></a></h3>
+<h1><a class="toc-backref" href="#id2" role="doc-backlink">Vector Addition Example</a><a class="headerlink" href="#vector-addition-example" title="Link to this heading"></a></h1>
 <p>Throughout this document, we’ll use a simple vector addition kernel as an example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@triton</span><span class="o">.</span><span class="n">jit</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_kernel</span><span class="p">(</span><span class="n">x_ptr</span><span class="p">,</span> <span class="n">y_ptr</span><span class="p">,</span> <span class="n">output_ptr</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="p">:</span> <span class="n">tl</span><span class="o">.</span><span class="n">constexpr</span><span class="p">):</span>
@@ -545,14 +548,15 @@
 <li><p><strong>Synchronization</strong>: Optional explicit synchronization with <cite>torch.cuda.synchronize()</cite></p></li>
 </ol>
 </section>
-</section>
 <section id="the-grid-syntax-sugar-python-s-getitem">
-<h2><a class="toc-backref" href="#id3" role="doc-backlink">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a><a class="headerlink" href="#the-grid-syntax-sugar-python-s-getitem" title="Link to this heading"></a></h2>
+<h1><a class="toc-backref" href="#id3" role="doc-backlink">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a><a class="headerlink" href="#the-grid-syntax-sugar-python-s-getitem" title="Link to this heading"></a></h1>
 <section id="how-it-works">
-<h3><a class="toc-backref" href="#id4" role="doc-backlink">How It Works</a><a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">How It Works</a><a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h2>
 <p>The <cite>add_kernel[grid]</cite> syntax is <strong>syntactic sugar</strong> for launching a kernel with a specific grid configuration. Under the hood, it uses Python’s <cite>__getitem__</cite> magic method.</p>
+</section>
+</section>
 <section id="implementation-details">
-<h4><a class="toc-backref" href="#id5" role="doc-backlink">Implementation Details</a><a class="headerlink" href="#implementation-details" title="Link to this heading"></a></h4>
+<h1><a class="toc-backref" href="#id5" role="doc-backlink">Implementation Details</a><a class="headerlink" href="#implementation-details" title="Link to this heading"></a></h1>
 <p>When you write:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add_kernel</span><span class="p">[</span><span class="n">grid</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
 </pre></div>
@@ -578,7 +582,7 @@
 </ul>
 </section>
 <section id="the-complete-flow">
-<h4><a class="toc-backref" href="#id6" role="doc-backlink">The Complete Flow</a><a class="headerlink" href="#the-complete-flow" title="Link to this heading"></a></h4>
+<h1><a class="toc-backref" href="#id6" role="doc-backlink">The Complete Flow</a><a class="headerlink" href="#the-complete-flow" title="Link to this heading"></a></h1>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1. Create kernel instance
    add_kernel = JITFunction(add_kernel_fn)
 
@@ -597,17 +601,17 @@
    - Launches GPU kernel
 </pre></div>
 </div>
-</section>
-</section>
 <hr class="docutils" />
 <section id="purpose">
-<h3><a class="toc-backref" href="#id7" role="doc-backlink">Purpose</a><a class="headerlink" href="#purpose" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Purpose</a><a class="headerlink" href="#purpose" title="Link to this heading"></a></h2>
 <p><cite>triton.cdiv(a, b)</cite> computes the <strong>ceiling division</strong> of <cite>a</cite> by <cite>b</cite>:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>triton.cdiv(a, b) = ceil(a / b) = (a + b - 1) // b
 </pre></div>
 </div>
+</section>
+</section>
 <section id="example-with-vector-addition">
-<h4><a class="toc-backref" href="#id8" role="doc-backlink">Example with Vector Addition</a><a class="headerlink" href="#example-with-vector-addition" title="Link to this heading"></a></h4>
+<h1><a class="toc-backref" href="#id8" role="doc-backlink">Example with Vector Addition</a><a class="headerlink" href="#example-with-vector-addition" title="Link to this heading"></a></h1>
 <p>For 98,432 elements and BLOCK_SIZE=1024:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">meta</span><span class="p">:</span> <span class="p">(</span><span class="n">triton</span><span class="o">.</span><span class="n">cdiv</span><span class="p">(</span><span class="mi">98432</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span> <span class="p">)</span>
 <span class="c1"># Evaluates to: (97,)</span>
@@ -621,7 +625,7 @@
 </ul>
 </section>
 <section id="why-ceiling-division">
-<h4><a class="toc-backref" href="#id9" role="doc-backlink">Why Ceiling Division?</a><a class="headerlink" href="#why-ceiling-division" title="Link to this heading"></a></h4>
+<h1><a class="toc-backref" href="#id9" role="doc-backlink">Why Ceiling Division?</a><a class="headerlink" href="#why-ceiling-division" title="Link to this heading"></a></h1>
 <p>If you used regular division:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid_wrong</span> <span class="o">=</span> <span class="mi">98432</span> <span class="o">//</span> <span class="mi">1024</span>  <span class="c1"># = 96 programs</span>
 <span class="c1"># This would miss the last 432 elements!</span>
@@ -635,18 +639,16 @@
 <span class="n">x</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">x_ptr</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># Masked load prevents out-of-bounds access</span>
 </pre></div>
 </div>
-</section>
-</section>
 <hr class="docutils" />
 <section id="the-spmd-model">
-<h3><a class="toc-backref" href="#id10" role="doc-backlink">The SPMD Model</a><a class="headerlink" href="#the-spmd-model" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">The SPMD Model</a><a class="headerlink" href="#the-spmd-model" title="Link to this heading"></a></h2>
 <p>Triton uses SPMD (Single Program, Multiple Data):
 - <strong>One program definition</strong>: The same kernel code
 - <strong>Multiple data partitions</strong>: Each program processes different data
 - <strong>Parallel execution</strong>: All programs run simultaneously on different GPU cores</p>
 </section>
 <section id="program-id-assignment">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">Program ID Assignment</a><a class="headerlink" href="#program-id-assignment" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Program ID Assignment</a><a class="headerlink" href="#program-id-assignment" title="Link to this heading"></a></h2>
 <p>When the GPU launches a kernel with grid size <cite>(97,)</cite>, the GPU runtime automatically assigns each program a unique <strong>program ID</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inside the kernel</span>
 <span class="n">pid</span> <span class="o">=</span> <span class="n">tl</span><span class="o">.</span><span class="n">program_id</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -695,7 +697,7 @@ Program 96: x[98304:99328] + y[98304:99328] -&gt; output[98304:99328]
 </section>
 <hr class="docutils" />
 <section id="implementation-stack">
-<h3><a class="toc-backref" href="#id12" role="doc-backlink">Implementation Stack</a><a class="headerlink" href="#implementation-stack" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Implementation Stack</a><a class="headerlink" href="#implementation-stack" title="Link to this heading"></a></h2>
 <p><cite>tl.program_id()</cite> is implemented across multiple layers:</p>
 <p><strong>1. User Code (core.py:1605)</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">program_id</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">_semantic</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -725,8 +727,10 @@ Program 96: x[98304:99328] + y[98304:99328] -&gt; output[98304:99328]
 - NVIDIA: <cite>blockIdx.x</cite>, <cite>blockIdx.y</cite>, <cite>blockIdx.z</cite>
 - AMD: Workgroup ID registers</p>
 <p>The GPU’s thread scheduler automatically assigns each block a unique ID when launching the kernel.</p>
+</section>
+</section>
 <section id="flow-diagram">
-<h4><a class="toc-backref" href="#id13" role="doc-backlink">Flow Diagram</a><a class="headerlink" href="#flow-diagram" title="Link to this heading"></a></h4>
+<h1><a class="toc-backref" href="#id13" role="doc-backlink">Flow Diagram</a><a class="headerlink" href="#flow-diagram" title="Link to this heading"></a></h1>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Host (Python):
     grid = (97,)
     kernel[grid](...)
@@ -757,17 +761,17 @@ GPU Hardware:
     Program 96: blockIdx.x = 96
 </pre></div>
 </div>
-</section>
-</section>
 <hr class="docutils" />
 <section id="is-kernel-launch-synchronous-or-asynchronous">
-<h3><a class="toc-backref" href="#id14" role="doc-backlink">Is Kernel Launch Synchronous or Asynchronous?</a><a class="headerlink" href="#is-kernel-launch-synchronous-or-asynchronous" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">Is Kernel Launch Synchronous or Asynchronous?</a><a class="headerlink" href="#is-kernel-launch-synchronous-or-asynchronous" title="Link to this heading"></a></h2>
 <p><strong>The kernel launch is ASYNCHRONOUS</strong> by default. When you call:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add_kernel</span><span class="p">[</span><span class="n">grid</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
+</section>
 <section id="manual-synchronization">
-<h4><a class="toc-backref" href="#id15" role="doc-backlink">Manual Synchronization</a><a class="headerlink" href="#manual-synchronization" title="Link to this heading"></a></h4>
+<h1><a class="toc-backref" href="#id15" role="doc-backlink">Manual Synchronization</a><a class="headerlink" href="#manual-synchronization" title="Link to this heading"></a></h1>
 <p>You only need <cite>torch.cuda.synchronize()</cite> if you need to measure execution time:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Without synchronization (asynchronous)</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -804,12 +808,10 @@ GPU Hardware:
 2. <strong>Better resource utilization</strong>: No blocking waits
 3. <strong>Higher throughput</strong>: Multiple kernels can run concurrently on different GPU streams</p>
 </section>
-</section>
-</section>
 <section id="advanced-topics">
-<h2><a class="toc-backref" href="#id16" role="doc-backlink">Advanced Topics</a><a class="headerlink" href="#advanced-topics" title="Link to this heading"></a></h2>
+<h1><a class="toc-backref" href="#id16" role="doc-backlink">Advanced Topics</a><a class="headerlink" href="#advanced-topics" title="Link to this heading"></a></h1>
 <section id="multi-dimensional-grids">
-<h3><a class="toc-backref" href="#id17" role="doc-backlink">Multi-Dimensional Grids</a><a class="headerlink" href="#multi-dimensional-grids" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Multi-Dimensional Grids</a><a class="headerlink" href="#multi-dimensional-grids" title="Link to this heading"></a></h2>
 <p>For 2D operations, you can use multi-dimensional grids:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@triton</span><span class="o">.</span><span class="n">jit</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">matrix_op_kernel</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">M</span><span class="p">:</span> <span class="n">tl</span><span class="o">.</span><span class="n">constexpr</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="n">tl</span><span class="o">.</span><span class="n">constexpr</span><span class="p">):</span>
@@ -836,7 +838,7 @@ GPU Hardware:
 </ul>
 </section>
 <section id="kernel-caching">
-<h3><a class="toc-backref" href="#id18" role="doc-backlink">Kernel Caching</a><a class="headerlink" href="#kernel-caching" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">Kernel Caching</a><a class="headerlink" href="#kernel-caching" title="Link to this heading"></a></h2>
 <p>Triton caches compiled kernels:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add_kernel</span><span class="p">[</span><span class="n">grid</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>  <span class="c1"># Compiles</span>
 <span class="n">add_kernel</span><span class="p">[</span><span class="n">grid</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">n_elements</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>  <span class="c1"># Cached!</span>
@@ -850,9 +852,9 @@ GPU Hardware:
 </section>
 </section>
 <section id="performance-considerations">
-<h2><a class="toc-backref" href="#id19" role="doc-backlink">Performance Considerations</a><a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h2>
+<h1><a class="toc-backref" href="#id19" role="doc-backlink">Performance Considerations</a><a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h1>
 <section id="grid-size-selection">
-<h3><a class="toc-backref" href="#id20" role="doc-backlink">Grid Size Selection</a><a class="headerlink" href="#grid-size-selection" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Grid Size Selection</a><a class="headerlink" href="#grid-size-selection" title="Link to this heading"></a></h2>
 <p>Choose BLOCK_SIZE based on GPU architecture:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good choices</span>
 <span class="n">BLOCK_SIZE</span> <span class="o">=</span> <span class="mi">256</span>   <span class="c1"># Common for NVIDIA</span>
@@ -876,7 +878,7 @@ GPU Hardware:
 </ul>
 </section>
 <section id="memory-coalescing">
-<h3><a class="toc-backref" href="#id21" role="doc-backlink">Memory Coalescing</a><a class="headerlink" href="#memory-coalescing" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id21" role="doc-backlink">Memory Coalescing</a><a class="headerlink" href="#memory-coalescing" title="Link to this heading"></a></h2>
 <p>Triton optimizes memory access patterns automatically, but contiguous access is still important:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: contiguous memory access</span>
 <span class="n">offsets</span> <span class="o">=</span> <span class="n">block_start</span> <span class="o">+</span> <span class="n">tl</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="p">)</span>
@@ -896,7 +898,7 @@ GPU Hardware:
 <p>This section explains the functions that enable this workflow.</p>
 </section>
 <section id="is-hip-detect-amd-gpu-backend">
-<h3><a class="toc-backref" href="#id22" role="doc-backlink">is_hip() - Detect AMD GPU Backend</a><a class="headerlink" href="#is-hip-detect-amd-gpu-backend" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">is_hip() - Detect AMD GPU Backend</a><a class="headerlink" href="#is-hip-detect-amd-gpu-backend" title="Link to this heading"></a></h2>
 <p><strong>Purpose</strong>: Check if the kernel is running on an AMD GPU (HIP backend) vs NVIDIA (CUDA).</p>
 <p><strong>Definition</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">is_hip</span><span class="p">():</span>
@@ -1201,7 +1203,7 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 <p>When writing high-performance GPU kernels, you often know certain conditions will always be true at runtime. Rather than letting the compiler generate defensive code to handle all cases, you can use <cite>tl.assume()</cite> to tell the compiler these guarantees, enabling aggressive optimizations.</p>
 </section>
 <section id="what-is-tl-assume">
-<h3><a class="toc-backref" href="#id23" role="doc-backlink">What is tl.assume()?</a><a class="headerlink" href="#what-is-tl-assume" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">What is tl.assume()?</a><a class="headerlink" href="#what-is-tl-assume" title="Link to this heading"></a></h2>
 <p><strong>Purpose</strong>: Provide compile-time hints to the Triton compiler that a condition is guaranteed to be true.</p>
 <p><strong>Definition</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">assume</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="n">_semantic</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1223,7 +1225,7 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 <p><strong>Important caveat</strong>: If your assumption is false, the compiler generates incorrect code and you get undefined behavior!</p>
 </section>
 <section id="why-assumptions-help-optimization">
-<h3><a class="toc-backref" href="#id24" role="doc-backlink">Why Assumptions Help Optimization</a><a class="headerlink" href="#why-assumptions-help-optimization" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Why Assumptions Help Optimization</a><a class="headerlink" href="#why-assumptions-help-optimization" title="Link to this heading"></a></h2>
 <p>Consider address calculation in matrix multiplication:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Without assumption:</span>
 <span class="n">a_ptr</span> <span class="o">=</span> <span class="n">base_ptr</span> <span class="o">+</span> <span class="p">(</span><span class="n">offset</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)</span>
@@ -1245,7 +1247,7 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 </div>
 </section>
 <section id="matrix-multiplication-example">
-<h3><a class="toc-backref" href="#id25" role="doc-backlink">Matrix Multiplication Example</a><a class="headerlink" href="#matrix-multiplication-example" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id25" role="doc-backlink">Matrix Multiplication Example</a><a class="headerlink" href="#matrix-multiplication-example" title="Link to this heading"></a></h2>
 <p>In <cite>03-matrix-multiplication.py</cite> (lines 267-277), the kernel makes the following assumptions:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add some integer bound assumptions.</span>
 <span class="c1"># This helps to guide integer analysis in the backend to optimize</span>
@@ -1291,7 +1293,7 @@ _init_handles() | Init    | Load binary on GPU + validate  | (Initializes intern
 </div>
 </section>
 <section id="when-to-use-tl-assume">
-<h3><a class="toc-backref" href="#id26" role="doc-backlink">When to Use <cite>tl.assume()</cite></a><a class="headerlink" href="#when-to-use-tl-assume" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id26" role="doc-backlink">When to Use <cite>tl.assume()</cite></a><a class="headerlink" href="#when-to-use-tl-assume" title="Link to this heading"></a></h2>
 <p>Use <cite>tl.assume()</cite> when you know a condition is <strong>guaranteed</strong> because:</p>
 <ol class="arabic simple">
 <li><p><strong>GPU runtime guarantees it</strong></p></li>
@@ -1369,7 +1371,7 @@ Performance impact   | Enables optimizations    | None (fails to compile)
 <p><strong>This 20-30% performance difference comes purely from compiler optimization enabled by assumptions!</strong></p>
 </section>
 <section id="how-compiler-uses-assumptions">
-<h3><a class="toc-backref" href="#id27" role="doc-backlink">How Compiler Uses Assumptions</a><a class="headerlink" href="#how-compiler-uses-assumptions" title="Link to this heading"></a></h3>
+<h2><a class="toc-backref" href="#id27" role="doc-backlink">How Compiler Uses Assumptions</a><a class="headerlink" href="#how-compiler-uses-assumptions" title="Link to this heading"></a></h2>
 <p>The Triton compiler’s integer analysis backend uses <cite>tl.assume()</cite> to:</p>
 <ol class="arabic simple">
 <li><p><strong>Range analysis</strong>: Determine possible value ranges</p></li>
@@ -1409,8 +1411,10 @@ Performance impact   | Enables optimizations    | None (fails to compile)
 <li><p><strong>Best practice</strong>: Only assume things guaranteed by runtime/library/preconditions</p></li>
 <li><p><strong>Performance impact</strong>: 10-30% improvement in pointer-heavy kernels</p></li>
 </ul>
+</section>
+</section>
 <section id="comparison-with-other-optimization-techniques">
-<h4><a class="toc-backref" href="#id28" role="doc-backlink">Comparison with Other Optimization Techniques</a><a class="headerlink" href="#comparison-with-other-optimization-techniques" title="Link to this heading"></a></h4>
+<h1><a class="toc-backref" href="#id28" role="doc-backlink">Comparison with Other Optimization Techniques</a><a class="headerlink" href="#comparison-with-other-optimization-techniques" title="Link to this heading"></a></h1>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Technique           | Purpose                | When to Use
 =================== ======================== =========================
 tl.assume()         | Compiler optimization  | Known guaranteed conditions
@@ -1433,10 +1437,8 @@ Unrolling hints     | Loop optimization      | Control loop unrolling
 </ol>
 <p>The beauty of Triton is that it handles all the low-level details (LLVM IR generation, memory optimization, GPU-specific code generation) automatically, letting you write high-performance GPU code in Python.</p>
 </section>
-</section>
-</section>
 <section id="references">
-<h2><a class="toc-backref" href="#id29" role="doc-backlink">References</a><a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<h1><a class="toc-backref" href="#id29" role="doc-backlink">References</a><a class="headerlink" href="#references" title="Link to this heading"></a></h1>
 <ul class="simple">
 <li><p>Triton Documentation: <a class="reference external" href="https://triton-lang.org/">https://triton-lang.org/</a></p></li>
 <li><p>NVIDIA CUDA Programming Guide: <a class="reference external" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/">https://docs.nvidia.com/cuda/cuda-c-programming-guide/</a></p></li>
@@ -1444,7 +1446,6 @@ Unrolling hints     | Loop optimization      | Control loop unrolling
 <li><p>Triton Runtime JIT: <cite>/triton/python/triton/runtime/jit.py</cite></p></li>
 <li><p>Triton Language Semantic: <cite>/triton/python/triton/language/semantic.py</cite></p></li>
 </ul>
-</section>
 </section>
 
 
