@@ -4,54 +4,25 @@ This repository contains a curated set of concurrent programming problems design
 
 ## Documentation
 
-Comprehensive guides and tutorials on concurrent and GPU programming:
+Comprehensive guides and tutorials on concurrent and GPU programming.
 
-### [CPU Concurrency Guides](docs/source/cpu-concurrency/)
-- [Key Concepts](docs/source/cpu-concurrency/key_concepts.rst) - Fundamentals of concurrency vs parallelism
-- [Hardware Parallelism](docs/source/cpu-concurrency/hardware_parallelism.rst) - Multi-core architecture
-- [Threading Basics](docs/source/cpu-concurrency/threading_basics.rst) - Thread programming fundamentals
-- [Asyncio Event Loop](docs/source/cpu-concurrency/asyncio_event_loop.rst) - Async I/O patterns
-- [Asyncio Coroutines](docs/source/cpu-concurrency/asyncio_coroutine.rst) - Coroutine implementation
-- [Asyncio and Futures](docs/source/cpu-concurrency/asyncio_and_futures.rst) - Future-based concurrency
-- [Asyncio Task Manipulation](docs/source/cpu-concurrency/asyncio_task_manipulation.rst) - Task management
-- [Concurrent Futures Pooling](docs/source/cpu-concurrency/concurrent_futures_pooling.rst) - Thread/process pools
-- [Queue Explained](docs/source/cpu-concurrency/queue_explained.rst) - Queue data structures
-- [Queue Internal Mechanics](docs/source/cpu-concurrency/queue_internal_mechanics.rst) - Queue implementation details
-- [Task Done Queue](docs/source/cpu-concurrency/task_done_queue_explained.rst) - Task synchronization
-- [RLock Explained](docs/source/cpu-concurrency/rlock_explained.rst) - Reentrant locks
-- [Semaphore Explained](docs/source/cpu-concurrency/semaphore_explained.rst) - Semaphore synchronization
-- [Patterns and Problems](docs/source/cpu-concurrency/patterns_problems_mapping.rst) - Common concurrency patterns
+**→ [View Full Documentation Index](DOCS.md)** - Complete reference with tables, quick navigation, and learning paths.
 
-### [GPU Programming Guides](docs/source/gpu-concepts/)
-- [GPU Fundamentals](docs/source/gpu-concepts/gpu-fundamentals.rst) - GPU architecture basics
-- [Memory Hierarchy](docs/source/gpu-concepts/memory-hierarchy.rst) - GPU memory organization
-- [Execution Model](docs/source/gpu-concepts/execution-model.rst) - GPU thread execution
-- [Performance Optimization](docs/source/gpu-concepts/performance-optimization.rst) - GPU optimization techniques
-- [Triton Concepts](docs/source/gpu-concepts/triton-concepts.rst) - Triton programming concepts
+Quick links:
+- [CPU Concurrency](docs/source/cpu-concurrency/) - 14 guides on threading, asyncio, synchronization
+- [GPU Programming](docs/source/gpu-concepts/) - 5 guides on GPU architecture and optimization
+- [GPU Tutorials](docs/source/gpu-tutorials/) - 10 step-by-step kernel programming examples
+- [Triton Compiler](docs/source/triton-compiler/) - 5 articles on compilation pipeline
 
-### [GPU Tutorials](docs/source/gpu-tutorials/)
-1. [Vector Addition](docs/source/gpu-tutorials/01-vector-add.rst) - Your first GPU kernel
-2. [Fused Softmax](docs/source/gpu-tutorials/02-fused-softmax.rst) - Optimized softmax kernel
-3. [Matrix Multiplication](docs/source/gpu-tutorials/03-matrix-multiplication.rst) - Optimized GEMM
-4. [Low Memory Dropout](docs/source/gpu-tutorials/04-low-memory-dropout.rst) - Memory-efficient dropout
-5. [Layer Normalization](docs/source/gpu-tutorials/05-layer-norm.rst) - Efficient layer norm
-6. [Fused Attention](docs/source/gpu-tutorials/06-fused-attention.rst) - Optimized attention
-7. [Extern Functions](docs/source/gpu-tutorials/07-extern-functions.rst) - Integration with CUDA
-8. [Grouped GEMM](docs/source/gpu-tutorials/08-grouped-gemm.rst) - Batched operations
-9. [Persistent MatMul](docs/source/gpu-tutorials/09-persistent-matmul.rst) - Persistent kernel pattern
-10. [Block Scaled MatMul](docs/source/gpu-tutorials/10-block-scaled-matmul.rst) - Block-level scaling
+### Build HTML Documentation (Recommended)
 
-### [Triton Compiler](docs/source/triton-compiler/)
-- [Compiler Overview](docs/source/triton-compiler/01-overview.rst) - Triton compilation pipeline
-- [JIT Decorator](docs/source/triton-compiler/02-jit-decorator.rst) - JIT compilation mechanics
-- [Compilation Pipeline](docs/source/triton-compiler/03-compilation-pipeline.rst) - Full compilation flow
-- [CUDA Comparison](docs/source/triton-compiler/04-cuda-comparison.rst) - Triton vs CUDA
-- [MLIR Concepts](docs/source/triton-compiler/05-mlir-concepts.rst) - MLIR IR representation
+For best viewing with proper formatting:
 
-### [Learning Resources](docs/source/)
-- [Learning Paths](docs/source/learning-paths.rst) - Structured learning progressions
-- [Troubleshooting](docs/source/troubleshooting.rst) - Common issues and solutions
-- [References](docs/source/references.rst) - External references and resources
+```bash
+cd docs
+make html
+# Open build/html/index.html in your browser
+```
 
 
 ## Key Concepts by Language
@@ -365,17 +336,6 @@ go run go/01_goroutine_counter.go
 ### Performance
 - Lock contention reduces throughput
 - Solution: reduce critical section, use lock-free structures
-
-
-### Build Documentation Locally
-
-To build and view the documentation:
-
-```bash
-cd docs
-make html
-# Open build/html/index.html in your browser
-```
 
 ## References
 
