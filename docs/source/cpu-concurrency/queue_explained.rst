@@ -29,7 +29,6 @@ Internal Structure
 
 .. code-block:: python
 
-from queue import Queue
 
 q = Queue()
 ::
@@ -69,7 +68,6 @@ Queue Operations
 
 .. code-block:: python
 
-q = Queue(maxsize=3)
 
 q.put(1)  # Adds 1, queue: [1]
 q.put(2)  # Adds 2, queue: [1, 2]
@@ -87,7 +85,6 @@ q.put(4)  # BLOCKS! Queue is full
 
 .. code-block:: python
 
-q = Queue()
 q.put(1)
 q.put(2)
 q.put(3)
@@ -108,7 +105,6 @@ item = q.get()  # BLOCKS! Queue is empty
 
 .. code-block:: python
 
-q.put(1)
 item = q.get()      # Remove item from queue
 Process item...
 q.task_done()       # Tell queue you're done with this item
@@ -122,7 +118,6 @@ q.task_done()       # Tell queue you're done with this item
 
 .. code-block:: python
 
-q.put(1)
 q.put(2)
 q.put(3)
 
@@ -147,7 +142,6 @@ Problem with Manual Locks
 **Without Queue - Manual Locking (Error-prone):**
 .. code-block:: python
 
-import threading
 
 data = []
 lock = threading.Lock()
@@ -177,7 +171,6 @@ Problems:
 **With Queue - Automatic Locking (Correct):**
 .. code-block:: python
 
-from queue import Queue
 
 q = Queue()
 
@@ -211,7 +204,6 @@ Inside Queue:
 
 .. code-block:: python
 
-class Queue:
     def **init**(self):
         self.mutex = Lock()           # Internal lock
         self.not_empty = Condition()  # Wait for items
@@ -251,7 +243,6 @@ The Code Explained: Producer-Consumer
 
 .. code-block:: python
 
-from queue import Queue
 from threading import Thread
 
 class Producer(Thread):
@@ -349,7 +340,6 @@ Queue Benefits Summary
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-Without Queue - Need to manage locking
 data = []
 lock = Lock()
 with lock:
@@ -365,7 +355,6 @@ q.put(item)  # No lock needed
 ~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-Without Queue - Need condition variables
 if not data:
     # How do we block here? Spin? Sleep?
     while not data:
@@ -380,7 +369,6 @@ item = q.get()  # Blocks if empty, efficient
 ~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-Bad - Busy-wait (wastes CPU)
 while queue_is*empty:
     time.sleep(0.01)
 item = get_item()
@@ -394,7 +382,6 @@ item = q.get()  # No CPU waste, thread sleeps
 ~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-q.put(item1)
 q.put(item2)
 q.put(item3)
 
@@ -412,7 +399,6 @@ q.join()  # Wait until all items processed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-q = Queue()
 
 Multiple producers
 producer1 = Producer(q)
@@ -437,7 +423,6 @@ Step-by-Step: What Happens in ``put()``
 
 .. code-block:: python
 
-q.put(42)
 
 Internally in Queue:
 1. Acquire mutex (lock)
@@ -467,7 +452,6 @@ Step-by-Step: What Happens in ``get()``
 
 .. code-block:: python
 
-item = q.get()
 
 Internally in Queue:
 1. Acquire mutex (lock)
@@ -501,7 +485,6 @@ Mistake 1: Forgetting Lock
 
 .. code-block:: python
 
-[[FAIL]] WRONG - No lock on append
 data = []
 
 def producer():
@@ -526,7 +509,6 @@ Mistake 2: Busy-Waiting
 
 .. code-block:: python
 
-[[FAIL]] WRONG - Wastes CPU
 while not data:
     time.sleep(0.01)  # Spin loop, bad!
 item = data.pop(0)
@@ -541,7 +523,6 @@ Mistake 3: Race Condition
 
 .. code-block:: python
 
-[[FAIL]] WRONG - Check and pop not atomic
 with lock:
     if len(data) > 0:  # Check
         # Lock released here!
@@ -558,7 +539,6 @@ Practical Example: Work Queue
 
 .. code-block:: python
 
-from queue import Queue
 from threading import Thread
 import time
 

@@ -31,7 +31,6 @@ In the kernel:
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
 
 
-If you have a vector of 256 elements and ``BLOCK_SIZE=64``:
 - Program 0 processes elements [0:64]
 - Program 1 processes elements [64:128]
 - Program 2 processes elements [128:192]
@@ -46,7 +45,6 @@ The "grid" determines how many program instances run in parallel:
     grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']), )
 
 
-This calculates: ``num_programs = ceil(n_elements / BLOCK_SIZE)``
 
 Memory Hierarchy
 ~~~~~~~~~~~~~~~~
@@ -65,7 +63,6 @@ When loading data from DRAM:
     x = tl.load(x_ptr + offsets, mask=mask)
 
 
-Triton automatically coalesces these loads. In CUDA terms, this means:
 - Adjacent threads load adjacent memory addresses
 - The memory controller combines multiple loads into fewer transactions
 - This is crucial for achieving high bandwidth
@@ -80,7 +77,6 @@ What if your vector size isn't a perfect multiple of BLOCK_SIZE?
     x = tl.load(x_ptr + offsets, mask=mask)
 
 
-- The mask ensures out-of-bounds elements aren't loaded
 - This prevents memory access violations
 - In CUDA, you'd typically use conditional statements for this
 
@@ -95,7 +91,6 @@ Step-by-Step Execution
 
        pid = tl.program_id(axis=0)
 
-   Each parallel program instance gets a unique ID (0, 1, 2, ...).
 
 2. **Calculate Block Offsets**
 
@@ -104,7 +99,6 @@ Step-by-Step Execution
        block_start = pid * BLOCK_SIZE
        offsets = block_start + tl.arange(0, BLOCK_SIZE)
 
-   Determines which elements this program will process.
 
 3. **Create Boundary Mask**
 
@@ -112,7 +106,6 @@ Step-by-Step Execution
 
        mask = offsets < n_elements
 
-   Handles cases where input size isn't a multiple of BLOCK_SIZE.
 
 4. **Load Data from DRAM to Registers**
 
@@ -121,7 +114,6 @@ Step-by-Step Execution
        x = tl.load(x_ptr + offsets, mask=mask)
        y = tl.load(y_ptr + offsets, mask=mask)
 
-   Brings data from slow global memory to fast registers.
 
 5. **Compute Result**
 
@@ -129,7 +121,6 @@ Step-by-Step Execution
 
        output = x + y
 
-   Performs the actual addition in registers (extremely fast).
 
 6. **Store Result Back to DRAM**
 
@@ -137,7 +128,6 @@ Step-by-Step Execution
 
        tl.store(output_ptr + offsets, output, mask=mask)
 
-   Writes the result back to global memory.
 
 Performance Characteristics
 
@@ -172,7 +162,6 @@ Triton-Specific Features
     @triton.jit
     def add_kernel(...):
 
-- Marks the function as a Triton kernel
 - Triton JIT-compiles this to optimized GPU code
 - Automatically handles type inference and optimization
 
@@ -183,7 +172,6 @@ Triton-Specific Features
 
     BLOCK_SIZE: tl.constexpr
 
-- Tells Triton this value is known at compile time
 - Allows better optimizations (loop unrolling, etc.)
 - In CUDA, this is like template parameters
 
@@ -194,7 +182,6 @@ Launch Grid Syntax
 
     add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)
 
-- ``[grid]`` specifies how many program instances to launch
 - Triton automatically converts torch tensors to pointers
 - Meta-parameters (like BLOCK_SIZE) are passed as keywords
 
@@ -207,7 +194,6 @@ The benchmark code measures **GB/s (Gigabytes per second)**:
     gbps = lambda ms: 3 * x.numel() * x.element_size() * 1e-9 / (ms * 1e-3)
 
 
-Why multiply by 3?
 - Read x: ``n_elements * 4 bytes``
 - Read y: ``n_elements * 4 bytes``
 - Write output: ``n_elements * 4 bytes``
@@ -229,7 +215,6 @@ Common Patterns You'll See
 
     x_ptr + offsets
 
-In Triton, pointers are just memory addresses, and you can add offsets to them.
 
 2. Vectorized Operations
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -238,7 +223,6 @@ In Triton, pointers are just memory addresses, and you can add offsets to them.
 
     output = x + y
 
-This single line actually adds BLOCK_SIZE elements in parallel!
 
 3. Masked Memory Operations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -248,7 +232,6 @@ This single line actually adds BLOCK_SIZE elements in parallel!
     tl.load(ptr, mask=mask)
     tl.store(ptr, value, mask=mask)
 
-Essential for handling non-uniform sizes safely.
 
 Key Takeaways
 

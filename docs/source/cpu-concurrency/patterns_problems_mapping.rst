@@ -42,7 +42,6 @@ How the GIL Works
 
 .. code-block:: python
 
-Conceptual representation of GIL behavior
 
 Thread 1: [Acquire GIL] -> Execute Python Code -> [Release GIL]
                                                       down
@@ -52,14 +51,12 @@ Thread 2:                    [Waiting...]  -> [Acquire GIL] -> Execute
 
 
 
-**Key Point**: Only ONE thread can execute Python bytecode at a time, even on a multi-core CPU.
 
 GIL Behavior with Different Operations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-CPU-bound operation
 def cpu_intensive():
     total = 0
     for i in range(10*000*000):
@@ -74,7 +71,6 @@ Result: Threads take TURNS, no parallel execution
 
 
 
-.. code-block:: python
 
 I/O-bound operation
 def io_intensive():
@@ -168,12 +164,10 @@ You: Calculate 1000! in your head
 
 
 
-**I/O-bound** (Ordering pizza):
 .. code-block:: text
 
 
 
-You: Call pizza place -> Wait 30 min -> Receive pizza
      +-[>] Phone call: 1 minute (active)
      +-[>] Waiting: 29 minutes (idle - can do other things!)
      +-[>] Receive: 1 minute (active)
@@ -183,7 +177,6 @@ You: Call pizza place -> Wait 30 min -> Receive pizza
 
 
 
----
 
 Why Multiprocessing for CPU-bound
 
@@ -192,7 +185,6 @@ The Problem with Threading for CPU-bound
 
 .. code-block:: python
 
-CPU-intensive task with threading
 import threading
 import time
 
@@ -239,7 +231,6 @@ The Solution: Multiprocessing
 
 .. code-block:: python
 
-CPU-intensive task with multiprocessing
 from concurrent.futures import ProcessPoolExecutor
 import time
 
@@ -289,7 +280,6 @@ Each process has:
     |  |   Memory   |  |  |  |   Memory   |  |  |  |   Memory   |  |
     CPU Core 1           CPU Core 2           CPU Core 3
 
-.. code-block:: text
 
 
 
@@ -316,7 +306,6 @@ When the Trade-off is Worth It
 
 
 
-Memory cost per process: ~10-50 MB
 Speedup for CPU-bound tasks: 2-8x (depending on cores)
 
 Example:
@@ -326,7 +315,6 @@ Task: Process 1000 images (CPU-intensive)
 
 
 
----
 
 Why Threading for I/O-bound
 
@@ -335,7 +323,6 @@ The Problem: Wasted Time
 
 .. code-block:: python
 
-Sequential I/O operations
 import requests
 import time
 
@@ -359,7 +346,6 @@ The Solution: Threading
 
 .. code-block:: python
 
-Threaded I/O operations
 import threading
 import requests
 import time
@@ -389,7 +375,6 @@ Why Threading Works for I/O
 
 .. code-block:: python
 
-What happens under the hood:
 
 Thread 1: [Acquire GIL] -> Start network request -> [Release GIL] -> Wait...
                                                         down
@@ -419,7 +404,6 @@ Performance Comparison
 
 .. code-block:: python
 
-Real example: Downloading 10 web pages
 
 Sequential (1 thread):
 Total: 5.0 seconds
@@ -445,7 +429,6 @@ Verdict: Threading is MORE EFFICIENT for I/O
 
 
 
-Threading Trade-offs
 ~~~~~~~~~~~~~~~~~~~~
 
 **Advantages**:
@@ -489,7 +472,6 @@ OS: "Too bad, Thread 2's turn now"
 
 
 
-**Asyncio** (Cooperative - code decides when to yield):
 ::
 
 Task 1: "I'm about to wait for network, let me yield control"
@@ -504,7 +486,6 @@ How Asyncio Works
 
 .. code-block:: python
 
-Asyncio example: 10,000 concurrent requests
 import asyncio
 import aiohttp
 
@@ -547,7 +528,6 @@ Asyncio vs Threading: Detailed Comparison
 
 .. code-block:: python
 
-Threading approach
 import threading
 import requests
 
@@ -566,7 +546,6 @@ OS overhead: Managing 1000 threads
 
 
 
-.. code-block:: python
 
 Asyncio approach
 import asyncio
@@ -620,7 +599,6 @@ When Asyncio Shines
 
 
 
-[[FAIL]] CPU-intensive tasks (use multiprocessing)
 [[FAIL]] Blocking libraries (must use async-compatible libraries)
 [[FAIL]] Simple scripts with few I/O operations (threading is simpler)
 .. code-block:: text
@@ -628,7 +606,6 @@ When Asyncio Shines
 
 
 
-Asyncio Trade-offs
 ~~~~~~~~~~~~~~~~~~
 
 **Advantages**:
@@ -654,7 +631,6 @@ CPU-bound with Threading: The GIL Dance
 
 .. code-block:: python
 
-Example: Two threads computing sum
 import threading
 
 def compute_sum(n):
@@ -674,7 +650,6 @@ t2 = threading.Thread(target=compute_sum, args=(10*000*000,))
 
 
 
-Time ->
 0ms    Thread 1: [Acquire GIL]
 1ms              : Execute: total = 0
 2ms              : Execute: total += 1
@@ -697,12 +672,10 @@ No parallelism for CPU work!
 
 
 
-CPU-bound with Multiprocessing: True Parallel
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-from concurrent.futures import ProcessPoolExecutor
 
 def compute_sum(n):
     total = 0
@@ -722,7 +695,6 @@ with ProcessPoolExecutor(max_workers=2) as executor:
 
 
 
-Time ->
 0ms    Process 1 (Core 1): [Start] Create interpreter, load code
 10ms                       : Execute: total = 0
 11ms                       : Execute: total += 1
@@ -744,12 +716,10 @@ True parallelism!
 
 
 
-I/O-bound with Threading: GIL Released
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-import threading
 import requests
 
 def fetch_url(url):
@@ -767,7 +737,6 @@ t2 = threading.Thread(target=fetch_url, args=('https://api2.com',))
 
 
 
-Time ->
 0ms    Thread 1: [Acquire GIL]
 1ms             : Prepare HTTP request
 2ms             : [Release GIL] <- Call to C library (requests)
@@ -797,12 +766,10 @@ Total time: ~210ms instead of 400ms sequential
 
 
 
-I/O-bound with Asyncio: Event Loop Magic
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-import asyncio
 import aiohttp
 
 async def fetch_url(session, url):
@@ -823,7 +790,6 @@ async def main():
 
 
 
-Time -> (Single Thread)
 0ms    Event Loop: Create task1
 1ms              : Create task2
 2ms              : Run task1 until await
@@ -850,7 +816,6 @@ No thread overhead, same concurrency benefit
 
 
 
----
 
 Performance Analysis
 
@@ -859,7 +824,6 @@ Benchmark: CPU-bound Task (Computing pi)
 
 .. code-block:: python
 
-def compute_pi(iterations):
     """CPU-intensive: Monte Carlo pi approximation"""
     inside = 0
     for * in range(iterations):
@@ -875,7 +839,6 @@ TASKS = 4
 
 
 
-**Results on 4-core CPU**:
 
 | Approach | Time | Speedup | Memory |
 | Sequential | 10.0s | 1.0x | 50 MB |
@@ -893,7 +856,6 @@ Benchmark: I/O-bound Task (Web Requests)
 
 .. code-block:: python
 
-async def fetch_page(session, url):
     """I/O-intensive: Download web page"""
     async with session.get(url) as response:
         return await response.text()
@@ -921,7 +883,6 @@ Benchmark: Mixed Workload
 
 .. code-block:: python
 
-async def process_data(session, url):
     """Fetch data (I/O) then process (CPU)"""
     # I/O: Fetch data (2 seconds)
     async with session.get(url) as response:
@@ -946,7 +907,6 @@ TASKS = 10
 **Best approach for mixed workload**:
 .. code-block:: python
 
-import asyncio
 from concurrent.futures import ProcessPoolExecutor
 
 async def process_data(session, url, executor):
@@ -969,7 +929,6 @@ async def main():
 
 
 
----
 
 Decision Tree
 
@@ -1002,7 +961,6 @@ Code Templates
 **CPU-bound Template**:
 .. code-block:: python
 
-from concurrent.futures import ProcessPoolExecutor
 import os
 
 def cpu_intensive*task(data):
@@ -1025,10 +983,8 @@ def main():
 
 
 
-**I/O-bound Template (Few operations, blocking library)**:
 .. code-block:: python
 
-from concurrent.futures import ThreadPoolExecutor
 import requests
 
 def io_intensive*task(url):
@@ -1047,10 +1003,8 @@ def main():
 
 
 
-**I/O-bound Template (Many operations, async library)**:
 .. code-block:: python
 
-import asyncio
 import aiohttp
 
 async def io_intensive*task(session, url):
@@ -1075,7 +1029,6 @@ if __name** == '**main**':
 **Mixed Workload Template**:
 .. code-block:: python
 
-import asyncio
 import aiohttp
 from concurrent.futures import ProcessPoolExecutor
 
@@ -1111,7 +1064,6 @@ if **name** == '**main**':
 
 
 
----
 
 Summary: The Core Principles
 
@@ -1133,7 +1085,6 @@ Therefore:
 
 
 
-Operation Type  |  Resource Bottleneck  |  Solution  |  Why?
 CPU-bound       |  CPU cycles          |  Multi-    |  Bypass GIL,
                 |  (computation)       |  processing|  use all cores
 I/O-bound       |  Waiting for I/O     |  Asyncio/  |  GIL released,
@@ -1145,7 +1096,6 @@ I/O-bound       |  Waiting for I/O     |  Asyncio   |  Lightweight,
 
 
 
-3. Trade-offs are Real
 ~~~~~~~~~~~~~~~~~~~~~~
 
 **Multiprocessing**:
@@ -1168,7 +1118,6 @@ I/O-bound       |  Waiting for I/O     |  Asyncio   |  Lightweight,
 
 .. code-block:: python
 
-Profile your code first!
 import time
 
 def profile_task(task_func):
@@ -1193,7 +1142,6 @@ def profile_task(task_func):
 
 
 
----
 
 Final Thoughts
 

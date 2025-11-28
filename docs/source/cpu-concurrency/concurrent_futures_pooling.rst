@@ -5,7 +5,7 @@ Overview
 This script demonstrates the performance differences between sequential execution, thread pool execution, and process pool execution using Python's ``concurrent.futures`` module.
 
 File Location
-``basics/06*concurrent_futures*pooling.py``
+``basics/06_concurrent_futures_pooling.py``
 
 Key Concepts
 
@@ -26,7 +26,6 @@ CPU-Intensive Task
 ~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-def count(number):
     for i in range(0, 10000000):
         i += 1
     return i * number
@@ -38,7 +37,6 @@ Evaluation Function
 ~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-def evaluate(item):
     result_item = count(item)
     print(f'Item {item}, result {result_item}')
 ::
@@ -49,7 +47,6 @@ Sequential Execution
 ~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-start_time = time.perf_counter()
 for item in number_list:
     evaluate(item)
 print(f'Sequential Execution in {time.perf_counter() - start_time} seconds')
@@ -61,7 +58,6 @@ Thread Pool Execution
 ~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
     for item in number_list:
         executor.submit(evaluate, item)
 ::
@@ -72,7 +68,6 @@ Process Pool Execution
 ~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
     for item in number_list:
         executor.submit(evaluate, item)
 ::
@@ -102,7 +97,6 @@ Usage
 -----
 .. code-block:: bash
 
-python3 06*concurrent_futures_pooling.py
 ::
 
 

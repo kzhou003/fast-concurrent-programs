@@ -15,7 +15,6 @@ When you create a Queue, here's what's inside:
 
 .. code-block:: python
 
-from queue import Queue
 
 q = Queue()
 
@@ -41,7 +40,6 @@ The Items Don't Have Conditions
 
 .. code-block:: python
 
-When you put an item
 q.put(42)
 
 Inside queue:
@@ -78,7 +76,6 @@ One waiting thread wakes up!
 
 
 
----
 
 put() - What Actually Happens
 
@@ -87,7 +84,6 @@ Step-by-Step Execution
 
 .. code-block:: python
 
-q.put(item)
 ::
 
 
@@ -95,7 +91,6 @@ q.put(item)
 
 .. code-block:: python
 
-def put(self, item):
     # 1. Acquire the mutex (lock)
     with self.mutex:
 
@@ -140,7 +135,6 @@ Time  Queue                    Condition Variables    Consumers
 
 
 
----
 
 get() - What Actually Happens
 
@@ -149,7 +143,6 @@ Step-by-Step Execution
 
 .. code-block:: python
 
-item = q.get()
 ::
 
 
@@ -157,7 +150,6 @@ item = q.get()
 
 .. code-block:: python
 
-def get(self):
     # 1. Acquire the mutex (lock)
     with self.mutex:
 
@@ -206,7 +198,6 @@ Time  Queue                    Condition Variables    Producers
 
 
 
----
 
 Visual: No Condition On Items
 
@@ -233,7 +224,6 @@ KEY: The conditions are properties of the QUEUE,
 
 
 
----
 
 Complete put() and get() Timeline
 
@@ -279,7 +269,6 @@ Queue: [7, 199]  <- FULL again
 
 
 
----
 
 Key Insight: Conditions Are On Queue, Not Items
 
@@ -288,7 +277,6 @@ What People Might Think (WRONG):
 
 .. code-block:: python
 
-[[FAIL]] WRONG MENTAL MODEL
 q.put(42)  # Does the item 42 carry an event/condition with it?
 item = q.get()  # Does the returned item have a condition?
 ::
@@ -299,7 +287,6 @@ The Actual Truth:
 
 .. code-block:: python
 
-[OK] CORRECT MENTAL MODEL
 q.put(42)  # 42 goes into queue
            # Queue's not_empty condition is signaled
            # The number 42 itself has NO condition
@@ -312,7 +299,6 @@ item = q.get()  # 42 is returned as plain data
 
 
 
----
 
 Why Queue Uses Shared Conditions
 
@@ -321,7 +307,6 @@ Instead of Per-Item Events
 
 .. code-block:: python
 
-[[FAIL]] This would be inefficient (if items had events)
 class BadQueue:
     def put(self, item):
         event = Event()
@@ -352,7 +337,6 @@ class GoodQueue:
 
 
 
----
 
 How Conditions Work: The Mechanism
 
@@ -361,7 +345,6 @@ not_empty.notify() - What It Does
 
 .. code-block:: python
 
-When put() is called
 q.put(42)
 
 Inside put():
@@ -408,7 +391,6 @@ Consumer1 wakes up:
 
 
 
----
 
 Back to Your Original Question
 
@@ -444,7 +426,6 @@ get()
 
 
 
----
 
 Real Code Example
 
@@ -453,7 +434,6 @@ What Queue.put() Actually Does
 
 .. code-block:: python
 
-from threading import Lock, Condition
 
 class MyQueue:
     def __init**(self, maxsize=0):
@@ -502,7 +482,6 @@ class MyQueue:
 
 
 
----
 
 Summary
 -------

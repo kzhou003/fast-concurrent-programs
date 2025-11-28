@@ -20,7 +20,6 @@ Controls access to a **pool of resources**. Example: 3 parking spots.
 
 .. code-block:: python
 
-semaphore = threading.Semaphore(3)  # 3 "permits"
 
 semaphore.acquire()  # Counter: 3 -> 2 (one car parks)
 semaphore.acquire()  # Counter: 2 -> 1 (another parks)
@@ -37,7 +36,6 @@ Acts like a **signal/notification**. Example: "data is ready".
 
 .. code-block:: python
 
-semaphore = threading.Semaphore(0)  # Counter starts at 0
 
 semaphore.acquire()  # Counter: 0 - WAIT! (blocked, waiting for signal)
 ... thread blocks until...
@@ -47,7 +45,6 @@ semaphore.release()  # Counter: 0 -> 1 (signal sent! waiting thread wakes up)
 
 
 
----
 
 The Code Explained: Producer-Consumer Pattern
 
@@ -55,7 +52,6 @@ Looking at ``/basics/04*semaphore.py``:
 
 .. code-block:: python
 
-semaphore = threading.Semaphore(0)  # Binary semaphore, counter starts at 0
 item = 0
 
 def consumer():
@@ -94,7 +90,6 @@ Time  Consumer                 Semaphore Counter    Producer
 
 
 
----
 
 Semaphore Operations
 
@@ -106,7 +101,6 @@ Semaphore Operations
 
 .. code-block:: python
 
-semaphore = threading.Semaphore(2)
 
 semaphore.acquire()  # Counter: 2 -> 1 (continues)
 semaphore.acquire()  # Counter: 1 -> 0 (continues)
@@ -122,7 +116,6 @@ semaphore.acquire()  # Counter: 0 - BLOCKS HERE (waits for release)
 
 .. code-block:: python
 
-semaphore.acquire()  # Counter: 0 - BLOCKED
 ... from another thread ...
 semaphore.release()  # Counter: 0 -> 1 (wakes up blocked thread)
                      # Blocked thread can now continue
@@ -131,7 +124,6 @@ semaphore.release()  # Counter: 0 -> 1 (wakes up blocked thread)
 
 
 
----
 
 Visual Representation
 
@@ -176,7 +168,6 @@ Thread A calls release():
 
 
 
-Binary Semaphore (Producer-Consumer)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
@@ -199,7 +190,6 @@ Producer (after work) calls release():
 
 
 
----
 
 Semaphore vs Lock
 
@@ -219,7 +209,6 @@ Example 1: Swimming Pool with Limited Capacity
 
 .. code-block:: python
 
-import threading
 import time
 
 pool_capacity = threading.Semaphore(3)  # Only 3 people can swim at once
@@ -270,12 +259,10 @@ Swimmer 4: SWIMMING! (now can enter)
 
 
 
-Example 2: Producer-Consumer (Like the Code)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-import threading
 import time
 import random
 
@@ -317,13 +304,11 @@ Consumer: received item 42
 
 
 
----
 
 How the Code Works Step by Step
 
 .. code-block:: python
 
-Initial state
 semaphore = threading.Semaphore(0)  # Counter = 0
 item = 0
 
@@ -358,7 +343,6 @@ Loop repeats 10 times
 
 
 
----
 
 Semaphore States and Transitions
 
@@ -366,7 +350,6 @@ Semaphore States and Transitions
 
 
 
-Binary Semaphore (0 or 1) - Producer-Consumer
 
 INITIAL STATE:
 | Counter: 0  |
@@ -387,7 +370,6 @@ INITIAL STATE:
 
 
 
----
 
 Counting Semaphore States
 
@@ -395,7 +377,6 @@ Counting Semaphore States
 
 
 
-Counting Semaphore(3) - Resource Pool
 
 INITIAL:
 | Counter: 3  |
@@ -426,7 +407,6 @@ INITIAL:
 
 
 
----
 
 Common Use Cases
 
@@ -434,7 +414,6 @@ Common Use Cases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-Only 5 threads can access database at once
 db_access = threading.Semaphore(5)
 
 def query_database(query):
@@ -446,11 +425,9 @@ def query_database(query):
 
 
 
-2. **Producer-Consumer Communication**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-Sender signals receiver
 data_ready = threading.Semaphore(0)
 
 def sender():
@@ -467,7 +444,6 @@ def receiver():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-Wait for all workers to finish
 workers_done = threading.Semaphore(0)
 num_workers = 5
 
@@ -484,7 +460,6 @@ print("All workers done!")
 
 
 
----
 
 Key Differences from Lock
 
@@ -492,7 +467,6 @@ Lock (``threading.Lock``)
 ~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-lock = threading.Lock()
 
 with lock:  # Only ONE thread can be here at a time
     shared_data += 1
@@ -503,7 +477,6 @@ Semaphore (Counting)
 ~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-semaphore = threading.Semaphore(3)
 
 with semaphore:  # Up to 3 threads can be here at a time
     access_resource()
@@ -512,11 +485,9 @@ with semaphore:  # Up to 3 threads can be here at a time
 
 
 
-Semaphore (Binary - Used as Signal)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-signal = threading.Semaphore(0)
 
 Thread A waits for signal
 signal.acquire()
@@ -529,7 +500,6 @@ signal.release()
 
 
 
----
 
 Summary Table
 

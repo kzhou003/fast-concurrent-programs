@@ -38,7 +38,6 @@ What Functions Are Available?
 **Examples from libdevice**:
 .. code-block:: c
 
-double __nv*asin(double)      // Arc sine
 float  __nv*asinf(float)       // Arc sine (single precision)
 double __nv*j0(double)         // Bessel function J0
 float  __nv*erfcinvf(float)    // Inverse complementary error function
@@ -56,7 +55,6 @@ Triton Built-in Math
 Triton provides common functions:
 .. code-block:: python
 
-tl.exp(x)    # Exponential
 tl.log(x)    # Natural logarithm
 tl.sin(x)    # Sine
 tl.cos(x)    # Cosine
@@ -73,7 +71,6 @@ When You Need More
 For specialized functions:
 .. code-block:: python
 
-asin(x)      # Arc sine - NOT in Triton intrinsics!
 bessel_j0(x) # Bessel function - NOT available!
 erf(x)       # Error function - need libdevice
 gamma(x)     # Gamma function - need libdevice
@@ -93,7 +90,6 @@ Triton automatically finds libdevice:
 
 .. code-block:: python
 
-from triton.language.extra import libdevice
 
 @triton.jit
 def asin_kernel(x_ptr, y_ptr, n_elements, BLOCK_SIZE: tl.constexpr):
@@ -119,7 +115,6 @@ Specify library path explicitly:
 
 .. code-block:: python
 
-import triton
 from pathlib import Path
 
 Find libdevice in Triton installation
@@ -159,7 +154,6 @@ Triton's ``libdevice.asin`` is a wrapper:
 
 .. code-block:: python
 
-def asin(x):
     if x.dtype == tl.float32:
         return __nv*asinf(x)  # Single precision
     elif x.dtype == tl.float64:
@@ -187,7 +181,6 @@ Located in ``triton/language/extra/libdevice.py``:
 
 .. code-block:: python
 
-from triton.language.extra import libdevice
 
 Trigonometric
 libdevice.sin(x)
@@ -241,7 +234,6 @@ Why Use libdevice?
 **Implementing asin yourself**:
 .. code-block:: python
 
-def asin_approx(x):
     # Use Taylor series or other approximation
     # Need to handle edge cases (x near +/-1)
     # Accuracy vs performance trade-off
@@ -252,7 +244,6 @@ def asin_approx(x):
 **Using libdevice**:
 .. code-block:: python
 
-y = libdevice.asin(x)  # Done! Optimized, accurate, tested
 ::
 
 
@@ -261,7 +252,6 @@ Full Example
 
 .. code-block:: python
 
-import torch
 import triton
 import triton.language as tl
 from triton.language.extra import libdevice
@@ -322,7 +312,6 @@ When to Use vs Triton Intrinsics
 **Use Triton intrinsics when available**:
 .. code-block:: python
 
-tl.exp(x)   # Prefer this over libdevice.exp
 tl.sin(x)   # Prefer this over libdevice.sin
 ::
 
@@ -340,7 +329,6 @@ For AMD GPUs, need both ocml and ockl:
 
 .. code-block:: python
 
-from pathlib import Path
 import triton
 
 if is_hip():
@@ -376,7 +364,6 @@ FileNotFoundError: [Errno 2] No such file or directory: '/path/to/libdevice.10.b
 **Solution**: Check library path
 .. code-block:: python
 
-libdir = Path(triton.__file**).parent / 'backends/nvidia/lib'
 print(libdir.exists())
 print(list(libdir.glob('*.bc')))
 ::
@@ -401,7 +388,6 @@ Error: cannot convert 'float' to 'double'
 **Solution**: Ensure input types match function expectations
 .. code-block:: python
 
-x = x.to(tl.float32)  # Explicitly cast if needed
 ::
 
 
@@ -410,7 +396,6 @@ Verifying Libraries
 
 .. code-block:: python
 
-from pathlib import Path
 import triton
 
 triton_dir = Path(triton.__file**).parent
@@ -437,7 +422,6 @@ You can link your own LLVM bitcode:
 **1. Write CUDA device function**:
 .. code-block:: cuda
 
-// my_func.cu
 extern "C" __device** float my_special*func(float x) {
     return x * x + 2.0f * x + 1.0f;
 }
@@ -447,14 +431,12 @@ extern "C" __device** float my_special*func(float x) {
 **2. Compile to bitcode**:
 .. code-block:: bash
 
-clang++ --cuda-device-only -emit-llvm -c my_func.cu -o my_func.bc
 ::
 
 
 **3. Link in Triton**:
 .. code-block:: python
 
-extern_libs = {'my_lib': '/path/to/my_func.bc'}
 my_kernel`grid <..., extern_libs=extern_libs>`_
 ::
 
@@ -462,7 +444,6 @@ my_kernel`grid <..., extern_libs=extern_libs>`_
 **4. Declare in Triton**:
 .. code-block:: python
 
-@triton.jit
 def my_kernel(...):
     # Declare external function
     my_special*func = tl.extern_func('my_special*func', tl.float32, [tl.float32])
@@ -477,7 +458,6 @@ Mixing Multiple External Libraries
 
 .. code-block:: python
 
-extern_libs = {
     'libdevice': '/path/to/libdevice.10.bc',
     'my_lib': '/path/to/my_func.bc',
     'another_lib': '/path/to/another.bc'
@@ -496,7 +476,6 @@ NVIDIA vs AMD
 
 .. code-block:: python
 
-def get_extern*libs():
     triton_dir = Path(triton.**file**).parent
 
     if is_cuda():
@@ -533,7 +512,6 @@ In CUDA
 
 .. code-block:: cuda
 
-#include <math_functions.h>
 
 __global** void asin_kernel(float* x, float* y, int n) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -553,7 +531,6 @@ In Triton
 
 .. code-block:: python
 
-from triton.language.extra import libdevice
 
 @triton.jit
 def asin_kernel(x_ptr, y_ptr, n_elements, BLOCK_SIZE: tl.constexpr):

@@ -52,7 +52,6 @@ Logical Cores
 
 .. code-block:: python
 
-import os
 
 Check on your system
 logical_cores = os.cpu_count()  # e.g., 8
@@ -181,7 +180,6 @@ Hyperthreading Limitations
 3. **Can Hurt Performance in Some Cases**
    .. code-block:: python
 
-   # CPU-intensive Python code with GIL
    # 4 physical cores, 8 logical cores
 
    # Using 4 workers (physical cores): 3.8x speedup [[OK]]
@@ -197,7 +195,6 @@ Checking Hyperthreading Status
 **Linux**:
 .. code-block:: bash
 
-Check if HT is enabled
 lscpu | grep "Thread(s) per core"
 Output: Thread(s) per core: 2  <- HT enabled
 Output: Thread(s) per core: 1  <- HT disabled
@@ -212,7 +209,6 @@ cpu cores = physical cores per physical CPU
 **macOS**:
 .. code-block:: bash
 
-Logical cores
 sysctl hw.logicalcpu
 Output: hw.logicalcpu: 8
 
@@ -227,7 +223,6 @@ If logical > physical, HT is enabled
 **Python**:
 .. code-block:: python
 
-import os
 import subprocess
 
 logical_cores = os.cpu_count()
@@ -293,14 +288,12 @@ The Fundamental Constraint
     Result: ~4x speedup (same as 4 threads!) + overhead [FAIL]
 
 
-Why More Threads != More Speed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **CPU-bound tasks** are limited by actual computation capacity:
 
 .. code-block:: python
 
-Benchmark: Computing sum of squares
 
 import time
 from concurrent.futures import ProcessPoolExecutor
@@ -373,7 +366,6 @@ Optimal Worker Count
 
 .. code-block:: python
 
-import os
 
 Best practice:
 physical_cores = os.cpu_count() // 2  # Approximate physical cores
@@ -401,7 +393,6 @@ Real-World Example
 
 .. code-block:: python
 
-Matrix multiplication (CPU-intensive)
 
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor
@@ -564,7 +555,6 @@ Why GPUs Excel at Compute-Intensive Tasks
 
 .. code-block:: python
 
-CPU approach (4 cores):
 Split into 4 chunks of 250,000 each
 Each core processes 250,000 additions sequentially
 
@@ -579,7 +569,6 @@ Time: 250,000 additions / core_speed
 
 .. code-block:: python
 
-GPU approach (16,384 cores):
 Split into 16,384 chunks of ~61 each
 Each core processes ~61 additions
 
@@ -645,7 +634,6 @@ What GPUs Are Good At
 1. **Matrix Operations**
    .. code-block:: python
 
-   # Matrix multiplication: C = A x B
    # Each element of C can be computed independently
 
    C[i,j] = sum(A[i,k] * B[k,j] for k in range(n))
@@ -659,7 +647,6 @@ What GPUs Are Good At
 2. **Image/Video Processing**
    .. code-block:: python
 
-   # Apply operation to each pixel
    for each pixel in image:
        output[pixel] = transform(input[pixel])
 
@@ -671,7 +658,6 @@ What GPUs Are Good At
 3. **Deep Learning**
    .. code-block:: python
 
-   # Neural network: mostly matrix multiplications
    layer_output = activation(weights @ inputs + bias)
 
    # Millions of multiply-add operations
@@ -682,7 +668,6 @@ What GPUs Are Good At
 4. **Scientific Simulations**
    .. code-block:: python
 
-   # N-body simulation: calculate force on each particle
    for particle_i in particles:
        force = sum(calculate_force(particle_i, particle_j)
                    for particle_j in other_particles)
@@ -697,7 +682,6 @@ What GPUs Are Good At
 1. **Complex Control Flow**
    .. code-block:: python
 
-   # Lots of if/else statements
    def complex_logic(data):
        if data.type == 'A':
            if data.value > threshold_1:
@@ -715,7 +699,6 @@ What GPUs Are Good At
 2. **Recursive Algorithms**
    .. code-block:: python
 
-   def quicksort(arr):
        if len(arr) <= 1:
            return arr
        pivot = arr[0]
@@ -731,7 +714,6 @@ What GPUs Are Good At
 3. **Database Queries with Joins**
    .. code-block:: sql
 
-   -- Complex joins with unpredictable data access patterns
    SELECT * FROM table1
    JOIN table2 ON table1.id = table2.foreign_id
    WHERE complex_condition(table1.data)
@@ -785,7 +767,6 @@ Performance Comparison
 
 .. code-block:: python
 
-import numpy as np
 import time
 
 Generate random matrices
@@ -929,7 +910,6 @@ Example 1: Image Processing
 
 .. code-block:: python
 
-Task: Apply Gaussian blur to 100 images (4K resolution)
 
 Approach 1: Sequential (CPU, 1 core)
 import cv2
@@ -973,7 +953,6 @@ Example 2: Monte Carlo Simulation
 
 .. code-block:: python
 
-Task: Estimate pi using Monte Carlo (1 billion points)
 
 import numpy as np
 import time
@@ -1030,7 +1009,6 @@ Example 3: Neural Network Training
 
 .. code-block:: python
 
-Task: Train a neural network on MNIST dataset
 
 import torch
 import torch.nn as nn

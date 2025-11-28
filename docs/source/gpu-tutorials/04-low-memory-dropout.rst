@@ -74,7 +74,6 @@ Standard PyTorch Dropout
 
 .. code-block:: python
 
-def dropout(x, p):
     keep_mask = (torch.rand_like(x) > p).to(torch.float32)
     return x * keep_mask / (1 - p), keep_mask
 ::
@@ -100,7 +99,6 @@ During training, we need the same dropout mask for:
 **Traditional approach**: Store the mask
 .. code-block:: python
 
-Forward
 =======
 output, mask = dropout_forward(x, p)
 
@@ -120,7 +118,6 @@ Additional Complexity
 **With gradient checkpointing** (recompute activations to save memory):
 .. code-block:: python
 
-with torch.no_grad():
     output = dropout(x, p)  # Different random numbers!
 Backward pass uses different mask -> wrong gradients!
 ::
@@ -148,7 +145,6 @@ The Triton Implementation
 
 .. code-block:: python
 
-@triton.jit
 def *seeded_dropout(x_ptr, output_ptr, n_elements, p, seed, BLOCK_SIZE: tl.constexpr):
     pid = tl.program_id(axis=0)
     block_start = pid * BLOCK_SIZE
@@ -169,7 +165,6 @@ def *seeded_dropout(x_ptr, output_ptr, n_elements, p, seed, BLOCK_SIZE: tl.const
 **Key line**:
 .. code-block:: python
 
-random = tl.rand(seed, offsets)
 ::
 
 
@@ -185,7 +180,6 @@ The Challenge
 On a CPU (sequential):
 .. code-block:: python
 
-rng = Random(seed)
 for i in range(n):
     x[i] = rng.next()  # Each depends on previous state
 ::
@@ -230,7 +224,6 @@ Philox(seed, counter) -> pseudo-random uint64
 **How it works** (simplified):
 .. code-block:: python
 
-def philox(seed, counter):
     key = seed
     ctr = counter
 
@@ -249,7 +242,6 @@ Using Philox in Triton
 
 .. code-block:: python
 
-random = tl.rand(seed, offsets)
 ::
 
 
@@ -262,7 +254,6 @@ Under the hood:
 **Example**:
 .. code-block:: python
 
-seed = 42
 offsets = [0, 1, 2, 3]
 
 random = tl.rand(seed, offsets)
@@ -335,7 +326,6 @@ Ensuring Same Random Numbers
 For correct training, we need:
 .. code-block:: python
 
-Forward pass
 output = dropout(x, p, seed=123)
 
 Backward pass (later)
@@ -350,7 +340,6 @@ Seed Management
 **Per-layer seeds**:
 .. code-block:: python
 
-class Dropout(nn.Module):
     def **init**(self, p):
         self.p = p
         self.seed = random.randint(0, 2**31)
@@ -365,7 +354,6 @@ class Dropout(nn.Module):
 **Global seed with offsets**:
 .. code-block:: python
 
-global_seed = 42
 layer_id = 5
 seed = global_seed + layer_id
 ::
@@ -376,7 +364,6 @@ Testing Reproducibility
 
 .. code-block:: python
 
-x = torch.randn(10000, device='cuda')
 
 out1 = seeded_dropout(x, p=0.5, seed=123)
 out2 = seeded_dropout(x, p=0.5, seed=123)
@@ -394,21 +381,18 @@ The ``tl.where`` Function
 
 .. code-block:: python
 
-output = tl.where(x_keep, x / (1 - p), 0.0)
 ::
 
 
 Equivalent to:
 .. code-block:: python
 
-output[i] = x[i] / (1-p) if x_keep[i] else 0.0
 ::
 
 
 **Why not use branching?**
 .. code-block:: python
 
-if x_keep[i]:
     output[i] = x[i] / (1-p)
 else:
     output[i] = 0.0
@@ -425,7 +409,6 @@ Masking for Boundary Conditions
 
 .. code-block:: python
 
-mask = offsets < n_elements
 x = tl.load(x_ptr + offsets, mask=mask)
 tl.store(output_ptr + offsets, output, mask=mask)
 ::
@@ -438,7 +421,6 @@ Random Number Distribution
 
 .. code-block:: python
 
-random = tl.rand(seed, offsets)  # Returns float32 in [0, 1)
 x_keep = random > p               # Bernoulli with probability (1-p)
 ::
 
@@ -460,7 +442,6 @@ Triton provides:
 **Example - Normal dropout**:
 .. code-block:: python
 
-Generate normal distribution
 random_normal = tl.randn(seed, offsets)
 Apply threshold
 x_keep = tl.abs(random_normal) < threshold
@@ -491,7 +472,6 @@ Thread Safety and Race Conditions
 **Contrast with CPU**:
 .. code-block:: python
 
-global_rng = Random(seed)
 random_val = global_rng.next()  # Race condition if parallel!
 ::
 
@@ -535,7 +515,6 @@ Integration with PyTorch
 
 .. code-block:: python
 
-class SeededDropout(torch.autograd.Function):
     @staticmethod
     def forward(ctx, x, p, seed):
         output = seeded_dropout*triton(x, p, seed)
@@ -560,7 +539,6 @@ Seed Generation Strategies
 **Random seed per forward pass**:
 .. code-block:: python
 
-seed = random.randint(0, 2**31)
 output = dropout(x, p, seed)
 ::
 
@@ -568,7 +546,6 @@ output = dropout(x, p, seed)
 **Deterministic for debugging**:
 .. code-block:: python
 
-torch.manual_seed(42)
 seed = 42
 output = dropout(x, p, seed)
 ::
@@ -577,7 +554,6 @@ output = dropout(x, p, seed)
 **Distributed training**:
 .. code-block:: python
 
-Ensure different seeds on different GPUs
 rank = dist.get_rank()
 seed = base_seed + rank
 ::

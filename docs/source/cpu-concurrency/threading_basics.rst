@@ -17,7 +17,6 @@ Example
 
 .. code-block:: python
 
-import threading
 
 def worker():
     print("Worker running")
@@ -61,7 +60,6 @@ Example
 
 .. code-block:: python
 
-import threading
 import time
 
 def worker():
@@ -90,7 +88,6 @@ Main: worker finished, I can continue
 
 
 
----
 
 Comparison: With vs Without join()
 
@@ -99,7 +96,6 @@ WITHOUT join() - DANGER!
 
 .. code-block:: python
 
-import threading
 import time
 
 def download_file():
@@ -132,7 +128,6 @@ WITH join() - CORRECT!
 
 .. code-block:: python
 
-import threading
 import time
 
 def download_file():
@@ -183,7 +178,6 @@ Thread Lifecycle Diagram
     | (if no join(), main might exit before here)            |
     | (with join(), main waits here)                         |
 
-.. code-block:: text
 
 
 
@@ -196,7 +190,6 @@ The standard pattern for managing multiple threads:
 
 .. code-block:: python
 
-import threading
 
 Step 1: Create all threads
 threads = []
@@ -227,7 +220,6 @@ Mistake 1: Calling the function directly instead of start()
 
 .. code-block:: python
 
-[[FAIL]] WRONG - runs worker in MAIN thread
 thread = threading.Thread(target=worker)
 worker()  # This blocks main! Not parallel!
 
@@ -242,7 +234,6 @@ Mistake 2: Forgetting join()
 
 .. code-block:: python
 
-[[FAIL]] WRONG - main exits before worker finishes
 thread = threading.Thread(target=save_to*database)
 thread.start()
 print("Saved!")  # Exits immediately, database never saves
@@ -260,7 +251,6 @@ Mistake 3: Thinking threads share data automatically
 
 .. code-block:: python
 
-[[FAIL]] NOT SAFE - race condition
 counter = 0
 def increment():
     global counter
@@ -293,13 +283,11 @@ print(counter)  # Guaranteed to be 100
 
 
 
----
 
 Practical Example: Web Scraper
 
 .. code-block:: python
 
-import threading
 import time
 
 def fetch_url(url, results):

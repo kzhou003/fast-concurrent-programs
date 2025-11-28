@@ -106,7 +106,6 @@ Insight 2: Online Softmax
 **Standard softmax** requires two passes:
 .. code-block:: python
 
-Pass 1: Find max
 max_score = max(S)
 
 Pass 2: Compute softmax
@@ -141,7 +140,6 @@ For a row S_i = [s_1, s_2, ..., s_n]:
 
 .. code-block:: python
 
-m = max(s_1, s_2, ..., s_n)
 numerator = [exp(s_1-m), exp(s_2-m), ..., exp(s_n-m)]
 l = sum(numerator)
 P_i = numerator / l
@@ -215,7 +213,6 @@ The Inner Loop
 
 .. code-block:: python
 
-def *attn_fwd*inner(acc, l_i, m_i, q, desc_k, desc_v, ...):
     for start_n in range(lo, hi, BLOCK_N):
         # Load K block
         k = desc_k.load([offsetk_y, 0]).T
@@ -269,7 +266,6 @@ For autoregressive models (GPT), prevent attending to future tokens:
 
 .. code-block:: python
 
-mask = offs_m[:, None] >= (start_n + offs_n[None, :])
 qk = qk + tl.where(mask, 0, -1.0e6)
 ::
 
@@ -296,7 +292,6 @@ Stages for Causal Attention
 
 .. code-block:: python
 
-if STAGE == 1:
     lo, hi = 0, start_m * BLOCK_M  # Before diagonal
 elif STAGE == 2:
     lo, hi = start_m * BLOCK_M, (start_m + 1) * BLOCK_M  # On diagonal (causal)
@@ -320,7 +315,6 @@ Modern GPUs (Hopper, Blackwell) support **tensor descriptors**:
 
 .. code-block:: python
 
-desc_q = TensorDescriptor(q, shape=[y_dim, HEAD_DIM],
                           strides=[HEAD_DIM, 1],
                           block_shape=[BLOCK_M, HEAD_DIM])
 ::
@@ -334,7 +328,6 @@ desc_q = TensorDescriptor(q, shape=[y_dim, HEAD_DIM],
 **Triton abstracts this**:
 .. code-block:: python
 
-q = desc_q.load([offset_y, 0])
 ::
 
 
@@ -345,7 +338,6 @@ Warp Specialization
 
 .. code-block:: python
 
-warp_specialize = True
 ::
 
 
@@ -371,7 +363,6 @@ For Blackwell GPUs with FP8 Tensor Cores:
 
 .. code-block:: python
 
-if dtype == tl.float8e5:
     v = desc_v.load([0, offsetv_y]).T  # Transposed layout for FP8
 else:
     v = desc_v.load([offsetv_y, 0])
@@ -392,7 +383,6 @@ Preprocess Step
 
 .. code-block:: python
 
-def *attn_bwd*preprocess(O, DO, Delta, ...):
     # Compute delta = sum(O * DO) for each row
     o = tl.load(O + ...)
     do = tl.load(DO + ...)
@@ -410,7 +400,6 @@ Computing dK and dV
 
 .. code-block:: python
 
-def *attn_bwd*dkdv(dk, dv, Q, k, v, DO, M, D, ...):
     for each block of Q:
         # Recompute attention weights
         qk = tl.dot(k, Q)
@@ -441,7 +430,6 @@ Similar structure, but processes different blocks:
 
 .. code-block:: python
 
-def *attn_bwd*dq(dq, q, K, V, DO, M, D, ...):
     for each block of K,V:
         # Recompute attention
         qk = tl.dot(q, K)
@@ -521,7 +509,6 @@ Auto-Tuning Configurations
 
 .. code-block:: python
 
-configs = [
     triton.Config({'BLOCK_M': BM, 'BLOCK_N': BN}, num_stages=s, num_warps=w)
     for BM in [64, 128]
     for BN in [32, 64, 128]
@@ -565,7 +552,6 @@ Error: out of resource: shared memory
 
 .. code-block:: python
 
-Wrong
 =====
 p = tl.exp(qk)
 
@@ -583,7 +569,6 @@ p = tl.exp(qk - m_ij[:, None])
 
 .. code-block:: python
 
-Wrong for causal (token can't attend to itself!)
 mask = offs_m[:, None] > (start_n + offs_n[None, :])
 
 Right
@@ -597,7 +582,6 @@ mask = offs_m[:, None] >= (start_n + offs_n[None, :])
 
 .. code-block:: python
 
-Must update both m_i and l_i!
 l_i = l_i * alpha + l_ij
 m_i = m_ij
 
@@ -631,7 +615,6 @@ Sliding Window Attention
 Only attend to nearby tokens:
 .. code-block:: python
 
-mask = abs(offs_m[:, None] - offs_n[None, :]) <= window_size
 ::
 
 

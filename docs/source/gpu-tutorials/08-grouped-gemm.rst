@@ -19,7 +19,6 @@ Static On-Device Scheduling
 
 .. code-block:: python
 
-NUM_SM: tl.constexpr  # Fixed number of streaming multiprocessors
 ::
 
 
@@ -33,7 +32,6 @@ Group Problem Representation
 
 .. code-block:: python
 
-group_a*ptrs  # Device tensor of pointers to A matrices
 group_b*ptrs  # Device tensor of pointers to B matrices
 group_c*ptrs  # Device tensor of pointers to C matrices
 group_gemm*sizes  # Shape [group_size, 3] storing [M, N, K] for each GEMM
@@ -53,7 +51,6 @@ Code Walkthrough
 
 .. code-block:: python
 
-@triton.jit
 def grouped_matmul*kernel(
     group_a*ptrs, group_b*ptrs, group_c*ptrs,
     group_gemm*sizes, g_lds, group_size,
@@ -112,7 +109,6 @@ For GPUs with compute capability >= 9.0 (Hopper and beyond):
 
 .. code-block:: python
 
-@triton.jit
 def grouped_matmul*tma_kernel(...):
     # Create TMA descriptors for each problem
     a_desc = tl.make_tensor*descriptor(
@@ -140,7 +136,6 @@ def grouped_matmul*tma_kernel(...):
 
 .. code-block:: python
 
-def group_gemm*fn(group_A, group_B):
     group_size = len(group_A)
 
     # Collect matrix metadata
@@ -193,7 +188,6 @@ Auto-tuning Configurations
 
 .. code-block:: python
 
-@triton.autotune(
     configs=[
         triton.Config({'BLOCK_SIZE*M': 128, 'BLOCK_SIZE*N': 128,
                        'BLOCK_SIZE*K': 32, 'NUM_SM': 84}),
@@ -233,7 +227,6 @@ Leading Dimension (Stride)
 
 .. code-block:: python
 
-For row-major matrix A[M, K]:
 lda = A.stride(0)  # Usually equals K for contiguous tensors
 
 Element at (i, j) is at: base_ptr + i * lda + j
@@ -265,7 +258,6 @@ Benchmarking Results
 From the script:
 .. code-block:: python
 
-@triton.testing.perf_report(
     x_names=['N'],
     x_vals=[2**i for i in range(7, 11)],  # 128 to 1024
     line_vals=['cublas', 'triton', 'triton-tma'],
@@ -319,7 +311,6 @@ Advanced: TMA Descriptor Creation
 For TMA version:
 .. code-block:: python
 
-a_desc = tl.make_tensor*descriptor(
     a_ptr,                    # Base pointer
     shape=[gm, gk],          # Logical tensor shape
     strides=[lda, 1],        # Row-major stride
@@ -344,7 +335,6 @@ Common Pitfalls
 
 .. code-block:: python
 
-Bad: B might not be contiguous after transpose
 B = B.T
 grouped_matmul*kernel`grid <...>`_
 
@@ -358,7 +348,6 @@ B_T = B.T.contiguous()
 
 .. code-block:: python
 
-Wrong: Assuming contiguous
 lda = K
 
 Correct: Use actual stride
@@ -371,7 +360,6 @@ lda = A.stride(0)
 
 .. code-block:: python
 
-FP8 requires compute capability >= 9.0
 if dtype == torch.float8_e4m3fn:
     assert torch.cuda.get_device*capability()[0] >= 9
 ::
@@ -381,7 +369,6 @@ Practical Example
 
 .. code-block:: python
 
-Define different problem sizes
 group_m = [1024, 512, 256, 128]
 group_n = [1024, 512, 256, 128]
 group_k = [1024, 512, 256, 128]

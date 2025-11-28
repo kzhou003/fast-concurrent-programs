@@ -37,7 +37,6 @@ First Coroutine - Sum of N Integers
         return result
 
 
-Computes a simple sum (which equals ``num``) and waits 4 seconds before returning.
 
 Second Coroutine - Factorial
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,7 +52,6 @@ Second Coroutine - Factorial
         return result
 
 
-Computes factorial and also waits 4 seconds before returning.
 
 Main Function
 ~~~~~~~~~~~~~
@@ -71,7 +69,6 @@ Main Function
         await asyncio.gather(*tasks)
 
 
-Reads command-line arguments, creates two tasks, and runs them concurrently.
 
 Python 3.12 Updates
 
@@ -119,7 +116,6 @@ Old Pattern (Deprecated)
     future.set_result(result)
 
 
-New Pattern (Modern)
 ~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
@@ -129,7 +125,6 @@ New Pattern (Modern)
     result = await task
 
 
-Execution Flow
 
 ::
 
@@ -163,7 +158,6 @@ Usage
     python3 10_asyncio_and_futures.py <num1> <num2>
 
 
-Examples
 --------
 
 Example 1
@@ -173,7 +167,6 @@ Example 1
 
     python3 10_asyncio_and_futures.py 10 5
 
-Output:
 
 ::
 
@@ -188,7 +181,6 @@ Example 2
 
     python3 10_asyncio_and_futures.py 100 7
 
-Output:
 
 ::
 
@@ -231,7 +223,6 @@ Capturing Results
 If you need the return values:
 .. code-block:: python
 
-async def main():
     tasks = [
         asyncio.create_task(first_coroutine(num1)),
         asyncio.create_task(second_coroutine(num2))

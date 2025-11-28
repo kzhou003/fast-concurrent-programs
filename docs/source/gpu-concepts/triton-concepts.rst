@@ -37,7 +37,6 @@ Throughout this document, we'll use a simple vector addition kernel as an exampl
         output = x + y
         tl.store(output_ptr + offsets, output, mask=mask)
 
-The Kernel Launch Mechanism
 =============================
 
 When you launch a Triton kernel, you use this syntax:
@@ -47,7 +46,6 @@ When you launch a Triton kernel, you use this syntax:
     grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']), )
     add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)
 
-This involves several key components:
 
 1. **Grid specification**: Defines how many parallel programs to launch
 2. **Indexing syntax** `[grid]`: Uses Python's `__getitem__` magic method
@@ -71,13 +69,11 @@ When you write:
 
     add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)
 
-Python translates this to:
 
 .. code-block:: python
 
     add_kernel.__getitem__(grid)(x, y, output, n_elements, BLOCK_SIZE=1024)
 
-The `__getitem__` method is defined in the `KernelInterface` class at `/triton/runtime/jit.py:364-370`:
 
 .. code-block:: python
 
@@ -90,7 +86,6 @@ The `__getitem__` method is defined in the `KernelInterface` class at `/triton/r
             """
             return lambda *args, **kwargs: self.run(grid=grid, warmup=False, *args, **kwargs)
 
-Key points:
 - `__getitem__` receives the `grid` parameter
 - Returns a **lambda function** that captures the grid
 - The lambda calls `self.run()` with the stored grid when invoked
@@ -118,7 +113,6 @@ The Complete Flow
        - Extracts grid dimensions
        - Launches GPU kernel
 
-Grid Calculation: `triton.cdiv()`
 =================================
 
 Purpose
@@ -130,7 +124,6 @@ Purpose
 
     triton.cdiv(a, b) = ceil(a / b) = (a + b - 1) // b
 
-This is crucial for determining the number of programs needed to process all data.
 
 Example with Vector Addition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,7 +135,6 @@ For 98,432 elements and BLOCK_SIZE=1024:
     grid = lambda meta: (triton.cdiv(98432, 1024), )
     # Evaluates to: (97,)
 
-This means:
 - **97 programs** will be launched
 - Each program processes **1,024 elements**
 - Last program (pid=96) processes remaining 432 elements
@@ -158,21 +150,18 @@ If you used regular division:
     grid_wrong = 98432 // 1024  # = 96 programs
     # This would miss the last 432 elements!
 
-With ceiling division:
 
 .. code-block:: python
 
     grid_correct = triton.cdiv(98432, 1024)  # = 97 programs
     # All elements are covered
 
-The `mask` parameter in `tl.load()` and `tl.store()` handles the case where a program's block extends beyond the data:
 
 .. code-block:: python
 
     mask = offsets < n_elements
     x = tl.load(x_ptr + offsets, mask=mask)  # Masked load prevents out-of-bounds access
 
-Program Indexing and Data Partitioning
 =======================================
 
 The SPMD Model
@@ -200,7 +189,6 @@ When the GPU launches a kernel with grid size `(97,)`, the GPU runtime automatic
     # ...
     # Program 96: pid = 96
 
-Index Calculation
 -----------------
 
 Each program calculates which data elements it should process:
@@ -211,7 +199,6 @@ Each program calculates which data elements it should process:
     block_start = pid * BLOCK_SIZE
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
 
-Data Access Pattern
 ~~~~~~~~~~~~~~~~~~~
 
 For BLOCK_SIZE=1024:
@@ -225,7 +212,6 @@ For BLOCK_SIZE=1024:
     2       2   2048       [2048, 2049, 2050, ..., 3071]
     96      96  98304      [98304, 98305, ..., 99327]
 
-Memory Load and Store
 ~~~~~~~~~~~~~~~~~~~~~
 
 Each program loads and processes different tensor slices:
@@ -238,7 +224,6 @@ Each program loads and processes different tensor slices:
     output = x + y                            # Element-wise addition
     tl.store(output_ptr + offsets, output, mask=mask)  # Store results
 
-Program-to-Data Mapping:
 
 .. code-block:: text
 
@@ -248,7 +233,6 @@ Program-to-Data Mapping:
     ...
     Program 96: x[98304:99328] + y[98304:99328] -> output[98304:99328]
 
-How `tl.program_id()` Works
 ===========================
 
 Implementation Stack
@@ -263,7 +247,6 @@ Implementation Stack
     def program_id(axis, _semantic=None):
         return _semantic.program_id(axis)
 
-**2. Triton Semantic Layer (semantic.py:39-42)**
 
 .. code-block:: python
 
@@ -275,7 +258,6 @@ Implementation Stack
             tl.int32
         )
 
-**3. LLVM IR Generation**
 
 The `create_get_program_id(axis)` method generates LLVM Intermediate Representation code that retrieves the program ID from the GPU.
 
@@ -289,13 +271,11 @@ LLVM compiles to GPU assembly:
 
     mov.u32 %r0, %ctaid.x  // Move block ID to register
 
-**AMD AMDGPU:**
 
 .. code-block:: amdgpu
 
     s_get_workgroup_id_x s0  // Get block ID in SGPR
 
-**5. GPU Hardware**
 
 At runtime, the GPU provides the program ID via special registers:
 - NVIDIA: `blockIdx.x`, `blockIdx.y`, `blockIdx.z`
@@ -337,7 +317,6 @@ Flow Diagram
         ...
         Program 96: blockIdx.x = 96
 
-Kernel Execution and Asynchronous Behavior
 ===========================================
 
 Is Kernel Launch Synchronous or Asynchronous?
@@ -349,7 +328,6 @@ Is Kernel Launch Synchronous or Asynchronous?
 
     add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)
 
-The function returns **immediately**, even though the GPU kernel is still executing. The tensor `output` is a valid reference, but its contents may not be ready yet.
 
 Manual Synchronization
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -369,7 +347,6 @@ You only need `torch.cuda.synchronize()` if you need to measure execution time:
     torch.cuda.synchronize()  # Wait for GPU to finish
     elapsed = time.time() - start  # Measures actual kernel execution
 
-Implicit Synchronization
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 PyTorch automatically synchronizes when you use the tensor:
@@ -382,7 +359,6 @@ PyTorch automatically synchronizes when you use the tensor:
     # Or when moving to CPU
     output_cpu = output_triton.cpu()  # Synchronizes before copying
 
-In the vector addition example (lines 88-93):
 
 .. code-block:: python
 
@@ -393,7 +369,6 @@ In the vector addition example (lines 88-93):
     print(f'Max difference: {torch.max(torch.abs(output_torch - output_triton))}')
     # By here, both are ready and comparison works
 
-Why Asynchronous by Default?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This design allows:
@@ -420,7 +395,6 @@ For 2D operations, you can use multi-dimensional grids:
     # Launch 2D grid
     grid = lambda meta: (triton.cdiv(M, 32), triton.cdiv(N, 32))
 
-Constexpr Parameters
 --------------------
 
 The `tl.constexpr` annotation marks parameters as compile-time constants:
@@ -432,7 +406,6 @@ The `tl.constexpr` annotation marks parameters as compile-time constants:
         # Triton specializes the kernel for each unique BLOCK_SIZE value
         offsets = tl.arange(0, BLOCK_SIZE)  # Unrolled at compile time
 
-This allows Triton to:
 - Unroll loops
 - Optimize memory access patterns
 - Generate specialized code per BLOCK_SIZE
@@ -447,7 +420,6 @@ Triton caches compiled kernels:
     add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)  # Compiles
     add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)  # Cached!
 
-The cache key includes:
 - Kernel signature
 - Argument specialization
 - Compilation options
@@ -470,7 +442,6 @@ Choose BLOCK_SIZE based on GPU architecture:
     # Compute grid size
     grid_size = triton.cdiv(n_elements, BLOCK_SIZE)
 
-Masking Overhead
 ----------------
 
 Always mask out-of-bounds accesses:
@@ -480,7 +451,6 @@ Always mask out-of-bounds accesses:
     mask = offsets < n_elements
     x = tl.load(x_ptr + offsets, mask=mask, other=0.0)
 
-This prevents:
 - Segmentation faults
 - Invalid memory access
 - Undefined behavior
@@ -500,7 +470,6 @@ Triton optimizes memory access patterns automatically, but contiguous access is 
     offsets = (block_start + tl.arange(0, BLOCK_SIZE)) * stride
     x = tl.load(x_ptr + offsets, mask=mask)
 
-Kernel Compilation, Warmup, and GPU Initialization
 ===================================================
 
 When optimizing kernels for specific GPU architectures, you often need to:
@@ -523,7 +492,6 @@ is_hip() - Detect AMD GPU Backend
     def is_hip():
         return triton.runtime.driver.active.get_current_target().backend == "hip"
 
-**What it does:**
 - Returns ``True`` if backend is HIP (AMD's Heterogeneous-Interface for Portability)
 - Returns ``False`` if backend is CUDA (NVIDIA)
 
@@ -540,7 +508,6 @@ AMD and NVIDIA GPUs have fundamentally different architectures:
     └── Occupancy formula       └── Different occupancy formula
        based on register usage      (includes register pools)
 
-**Example usage:**
 
 .. code-block:: python
 
@@ -551,7 +518,6 @@ AMD and NVIDIA GPUs have fundamentally different architectures:
         # NVIDIA-specific calculation
         occupancy = NUM_REGS // (n_regs * WARP_SIZE * num_warps)
 
-is_cdna() - Detect AMD CDNA Architecture
 -----------------------------------------
 
 **Purpose**: Check if the AMD GPU is CDNA architecture (data center) vs RDNA (gaming).
@@ -566,7 +532,6 @@ is_cdna() - Detect AMD CDNA Architecture
             'gfx90a', 'gfx908'              # CDNA 1-2 (MI200/MI100)
         )
 
-**AMD GPU Architecture Families**:
 
 .. code-block:: text
 
@@ -584,7 +549,6 @@ is_cdna() - Detect AMD CDNA Architecture
             ├── arch: gfx940, gfx941, gfx942
             └── Dual register pools: 512 total VGPRs
 
-**CDNA Special Feature - Dual Register Pools:**
 
 CDNA architecture has a unique register organization for matrix operations:
 
@@ -595,7 +559,6 @@ CDNA architecture has a unique register organization for matrix operations:
     ├── Accumulation VGPRs: 256 registers per wave
     └── Total: 512 registers available per wave
 
-This means CDNA can support higher occupancy than older architectures.
 
 **Example usage from fused softmax:**
 
@@ -610,7 +573,6 @@ This means CDNA can support higher occupancy than older architectures.
         # NVIDIA doesn't have dual pools
         occupancy = NUM_REGS // (n_regs * WARP_SIZE * num_warps)
 
-warmup() - Pre-compile Kernel Without Execution
 ------------------------------------------------
 
 **Purpose**: Compile the kernel and extract resource metadata (registers, shared memory) without actually running it on the GPU.
@@ -622,7 +584,6 @@ warmup() - Pre-compile Kernel Without Execution
     def warmup(self, *args, grid, **kwargs):
         return self.run(grid=grid, warmup=True, *map(MockTensor.wrap_dtype, args), **kwargs)
 
-**What it does:**
 
 1. **Compiles** the kernel using the Triton compiler pipeline
    - Python source code → LLVM IR → GPU assembly (PTX/AMDGPU)
@@ -647,7 +608,6 @@ warmup() - Pre-compile Kernel Without Execution
     n_spills = kernel.n_spills                # Spilled registers to memory
     n_max_threads = kernel.n_max_threads      # Max concurrent threads
 
-**Why warmup is essential:**
 
 Occupancy calculations require **actual compiled kernel properties**, not just source code:
 
@@ -666,7 +626,6 @@ Occupancy calculations require **actual compiled kernel properties**, not just s
             occupancy = NUM_REGS / (64 * WARP_SIZE * num_warps)
             grid_size = NUM_SM * occupancy
 
-**Multi-specialization with warmup:**
 
 The warmup function respects constexpr specialization:
 
@@ -681,7 +640,6 @@ The warmup function respects constexpr specialization:
 
     # Different specializations have different resource usage!
 
-_init_handles() - Initialize GPU Binary Handles
 -----------------------------------------------
 
 **Purpose**: Load the compiled kernel binary on the GPU and initialize runtime handles.
@@ -711,7 +669,6 @@ _init_handles() - Initialize GPU Binary Handles
         if self.metadata.num_warps * warp_size > self.n_max_threads:
             raise OutOfResources(...)
 
-**What it does:**
 
 1. **Loads** the binary on the current GPU device
 2. **Validates** that kernel resources fit within GPU limits
@@ -736,7 +693,6 @@ _init_handles() - Initialize GPU Binary Handles
     if max_threads > max_threads_per_sm:
         raise OutOfResources("threads", actual, limit)
 
-**Lazy initialization:**
 
 ``_init_handles()`` is called lazily (on demand) for several reasons:
 
@@ -754,7 +710,6 @@ _init_handles() - Initialize GPU Binary Handles
     # 2. Device switching: Can switch GPU devices before first run
     # 3. Memory efficiency: Defer loading expensive binaries
 
-**Manual initialization with _init_handles():**
 
 You explicitly call ``_init_handles()`` when you need resource information **before** launching:
 
@@ -778,7 +733,6 @@ You explicitly call ``_init_handles()`` when you need resource information **bef
     # Launch with optimized grid
     kernel[(num_programs, 1, 1)](y, x, ...)
 
-Complete Workflow Example: Fused Softmax
 -----------------------------------------
 
 Here's how all these functions work together in the fused softmax kernel:
@@ -836,7 +790,6 @@ Here's how all these functions work together in the fused softmax kernel:
         )
         return y
 
-Data Flow Diagram
 ~~~~~~~~~~~~~~~~~
 
 .. code-block:: text
@@ -869,7 +822,6 @@ Data Flow Diagram
           └─ kernel[(min(640, 1823), 1, 1)](...)
              └─ Launch 1823 blocks (one per row)
 
-Summary Table
 ~~~~~~~~~~~~~
 
 .. code-block:: text
@@ -881,7 +833,6 @@ Summary Table
     warmup()        | Compile | Pre-compile + extract metadata | Kernel object with n_regs, shared
     _init_handles() | Init    | Load binary on GPU + validate  | (Initializes internal state)
 
-Compiler Optimization Hints: `tl.assume()`
 ===========================================
 
 When writing high-performance GPU kernels, you often know certain conditions will always be true at runtime. Rather than letting the compiler generate defensive code to handle all cases, you can use `tl.assume()` to tell the compiler these guarantees, enabling aggressive optimizations.
@@ -901,7 +852,6 @@ What is tl.assume()?
         '''
         return _semantic.assume(_semantic.to_tensor(cond))
 
-**What it does:**
 
 - Tells the compiler: "This condition will always be true at runtime"
 - Allows the compiler to:
@@ -937,7 +887,6 @@ Consider address calculation in matrix multiplication:
     # - Can simplify calculations
     # Generated code: ~2-3 instructions
 
-**Performance impact**: For kernels doing pointer arithmetic thousands of times, this can save significant compute cycles.
 
 Matrix Multiplication Example
 -----------------------------
@@ -958,7 +907,6 @@ In `03-matrix-multiplication.py` (lines 267-277), the kernel makes the following
     tl.assume(stride_cm > 0)
     tl.assume(stride_cn > 0)
 
-**Why each assumption?**
 
 **Program IDs are non-negative:**
 
@@ -967,7 +915,6 @@ In `03-matrix-multiplication.py` (lines 267-277), the kernel makes the following
     tl.assume(pid_m >= 0)
     tl.assume(pid_n >= 0)
 
-GPU runtime always assigns program IDs >= 0. By telling the compiler, it can avoid checks for negative IDs.
 
 **Strides are positive:**
 
@@ -977,7 +924,6 @@ GPU runtime always assigns program IDs >= 0. By telling the compiler, it can avo
     tl.assume(stride_ak > 0)  # stride from tensor.stride(1)
     # ... and so on
 
-Tensor strides from `.stride()` are always positive for contiguous tensors. Assumptions allow the compiler to:
 - Skip overflow checks on stride multiplication
 - Avoid handling backward (negative stride) cases
 - Simplify bounds validation
@@ -998,7 +944,6 @@ After these assumptions, the kernel calculates:
     a_ptrs = a_ptr + (offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak)
     b_ptrs = b_ptr + (offs_k[:, None] * stride_bk + offs_bn[None, :] * stride_bn)
 
-The compiler can generate 2-3x fewer instructions for this critical inner-loop pointer arithmetic.
 
 When to Use `tl.assume()`
 -------------------------
@@ -1012,21 +957,18 @@ Use `tl.assume()` when you know a condition is **guaranteed** because:
     pid = tl.program_id(axis=0)
     tl.assume(pid >= 0)  # Always true from GPU runtime
 
-2. **PyTorch/tensor library guarantees it**
 
 .. code-block:: python
 
     stride = tensor.stride(0)
     tl.assume(stride > 0)  # True for contiguous tensors
 
-3. **Mathematical properties guarantee it**
 
 .. code-block:: python
 
     num_blocks = tl.cdiv(n, block_size)
     tl.assume(num_blocks >= 1)  # cdiv always returns >= 1
 
-4. **Your kernel preconditions require it** (verified in Python launcher)
 
 .. code-block:: python
 
@@ -1036,7 +978,6 @@ Use `tl.assume()` when you know a condition is **guaranteed** because:
     # In kernel:
     tl.assume(stride > 0)  # Safe because Python layer checked it
 
-Dangerous Example: DON'T DO THIS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
@@ -1049,7 +990,6 @@ Dangerous Example: DON'T DO THIS
     # But if stride is actually negative, UNDEFINED BEHAVIOR!
     # Results in memory corruption, crashes, wrong answers
 
-Related Functions: `tl.static_assert()`
 ---------------------------------------
 
 `tl.assume()` is similar to `tl.static_assert()` but with important differences:
@@ -1064,7 +1004,6 @@ Related Functions: `tl.static_assert()`
     Use case             | Known truths             | Verify preconditions
     Performance impact   | Enables optimizations    | None (fails to compile)
 
-**Example usage:**
 
 .. code-block:: python
 
@@ -1077,7 +1016,6 @@ Related Functions: `tl.static_assert()`
         # Assume: stride will always be positive at runtime
         tl.assume(stride > 0)  # Hint for optimization
 
-Performance Impact in Matrix Multiplication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The `tl.assume()` calls in matrix multiplication are critical for performance:
@@ -1111,7 +1049,6 @@ The Triton compiler's integer analysis backend uses `tl.assume()` to:
     # Compiler knows: pid_m ∈ [0, ∞)
     # Can eliminate negative checks
 
-2. **Overflow detection**: Validate arithmetic safety
 
 .. code-block:: python
 
@@ -1120,7 +1057,6 @@ The Triton compiler's integer analysis backend uses `tl.assume()` to:
     # Compiler knows: stride * offset won't overflow
     # Can skip overflow checks
 
-3. **Bounds validation**: Simplify memory access checks
 
 .. code-block:: python
 
@@ -1129,7 +1065,6 @@ The Triton compiler's integer analysis backend uses `tl.assume()` to:
     # Compiler knows: ptr is always in bounds
     # Can eliminate bounds checking
 
-4. **Code elimination**: Remove impossible branches
 
 .. code-block:: python
 
@@ -1140,7 +1075,6 @@ The Triton compiler's integer analysis backend uses `tl.assume()` to:
         # Dead code - compiler eliminates it
         pass
 
-Summary: `tl.assume()` Guidelines
 ---------------------------------
 
 **Key takeaways:**
@@ -1165,7 +1099,6 @@ Comparison with Other Optimization Techniques
     Constexpr params    | Specialization         | Compile-time constants
     Unrolling hints     | Loop optimization      | Control loop unrolling
 
-Summary
 =======
 
 Key Concepts Recap:
