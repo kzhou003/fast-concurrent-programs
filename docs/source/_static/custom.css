@@ -1,0 +1,18 @@
+/* Hide internal section links in sidebar - only show top-level document links
+   Match anchor links by looking for # in href attribute */
+.wy-menu li.toctree-l1 > a[href*="#"] {
+    visibility: hidden;
+    height: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: none;
+}
+
+.wy-menu li.toctree-l1 > a[href*="#"]::before {
+    content: "";
+}
+
+/* Also hide nested lists that appear after anchor links */
+.wy-menu li.toctree-l1 > a[href*="#"] + ul {
+    display: none;
+}

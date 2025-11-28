@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Triton GPU Programming Guide'
+project = 'Fast Concurrent Programming Guide'
 copyright = '2024, Fast Concurrent Programs'
 author = 'Fast Concurrent Programs'
 release = '1.0'
@@ -31,6 +31,11 @@ exclude_patterns = []
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+
+# Custom CSS and JavaScript to control sidebar appearance
+def setup(app):
+    app.add_css_file('custom.css')
+    app.add_js_file('sidebar-fix.js')
 
 # -- Extension configuration -------------------------------------------------
 
@@ -72,7 +77,7 @@ html_theme_options = {
     'collapse_navigation': False,
     'sticky_navigation': True,
     'includehidden': True,
-    'titles_only': False
+    'titles_only': True
 }
 
 # -- Options for LaTeX/PDF output --------------------------------------------

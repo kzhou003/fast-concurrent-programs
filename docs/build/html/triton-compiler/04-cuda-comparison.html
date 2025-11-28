@@ -6,9 +6,10 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The NVCC Compiler &mdash; Triton GPU Programming Guide 1.0 documentation</title>
+  <title>The NVCC Compiler &mdash; Fast Concurrent Programming Guide 1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1aac1d93" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -16,6 +17,7 @@
       <script src="../_static/documentation_options.js?v=f2a433a1"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/sidebar-fix.js?v=6c2f6f50"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -32,7 +34,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            Triton GPU Programming Guide
+            Fast Concurrent Programming Guide
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -57,10 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#event-loop">Event Loop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#how-it-works-from-script-07">How It Works (from script 07):</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#event-loop-lifecycle">Event Loop Lifecycle:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#modern-vs-old-patterns">Modern vs Old Patterns:</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#id1">Coroutines</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#modern-vs-old-patterns">Modern vs Old Patterns:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#what-are-coroutines">What are Coroutines?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#defining-coroutines">Defining Coroutines:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#key-features">Key Features:</a></li>
@@ -84,10 +83,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#blocking-calls-in-async-code">6. Blocking Calls in Async Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#string-formatting-f-strings">7. String Formatting (<code class="docutils literal notranslate"><span class="pre">%</span></code> -&gt; f-strings)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#migration-checklist">Migration Checklist</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#compatibility">Compatibility</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#summary">Summary</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#compatibility">Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#quick-reference-guide">Quick Reference Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#key-takeaways">Key Takeaways</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/key_concepts.html#further-reading">Further Reading</a></li>
@@ -106,23 +102,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#cpu-vs-gpu-different-design-philosophies">CPU vs GPU: Different Design Philosophies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#key-differences">Key Differences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#simd-and-gpu-architecture">SIMD and GPU Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#why-gpus-excel-at-compute-intensive-tasks">Why GPUs Excel at Compute-Intensive Tasks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#massive-parallelism">1. Massive Parallelism</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#perfect-for-data-parallel-problems">2. Perfect for Data-Parallel Problems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#high-memory-bandwidth">3. High Memory Bandwidth</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#why-gpus-excel-at-compute-intensive-tasks">Why GPUs Excel at Compute-Intensive Tasks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#what-gpus-are-good-at">What GPUs Are Good At</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#silicon-real-estate-comparison">Silicon Real Estate Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#performance-comparison">Performance Comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#detailed-benchmark-results">Detailed Benchmark Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#decision-matrix">Decision Matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#practical-guidelines">Practical Guidelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#use-cpu-when">Use CPU When:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#use-gpu-when">Use GPU When:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#use-hyperthreading-when">Use Hyperthreading When:</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#practical-guidelines">Practical Guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#example-1-image-processing">Example 1: Image Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#example-2-monte-carlo-simulation">Example 2: Monte Carlo Simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/hardware_parallelism.html#example-3-neural-network-training">Example 3: Neural Network Training</a></li>
@@ -138,85 +124,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/threading_basics.html#mistake-1-calling-the-function-directly-instead-of-start">Mistake 1: Calling the function directly instead of start()</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/threading_basics.html#mistake-2-forgetting-join">Mistake 2: Forgetting join()</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/threading_basics.html#mistake-3-thinking-threads-share-data-automatically">Mistake 3: Thinking threads share data automatically</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_event_loop.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_event_loop.html#asyncio-event-loop">Asyncio Event Loop</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_event_loop.html#async-await-pattern">Async/Await Pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_event_loop.html#task-functions">Task Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_event_loop.html#main-function">Main Function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_event_loop.html#entry-point">Entry Point</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_event_loop.html#changes-made">Changes Made</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_event_loop.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_event_loop.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#finite-state-machine-fsm">Finite State Machine (FSM)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#coroutines">Coroutines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#state-transitions">State Transitions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#state-machine-structure">State Machine Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#start-state">Start State</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#intermediate-states-state-1-2-3">Intermediate States (State 1, 2, 3)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#end-state">End State</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#changes-made">Changes Made</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#usage">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_coroutine.html#use-cases">Use Cases</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#command-line-arguments">Command-Line Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#async-task-results">Async Task Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#concurrent-computation">Concurrent Computation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#first-coroutine-sum-of-n-integers">First Coroutine - Sum of N Integers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#second-coroutine-factorial">Second Coroutine - Factorial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#main-function">Main Function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#changes-made">Changes Made</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#old-pattern-deprecated">Old Pattern (Deprecated)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#new-pattern-modern">New Pattern (Modern)</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#examples">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#example-1">Example 1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#example-2">Example 2</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#asyncio-tasks">Asyncio Tasks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#concurrent-execution">Concurrent Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#asyncio-gather">asyncio.gather()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#factorial-computation">Factorial Computation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#fibonacci-computation">Fibonacci Computation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#binomial-coefficient-computation">Binomial Coefficient Computation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#main-function">Main Function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#changes-made">Changes Made</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_and_futures.html#examples">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/asyncio_task_manipulation.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html#executor-pattern">Executor Pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html#execution-models">Execution Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html#cpu-intensive-task">CPU-Intensive Task</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html#evaluation-function">Evaluation Function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html#sequential-execution">Sequential Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html#thread-pool-execution">Thread Pool Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html#process-pool-execution">Process Pool Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html#changes-made">Changes Made</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/concurrent_futures_pooling.html#usage">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html">Key Concept</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#internal-structure">Internal Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#automatic-locking">Automatic Locking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#put-item"><code class="docutils literal notranslate"><span class="pre">put(item)</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#problem-with-manual-locks">Problem with Manual Locks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#problems">Problems:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#benefits">Benefits:</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#problem-with-manual-locks">Problem with Manual Locks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#how-queue-does-locking">How Queue Does Locking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#locking-benefits">Locking Benefits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#start-all">Start all</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#locking-benefits">Locking Benefits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#execution-flow">Execution Flow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#thread-safe-data-structure">1. <strong>Thread-Safe Data Structure</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#blocks-correctly">2. <strong>Blocks Correctly</strong></a></li>
@@ -227,28 +153,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#step-by-step-what-happens-in-get">Step-by-Step: What Happens in <code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#mistake-1-forgetting-lock">Mistake 1: Forgetting Lock</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#mistake-2-busy-waiting">Mistake 2: Busy-Waiting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#mistake-3-race-condition">Mistake 3: Race Condition</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#add-tasks">Add tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html">The Answer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#the-items-don-t-have-conditions">The Items Don’t Have Conditions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#condition-variables-explained">Condition Variables Explained</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#step-by-step-execution">Step-by-Step Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#timeline-put-with-condition-variable">Timeline: put() with Condition Variable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#id1">Step-by-Step Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#timeline-get-with-condition-variable">Timeline: get() with Condition Variable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#scenario-queue-with-maxsize-2-multiple-producers-consumers">Scenario: Queue with maxsize=2, multiple producers/consumers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#what-people-might-think-wrong">What People Might Think (WRONG):</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#the-actual-truth">The Actual Truth:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#instead-of-per-item-events">Instead of Per-Item Events</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#not-empty-notify-what-it-does">not_empty.notify() - What It Does</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#diagram-condition-variable-notification">Diagram: Condition Variable Notification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#does-each-item-get-a-condition">“Does each item get a condition?”</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#the-flow">The Flow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#what-queue-put-actually-does">What Queue.put() Actually Does</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_explained.html#mistake-3-race-condition">Mistake 3: Race Condition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html">The Answer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/queue_internal_mechanics.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html">Without task_done() - Can’t Track Completion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-can-track-completion">With task_done() - Can Track Completion</a></li>
@@ -280,26 +186,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-2-get-and-process">Step 2: Get and Process</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#step-3-mark-done">Step 3: Mark Done</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#flow-diagram">Flow Diagram</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#without-task-done-problematic">Without task_done() - PROBLEMATIC</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#add-tasks">Add tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-correct">With task_done() - CORRECT</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#id17">Add tasks</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#without-task-done-problematic">Without task_done() - PROBLEMATIC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#with-task-done-correct">With task_done() - CORRECT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-1-verify-all-work-complete">Use Case 1: Verify All Work Complete</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-2-track-progress">Use Case 2: Track Progress</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-3-batch-processing">Use Case 3: Batch Processing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#main">Main</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#use-case-3-batch-processing">Use Case 3: Batch Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#scenario-main-thread-needs-to-know-when-workers-finish">Scenario: Main thread needs to know when workers finish</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#timeline">Timeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#better-code-pattern">Better Code Pattern</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#in-main">In main</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#better-code-pattern">Better Code Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#why-we-need-task-done">Why We Need task_done()</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/task_done_queue_explained.html#the-pattern">The Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/rlock_explained.html">Regular Lock vs RLock</a></li>
@@ -331,10 +225,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#cpu-bound-operations">CPU-bound Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#i-o-bound-operations">I/O-bound Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#real-world-analogy">Real-World Analogy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-problem-with-threading-for-cpu-bound">The Problem with Threading for CPU-bound</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#sequential">Sequential</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-problem-with-threading-for-cpu-bound">The Problem with Threading for CPU-bound</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#the-solution-multiprocessing">The Solution: Multiprocessing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#how-multiprocessing-bypasses-the-gil">How Multiprocessing Bypasses the GIL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpu-concurrency/patterns_problems_mapping.html#trade-offs-of-multiprocessing">Trade-offs of Multiprocessing</a></li>
@@ -373,35 +264,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/gpu-fundamentals.html">Key Differences: CPU vs GPU</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/gpu-fundamentals.html#streaming-multiprocessors-sms">Streaming Multiprocessors (SMs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/gpu-fundamentals.html#thread-organization">Thread Organization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/gpu-fundamentals.html#example-visualization">Example Visualization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/gpu-fundamentals.html#next-steps">Next Steps</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#the-performance-pyramid">The Performance Pyramid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#memory-coalescing">Memory Coalescing</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#l2-cache">L2 Cache</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#example-matrix-multiplication">Example: Matrix Multiplication</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#registers">Registers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#pattern-1-streaming-bandwidth-bound">Pattern 1: Streaming (Bandwidth-Bound)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#pattern-2-staged-computation-compute-bound">Pattern 2: Staged Computation (Compute-Bound)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#pattern-3-reduction-mixed">Pattern 3: Reduction (Mixed)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#the-golden-rules">The Golden Rules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#example-naive-vs-optimized-softmax">Example: Naive vs Optimized Softmax</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#key-metrics">Key Metrics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#tools-for-profiling">Tools for Profiling</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/gpu-fundamentals.html#example-visualization">Example Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#l2-cache">L2 Cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#registers">Registers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/memory-hierarchy.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html">Warps and SIMD Execution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#thread-divergence">Thread Divergence</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/execution-model.html#occupancy">Occupancy</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#thread-divergence">Thread Divergence</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#what-is-occupancy">What is Occupancy?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#factors-limiting-occupancy">Factors Limiting Occupancy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#example-calculation">Example Calculation</a></li>
@@ -417,10 +286,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#traditional-approach">Traditional Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#persistent-approach">Persistent Approach</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#key-factors">Key Factors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#profiling-tools">Profiling Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/execution-model.html#summary">Summary</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/execution-model.html#profiling-tools">Profiling Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/performance-optimization.html">Step 1: Profile First</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#step-2-identify-bottleneck">Step 2: Identify Bottleneck</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#strategy-1-kernel-fusion">Strategy 1: Kernel Fusion</a></li>
@@ -449,438 +315,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#memory-optimizations">Memory Optimizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#compute-optimizations">Compute Optimizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#occupancy-optimization">Occupancy Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#advanced">Advanced</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#summary">Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#next-steps">Next Steps</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/triton-concepts.html">Triton Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#introduction-to-triton">Introduction to Triton</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#vector-addition-example">Vector Addition Example</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#the-kernel-launch-mechanism">The Kernel Launch Mechanism</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#the-grid-syntax-sugar-python-s-getitem">The <cite>[grid]</cite> Syntax Sugar: Python’s <cite>__getitem__</cite></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#how-it-works">How It Works</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#implementation-details">Implementation Details</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#the-complete-flow">The Complete Flow</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#grid-calculation-triton-cdiv">Grid Calculation: <cite>triton.cdiv()</cite></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#purpose">Purpose</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#example-with-vector-addition">Example with Vector Addition</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#why-ceiling-division">Why Ceiling Division?</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#program-indexing-and-data-partitioning">Program Indexing and Data Partitioning</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#the-spmd-model">The SPMD Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#program-id-assignment">Program ID Assignment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#index-calculation">Index Calculation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#data-access-pattern">Data Access Pattern</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#memory-load-and-store">Memory Load and Store</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#how-tl-program-id-works">How <cite>tl.program_id()</cite> Works</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#implementation-stack">Implementation Stack</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#flow-diagram">Flow Diagram</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#kernel-execution-and-asynchronous-behavior">Kernel Execution and Asynchronous Behavior</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#is-kernel-launch-synchronous-or-asynchronous">Is Kernel Launch Synchronous or Asynchronous?</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#manual-synchronization">Manual Synchronization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#implicit-synchronization">Implicit Synchronization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#why-asynchronous-by-default">Why Asynchronous by Default?</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#advanced-topics">Advanced Topics</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#multi-dimensional-grids">Multi-Dimensional Grids</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#constexpr-parameters">Constexpr Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#kernel-caching">Kernel Caching</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#performance-considerations">Performance Considerations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#grid-size-selection">Grid Size Selection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#masking-overhead">Masking Overhead</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#memory-coalescing">Memory Coalescing</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#kernel-compilation-warmup-and-gpu-initialization">Kernel Compilation, Warmup, and GPU Initialization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#is-hip-detect-amd-gpu-backend">is_hip() - Detect AMD GPU Backend</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#is-cdna-detect-amd-cdna-architecture">is_cdna() - Detect AMD CDNA Architecture</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#warmup-pre-compile-kernel-without-execution">warmup() - Pre-compile Kernel Without Execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#init-handles-initialize-gpu-binary-handles">_init_handles() - Initialize GPU Binary Handles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#complete-workflow-example-fused-softmax">Complete Workflow Example: Fused Softmax</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#data-flow-diagram">Data Flow Diagram</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#summary-table">Summary Table</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#compiler-optimization-hints-tl-assume">Compiler Optimization Hints: <cite>tl.assume()</cite></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#what-is-tl-assume">What is tl.assume()?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#why-assumptions-help-optimization">Why Assumptions Help Optimization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#matrix-multiplication-example">Matrix Multiplication Example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#when-to-use-tl-assume">When to Use <cite>tl.assume()</cite></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#dangerous-example-don-t-do-this">Dangerous Example: DON’T DO THIS</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#related-functions-tl-static-assert">Related Functions: <cite>tl.static_assert()</cite></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#performance-impact-in-matrix-multiplication">Performance Impact in Matrix Multiplication</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#how-compiler-uses-assumptions">How Compiler Uses Assumptions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#summary-tl-assume-guidelines">Summary: <cite>tl.assume()</cite> Guidelines</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#comparison-with-other-optimization-techniques">Comparison with Other Optimization Techniques</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#summary">Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-concepts/triton-concepts.html#references">References</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/performance-optimization.html#advanced">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-concepts/triton-concepts.html">Triton Concepts</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">GPU Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#spmd-single-program-multiple-data">SPMD (Single Program, Multiple Data)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#program-id-and-block-processing">Program ID and Block Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#grid-size">Grid Size</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#memory-hierarchy">Memory Hierarchy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#memory-coalescing">Memory Coalescing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#masking-for-boundary-conditions">Masking for Boundary Conditions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#step-by-step-execution">Step-by-Step Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#bandwidth-bound-operation">Bandwidth-Bound Operation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#arithmetic-intensity">Arithmetic Intensity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#theoretical-performance">Theoretical Performance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#triton-jit-decorator"><code class="docutils literal notranslate"><span class="pre">&#64;triton.jit</span></code> Decorator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#constexpr-for-compile-time-constants"><code class="docutils literal notranslate"><span class="pre">constexpr</span></code> for Compile-Time Constants</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#launch-grid-syntax">Launch Grid Syntax</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#expected-results">Expected Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#pointer-arithmetic">1. Pointer Arithmetic</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#vectorized-operations">2. Vectorized Operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#masked-memory-operations">3. Masked Memory Operations</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/01-vector-add.html#next-steps">Next Steps</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#standard-softmax-formula">Standard Softmax Formula</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#naive-pytorch-implementation">Naive PyTorch Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#dram-global-memory">DRAM (Global Memory)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#sram-shared-memory-l1-cache">SRAM (Shared Memory / L1 Cache)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#the-key-insight">The Key Insight</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#block-level-processing">Block-Level Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#step-1-load-row-into-sram">Step 1: Load Row Into SRAM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#step-2-compute-max-reduction">Step 2: Compute Max (Reduction)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#step-3-exponentiation">Step 3: Exponentiation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#step-4-compute-sum-another-reduction">Step 4: Compute Sum (Another Reduction)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#step-5-normalize-and-write-back">Step 5: Normalize and Write Back</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#why-must-block-size-be-power-of-2">Why Must BLOCK_SIZE Be Power of 2?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#number-of-warps">Number of Warps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#number-of-pipeline-stages">Number of Pipeline Stages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#computing-occupancy">Computing Occupancy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#the-pattern">The Pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#why-subtract-max">Why Subtract Max?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#padding-with-inf">Padding with -inf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#theoretical-speedup">Theoretical Speedup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#actual-performance">Actual Performance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#reduction-operations">Reduction Operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#warp-shuffles">Warp Shuffles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#block-vs-thread">Block vs Thread</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#row-too-large-for-sram">1. Row Too Large for SRAM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#numerical-precision">2. Numerical Precision</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#masking-errors">3. Masking Errors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#jit-fusion-torch-jit-script">JIT Fusion (torch.jit.script)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#manual-cuda">Manual CUDA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#cudnn-cublas">CuDNN/CuBLAS</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/02-fused-softmax.html#extensions">Extensions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html">Matrix Multiplication</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#basic-algorithm">Basic Algorithm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#why-it-s-hard-to-optimize">Why It’s Hard to Optimize</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#blocked-algorithm">Blocked Algorithm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#why-tiling-works">Why Tiling Works</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#understanding-strides">Understanding Strides</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#block-pointers">Block Pointers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#advancing-pointers">Advancing Pointers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#the-problem-with-row-major-ordering">The Problem with Row-Major Ordering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#grouped-ordering-swizzling">Grouped Ordering (Swizzling)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#the-configuration-space">The Configuration Space</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#triton-s-auto-tuner">Triton’s Auto-Tuner</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#id3">)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#good-configurations">Good Configurations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#step-1-compute-program-ids">Step 1: Compute Program IDs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#step-2-initialize-pointers">Step 2: Initialize Pointers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#step-3-accumulation-loop">Step 3: Accumulation Loop</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#step-4-apply-activation-optional">Step 4: Apply Activation (Optional)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#step-5-store-result">Step 5: Store Result</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#what-are-tensor-cores">What Are Tensor Cores?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#how-tensor-cores-work">How Tensor Cores Work</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#triton-and-tensor-cores">Triton and Tensor Cores</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#arithmetic-intensity">Arithmetic Intensity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#roofline-model">Roofline Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#expected-performance">Expected Performance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#software-pipelining">Software Pipelining</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#loop-unrolling">Loop Unrolling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#register-pressure">Register Pressure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#non-contiguous-tensors">1. Non-Contiguous Tensors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#wrong-stride-calculation">2. Wrong Stride Calculation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#boundary-conditions">3. Boundary Conditions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#numerical-precision">4. Numerical Precision</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#warm-up">1. Warm-up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#measure-tflops">2. Measure TFLOPS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#compare-against-cublas-rocblas">3. Compare Against cuBLAS/rocBLAS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html#test-different-sizes">4. Test Different Sizes</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html">Low Memory Dropout</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#purpose">Purpose</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#mathematical-definition">Mathematical Definition</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#id1">}</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#scaling-factor">Scaling Factor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#standard-pytorch-dropout">Standard PyTorch Dropout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#the-backward-pass-problem">The Backward Pass Problem</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#additional-complexity">Additional Complexity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#key-insight">Key Insight</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#the-triton-implementation">The Triton Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#the-challenge">The Challenge</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#the-solution-counter-based-prng">The Solution: Counter-Based PRNG</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#the-philox-algorithm">The Philox Algorithm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#using-philox-in-triton">Using Philox in Triton</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#memory-comparison">Memory Comparison</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#computational-cost">Computational Cost</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#when-to-use-seeded-dropout">When to Use Seeded Dropout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#ensuring-same-random-numbers">Ensuring Same Random Numbers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#seed-management">Seed Management</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#testing-reproducibility">Testing Reproducibility</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#the-tl-where-function">The <code class="docutils literal notranslate"><span class="pre">tl.where</span></code> Function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#masking-for-boundary-conditions">Masking for Boundary Conditions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#random-number-distribution">Random Number Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#different-random-distributions">Different Random Distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#quality-of-randomness">Quality of Randomness</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#thread-safety-and-race-conditions">Thread Safety and Race Conditions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#expected-performance">Expected Performance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#bottleneck-analysis">Bottleneck Analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#integration-with-pytorch">Integration with PyTorch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html#seed-generation-strategies">Seed Generation Strategies</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html">Layer Norm</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#the-formula">The Formula</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#step-by-step-math">Step-by-Step Math</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#why-layer-normalization">Why Layer Normalization?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#batch-norm-vs-layer-norm">Batch Norm vs Layer Norm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#kernel-structure">Kernel Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#computing-the-mean">Computing the Mean</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#computing-the-variance">Computing the Variance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#normalization-and-transformation">Normalization and Transformation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#gradient-mathematics">Gradient Mathematics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#gradient-for-biases">Gradient for Biases</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#gradient-for-weights">Gradient for Weights</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#gradient-for-input-complex">Gradient for Input (Complex!)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#the-challenge">The Challenge</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#two-stage-reduction">Two-Stage Reduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#group-assignment">Group Assignment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#using-locks">Using Locks</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#in-kernel">In kernel:</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#stage-2-final-reduction">Stage 2: Final Reduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#memory-layout">Memory Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#stride-usage">Stride Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#why-use-float32-for-accumulation">Why Use float32 for Accumulation?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#computational-complexity">Computational Complexity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#memory-bandwidth">Memory Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#optimization-opportunities">Optimization Opportunities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#numerical-stability">1. Numerical Stability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#dimension-confusion">2. Dimension Confusion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#gradient-accumulation-race-conditions">3. Gradient Accumulation Race Conditions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#forgetting-to-sum-weight-gradients">4. Forgetting to Sum Weight Gradients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#rmsnorm-simpler-variant">RMSNorm (Simpler Variant)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#groupnorm">GroupNorm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#fp8-and-mixed-precision">FP8 and Mixed Precision</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#pytorch-implementation">PyTorch Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#triton-advantages">Triton Advantages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html#performance">Performance</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html">Fused Attention</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#standard-attention-formula">Standard Attention Formula</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#step-by-step-computation">Step-by-Step Computation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#the-memory-problem">The Memory Problem</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#insight-1-we-don-t-need-to-store-s-and-p">Insight 1: We Don’t Need to Store S and P</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#insight-2-online-softmax">Insight 2: Online Softmax</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#insight-3-tiling">Insight 3: Tiling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#standard-softmax">Standard Softmax</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#block-wise-computation">Block-wise Computation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#updating-the-output">Updating the Output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#the-inner-loop">The Inner Loop</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#causal-masking">Causal Masking</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#stages-for-causal-attention">Stages for Causal Attention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#tensor-descriptors">Tensor Descriptors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#warp-specialization">Warp Specialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#reduced-shared-memory">Reduced Shared Memory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#fp8-support">FP8 Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#preprocess-step">Preprocess Step</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#computing-dk-and-dv">Computing dK and dV</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#computing-dq">Computing dQ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#why-recomputation">Why Recomputation?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#memory-complexity">Memory Complexity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#compute-complexity">Compute Complexity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#arithmetic-intensity">Arithmetic Intensity</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#id9">]</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#sram-overflow">1. SRAM Overflow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#numerical-instability">2. Numerical Instability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#causal-mask-errors">3. Causal Mask Errors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#forgetting-to-update-statistics">4. Forgetting to Update Statistics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#multi-query-attention-mqa">Multi-Query Attention (MQA)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#grouped-query-attention-gqa">Grouped Query Attention (GQA)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#sliding-window-attention">Sliding Window Attention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html#flash-attention-3">Flash Attention 3</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html">Extern Functions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#nvidia-s-libdevice">NVIDIA’s libdevice</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#amd-s-device-libraries">AMD’s Device Libraries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#what-functions-are-available">What Functions Are Available?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#triton-built-in-math">Triton Built-in Math</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#when-you-need-more">When You Need More</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#the-simple-way-default-path">The Simple Way (Default Path)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#the-custom-path-way">The Custom Path Way</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#compilation-process">Compilation Process</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#type-dispatch">Type Dispatch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#calling-convention">Calling Convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#triton-s-libdevice-wrapper">Triton’s libdevice Wrapper</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#hyperbolic">Hyperbolic</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#the-math">The Math</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#why-use-libdevice">Why Use libdevice?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#full-example">Full Example</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#test">Test</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#libdevice-performance">Libdevice Performance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#when-to-use-vs-triton-intrinsics">When to Use vs Triton Intrinsics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#common-errors">Common Errors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#verifying-libraries">Verifying Libraries</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#nvidia">NVIDIA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#amd">AMD</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#calling-custom-external-functions">Calling Custom External Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#mixing-multiple-external-libraries">Mixing Multiple External Libraries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#nvidia-vs-amd">NVIDIA vs AMD</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#function-name-differences">Function Name Differences</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#in-cuda">In CUDA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html#in-triton">In Triton</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#static-on-device-scheduling">Static On-Device Scheduling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#group-problem-representation">Group Problem Representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#grouped-gemm-kernel-basic-version">1. Grouped GEMM Kernel (Basic Version)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#tma-tensor-memory-accelerator-version">2. TMA (Tensor Memory Accelerator) Version</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#host-function-setup">3. Host Function Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#id1">)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#pointer-indirection">Pointer Indirection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#leading-dimension-stride">Leading Dimension (Stride)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#when-grouped-gemm-wins">When Grouped GEMM Wins</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#when-to-use-separate-kernels">When to Use Separate Kernels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#benchmarking-results">Benchmarking Results</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#id2">)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#why-fixed-number-of-ctas">Why Fixed Number of CTAs?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#work-distribution">Work Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#forgetting-contiguity">1. Forgetting Contiguity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#incorrect-leading-dimensions">2. Incorrect Leading Dimensions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#mixed-precision-issues">3. Mixed Precision Issues</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/03-matrix-multiplication.html">Matrix Multiplication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/04-low-memory-dropout.html">Low Memory Dropout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/05-layer-norm.html">Layer Norm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/06-fused-attention.html">Fused Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/07-extern-functions.html">Extern Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/08-grouped-gemm.html#summary">Summary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#persistent-kernel-pattern">Persistent Kernel Pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#warp-specialization">Warp Specialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#naive-matmul-baseline">1. Naive Matmul (Baseline)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#id1">)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#persistent-matmul">2. Persistent Matmul</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#id4">)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#tma-matmul">3. TMA Matmul</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#tma-persistent-with-epilogue-subtiling">4. TMA Persistent with Epilogue Subtiling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#viewing-profile-data">Viewing Profile Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#host-side-tensordescriptor">Host-side (TensorDescriptor)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#device-side-tl-make-tensor-descriptor">Device-side (tl.make_tensor*descriptor)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#how-it-works">How It Works</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#expected-speedups-relative-to-naive">Expected speedups (relative to naive):</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#when-each-variant-wins">When Each Variant Wins</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#fp16-float16">FP16 (Float16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#fp8-float8">FP8 (Float8)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#wrong-b-matrix-layout-for-tma">1. Wrong B Matrix Layout for TMA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#mixing-host-and-device-descriptors">2. Mixing Host and Device Descriptors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#forgetting-fp8-support-check">3. Forgetting FP8 Support Check</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/09-persistent-matmul.html#summary">Summary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#block-scaling-fundamentals">Block Scaling Fundamentals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#quantization-formats">Quantization Formats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#memory-savings">Memory Savings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#why-preshuffling">Why Preshuffling?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#d-preshuffled-layout">5D Preshuffled Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#reshaping-and-transposing">Reshaping and Transposing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#mfma-scale-organization">MFMA Scale Organization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#thread-level-access-pattern">Thread-level Access Pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#nvidia-kernel-tma-based">1. NVIDIA Kernel (TMA-based)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#amd-cdna4-kernel">2. AMD CDNA4 Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#nvidia-version">NVIDIA Version</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#amd-version">AMD Version</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#theoretical-speedup">Theoretical Speedup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#real-world-performance">Real-world Performance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#quantization-error">Quantization Error</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#e8m0-scale-format-amd">E8M0 Scale Format (AMD)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#example">Example:</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#command-line-benchmarking">Command-line Benchmarking</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#nvidia-fp4">NVIDIA FP4</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#nvidia-fp8">NVIDIA FP8</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#validation">Validation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#nvidia">NVIDIA</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#unsupported-hardware">1. Unsupported Hardware</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#format-mismatch">2. Format Mismatch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#wrong-scale-shape">3. Wrong Scale Shape</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#missing-tma-allocator">4. Missing TMA Allocator</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gpu-tutorials/10-block-scaled-matmul.html#summary">Summary</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Triton Compiler</span></p>
@@ -897,24 +350,8 @@
 <li class="toctree-l1"><a class="reference internal" href="01-overview.html#mlir-infrastructure">MLIR Infrastructure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01-overview.html#python-components">Python Components</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01-overview.html#c-components">C++ Components</a></li>
-<li class="toctree-l1"><a class="reference internal" href="01-overview.html#backend-components">Backend Components</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="01-overview.html#next-steps">Next Steps</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="02-jit-decorator.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#implementation">Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#source-code-extraction">Source Code Extraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#ast-parsing">AST Parsing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#cache-key-generation">Cache Key Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#tracking-global-variables">Tracking Global Variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#handling-nested-function-calls">Handling Nested Function Calls</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#initialization">Initialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#kernel-call-handling">Kernel Call Handling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#argument-specialization">Argument Specialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#launch-metadata">Launch Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-jit-decorator.html#attributes-and-hints">Attributes and Hints</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="01-overview.html#backend-components">Backend Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-jit-decorator.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-jit-decorator.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-compilation-pipeline.html">CodeGenerator Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-compilation-pipeline.html#ast-visitor-pattern">AST Visitor Pattern</a></li>
@@ -928,10 +365,7 @@
 <li class="toctree-l1"><a class="reference internal" href="03-compilation-pipeline.html#ptx-cubin">PTX -&gt; CUBIN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-compilation-pipeline.html#cache-key-components">Cache Key Components</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-compilation-pipeline.html#cache-directory-structure">Cache Directory Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-compilation-pipeline.html#cache-lookup">Cache Lookup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="03-compilation-pipeline.html#summary">Summary</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="03-compilation-pipeline.html#cache-lookup">Cache Lookup</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">The NVCC Compiler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#nvcc-compilation-stages">NVCC Compilation Stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#ptx-assembly-output">PTX Assembly Output</a></li>
@@ -950,56 +384,20 @@
 <li class="toctree-l1"><a class="reference internal" href="#file-types">File Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#example-directory-structures">Example Directory Structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#ptx-inspection">PTX Inspection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#cubin-inspection">CUBIN Inspection</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="#cubin-inspection">CUBIN Inspection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#compilation-paths-compared">Compilation Paths Compared</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#key-takeaways">Key Takeaways</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html">Traditional Compiler Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#example-matrix-multiplication">Example: Matrix Multiplication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#mlir-philosophy">MLIR Philosophy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#dialects">1. Dialects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#common-dialects">Common Dialects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#triton-s-custom-dialects">Triton’s Custom Dialects</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#operations">2. Operations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#operation-anatomy">Operation Anatomy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#ssa-form-static-single-assignment">SSA Form (Static Single Assignment)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#operation-examples">Operation Examples</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#regions-and-blocks">3. Regions and Blocks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#regions">Regions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#blocks">Blocks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#example-with-regions-and-blocks">Example with Regions and Blocks</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#types">4. Types</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#built-in-types">Built-in Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#triton-custom-types">Triton Custom Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#type-conversion">Type Conversion</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#attributes">5. Attributes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#common-attribute-types">Common Attribute Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#triton-layout-attributes">Triton Layout Attributes</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#passes">6. Passes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#pass-types">Pass Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#example-pass-pipeline">Example Pass Pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#triton-specific-passes">Triton-Specific Passes</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#dialects">1. Dialects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#operations">2. Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#regions-and-blocks">3. Regions and Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#types">4. Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#attributes">5. Attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#passes">6. Passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#why-triton-uses-mlir">Why Triton Uses MLIR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#triton-s-mlir-dialects">Triton’s MLIR Dialects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#triton-dialect-tt">Triton Dialect (tt)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#tritongpu-dialect-ttg">TritonGPU Dialect (ttg)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05-mlir-concepts.html#tritonnvidiagpu-dialect-ttng">TritonNvidiaGPU Dialect (ttng)</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#triton-s-mlir-dialects">Triton’s MLIR Dialects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#python-source">Python Source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#stage-1-triton-ir-ttir">Stage 1: Triton IR (TTIR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-mlir-concepts.html#stage-2-tritongpu-ir-ttgir">Stage 2: TritonGPU IR (TTGIR)</a></li>
@@ -1017,16 +415,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../learning-paths.html">Learning Paths</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#memory-optimization">Memory Optimization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#compute-optimization">Compute Optimization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#backward-pass-training">Backward Pass / Training</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#advanced-techniques">Advanced Techniques</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#after-path-1-fast-track">After Path 1 (Fast Track)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#after-path-2-comprehensive">After Path 2 (Comprehensive)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../learning-paths.html#after-path-3-transformer">After Path 3 (Transformer)</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../learning-paths.html">Learning Paths</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">CUDA Out of Memory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html#out-of-shared-memory">Out of Shared Memory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html#wrong-results">Wrong Results</a></li>
@@ -1042,10 +431,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html#profiling">Profiling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html#assertions">Assertions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html#unit-testing">Unit Testing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html#when-stuck">When Stuck</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#summary">Summary</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html#when-stuck">When Stuck</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html">Triton</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html#cuda">CUDA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html#rocm-amd">ROCm (AMD)</a></li>
@@ -1053,10 +439,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../references.html#flash-attention">Flash Attention</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html#normalization">Normalization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html#optimization-techniques">Optimization Techniques</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../references.html#id1">Triton</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../references.html#books">Books</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html#id1">Triton</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html#gpu-programming">GPU Programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html#deep-learning">Deep Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html#nvidia-tools">NVIDIA Tools</a></li>
@@ -1071,10 +454,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../references.html#nvidia-gpus">NVIDIA GPUs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html#amd-gpus">AMD GPUs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html#subscribe-to">Subscribe To</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../references.html#conferences">Conferences</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../references.html#citation">Citation</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html#conferences">Conferences</a></li>
 </ul>
 
         </div>
@@ -1083,7 +463,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Triton GPU Programming Guide</a>
+          <a href="../index.html">Fast Concurrent Programming Guide</a>
       </nav>
 
       <div class="wy-nav-content">
